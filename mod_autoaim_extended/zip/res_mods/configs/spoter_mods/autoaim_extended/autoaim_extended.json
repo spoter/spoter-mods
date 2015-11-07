@@ -1,0 +1,17 @@
+﻿{
+    "config": {
+        "color": "wg_enemy",
+        "debug": false,
+        "enable": true,
+        "indicators": {
+            "box": true,
+            "direction": false,
+            "model": true
+        },
+        "language": "Русский"
+    },
+    "language": {
+        "English": {},
+        "Русский": {}
+    }
+}

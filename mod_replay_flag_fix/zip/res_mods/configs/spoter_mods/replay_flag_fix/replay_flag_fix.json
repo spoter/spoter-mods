@@ -1,0 +1,12 @@
+﻿{
+    "config": {
+        "debug": false,
+        "enable": true,
+        "language": "Русский"
+    },
+    "language": {
+        "Deutsch": {},
+        "English": {},
+        "Русский": {}
+    }
+}

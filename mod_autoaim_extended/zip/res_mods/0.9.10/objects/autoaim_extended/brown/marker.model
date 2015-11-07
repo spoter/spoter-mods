@@ -1,0 +1,11 @@
+<marker.model>
+	<metaData>
+		<created_by>	AleksLee	</created_by>
+	</metaData>
+	<nodelessVisual>	objects/autoaim_extended/brown/marker	</nodelessVisual>
+	<materialNames>	</materialNames>
+	<visibilityBox>
+		<min>	-6.032928 -0.959533 -6.030198	</min>
+		<max>	5.921224 2.040466 5.989801	</max>
+	</visibilityBox>
+</marker.model>

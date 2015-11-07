@@ -1,0 +1,358 @@
+<hangar_extended.xml>
+	<setup>
+		<count_models>	0	</count_models>
+		<count_tanks>	0	</count_tanks>
+		<class_specific>	true	</class_specific>
+		<level_sorted>	true	</level_sorted>
+		<count_angar_pos>	31	</count_angar_pos>
+		<count_angar_pos_lt>	0	</count_angar_pos_lt>
+		<count_angar_pos_mt>	0	</count_angar_pos_mt>
+		<count_angar_pos_ht>	0	</count_angar_pos_ht>
+		<count_angar_pos_at>	0	</count_angar_pos_at>
+		<count_angar_pos_arty>	0	</count_angar_pos_arty>
+		<debug>	true	</debug>
+		<versionXML>	5	</versionXML>
+		<version_mod>	112	</version_mod>
+	</setup>
+<!-- L7 -->
+	<angar_pos1>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	20.00000	</x>
+		<y>	3.0000	</y>
+		<z>	1.85000	</z>
+	</angar_pos1>
+<!-- L8 -->
+	<angar_pos2>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	20.00000	</x>
+		<y>	-6.0000	</y>
+		<z>	1.85000	</z>
+	</angar_pos2>
+<!-- L6 -->
+	<angar_pos3>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	21.00000	</x>
+		<y>	10.50000	</y>
+		<z>	1.85000	</z>
+	</angar_pos3>
+<!-- R6 -->
+	<angar_pos4>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	13.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos4>
+<!-- L5 -->
+	<angar_pos5>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	21.00000	</x>
+		<y>	19.50000	</y>
+		<z>	1.85000	</z>
+	</angar_pos5>
+<!-- R5 -->
+	<angar_pos6>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	20.50000	</y>
+		<z>	1.55000	</z>
+	</angar_pos6>
+<!-- L9 -->
+	<angar_pos7>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	18.5000	</x>
+		<y>	-16.0000	</y>
+		<z>	1.85000	</z>
+	</angar_pos7>
+<!-- R9 -->
+	<angar_pos8>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	-14.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos8>
+<!-- P1 -->
+	<angar_pos9>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	3.92699082	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	5.00000	</x>
+		<y>	15.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos9>
+<!-- P2 -->
+	<angar_pos10>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	3.92699082	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	4.00000	</x>
+		<y>	25.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos10>
+<!-- L4 -->
+	<angar_pos11>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	21.00000	</x>
+		<y>	27.50000	</y>
+		<z>	1.85000	</z>
+	</angar_pos11>
+<!-- R4 -->
+	<angar_pos12>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	30.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos12>
+<!-- R10 -->
+	<angar_pos13>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	-22.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos13>
+<!-- F2 -->
+	<angar_pos14>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	-0.436332313	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	5.00000	</x>
+		<y>	-17.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos14>
+<!-- F1 -->
+	<angar_pos15>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	0.436332313	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-5.00000	</x>
+		<y>	-17.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos15>
+<!-- F4 -->
+	<angar_pos16>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	-0.436332313	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	6.00000	</x>
+		<y>	-30.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos16>
+<!-- F3 -->
+	<angar_pos17>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	0.436332313	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-6.00000	</x>
+		<y>	-30.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos17>
+<!-- L3 -->
+	<angar_pos18>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	21.00000	</x>
+		<y>	37.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos18>
+<!-- R3 -->
+	<angar_pos19>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-21.00000	</x>
+		<y>	37.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos19>
+<!-- L2 -->
+	<angar_pos20>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	21.00000	</x>
+		<y>	45.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos20>
+<!-- R2 -->
+	<angar_pos21>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-21.00000	</x>
+		<y>	47.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos21>
+<!-- L11 -->
+	<angar_pos22>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	18.5000	</x>
+		<y>	-31.0000	</y>
+		<z>	1.85000	</z>
+	</angar_pos22>
+<!-- R11 -->
+	<angar_pos23>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	-31.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos23>
+<!-- L1 -->
+	<angar_pos24>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	23.00000	</x>
+		<y>	53.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos24>
+<!-- R1 -->
+	<angar_pos25>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-21.00000	</x>
+		<y>	53.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos25>
+<!-- L12 -->
+	<angar_pos26>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	4.71238898	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	18.5000	</x>
+		<y>	-40.0000	</y>
+		<z>	1.85000	</z>
+	</angar_pos26>
+<!-- R13 -->
+	<angar_pos27>
+		<RotateTurretToSpawn>	false	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	1.57079633	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-18.00000	</x>
+		<y>	-45.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos27>
+<!-- P4 -->
+	<angar_pos28>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	3.57792497	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	1.00000	</x>
+		<y>	35.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos28>
+<!-- F6 -->
+	<angar_pos29>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	0.000000	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	5.00000	</x>
+		<y>	-43.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos29>
+<!-- F5 -->
+	<angar_pos30>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	0.000000	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-5.00000	</x>
+		<y>	-43.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos30>
+<!-- P4 -->
+	<angar_pos31>
+		<RotateTurretToSpawn>	true	</RotateTurretToSpawn>
+		<v_scale>	1.000000	</v_scale>
+		<anglesYaw>	3.14159265	</anglesYaw>
+		<anglesPitch>	0.000000	</anglesPitch>
+		<anglesRotate>	0.000000	</anglesRotate>
+		<x>	-5.00000	</x>
+		<y>	40.00000	</y>
+		<z>	1.55000	</z>
+	</angar_pos31>
+</hangar_extended.xml>

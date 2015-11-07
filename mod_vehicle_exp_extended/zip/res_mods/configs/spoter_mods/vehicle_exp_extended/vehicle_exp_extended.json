@@ -1,0 +1,118 @@
+﻿{
+    "config": {
+        "enable": true,
+        "debug": false,
+        "language": "Русский",            //вариант оформления мода, список вариантов ниже в секции language
+        "free_xp_calculate": true,        //учитывать свободный опыт в рассчетах или нет
+        "short_numbers": false,            //сокращать цифры до k,M
+        "module_status": true,            //показывать строку изучения модулей
+        "elite_status": true,             //показывать строку изучени текущего танка до элитного состояния
+        "next_tanks_status": true,        //показывать строки изучения следующих танков в прокачке
+        "quest_status": true,             //показывать статус ЛБЗ
+        "show_conditions_string": true,   //показывать текст условий ЛБЗ
+        "show_quest_title_string": false, //показывать заголовок текста для ЛБЗ
+        "tank_params": true               //показывать стандартные танковые параметры
+    },
+    "language": {
+        "Русский": {
+            "elite_status_ready_string1": "{tank-name}",
+            "elite_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">Элитный статус доступен!</font>",
+            "elite_status_string1": "{tank-name}",
+            "elite_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> из <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "module_status_ready_string1": "Модули",
+            "module_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"16\" width=\"14\" vspace=\"-2\"> <font color=\"#00FF00\">Все модули доступны!</font>",
+            "module_status_string1": "Модули",
+            "module_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"15\" width=\"13\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> из <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "next_tanks_ready_string1": "{tank-name}",
+            "next_tanks_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">Исследование доступно!</font>",
+            "next_tanks_string1": "{tank-name}",
+            "next_tanks_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> из <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "quest_title": "<b><font color=\"#FFE041\">Текущие Личные Боевые Задачи</font></b>",
+            "text_add_condition": "<font color=\"#aefe57\">{quest-add-condition}</font>",
+            "text_add_condition_extra": "Доп. условия",
+            "text_main_condition": "<b><font color=\"#aefe57\">{quest-main-condition}</font></b>",
+            "text_main_condition_extra": "Осн. Условия",
+            "text_quest_info": "<b><font color=\"#E8E0BD\">{quest-name}</font></b> (мин. уровень #{quest-min-level})"
+        },
+        "Русский-demon2597": {
+            "elite_status_ready_string1": "{tank-name}",
+            "elite_status_ready_string2": "<textformat tabstops='[87]'><font color='#B8AD86'>Элитный статус</font><tab><img align='top' src='img://gui/maps//icons/library/done.png' height='14' width='14' vspace='-3'> Доступно!</font></textformat>",
+            "elite_status_string1": "{tank-name}",
+            "elite_status_string2": "<textformat tabstops='[87]'><font color='#B8AD86'>Элитный статус<tab><font color='#E8E0BD'>{chk-exp}</font><img align='top' src='img://gui/maps//icons/library/XpIcon-1.png' height='16' width='16' vspace='-3'> до  <font color='#FF0000'>{need-exp}</font><img align='top' src='img://gui/maps//icons/library/XpIcon-1.png' height='16' width='16' vspace='-3'> <font color='#E8E0BD'>~{battles-left}</font><img align='top' src='img://gui/maps//icons/library/BattleResultIcon-1.png' height='14' width='14' vspace='-2'></font></textformat>",
+            "module_status_ready_string1": "{tank-name}",
+            "module_status_ready_string2": "<textformat tabstops='[87]'><font color='#B8AD86'>Все модули</font><tab><img align='top' src='img://gui/maps//icons/library/done.png' height='14' width='14' vspace='-3'> Доступно!</font></textformat>",
+            "module_status_string1": "{tank-name}",
+            "module_status_string2": "<textformat tabstops='[87]'><font color='#B8AD86'>Все модули<tab><font color='#E8E0BD'>{chk-exp}</font><img align='top' src='img://gui/maps//icons/library/XpIcon-1.png' height='16' width='16' vspace='-3'> до  <font color='#FF0000'>{need-exp}</font><img align='top' src='img://gui/maps//icons/library/XpIcon-1.png' height='16' width='16' vspace='-3'> <font color='#E8E0BD'>~{battles-left}</font><img align='top' src='img://gui/maps//icons/library/BattleResultIcon-1.png' height='14' width='14' vspace='-2'></font></textformat>",
+            "next_tanks_ready_string1": "{tank-name}",
+            "next_tanks_ready_string2": "<textformat tabstops='[87]'><font color='#B8AD86'>Исследование</font><tab><img align='top' src='img://gui/maps//icons/library/done.png' height='14' width='14' vspace='-3'> Доступно!</font></textformat>",
+            "next_tanks_string1": "{tank-name}",
+            "next_tanks_string2": "<textformat tabstops='[87]'><font color='#B8AD86'>Исследование<tab><font color='#E8E0BD'>{chk-exp}</font><img align='top' src='img://gui/maps//icons/library/XpIcon-1.png' height='16' width='16' vspace='-3'> до  <font color='#FF0000'>{need-exp}</font><img align='top' src='img://gui/maps//icons/library/XpIcon-1.png' height='16' width='16' vspace='-3'> <font color='#E8E0BD'>~{battles-left}</font><img align='top' src='img://gui/maps//icons/library/BattleResultIcon-1.png' height='14' width='14' vspace='-2'></font></textformat>",
+            "quest_title": "<font color='#E8E0BD'>ТЕКУЩИЕ ЛИЧНЫЕ БОЕВЫЕ ЗАДАЧИ</font>",
+            "text_add_condition": "<font color='#9C905F'>{quest-add-condition}</font>",
+            "text_add_condition_extra": "",
+            "text_main_condition": "<font color='#B8AD86'>{quest-main-condition}</font>",
+            "text_main_condition_extra": "",
+            "text_quest_info": "<font color='#E8E0BD'><b>{quest-name}</b> ({quest-min-level-roman}+)</font>"
+        },
+        "Deutsch": {
+            "elite_status_ready_string1": "{tank-name}",
+            "elite_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">Elitestatus verfugbar!</font>",
+            "elite_status_string1": "{tank-name}",
+            "elite_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> von <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "module_status_ready_string1": "Alle Module erforschen",
+            "module_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"16\" width=\"14\" vspace=\"-2\"> <font color=\"#00FF00\">Modulerforschung verfugbar!</font>",
+            "module_status_string1": "Alle Module erforschen",
+            "module_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"15\" width=\"13\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> von <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "next_tanks_ready_string1": "{tank-name}",
+            "next_tanks_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">Forschung verfugbar!</font>",
+            "next_tanks_string1": "{tank-name}",
+            "next_tanks_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> von <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "quest_title": "<b><font color=\"#FFE041\">Personliche Auftrage</font></b>",
+            "text_add_condition": "<font color=\"#aefe57\">{quest-add-condition}</font>",
+            "text_add_condition_extra": "Nebenbedingung",
+            "text_main_condition": "<b><font color=\"#aefe57\">{quest-main-condition}</font></b>",
+            "text_main_condition_extra": "Hauptbedingung",
+            "text_quest_info": "<b><font color=\"#E8E0BD\">{quest-name}</b></font> (Min. Tierstufe #{quest-min-level})"
+        },
+        "English": {
+            "elite_status_ready_string1": "{tank-name}",
+            "elite_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">Elite status available!</font>",
+            "elite_status_string1": "{tank-name}",
+            "elite_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> of <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "module_status_ready_string1": "Modules",
+            "module_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"16\" width=\"14\" vspace=\"-2\"> <font color=\"#00FF00\">Module research available!</font>",
+            "module_status_string1": "Modules",
+            "module_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"15\" width=\"13\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> of <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "next_tanks_ready_string1": "{tank-name}",
+            "next_tanks_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">Research available!</font>",
+            "next_tanks_string1": "{tank-name}",
+            "next_tanks_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> of <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "quest_title": "<b><font color=\"#FFE041\">Personal Missions</font></b>",
+            "text_add_condition": "<font color=\"#aefe57\">{quest-add-condition}</font>",
+            "text_add_condition_extra": "Add. Condition",
+            "text_main_condition": "<b><font color=\"#aefe57\">{quest-main-condition}</font></b>",
+            "text_main_condition_extra": "Main Condition",
+            "text_quest_info": "<b><font color=\"#E8E0BD\">{quest-name}</b></font> (min lvl #{quest-min-level})"
+        },
+        "Francais": {
+            "elite_status_ready_string1": "{tank-name}",
+            "elite_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">Status Elite Disponible!</font>",
+            "elite_status_string1": "{tank-name}",
+            "elite_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/EliteXpIcon-2.png\" height=\"16\" width=\"16\" vspace=\"-3\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> sur <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "module_status_ready_string1": "Tous Les Modules",
+            "module_status_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"16\" width=\"14\" vspace=\"-2\"> <font color=\"#00FF00\">Modules Disponible!</font>",
+            "module_status_string1": "Tous Les Modules",
+            "module_status_string2": "<img align=\"top\" src=\"img://gui/maps//icons/buttons/removeGold.png\" height=\"15\" width=\"13\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> sur <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "next_tanks_ready_string1": "{tank-name}",
+            "next_tanks_ready_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">Recherche Disponible!</font>",
+            "next_tanks_string1": "{tank-name}",
+            "next_tanks_string2": "<img align=\"top\" src=\"img://gui/maps//icons/library/UnlockPrice.png\" height=\"16\" width=\"16\" vspace=\"-2\"> <font color=\"#00FF00\">{chk-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> sur <font color=\"#FF0000\">{need-exp}</font><img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"> (~{battles-left}<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\">)",
+            "quest_title": "<b><font color=\"#FFE041\">Missions Personnel</font></b>",
+            "text_add_condition": "<font color=\"#aefe57\">{quest-add-condition}</font>",
+            "text_add_condition_extra": "Secondaire",
+            "text_main_condition": "<b><font color=\"#aefe57\">{quest-main-condition}</font></b>",
+            "text_main_condition_extra": "Principale",
+            "text_quest_info": "<b><font color=\"#E8E0BD\">{quest-name}</b></font> (Mini Tier #{quest-min-level})"
+        }
+    }
+}

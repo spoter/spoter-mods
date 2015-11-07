@@ -1,0 +1,81 @@
+﻿{
+    "config": {
+        "enable": true,     //Activate mod
+        "debug": false,     //Debug message in log
+        "language": "Русский",      //language settings of mod, now only log
+        "button_expanded": true,    //in battle, if no damage device\crew, standard buttons not expanded (В бою, если нет поврежденных модулей\экипажа, при нажатии на стандартные кнопки ремонта, не будут вылезать мешающие менюшки с модулями)
+        "play_sound": true, //language settings of mod, now only log
+        "class_specific": true,     //Use class specific setting to repair in "class_specific" config section (Использовать настройки ремонта\лечения с учетом класса танка, описано в секции конфига "class_specific")
+        "heal_crew": true,  //heal crew with mod or not
+        "repair_device": true,      //repair device with mod or not
+        "use_extinguisher": true,   //use extinguisher in universal repair (Использовать серебрянный огнетушитель при нажатии универсальной кнопки)
+        "use_gold_med_kit": true,   //use gold med_kit in heal, first used silver, then gold (Использовать золотую аптечку по-возможности, сначала используется обычная, потом золотая)
+        "use_gold_repair_kit": true //use gold repair_kit in repair, first used silver, then gold (Использовать золотой ремкомплект по-возможности, сначала используется обычный, потом золотой)
+    },
+    "language": {
+        "English": {},
+        "Русский": {}
+    },
+
+//KEY avaliable in mod: [KEY_END] [KEY_F8] [KEY_MUTE] [KEY_MOUSE1] [KEY_MOUSE0] [KEY_MOUSE3] [KEY_MOUSE2] [KEY_MOUSE5] [KEY_MOUSE4] [KEY_MOUSE7] [KEY_MOUSE6] [KEY_JOYYHARD] [KEY_JOY1] [KEY_SLEEP] [KEY_STOP] [KEY_WEBFAVORITES] [KEY_JOYSQUARE] [KEY_JOYARLEFT] [KEY_LCDKB_MENU] [KEY_UNDERLINE] [KEY_JOYCIRCLE] [KEY_NUMPADSLASH] [KEY_JOYARDOWN] [KEY_LEFTARROW] [KEY_JOYCROSS] [KEY_WEBFORWARD] [KEY_PAUSE] [KEY_CAPSLOCK] [KEY_F14] [KEY_F15] [KEY_F12] [KEY_F13] [KEY_F10] [KEY_F11] [KEY_F4] [KEY_F5] [KEY_F6] [KEY_MYCOMPUTER] [KEY_F1] [KEY_F2] [KEY_4] [KEY_WEBBACK] [KEY_F9] [KEY_NUMLOCK] [KEY_LALT] [KEY_LCDKB_RIGHT] [KEY_JOYSTART] [KEY_RSHIFT] [KEY_MEDIASTOP] [KEY_CALCULATOR] [KEY_HOME] [KEY_JOYALDOWN] [KEY_JOYALRIGHT] [KEY_POWER] [KEY_E] [KEY_D] [KEY_G] [KEY_F] [KEY_A] [KEY_C] [KEY_B] [KEY_M] [KEY_L] [KEY_O] [KEY_N] [KEY_I] [KEY_H] [KEY_K] [KEY_J] [KEY_U] [KEY_T] [KEY_W] [KEY_V] [KEY_Q] [KEY_P] [KEY_S] [KEY_R] [KEY_JOY25] [KEY_JOY24] [KEY_JOY27] [KEY_JOY26] [KEY_Y] [KEY_X] [KEY_JOY23] [KEY_Z] [KEY_PGDN] [KEY_WEBSTOP] [KEY_DOWNARROW] [KEY_DELETE] [KEY_JOYRTRIGGER] [KEY_APOSTROPHE] [KEY_PREVTRACK] [KEY_OEM_102] [KEY_MINUS] [KEY_JOYARUP] [KEY_JOY20] [KEY_JOYDLEFT] [KEY_APPS] [KEY_UNLABELED] [KEY_NONE] [KEY_JOYBHARD] [KEY_5] [KEY_WEBREFRESH] [KEY_7] [KEY_6] [KEY_1] [KEY_0] [KEY_3] [KEY_2] [KEY_DEBUG] [KEY_9] [KEY_8] [KEY_VOLUMEDOWN] [KEY_JOYBLACKHARD] [KEY_JOYALUP] [KEY_NOCONVERT] [KEY_JOYLTRIGGER] [KEY_JOYDUP] [KEY_MAIL] [KEY_BACKSLASH] [KEY_GRAVE] [KEY_NUMPADEQUALS] [KEY_COMMA] [KEY_JOYARPUSH] [KEY_JOY6] [KEY_JOY7] [KEY_JOY4] [KEY_JOY5] [KEY_JOY2] [KEY_JOY3] [KEY_JOY0] [KEY_PERIOD] [KEY_JOY8] [KEY_JOY9] [KEY_JOYRTRIGGERHARD] [KEY_RIGHTARROW] [KEY_LCONTROL] [KEY_SYSRQ] [KEY_SPACE] [KEY_BACKSPACE] [KEY_LCDKB_UP] [KEY_WEBSEARCH] [KEY_SEMICOLON] [KEY_MIDDLEMOUSE] [KEY_JOYWHITE] [KEY_AT] [KEY_JOYX] [KEY_JOYY] [KEY_JOYARRIGHT] [KEY_JOYB] [KEY_JOYA] [KEY_JOY29] [KEY_JOYR1] [KEY_JOY28] [KEY_ABNT_C1] [KEY_NUMPADMINUS] [KEY_ADD] [KEY_SLASH] [KEY_ESCAPE] [KEY_NOT_FOUND] [KEY_YEN] [KEY_JOYLTRIGGERHARD] [KEY_JOY21] [KEY_AX] [KEY_LWIN] [KEY_JOY22] [KEY_IME_CHAR] [KEY_JOYDDOWN] [KEY_JOYALPUSH] [KEY_LCDKB_CANCEL] [KEY_TAB] [KEY_JOY17] [KEY_JOYTRIANGLE] [KEY_JOY10] [KEY_JOYR2] [KEY_KANJI] [KEY_EQUALS] [KEY_PGUP] [KEY_NUMPADPERIOD] [KEY_WAKE] [KEY_VOLUMEUP] [KEY_LCDKB_OK] [KEY_NUMPAD8] [KEY_NUMPAD9] [KEY_NUMPAD6] [KEY_NUMPAD7] [KEY_NUMPAD4] [KEY_NUMPAD5] [KEY_NUMPAD2] [KEY_NUMPAD3] [KEY_NUMPAD0] [KEY_NUMPAD1] [KEY_SCROLL] [KEY_NEXTTRACK] [KEY_RWIN] [KEY_ABNT_C2] [KEY_RIGHTMOUSE] [KEY_RETURN] [KEY_NULL] [KEY_LSHIFT] [KEY_MEDIASELECT] [KEY_JOY30] [KEY_JOY31] [KEY_NUMPADSTAR] [KEY_WEBHOME] [KEY_JOYSELECT] [KEY_PLAYPAUSE] [KEY_UPARROW] [KEY_LCDKB_DOWN] [KEY_JOYL2] [KEY_JOYAHARD] [KEY_JOYDRIGHT] [KEY_JOYBACK] [KEY_RCONTROL] [KEY_JOYWHITEHARD] [KEY_LCDKB_LEFT] [KEY_RALT] [KEY_NUMPADENTER] [KEY_NUMPADCOMMA] [KEY_LEFTMOUSE] [KEY_JOYBLACK] [KEY_RBRACKET] [KEY_KANA] [KEY_CONVERT] [KEY_JOY14] [KEY_JOY15] [KEY_JOY16] [KEY_F7] [KEY_LBRACKET] [KEY_JOY11] [KEY_JOY12] [KEY_JOY13] [KEY_JOY18] [KEY_JOY19] [KEY_F3] [KEY_INSERT] [KEY_JOYL1] [KEY_JOYALLEFT] [KEY_COLON] [KEY_JOYXHARD]
+//MODIFIER avaliable in mod: [MODIFIER_SHIFT] [MODIFIER_CTRL] [MODIFIER_NONE] [MODIFIER_ALT]
+
+    "buttons": {
+        "chassis_only": { "KEY": "KEY_LALT", "MODIFIER": "MODIFIER_NONE"},
+        "crew_only": { "KEY": "KEY_NONE", "MODIFIER": "MODIFIER_NONE"},
+        "device_only": {"KEY": "KEY_NONE", "MODIFIER": "MODIFIER_NONE"},
+        "universal": { "KEY": "KEY_SPACE", "MODIFIER": "MODIFIER_NONE"}
+    },
+
+//if "class_specific": false, in "config": used section "None" (если "class_specific": false, в "config": то используется секция "None"
+//Priority to repair\heal left>right (Приоритет ремонта\лечения задается слева на право, первым указывается наиболее важный модуль.
+//Avaliable in "crew": ["commander", "radioman", "driver", "gunner", "loader"]
+//Avaliable in "device": ["gun", "engine", "ammoBay", "turretRotator", "chassis", "surveyingDevice", "radio", "fuelTank"]
+//Описание экипажа на русском: "commander": Командир, "radioman": Радист, "driver": Механик водитель, "gunner": Наводчик, "loader": Заряжающий
+//Описание модулей на русском: "gun": Орудие, "engine" Двигатель, "ammoBay" Боеукладка, "turretRotator" Механизм поворота башни, "chassis" Ходовая(Гусля), "surveyingDevice" Оптика, "radio" Рация, "fuelTank" Топливный бак
+
+    "class_specific": {
+        "None": {
+            "crew": ["commander","driver","loader","gunner"],
+            "device": ["turretRotator","ammoBay","engine","gun","chassis"]
+        },
+        "AT-SPG": {
+            "crew": ["loader","gunner","commander","driver"],
+            "device": ["ammoBay","gun","engine","turretRotator","chassis"]
+        },
+        "SPG": {
+            "crew": ["commander","loader","gunner","driver"],
+            "device": ["ammoBay","engine","gun","turretRotator","chassis"]
+        },
+        "heavyTank": {
+            "crew": ["commander","loader","gunner","driver"],
+            "device": ["turretRotator","ammoBay","engine","gun","chassis"]
+        },
+        "lightTank": {
+            "crew": ["driver","commander","gunner","loader"],
+            "device": ["engine","chassis","ammoBay","gun","turretRotator"]
+        },
+        "mediumTank": {
+            "crew": ["loader","driver","commander","gunner"],
+            "device": ["turretRotator","engine","ammoBay","gun","chassis"]
+        }
+    },
+    "sound": {
+        "ammoBay": "/fortified_area/gui/transport_constrain",
+        "chassis": "/ingame_voice/notifications_VO/track_functional",
+        "commander": "/fortified_area/gui/transport_constrain",
+        "driver": "/fortified_area/gui/transport_constrain",
+        "engine": "/fortified_area/gui/transport_constrain",
+        "fire": "/ingame_voice/notifications_VO/fire_stopped",
+        "fuelTank": "/fortified_area/gui/transport_constrain",
+        "gold_med_kit": "/fortified_area/gui/transport_constrain",
+        "gold_repair_kit": "/fortified_area/gui/transport_constrain",
+        "gun": "/fortified_area/gui/transport_constrain",
+        "gunner": "/fortified_area/gui/transport_constrain",
+        "loader": "/fortified_area/gui/transport_constrain",
+        "radio": "/fortified_area/gui/transport_constrain",
+        "radioman": "/fortified_area/gui/transport_constrain",
+        "surveyingDevice": "/fortified_area/gui/transport_constrain",
+        "turretRotator": "/fortified_area/gui/transport_constrain"
+    }
+}

@@ -1,0 +1,34 @@
+﻿{
+    "debug": true, 
+    "enable": true, 
+    "spotted_flash": {
+        "background": {
+            "alpha": 80, 
+            "enable": false, 
+            "height": 90, 
+            "image": "img://scripts/client/mods/rod_mod_background.png", 
+            "width": 110, 
+            "x": 284, 
+            "y": 443
+        }, 
+        "shadow": {
+            "alphaShadow": 60, 
+            "angleShadow": 0, 
+            "colorShadow": "#000000", 
+            "distanceShadow": 0, 
+            "enable": true, 
+            "sizeShadow": 40, 
+            "strengthShadow": 1000
+        }, 
+        "text": {
+            "alignX": "left", 
+            "alignY": "top", 
+            "default_font": "$IMELanguageBar", 
+            "default_font_colour": "#adff00", 
+            "default_font_size": 14, 
+            "format": "В свете: <b>{spotted}</b><br/>Не засвечены: <b>{not_spotted}</b><br/>Потеряны: <b>{lost}</b><br/>Мертвы: <b>{dead}</b><br/>", 
+            "x": 285, 
+            "y": 445
+        }
+    }
+}

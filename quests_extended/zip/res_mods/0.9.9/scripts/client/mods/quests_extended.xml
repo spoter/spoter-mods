@@ -1,0 +1,9 @@
+<quests_extended.xml>
+	<setup>
+		<module_quests_extended>	true	</module_quests_extended>
+		<Debug>	false	</Debug>
+		<Hard_mode>	false	</Hard_mode>
+		<BattleLoadTooltips>	true	</BattleLoadTooltips>
+		<IgnoringFinishedSeries>	true	</IgnoringFinishedSeries>
+	</setup>
+</quests_extended.xml>
