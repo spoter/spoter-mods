@@ -1,0 +1,12 @@
+<autoaim_optimize.xml>
+	<setup>
+		<module_autoaim_optimize>	true	</module_autoaim_optimize>
+		<Debug>	false	</Debug>
+		<angle_autoaim>	1.289155	</angle_autoaim> <!-- Указывается в градусах -->
+		<angle_killed_autoaim>	25.000000	</angle_killed_autoaim> <!-- Указывается в градусах -->
+		<len_killed_autoaim>	100	</len_killed_autoaim> <!-- Указывается в метрах -->
+		<chk_killed_to_vehicle>	true	</chk_killed_to_vehicle>
+		<chk_killed_angle>	false	</chk_killed_angle>
+		<chk_killed_autoaim>	true	</chk_killed_autoaim>
+	</setup>
+</autoaim_optimize.xml>
