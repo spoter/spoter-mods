@@ -26,7 +26,7 @@ class Config(object):
         self.enable = True
         self.debug = False
         self.ru = True if 'RU' in AUTH_REALM else False
-        self.version = 'v2.06(16.09.2015)'
+        self.version = 'v2.06(16.11.2015)'
         self.author = 'by spoter'
         self.description = 'repair_extended'
         self.description_ru = 'Мод: "Винтик"'
