@@ -2,15 +2,15 @@
 """AutoEquip by Skino88"""
 import BigWorld
 import ResMgr
+
 from CurrentVehicle import g_currentVehicle
 from gui.Scaleform.daapi.view.lobby.hangar.AmmunitionPanel import AmmunitionPanel
 from gui.shared import g_itemsCache, REQ_CRITERIA
-from adisp import process
-from gui.shared.utils.requesters.deprecated import Requester
+from gui.shared.gui_items import GUI_ITEM_TYPE_INDICES
 
 description = 'AutoEquip'
 author = 'by Skino88, spoter'
-version = 'v1.03(10.02.2014)'
+version = 'v1.04(26.11.2015)'
 
 
 class AutoEquip(object):
@@ -46,9 +46,8 @@ class AutoEquip(object):
     def callback(resultID):
         _ = resultID
 
-    @process
     def removeAllRemovableDevicesFromAllVehicle(self, curVehicle):
-        deviceAllInventory = yield Requester('optionalDevice').getFromInventory()
+        deviceAllInventory = g_itemsCache.items.getItems(GUI_ITEM_TYPE_INDICES['optionalDevice'])
         alreadyRemoved = []
         vehicles = g_itemsCache.items.getVehicles(REQ_CRITERIA.INVENTORY).values()
         for vehicle in vehicles:
