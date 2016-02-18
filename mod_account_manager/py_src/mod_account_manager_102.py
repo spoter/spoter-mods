@@ -12,7 +12,7 @@ from gui.Scaleform.framework import ViewTypes, ScopeTemplates, g_entitiesFactori
 from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
 from gui.Scaleform.daapi.view.dialogs import SimpleDialogMeta, DIALOG_BUTTON_ID
 from predefined_hosts import g_preDefinedHosts
-
+import game
 
 
 
