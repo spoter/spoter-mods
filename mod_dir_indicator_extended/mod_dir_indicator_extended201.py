@@ -36,7 +36,7 @@ class _GUIConfig(object):
 class _Config(object):
     def __init__(self):
         self.ids = 'dir_indicator_extended'
-        self.version = '2.00 (04.03.2016)'
+        self.version = '2.01 (10.03.2016)'
         self.author = 'by spoter, Thx to Lp()rtii'
         self.path_config = './res_mods/configs/spoter_mods/%s/' % self.ids
         self.path_lang = '%si18n/' % self.path_config
@@ -384,7 +384,10 @@ class DirIndication(object):
 
     def disable_indicator(self, vehicle_id):
         if vehicle_id in self.enemies_list:
-            if 'dir_indicator' in self.enemies_list[vehicle_id]: self.enemies_list[vehicle_id]['dir_indicator'].setVisibility(False)
+            if 'dir_indicator' in self.enemies_list[vehicle_id]:
+                self.enemies_list[vehicle_id]['dir_indicator'].setVisibility(False)
+                if self.enemies_list[vehicle_id]['dir_indicator']._dObject:
+                    self.enemies_list[vehicle_id]['dir_indicator']._dObject.stop()
             if 'distance' in self.enemies_list[vehicle_id] and self.enemies_list[vehicle_id]['distance'] < 10000: self.enemies_list[vehicle_id]['distance'] = 10000
 
     def del_indicator(self, vehicle_id):
