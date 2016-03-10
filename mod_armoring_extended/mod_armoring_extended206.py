@@ -74,8 +74,8 @@ class _Config(object):
         self.load_lang()
         self.no_gui = False
         self.json = {
-            'x': 100,
-            'y': 100
+            'x': 0.0,
+            'y': 441.95
         }
 
         new_config = self.load_json(self.ids, self.json, self.path_config)
