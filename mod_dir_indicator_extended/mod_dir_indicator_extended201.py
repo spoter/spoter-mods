@@ -386,8 +386,9 @@ class DirIndication(object):
         if vehicle_id in self.enemies_list:
             if 'dir_indicator' in self.enemies_list[vehicle_id]:
                 self.enemies_list[vehicle_id]['dir_indicator'].setVisibility(False)
-                if self.enemies_list[vehicle_id]['dir_indicator']._dObject:
-                    self.enemies_list[vehicle_id]['dir_indicator']._dObject.stop()
+                if self.enemies_list[vehicle_id]['dir_indicator'].component.visible:
+                    self.enemies_list[vehicle_id]['dir_indicator'].active(False)
+                    self.enemies_list[vehicle_id]['dir_indicator'].component.visible = False
             if 'distance' in self.enemies_list[vehicle_id] and self.enemies_list[vehicle_id]['distance'] < 10000: self.enemies_list[vehicle_id]['distance'] = 10000
 
     def del_indicator(self, vehicle_id):
