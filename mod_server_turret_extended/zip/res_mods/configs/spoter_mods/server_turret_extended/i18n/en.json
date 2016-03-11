@@ -1,0 +1,10 @@
+﻿{
+    "UI_battle_activate_message": "\"Muzzle chaos\": Activated",
+    "UI_description": "Server Turret and Fix Accuracy",
+    "UI_setting_activate_message_text": "Show Activation Message",
+    "UI_setting_activate_message_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Activation Message in battle{/BODY}",
+    "UI_setting_fix_accuracy_in_move_text": "Fix Accuracy",
+    "UI_setting_fix_accuracy_in_move_tooltip": "{HEADER}Info:{/HEADER}{BODY}When you tank move and then stop, used fix accuracy to not lost aiming{/BODY}",
+    "UI_setting_server_turret_text": "Server Turret",
+    "UI_setting_server_turret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Move Turret to Server Aim coordinates (need enabled Server Sight in game settings){/BODY}"
+}
