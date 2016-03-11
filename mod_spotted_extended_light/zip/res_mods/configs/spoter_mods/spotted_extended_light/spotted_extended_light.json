@@ -9,10 +9,10 @@
 #sound select in actions, if need disable variable sound: use ""
 # "0": spotted, "1": radio hit assist, "2": radio kill assist, "3": tracks assist
     "sound": {
-        "0": "/GUI/notifications_FX/enemy_sighted_for_team",
-        "1": "/GUI/notifications_FX/gun_intuition",
-        "2": "/GUI/notifications_FX/cybersport_auto_search",
-        "3": "/fortified_area/gui/gun_intuition"
+        "0": "enemy_sighted_for_team",
+        "1": "gun_intuition",
+        "2": "cybersport_auto_search",
+        "3": "gun_intuition"
     },
 # You may add custom\new language in this section
 # "0": spotted, "1": radio hit assist, "2": radio kill assist, "3": tracks assist
@@ -42,10 +42,10 @@
         },
         "Русский": {
             "messages": {
-                "0": "Засвечены {icons}",
-                "1": "Урон по засвету в {icons_names}",
+                "0": "Засвечены {vehicles}",
+                "1": "Урон по засвету в {vehicles}",
                 "2": "Убили по засвету {full}",
-                "3": "Ассист {icons_vehicles} за сбитые траки"
+                "3": "Ассист {full} за сбитые траки"
             }
         }
     }
