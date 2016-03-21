@@ -1,0 +1,36 @@
+<globalmap_extended.xml>
+	<setup>
+		<module_globalmap_extended>	true	</module_globalmap_extended>
+		<Debug>	false	</Debug>
+		<WindowsSize_X>	1020	</WindowsSize_X>
+		<WindowsSize_Y>	580	</WindowsSize_Y>
+		<Global_Map>	true	</Global_Map>
+		<Global_Map_ButtonText>	КартаГК	</Global_Map_ButtonText>
+		<Yandex>	false	</Yandex>
+		<Google>	false	</Google>
+		<Other1>	false	</Other1>
+		<Other2>	false	</Other2>
+		<Other3>	false	</Other3>
+		<Other4>	false	</Other4>
+		<Other5>	false	</Other5>
+		<Other6>	false	</Other6>
+		<Other7>	false	</Other7>
+		<Other8>	false	</Other8>
+		<ButtonText_Other1>	RU WG Forum	</ButtonText_Other1>
+		<SiteUrl_Other1>	http://forum.worldoftanks.ru/index.php?/forum/174-	</SiteUrl_Other1>
+		<ButtonText_Other2>	RU Koreanrandom	</ButtonText_Other2>
+		<SiteUrl_Other2>	http://www.koreanrandom.com/forum/forum/44-	</SiteUrl_Other2>
+		<ButtonText_Other3>	RU Expromt-Max Team	</ButtonText_Other3>
+		<SiteUrl_Other3>	http://expromt-max.ru/forum/spoter/	</SiteUrl_Other3>
+		<ButtonText_Other4>	NA Roughnecks Mods	</ButtonText_Other4>
+		<SiteUrl_Other4>	http://roughnecksxvmmods.ipbhost.com/index.php?/forum/113-	</SiteUrl_Other4>
+		<ButtonText_Other5>	NA WG Forum	</ButtonText_Other5>
+		<SiteUrl_Other5>	http://forum.worldoftanks.com/index.php?/forum/189-	</SiteUrl_Other5>
+		<ButtonText_Other6>	EU WG Forum	</ButtonText_Other6>
+		<SiteUrl_Other6>	http://forum.worldoftanks.eu/index.php?/topic/432069-	</SiteUrl_Other6>
+		<ButtonText_Other7>	RU LJ world-of-tanks	</ButtonText_Other7>
+		<SiteUrl_Other7>	http://world-of-tanks.livejournal.com/	</SiteUrl_Other7>
+		<ButtonText_Other8>	RU LJ world-of-ru	</ButtonText_Other8>
+		<SiteUrl_Other8>	http://world-of-ru.livejournal.com/	</SiteUrl_Other8>
+	</setup>
+</globalmap_extended.xml>
