@@ -140,7 +140,7 @@ version = 'v1.07(21.03.2016)'
 debug_opt = False
 if BigWorld.globalmap_extended['RU']:
     description = 'Мод: "Закладочка"'
-    author = 'автор: spoter, expoint'
+    author = 'автор: spoter, ekspoint'
 
 def codepa(text):
     try:
