@@ -5,13 +5,12 @@ import json
 import time
 import datetime
 from Account import Account
-from gui.Scaleform.daapi.view.lobby.hangar.Hangar import Hangar
 from notification.NotificationListView import NotificationListView
 from gui import DialogsInterface, SystemMessages
 from gui.Scaleform.daapi.view.dialogs import DIALOG_BUTTON_ID, ConfirmDialogButtons,SimpleDialogMeta
 import os
 from adisp import async, process
-from gui.Scaleform.framework import ViewTypes, AppRef
+from gui.Scaleform.framework import ViewTypes#, AppRef
 from gui.Scaleform.daapi.settings.views import VIEW_ALIAS
 from functools import partial
 from gui.Scaleform.framework.managers.containers import POP_UP_CRITERIA
@@ -60,8 +59,44 @@ BigWorld.globalmap_extended ={
     'Other7': False,
     'Btn_Other8': 'RU LJ world-of-ru',
     'Site_Other8': 'http://world-of-ru.livejournal.com/',
-    'Other8': False,    
-    'config': ResMgr.openSection('scripts/client/mods/globalmap_extended.xml', True)
+    'Other8': False,        
+    'Btn_Other9': 'RU WG Forum',
+    'Site_Other9': 'http://forum.worldoftanks.ru/index.php?/forum/174-',
+    'Other9': False,
+    'Btn_Other10': 'RU Koreanrandom',
+    'Site_Other10': 'http://www.koreanrandom.com/forum/forum/44-',
+    'Other10': False,
+    'Btn_Other11': 'RU Expromt-Max Team',
+    'Site_Other11': 'http://expromt-max.ru/forum/spoter/',
+    'Other11': False,
+    'Btn_Other12': 'NA Roughnecks Mods',
+    'Site_Other12': 'http://roughnecksxvmmods.ipbhost.com/index.php?/forum/113-',
+    'Other12': False,
+    'Btn_Other13': 'NA WG Forum',
+    'Site_Other13': 'http://forum.worldoftanks.com/index.php?/forum/189-',
+    'Other13': False,    
+    'Btn_Other14': 'EU WG Forum',
+    'Site_Other14': 'http://forum.worldoftanks.eu/index.php?/topic/432069-',
+    'Other14': False,
+    'Btn_Other15': 'RU LJ world-of-tanks',
+    'Site_Other15': 'http://world-of-tanks.livejournal.com/',
+    'Other15': False,
+    'Btn_Other16': 'RU LJ world-of-ru',
+    'Site_Other16': 'http://world-of-ru.livejournal.com/',
+    'Other16': False,        
+    'Btn_Other17': 'RU Koreanrandom',
+    'Site_Other17': 'http://www.koreanrandom.com/forum/forum/44-',
+    'Other17': False,
+    'Btn_Other18': 'RU Koreanrandom',
+    'Site_Other18': 'http://www.koreanrandom.com/forum/forum/44-',
+    'Other18': False,
+    'Btn_Other19': 'RU Koreanrandom',
+    'Site_Other19': 'http://www.koreanrandom.com/forum/forum/44-',
+    'Other19': False,
+    'Btn_Other20': 'RU Koreanrandom',
+    'Site_Other20': 'http://www.koreanrandom.com/forum/forum/44-',
+    'Other20': False,
+    'config': ResMgr.openSection('scripts/client/gui/mods/mod_globalmap_extended.xml', True)
     }
 BigWorld.globalmap_extended['RU'] = True if AUTH_REALM == 'RU' else False
 
@@ -97,15 +132,15 @@ if get_server()['server'] == 'kr':
 
 NotificationPopulate_announcer_old = NotificationListView._populate
 NotificationOnClickAction_announcer_old = NotificationListView.onClickAction
-oldUpdateAll = Hangar._Hangar__updateAll
+
 #
 description = 'globalmap_extended.pyc'
 author = 'by spoter'
-version = 'v1.06(31.05.2015)'
+version = 'v1.07(21.03.2016)'
 debug_opt = False
 if BigWorld.globalmap_extended['RU']:
     description = 'Мод: "Закладочка"'
-    author = 'автор: spoter'
+    author = 'автор: spoter, expoint'
 
 def codepa(text):
     try:
@@ -238,7 +273,79 @@ def createMessage(status,count):
             message['message']['buttonsLayout'].append({'action': 'Other8',
              'type': 'submit',
              'width': width,
-             'label': '8'})
+             'label': '8'})      
+        if BigWorld.globalmap_extended['Other9']:
+            message['message']['message'] += '9. %s\n' %(BigWorld.globalmap_extended['Btn_Other9'])
+            message['message']['buttonsLayout'].append({'action': 'Other9',
+             'type': 'submit',
+             'width': width,
+             'label': '9'})
+        if BigWorld.globalmap_extended['Other10']:
+            message['message']['message'] += '10. %s\n' %(BigWorld.globalmap_extended['Btn_Other10'])
+            message['message']['buttonsLayout'].append({'action': 'Other10',
+             'type': 'submit',
+             'width': width,
+             'label': '10'})
+        if BigWorld.globalmap_extended['Other11']:
+            message['message']['message'] += '11. %s\n' %(BigWorld.globalmap_extended['Btn_Other11'])
+            message['message']['buttonsLayout'].append({'action': 'Other11',
+             'type': 'submit',
+             'width': width,
+             'label': '11'})
+        if BigWorld.globalmap_extended['Other12']:
+            message['message']['message'] += '12. %s\n' %(BigWorld.globalmap_extended['Btn_Other12'])
+            message['message']['buttonsLayout'].append({'action': 'Other12',
+             'type': 'submit',
+             'width': width,
+             'label': '12'})
+        if BigWorld.globalmap_extended['Other13']:
+            message['message']['message'] += '13. %s\n' %(BigWorld.globalmap_extended['Btn_Other13'])
+            message['message']['buttonsLayout'].append({'action': 'Other13',
+             'type': 'submit',
+             'width': width,
+             'label': '13'})
+        if BigWorld.globalmap_extended['Other14']:
+            message['message']['message'] += '14. %s\n' %(BigWorld.globalmap_extended['Btn_Other14'])
+            message['message']['buttonsLayout'].append({'action': 'Other14',
+             'type': 'submit',
+             'width': width,
+             'label': '14'})
+        if BigWorld.globalmap_extended['Other15']:
+            message['message']['message'] += '15. %s\n' %(BigWorld.globalmap_extended['Btn_Other15'])
+            message['message']['buttonsLayout'].append({'action': 'Other15',
+             'type': 'submit',
+             'width': width,
+             'label': '15'})
+        if BigWorld.globalmap_extended['Other16']:
+            message['message']['message'] += '16. %s\n' %(BigWorld.globalmap_extended['Btn_Other16'])
+            message['message']['buttonsLayout'].append({'action': 'Other16',
+             'type': 'submit',
+             'width': width,
+             'label': '16'})
+        if BigWorld.globalmap_extended['Other17']:
+            message['message']['message'] += '17. %s\n' %(BigWorld.globalmap_extended['Btn_Other17'])
+            message['message']['buttonsLayout'].append({'action': 'Other17',
+             'type': 'submit',
+             'width': width,
+             'label': '17'})
+        if BigWorld.globalmap_extended['Other18']:
+            message['message']['message'] += '18. %s\n' %(BigWorld.globalmap_extended['Btn_Other18'])
+            message['message']['buttonsLayout'].append({'action': 'Other18',
+             'type': 'submit',
+             'width': width,
+             'label': '18'})
+        if BigWorld.globalmap_extended['Other19']:
+            message['message']['message'] += '19. %s\n' %(BigWorld.globalmap_extended['Btn_Other19'])
+            message['message']['buttonsLayout'].append({'action': 'Other19',
+             'type': 'submit',
+             'width': width,
+             'label': '19'})
+        if BigWorld.globalmap_extended['Other20']:
+            message['message']['message'] += '20. %s\n' %(BigWorld.globalmap_extended['Btn_Other20'])
+            message['message']['buttonsLayout'].append({'action': 'Other20',
+             'type': 'submit',
+             'width': width,
+             'label': '20'})
     return message
 
 def NotificationOnClickAction_announcer(self, typeID, entityID, action):
@@ -263,7 +370,31 @@ def NotificationOnClickAction_announcer(self, typeID, entityID, action):
     elif action == 'Other7':
         show_announce_browser(BigWorld.globalmap_extended['Site_Other7'])
     elif action == 'Other8':
-        show_announce_browser(BigWorld.globalmap_extended['Site_Other8'])
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other8'])        
+    elif action == 'Other9':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other9'])
+    elif action == 'Other10':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other10'])
+    elif action == 'Other11':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other11'])
+    elif action == 'Other12':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other12'])
+    elif action == 'Other13':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other13'])
+    elif action == 'Other14':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other14'])
+    elif action == 'Other15':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other15'])
+    elif action == 'Other16':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other16'])        
+    elif action == 'Other17':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other17'])
+    elif action == 'Other18':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other18'])
+    elif action == 'Other19':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other19'])
+    elif action == 'Other20':
+        show_announce_browser(BigWorld.globalmap_extended['Site_Other20'])       
     elif action == 'EM1':
         show_announce_browser('http://expromt-max.ru/')
     elif action == 'EM2':
@@ -312,7 +443,20 @@ def Init():
         BigWorld.globalmap_extended['config']['setup'].writeBool('Other5' , BigWorld.globalmap_extended['Other5'])
         BigWorld.globalmap_extended['config']['setup'].writeBool('Other6' , BigWorld.globalmap_extended['Other6'])
         BigWorld.globalmap_extended['config']['setup'].writeBool('Other7' , BigWorld.globalmap_extended['Other7'])
-        BigWorld.globalmap_extended['config']['setup'].writeBool('Other8' , BigWorld.globalmap_extended['Other8'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other8' , BigWorld.globalmap_extended['Other8'])       
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other9' , BigWorld.globalmap_extended['Other9'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other10' , BigWorld.globalmap_extended['Other10'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other11' , BigWorld.globalmap_extended['Other11'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other12' , BigWorld.globalmap_extended['Other12'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other13' , BigWorld.globalmap_extended['Other13'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other14' , BigWorld.globalmap_extended['Other14'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other15' , BigWorld.globalmap_extended['Other15'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other16' , BigWorld.globalmap_extended['Other16'])        
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other17' , BigWorld.globalmap_extended['Other17'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other18' , BigWorld.globalmap_extended['Other18'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other19' , BigWorld.globalmap_extended['Other19'])
+        BigWorld.globalmap_extended['config']['setup'].writeBool('Other20' , BigWorld.globalmap_extended['Other20'])
+                
         BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other1' , BigWorld.globalmap_extended['Btn_Other1'])
         BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other1' , BigWorld.globalmap_extended['Site_Other1'])
         BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other2' , BigWorld.globalmap_extended['Btn_Other2'])
@@ -328,7 +472,31 @@ def Init():
         BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other7' , BigWorld.globalmap_extended['Btn_Other7'])
         BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other7' , BigWorld.globalmap_extended['Site_Other7'])
         BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other8' , BigWorld.globalmap_extended['Btn_Other8'])
-        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other8' , BigWorld.globalmap_extended['Site_Other8'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other8' , BigWorld.globalmap_extended['Site_Other8'])        
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other9' , BigWorld.globalmap_extended['Btn_Other9'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other9' , BigWorld.globalmap_extended['Site_Other9'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other10' , BigWorld.globalmap_extended['Btn_Other10'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other10' , BigWorld.globalmap_extended['Site_Other10'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other11' , BigWorld.globalmap_extended['Btn_Other11'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other11' , BigWorld.globalmap_extended['Site_Other11'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other12' , BigWorld.globalmap_extended['Btn_Other12'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other12' , BigWorld.globalmap_extended['Site_Other12'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other13' , BigWorld.globalmap_extended['Btn_Other13'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other13' , BigWorld.globalmap_extended['Site_Other13'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other14' , BigWorld.globalmap_extended['Btn_Other14'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other14' , BigWorld.globalmap_extended['Site_Other14'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other15' , BigWorld.globalmap_extended['Btn_Other15'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other15' , BigWorld.globalmap_extended['Site_Other15'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other16' , BigWorld.globalmap_extended['Btn_Other16'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other16' , BigWorld.globalmap_extended['Site_Other16'])        
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other17' , BigWorld.globalmap_extended['Btn_Other17'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other17' , BigWorld.globalmap_extended['Site_Other17'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other18' , BigWorld.globalmap_extended['Btn_Other18'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other18' , BigWorld.globalmap_extended['Site_Other18'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other19' , BigWorld.globalmap_extended['Btn_Other19'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other19' , BigWorld.globalmap_extended['Site_Other19'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('ButtonText_Other20' , BigWorld.globalmap_extended['Btn_Other20'])
+        BigWorld.globalmap_extended['config']['setup'].writeString('SiteUrl_Other20' , BigWorld.globalmap_extended['Site_Other20'])
         BigWorld.globalmap_extended['config'].save()
         print '%s%s' %(sys_mes['INFO'],sys_mes['MSG_RECREATE_XML_DONE'])
     BigWorld.module_globalmap_extended = BigWorld.globalmap_extended['config']['setup'].readBool('module_globalmap_extended')
@@ -345,7 +513,20 @@ def Init():
         BigWorld.globalmap_extended['Other5'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other5')
         BigWorld.globalmap_extended['Other6'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other6')
         BigWorld.globalmap_extended['Other7'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other7')
-        BigWorld.globalmap_extended['Other8'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other8')
+        BigWorld.globalmap_extended['Other8'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other8')        
+        BigWorld.globalmap_extended['Other9'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other9')
+        BigWorld.globalmap_extended['Other10'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other10')
+        BigWorld.globalmap_extended['Other11'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other11')
+        BigWorld.globalmap_extended['Other12'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other12')
+        BigWorld.globalmap_extended['Other13'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other13')
+        BigWorld.globalmap_extended['Other14'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other14')
+        BigWorld.globalmap_extended['Other15'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other15')
+        BigWorld.globalmap_extended['Other16'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other16')        
+        BigWorld.globalmap_extended['Other17'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other17')
+        BigWorld.globalmap_extended['Other18'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other18')
+        BigWorld.globalmap_extended['Other19'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other19')
+        BigWorld.globalmap_extended['Other20'] = BigWorld.globalmap_extended['config']['setup'].readBool('Other20')
+
         if BigWorld.globalmap_extended['GK_on']:
             BigWorld.globalmap_extended['btn_count1'] += 1
             BigWorld.globalmap_extended['Btn_GM'] = BigWorld.globalmap_extended['config']['setup'].readString('Global_Map_ButtonText')
@@ -384,7 +565,56 @@ def Init():
         if BigWorld.globalmap_extended['Other8']:
             BigWorld.globalmap_extended['btn_count2'] += 1
             BigWorld.globalmap_extended['Btn_Other8'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other8')
-            BigWorld.globalmap_extended['Site_Other8'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other8')
+            BigWorld.globalmap_extended['Site_Other8'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other8')            
+        if BigWorld.globalmap_extended['Other9']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other9'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other9')
+            BigWorld.globalmap_extended['Site_Other9'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other9')
+        if BigWorld.globalmap_extended['Other10']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other10'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other10')
+            BigWorld.globalmap_extended['Site_Other10'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other10')
+        if BigWorld.globalmap_extended['Other11']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other11'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other11')
+            BigWorld.globalmap_extended['Site_Other11'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other11')
+        if BigWorld.globalmap_extended['Other12']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other12'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other12')
+            BigWorld.globalmap_extended['Site_Other12'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other12')
+        if BigWorld.globalmap_extended['Other13']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other13'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other13')
+            BigWorld.globalmap_extended['Site_Other13'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other13')
+        if BigWorld.globalmap_extended['Other14']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other14'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other14')
+            BigWorld.globalmap_extended['Site_Other14'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other14')
+        if BigWorld.globalmap_extended['Other15']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other15'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other15')
+            BigWorld.globalmap_extended['Site_Other15'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other15')
+        if BigWorld.globalmap_extended['Other16']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other16'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other16')
+            BigWorld.globalmap_extended['Site_Other16'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other16')            
+        if BigWorld.globalmap_extended['Other17']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other17'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other17')
+            BigWorld.globalmap_extended['Site_Other17'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other17')
+        if BigWorld.globalmap_extended['Other18']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other18'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other18')
+            BigWorld.globalmap_extended['Site_Other18'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other18')
+        if BigWorld.globalmap_extended['Other19']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other19'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other19')
+            BigWorld.globalmap_extended['Site_Other19'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other19')
+        if BigWorld.globalmap_extended['Other20']:
+            BigWorld.globalmap_extended['btn_count2'] += 1
+            BigWorld.globalmap_extended['Btn_Other20'] = BigWorld.globalmap_extended['config']['setup'].readString('ButtonText_Other20')
+            BigWorld.globalmap_extended['Site_Other20'] = BigWorld.globalmap_extended['config']['setup'].readString('SiteUrl_Other20')
+            
         print '%s[%s, %s %s]' %(sys_mes['INFO'],codepa(description),version,sys_mes['MSG_INIT'])
         if debug_opt:
             debugs(' Debug Activated ...')
@@ -394,6 +624,27 @@ def Init():
         print '%s[%s, %s %s]' %(sys_mes['INFO'],codepa(description),version,sys_mes['MSG_DISABLED'])
     print ''
 
+class AppRef(object):
+    __reference = None
+
+    @property
+    def app(self):
+        return AppRef.__reference
+
+    @property
+    def gfx(self):
+        return AppRef.__reference.movie
+
+    @classmethod
+    def setReference(cls, app):
+        cls.__reference = app
+
+    @classmethod
+    def clearReference(cls):
+        cls.__reference = None
+        return
+        
+        
 class _stream_announcer(AppRef):
 
     def __init__(self):
@@ -476,41 +727,3 @@ class _stream_announcer(AppRef):
 
 stream_announcer = _stream_announcer()
 Init()
-
-import urllib2
-import urllib
-import threading
-from debug_utils import *
-
-tid = 'UA-57975916-2'
-
-def check_enter_hangar_Thread():
-    player = BigWorld.player()
-    param = urllib.urlencode({
-                    'v':1,
-                    'tid': '%s' %tid,
-                    'cid': player.databaseID,
-                    't': 'screenview',              # Screenview hit type.
-                    'an': '%s' %description,               # App name.
-                    'av': '%s %s' %(description,version),                  # App version.
-                    'cd': '%s [%s]' %(player.name,AUTH_REALM)                   # Screen name / content description.
-                 })
-    #print 'param = %s' %param
-    #print 'url = %s%s' %('http://www.google-analytics.com/collect?',param)
-    urllib2.urlopen(url='http://www.google-analytics.com/collect?',data=param).read()
-    #f = urllib.urlopen('http://www.google-analytics.com/collect',param)
-    #responseCode = f.getcode()
-    #response = f.read()
-    #print 'responseCode= %s, response=%s' %(responseCode,response)
-
-
-def check_enter_hangar():
-    _thread = threading.Thread(target=check_enter_hangar_Thread, name='Thread')
-    _thread.start()
-
-old_UpdateAll = Hangar._Hangar__updateAll
-def new_UpdateAll(self):
-    old_UpdateAll(self)
-    check_enter_hangar()
-
-Hangar._Hangar__updateAll = new_UpdateAll
