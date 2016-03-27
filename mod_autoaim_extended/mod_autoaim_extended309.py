@@ -18,10 +18,10 @@ from Avatar import PlayerAvatar
 from AvatarInputHandler import cameras
 from BattleReplay import BattleReplay
 from gui.Scaleform.daapi.view.lobby.hangar.Hangar import Hangar
-from tutorial.gui.Scaleform.battle import layout
+from gui.Scaleform.daapi.view.battle import indicators
 from helpers import isPlayerAvatar
 from gui.Scaleform.Battle import Battle
-
+_DIRECT_INDICATOR_SWF = 'DirectionIndicator.swf'
 
 class Config(object):
     def __init__(self):
@@ -213,7 +213,7 @@ class Config(object):
 
 
 class AutoAim(object):
-    def __init__(self):
+    def __init__(self, swf):
         self.autoaim_vehicle = None
         self.view_edge_callback = None
         self.view_direction_callback = None
@@ -376,7 +376,7 @@ class AutoAim(object):
         if self.indicatorBox:
             self.create_box()
         if self.indicatorDirection:
-            self.create_direction()
+            self.create_direction(_DIRECT_INDICATOR_SWF)
         if self.indicatorModel:
             self.create_model()
 
@@ -435,10 +435,10 @@ class AutoAim(object):
             self._model_blank = BigWorld.Model(self._model_blank_text)
             self._model_blank.visible = False
 
-    def create_direction(self):
+    def create_direction(self, swf):
         if self.indicatorDirection:
             # noinspection PyProtectedMember
-            self._direction = layout._DirectionIndicator()
+            self._direction = indicators._DirectionIndicator(swf)
             self._direction.component.visible = False
             self._direction.active(False)
             if self._color in ['cream', 'emerald', 'gold', 'green', 'green_yellow', 'lime', 'wg_friend', 'wg_squad', 'yellow']:
@@ -613,7 +613,7 @@ def hook_stop_battle(self):
         autoaim_extended.stop_battle()
 
 class Autoaim_extended():
-    def __init__(self):
+    def __init__(self, swf):
         self.use = False
         self.target = autoaim_extended.autoaim_vehicle
 
@@ -661,5 +661,5 @@ Battle.beforeDelete = hook_stop_battle
 #start mod
 config = Config()
 config.load_mod()
-autoaim_extended = AutoAim()
-PlayerAvatar.autoaim_extended = Autoaim_extended()
+autoaim_extended = AutoAim(_DIRECT_INDICATOR_SWF)
+PlayerAvatar.autoaim_extended = Autoaim_extended(_DIRECT_INDICATOR_SWF)
