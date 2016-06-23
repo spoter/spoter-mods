@@ -36,7 +36,7 @@ class _GUIConfig(object):
 class _Config(object):
     def __init__(self):
         self.ids = 'dir_indicator_extended'
-        self.version = '2.01 (10.03.2016)'
+        self.version = '2.02 (23.06.2016)'
         self.author = 'by spoter, Thx to Lp()rtii'
         self.path_config = './res_mods/configs/spoter_mods/%s/' % self.ids
         self.path_lang = '%si18n/' % self.path_config
@@ -371,7 +371,7 @@ class DirIndication(object):
                 if _config.data['distance_indicator']:
                     self.enemies_list[vehicle_id]['dir_indicator'].setDistance(self.enemies_list[vehicle_id]['distance'])
                 if _config.data['tank_name_indicator']:
-                    target_info = g_sessionProvider.getCtx().getFullPlayerNameWithParts(vehicle_id)
+                    target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vehicle_id)
                     if self.enemies_list[vehicle_id]['dir_indicator']._dObject and target_info and target_info[4]:
                         self.enemies_list[vehicle_id]['dir_indicator']._dObject.setVName(target_info[4])
 
