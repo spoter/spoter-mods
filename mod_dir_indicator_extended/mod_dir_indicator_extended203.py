@@ -221,31 +221,6 @@ class _Config(object):
             return
         BigWorld.callback(1.0, self.do_config)
 
-
-class Statistics(object):
-    def __init__(self):
-        self.analytics_started = False
-        self._thread_analytics = None
-
-    def analytics_do(self):
-        if not self.analytics_started:
-            param = urllib.urlencode({
-                'v'  : 1,
-                'tid': 'UA-57975916-14',
-                'cid': BigWorld.player().databaseID,
-                't'  : 'screenview',
-                'an' : 'Мод: "Тылы"',
-                'av' : 'Мод: "Тылы" %s' % _config.version,
-                'ul' : '%s' % str(getLanguageCode()).lower(),
-                'cd' : 'cluster [%s]' % AUTH_REALM
-            })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
-            self.analytics_started = True
-
-    def start(self):
-        self._thread_analytics = threading.Thread(target=self.analytics_do, name='Thread')
-        self._thread_analytics.start()
-
 class p__Statistics(object):
     def __init__(self):
         self.p__analytics_started = False
