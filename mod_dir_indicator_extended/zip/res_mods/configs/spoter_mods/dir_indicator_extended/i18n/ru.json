@@ -24,5 +24,6 @@
     "UI_setting_tertiary_indication_color_text": "Видимые враги: Цвет",
     "UI_setting_tertiary_indication_color_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Выбирите цвет для показа врагов, которые вас <b>видят</b>, по-умолчанию <font color=\"#800080\">Пурпурный</font>{/BODY}",
     "UI_setting_tertiary_indication_text": "Показать: Видимые враги",
-    "UI_setting_tertiary_indication_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Показывать индикатор на врагов, которые вас <b>видят</b>, по-умолчанию <font color=\"#800080\">Пурпурный</font>{/BODY}"
+    "UI_setting_tertiary_indication_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Показывать индикатор на врагов, которые вас <b>видят</b>, по-умолчанию <font color=\"#800080\">Пурпурный</font>{/BODY}",
+    "version": 203
 }

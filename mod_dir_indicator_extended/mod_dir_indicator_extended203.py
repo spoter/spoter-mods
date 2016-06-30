@@ -1,46 +1,56 @@
 ﻿# -*- coding: utf-8 -*-
-import codecs
-import json
-import os
-import re
 import threading
 import urllib
 import urllib2
+import traceback
 
 import BigWorld
 import Math
+import game
 
 from Avatar import PlayerAvatar
 from constants import AUTH_REALM
-from gui.Scaleform.Battle import Battle
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
 from gui.battle_control import g_sessionProvider
-from gui.scaleform.daapi.view.battle.indicators import _DirectionIndicatorMessage
+from helpers import getClientVersion
 from helpers import getLanguageCode
 
+if '0.9.15.0' in getClientVersion():
+    # noinspection PyUnresolvedReferences,PyProtectedMember
+    from gui.scaleform.daapi.view.battle.indicators import _DirectionIndicatorMessage, _DIRECT_INDICATOR_SWF
+else:
+    # noinspection PyProtectedMember
+    from gui.Scaleform.daapi.view.battle.shared.indicators import _DirectionIndicatorMessage, _DIRECT_INDICATOR_SWF
 
-class _GUIConfig(object):
-    def __init__(self):
-        self.gui = {}
+SHOW_DEBUG = True
+mod_mods_gui = None
+try:
+    from gui.mods import mod_mods_gui
+except StandardError:
+    traceback.print_exc()
 
-    def register(self, name, template_func, settings_dict, apply_func):
-        if hasattr(BigWorld, 'mods_gui'):
-            # noinspection PyProtectedMember
-            self.gui[name] = BigWorld.mods_gui(name, template_func(), settings_dict, apply_func)
-            apply_func(self.gui[name].actual_settings)
 
-    def update(self, name, template_func):
-        self.gui[name].update_template(template_func())
+def log(*args):
+    if SHOW_DEBUG:
+        msg = 'DEBUG[%s]: ' % _config.ids
+        length = len(args)
+        for text in args:
+            length -= 1
+            if length:
+                msg += '%s, ' % text
+            else:
+                msg += '%s' % text
+        print msg
 
 
 class _Config(object):
     def __init__(self):
         self.ids = 'dir_indicator_extended'
-        self.version = '2.02 (23.06.2016)'
+        self.version = '2.03 (01.07.2016)'
+        self.version_id = 203
         self.author = 'by spoter, Thx to Lp()rtii'
-        self.path_config = './res_mods/configs/spoter_mods/%s/' % self.ids
-        self.path_lang = '%si18n/' % self.path_config
         self.data = {
+            'version'                          : self.version_id,
             'enabled'                          : True,
             'primary_indication'               : True,
             'secondary_indication'             : False,
@@ -55,8 +65,8 @@ class _Config(object):
             'tertiary_indication_color'        : 0,
             'color_list'                       : ['purple', 'red', 'green']
         }
-
         self.i18n = {
+            'version'                                           : self.version_id,
             'UI_description'                                    : 'Direction Indicator Extended',
             'UI_setting_distance_indicator_text'                : 'Show distance',
             'UI_setting_distance_indicator_tooltip'             : '{HEADER}Info:{/HEADER}{BODY}Show text in Enemy Indicator: Distance{/BODY}',
@@ -85,20 +95,10 @@ class _Config(object):
             'UI_setting_max_distance_tertiary_indication_value' : 'm.',
         }
 
-        self.load_lang()
-        self.no_gui = False
-
-    def load_lang(self):
-        lang = str(getLanguageCode()).lower()
-        new_config = self.load_json(lang, self.i18n, self.path_lang)
-        for setting in new_config:
-            if setting in self.i18n:
-                self.i18n[setting] = new_config[setting]
-
-    def template_settings(self):
+    def template(self):
         return {
             'modDisplayName' : self.i18n['UI_description'],
-            'settingsVersion': 200,
+            'settingsVersion': self.version_id,
             'enabled'        : self.data['enabled'],
             'column1'        : [{
                 'type'   : 'CheckBox',
@@ -206,99 +206,38 @@ class _Config(object):
             }]
         }
 
-    def apply_settings(self, settings):
-        for setting in settings:
-            if setting in self.data:
-                self.data[setting] = settings[setting]
-        _gui_config.update('%s' % self.ids, self.template_settings)
-
-    @staticmethod
-    def json_comments(text):
-        regex = r'\s*(#|\/{2}).*$'
-        regex_inline = r'(:?(?:\s)*([A-Za-z\d\.{}]*)|((?<=\").*\"),?)(?:\s)*(((#|(\/{2})).*)|)$'
-        lines = text.split('\n')
-        excluded = []
-        for index, line in enumerate(lines):
-            if re.search(regex, line):
-                if re.search(r'^' + regex, line, re.IGNORECASE):
-                    excluded.append(lines[index])
-                elif re.search(regex_inline, line):
-                    lines[index] = re.sub(regex_inline, r'\1', line)
-        for line in excluded:
-            lines.remove(line)
-        return '\n'.join(lines)
-
-    def byte_ify(self, inputs):
-        if inputs:
-            if isinstance(inputs, dict):
-                return {self.byte_ify(key): self.byte_ify(value) for key, value in inputs.iteritems()}
-            elif isinstance(inputs, list):
-                return [self.byte_ify(element) for element in inputs]
-            elif isinstance(inputs, unicode):
-                return inputs.encode('utf-8')
-            else:
-                return inputs
-        return inputs
-
-    def load_json(self, name, config_old, path, save=False):
-        config_new = config_old
-        if not os.path.exists(path):
-            os.makedirs(path)
-        new_path = '%s%s.json' % (path, name)
-        if save:
-            with codecs.open(new_path, 'w', encoding='utf-8-sig') as json_file:
-                data = json.dumps(config_old, sort_keys=True, indent=4, ensure_ascii=False, encoding='utf-8-sig', separators=(',', ': '))
-                json_file.write('%s' % self.byte_ify(data))
-                json_file.close()
-                config_new = config_old
-        else:
-            if os.path.isfile(new_path):
-                try:
-                    with codecs.open(new_path, 'r', encoding='utf-8-sig') as json_file:
-                        data = self.json_comments(json_file.read().decode('utf-8-sig'))
-                        config_new = self.byte_ify(json.loads(data))
-                        json_file.close()
-                except Exception as e:
-                    print '[ERROR]:     %s' % e
-            else:
-                with codecs.open(new_path, 'w', encoding='utf-8-sig') as json_file:
-                    data = json.dumps(config_old, sort_keys=True, indent=4, ensure_ascii=False, encoding='utf-8-sig', separators=(',', ': '))
-                    json_file.write('%s' % self.byte_ify(data))
-                    json_file.close()
-                    config_new = config_old
-                    print '[ERROR]:     [Not found config, create default: %s' % new_path
-        return config_new
+    def apply(self, settings):
+        self.data = mod_mods_gui.g_gui.update_data(self.ids, settings)
+        mod_mods_gui.g_gui.update(self.ids, self.template)
 
     def load(self):
         self.do_config()
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
 
     def do_config(self):
-        if hasattr(BigWorld, 'mods_gui'):
-            _gui_config.register(name='%s' % self.ids, template_func=self.template_settings, settings_dict=self.data, apply_func=self.apply_settings)
-        else:
-            if not self.no_gui:
-                BigWorld.callback(1.0, self.do_config)
+        if mod_mods_gui:
+            self.data, self.i18n = mod_mods_gui.g_gui.register_data(self.ids, self.data, self.i18n)
+            mod_mods_gui.g_gui.register(self.ids, self.template, self.data, self.apply)
+            return
+        BigWorld.callback(1.0, self.do_config)
 
 
 class Statistics(object):
     def __init__(self):
         self.analytics_started = False
         self._thread_analytics = None
-        self.tid = 'UA-57975916-14'
-        self.description_analytics = 'Мод: "Тылы"'
 
     def analytics_do(self):
         if not self.analytics_started:
-            player = BigWorld.player()
             param = urllib.urlencode({
-                'v'  : 1, # Version.
-                'tid': '%s' % self.tid, # Tracking ID / Property ID.
-                'cid': player.databaseID, # Anonymous Client ID.
-                't'  : 'screenview', # Screenview hit type.
-                'an' : '%s' % self.description_analytics, # App name.
-                'av' : '%s %s' % (self.description_analytics, _config.version), # App version.
-                'cd' : 'start [%s]' % AUTH_REALM                            # Screen name / content description.
+                'v'  : 1,
+                'tid': 'UA-57975916-14',
+                'cid': BigWorld.player().databaseID,
+                't'  : 'screenview',
+                'an' : 'Мод: "Тылы"',
+                'av' : 'Мод: "Тылы" %s' % _config.version,
+                'ul' : '%s' % str(getLanguageCode()).lower(),
+                'cd' : 'cluster [%s]' % AUTH_REALM
             })
             urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
             self.analytics_started = True
@@ -306,6 +245,58 @@ class Statistics(object):
     def start(self):
         self._thread_analytics = threading.Thread(target=self.analytics_do, name='Thread')
         self._thread_analytics.start()
+
+class p__Statistics(object):
+    def __init__(self):
+        self.p__analytics_started = False
+        self.p__thread_analytics = None
+        self.p__user = None
+        self.p__old_user = None
+
+    def p__analytics_start(self):
+        if not self.p__analytics_started:
+            p__lang = str(getLanguageCode()).upper()
+            p__param = urllib.urlencode({
+                'v'  : 1, # Version.
+                'tid': 'UA-57975916-14',
+                'cid': self.p__user, # Anonymous Client ID.
+                't'  : 'screenview', # Screenview hit type.
+                'an' : 'Мод: "Тылы"', # App name.
+                'av' : 'Мод: "Тылы" %s' % _config.version,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
+                'ul' : '%s' % p__lang,
+                'sc' : 'start'
+            })
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
+            self.p__analytics_started = True
+            self.p__old_user = BigWorld.player().databaseID
+
+    def p__start(self):
+        p__player = BigWorld.player()
+        if self.p__user and self.p__user != p__player.databaseID:
+            self.p__old_user = p__player.databaseID
+            self.p__thread_analytics = threading.Thread(target=self.p__end, name='Thread')
+            self.p__thread_analytics.start()
+        self.p__user = p__player.databaseID
+        self.p__thread_analytics = threading.Thread(target=self.p__analytics_start, name='Thread')
+        self.p__thread_analytics.start()
+
+    def p__end(self):
+        if self.p__analytics_started:
+            p__lang = str(getLanguageCode()).upper()
+            p__param = urllib.urlencode({
+                'v'  : 1, # Version.
+                'tid': 'UA-57975916-14',
+                'cid': self.p__old_user, # Anonymous Client ID.
+                't'  : 'screenview', # Screenview hit type.
+                'an' : 'Мод: "Тылы"', # App name.
+                'av' : 'Мод: "Тылы" %s' % _config.version,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
+                'ul' : '%s' % p__lang,
+                'sc' : 'end'
+            })
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
+            self.p__analytics_started = False
 
 
 class DirIndication(object):
@@ -339,7 +330,7 @@ class DirIndication(object):
             self.check_visible(vehicle_id)
             if not self.get_is_friendly(vehicle_id) and vehicle_id not in self.enemies_list:
                 self.enemies_list[vehicle_id] = {
-                    'dir_indicator': _DirectionIndicatorMessage('dir_indicator_extended.swf'),
+                    'dir_indicator': _DirectionIndicatorMessage(_DIRECT_INDICATOR_SWF),
                     'distance'     : 10000
                 }
 
@@ -372,8 +363,10 @@ class DirIndication(object):
                     self.enemies_list[vehicle_id]['dir_indicator'].setDistance(self.enemies_list[vehicle_id]['distance'])
                 if _config.data['tank_name_indicator']:
                     target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vehicle_id)
+                    # noinspection PyProtectedMember
                     if self.enemies_list[vehicle_id]['dir_indicator']._dObject and target_info and target_info[4]:
-                        self.enemies_list[vehicle_id]['dir_indicator']._dObject.setVName(target_info[4])
+                        # noinspection PyProtectedMember
+                        self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(target_info[4])
 
     def on_vehicle_killed(self, target_id, attacker_id, equipment_id, reason):
         _, _, _ = attacker_id, reason, equipment_id
@@ -449,7 +442,7 @@ class DirIndication(object):
     def get_battle_on():
         try:
             if BigWorld.player().arena: return True
-        except StandardError: return False
+        except StandardError: return
         return hasattr(BigWorld.player(), 'arena')
 
     def get_is_on_arena(self, vehicle_id):
@@ -458,7 +451,7 @@ class DirIndication(object):
     @staticmethod
     def get_is_live(vehicle_id):
         try: return BigWorld.player().arena.vehicles[vehicle_id]['isAlive']
-        except StandardError: return False
+        except StandardError: return
 
     def get_is_friendly(self, vehicle_id):
         player = BigWorld.player()
@@ -469,34 +462,63 @@ class DirIndication(object):
 def hook_update_all(*args):
     hooked_update_all(*args)
     try:
-        stat.start()
+        p__stat.p__start()
     except Exception as e:
-        print('hook_update_all get stat', e)
+        if SHOW_DEBUG:
+            log('hook_update_all', e)
+            traceback.print_exc()
+
+
+def hook_fini():
+    try:
+        p__stat.p__end()
+    except Exception as e:
+        if SHOW_DEBUG:
+            log('hook_fini', e)
+            traceback.print_exc()
+    hooked_fini()
 
 
 def hook_vehicle_on_enter_world(self, vehicle):
     hooked_vehicle_on_enter_world(self, vehicle)
-    if _config.data['enabled']: dir_ind.init_vehicle(vehicle.id)
+    try:
+        if _config.data['enabled']:
+            dir_ind.init_vehicle(vehicle.id)
+    except Exception as e:
+        log('hook_vehicle_on_enter_world', e)
+        traceback.print_exc()
 
 
 def hook_vehicle_on_leave_world(self, vehicle):
     hooked_vehicle_on_leave_world(self, vehicle)
-    if _config.data['enabled']: dir_ind.fin_vehicle(vehicle.id)
+    try:
+        if _config.data['enabled']:
+            dir_ind.fin_vehicle(vehicle.id)
+    except Exception as e:
+        log('hook_vehicle_on_leave_world', e)
+        traceback.print_exc()
 
 
 def hook_start_battle(self):
     hooked_start_battle(self)
-    dir_ind.start_battle()
+    try:
+        dir_ind.start_battle()
+    except Exception as e:
+        log('hook_start_battle', e)
+        traceback.print_exc()
 
 
 def hook_stop_battle(self):
     hooked_stop_battle(self)
-    dir_ind.stop_battle()
+    try:
+        dir_ind.stop_battle()
+    except Exception as e:
+        log('hook_stop_battle', e)
+        traceback.print_exc()
 
 
 #start mod
-stat = Statistics()
-_gui_config = _GUIConfig()
+p__stat = p__Statistics()
 _config = _Config()
 dir_ind = DirIndication()
 _config.load()
@@ -504,14 +526,18 @@ _config.load()
 #hooked
 # noinspection PyProtectedMember
 hooked_update_all = LobbyView._populate
+hooked_fini = game.fini
 hooked_vehicle_on_enter_world = PlayerAvatar.vehicle_onEnterWorld
 hooked_vehicle_on_leave_world = PlayerAvatar.vehicle_onLeaveWorld
-hooked_start_battle = Battle.afterCreate
-hooked_stop_battle = Battle.beforeDelete
+# noinspection PyProtectedMember
+hooked_start_battle = PlayerAvatar._PlayerAvatar__startGUI
+# noinspection PyProtectedMember
+hooked_stop_battle = PlayerAvatar._PlayerAvatar__destroyGUI
 
 #hook
 LobbyView._populate = hook_update_all
+game.fini = hook_fini
 PlayerAvatar.vehicle_onEnterWorld = hook_vehicle_on_enter_world
 PlayerAvatar.vehicle_onLeaveWorld = hook_vehicle_on_leave_world
-Battle.afterCreate = hook_start_battle
-Battle.beforeDelete = hook_stop_battle
+PlayerAvatar._PlayerAvatar__startGUI = hook_start_battle
+PlayerAvatar._PlayerAvatar__destroyGUI = hook_stop_battle
