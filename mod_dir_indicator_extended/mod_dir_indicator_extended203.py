@@ -221,7 +221,8 @@ class _Config(object):
             return
         BigWorld.callback(1.0, self.do_config)
 
-class p__Statistics(object):
+
+class Statistics(object):
     def __init__(self):
         self.p__analytics_started = False
         self.p__thread_analytics = None
@@ -493,7 +494,7 @@ def hook_stop_battle(self):
 
 
 #start mod
-p__stat = p__Statistics()
+p__stat = Statistics()
 _config = _Config()
 dir_ind = DirIndication()
 _config.load()
