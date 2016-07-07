@@ -44,7 +44,7 @@ def log(*args):
 class _Config(object):
     def __init__(self):
         self.ids = 'server_turret_extended'
-        self.version = '1.12 (01.07.2016)'
+        self.version = '1.12 (07.07.2016)'
         self.version_id = 112
         self.author = 'by spoter, reven86'
         self.data = {

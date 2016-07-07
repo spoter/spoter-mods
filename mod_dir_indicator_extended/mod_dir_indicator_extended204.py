@@ -15,7 +15,9 @@ from gui.battle_control import g_sessionProvider
 from helpers import getClientVersion
 from helpers import getLanguageCode
 
-if '0.9.15.0' in getClientVersion():
+CURR_CLIENT = getClientVersion()
+
+if '0.9.15.0' in CURR_CLIENT:
     # noinspection PyUnresolvedReferences,PyProtectedMember
     from gui.scaleform.daapi.view.battle.indicators import _DirectionIndicatorMessage, _DIRECT_INDICATOR_SWF
 else:
@@ -46,8 +48,8 @@ def log(*args):
 class _Config(object):
     def __init__(self):
         self.ids = 'dir_indicator_extended'
-        self.version = '2.03 (01.07.2016)'
-        self.version_id = 203
+        self.version = '2.04 (07.07.2016)'
+        self.version_id = 204
         self.author = 'by spoter, Thx to Lp()rtii'
         self.data = {
             'version'                          : self.version_id,
@@ -342,7 +344,10 @@ class DirIndication(object):
                     # noinspection PyProtectedMember
                     if self.enemies_list[vehicle_id]['dir_indicator']._dObject and target_info and target_info[4]:
                         # noinspection PyProtectedMember
-                        self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(target_info[4])
+                        if '0.9.15.0' in CURR_CLIENT:
+                            self.enemies_list[vehicle_id]['dir_indicator']._dObject.setVName(target_info[4])
+                        else:
+                            self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(target_info[4])
 
     def on_vehicle_killed(self, target_id, attacker_id, equipment_id, reason):
         _, _, _ = attacker_id, reason, equipment_id
