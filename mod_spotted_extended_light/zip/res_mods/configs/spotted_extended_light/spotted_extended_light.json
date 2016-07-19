@@ -1,0 +1,15 @@
+﻿{
+    "enabled": true,
+    "iconSizeX": 47,
+    "iconSizeY": 16,
+    "messageColorRadioHitAssist": 10,
+    "messageColorRadioKillAssist": 6,
+    "messageColorSpotted": 7,
+    "messageColorTrackAssist": 11,
+    "sound": true,
+    "soundRadioHitAssist": "gun_intuition",
+    "soundRadioKillAssist": "cybersport_auto_search",
+    "soundSpotted": "enemy_sighted_for_team",
+    "soundTrackAssist": "gun_intuition",
+    "version": 309
+}
