@@ -345,8 +345,10 @@ class DirIndication(object):
                     if self.enemies_list[vehicle_id]['dir_indicator']._dObject and target_info and target_info[4]:
                         # noinspection PyProtectedMember
                         if '0.9.15.0' in CURR_CLIENT:
+                            # noinspection PyProtectedMember
                             self.enemies_list[vehicle_id]['dir_indicator']._dObject.setVName(target_info[4])
                         else:
+                            # noinspection PyProtectedMember
                             self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(target_info[4])
 
     def on_vehicle_killed(self, target_id, attacker_id, equipment_id, reason):

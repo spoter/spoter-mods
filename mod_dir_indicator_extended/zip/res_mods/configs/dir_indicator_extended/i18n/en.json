@@ -25,5 +25,5 @@
     "UI_setting_tertiary_indication_color_tooltip": "{HEADER}Info:{/HEADER}{BODY}Select color to Tertiary Indication{/BODY}",
     "UI_setting_tertiary_indication_text": "Tertiary Indication (visible)",
     "UI_setting_tertiary_indication_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show nearest enemies with a special indicator, when enemy visible to you tank{/BODY}",
-    "version": 203
+    "version": 204
 }
