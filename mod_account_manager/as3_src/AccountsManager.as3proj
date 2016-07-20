@@ -4,12 +4,12 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="..\release\res_mods\0.9.13\gui\flash\AccountsManager\AccountsManager.swf" />
+    <movie path="..\release\res_mods\0.9.15\gui\flash\AccountsManager\AccountsManager.swf" />
     <movie fps="50" />
     <movie width="800" />
     <movie height="600" />
     <movie version="11" />
-    <movie minorVersion="2" />
+    <movie minorVersion="4" />
     <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
   </output>

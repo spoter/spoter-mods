@@ -1,0 +1,17 @@
+﻿{
+    "UI_settingAcceptDeleteAccount": "Подтвердите удаление аккаунта",
+    "UI_settingAccountDelete": "Удаление аккаунта",
+    "UI_settingAccountManager": "Менеджер аккаунтов",
+    "UI_settingAdd": "Добавить",
+    "UI_settingAutoEnter": "Авто вход",
+    "UI_settingCancel": "Отмена",
+    "UI_settingDelete": "Удалить",
+    "UI_settingDeleteAccount": "<font color='#FF4500'><img width='90' height='20' src='img://gui/flash/AccountsManager/delete.png'></font>",
+    "UI_settingEdit": "<font color='#9ACD32'><img width='90' height='20' src='img://gui/flash/AccountsManager/edit.png'></font>",
+    "UI_settingEnter": "<font color='#FFFF33'><img width='90' height='20' src='img://gui/flash/AccountsManager/enter.png'></font>",
+    "UI_settingManageYourAccount": "Управление аккаунтом",
+    "UI_settingNick": "Ник:",
+    "UI_settingSave": "Сохранить",
+    "UI_settingServer": "Сервер:",
+    "UI_settingShowPassword": "Показать пароль"
+}

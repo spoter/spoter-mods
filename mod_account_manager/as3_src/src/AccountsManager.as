@@ -1,20 +1,31 @@
 package
 {
 	import flash.text.TextField;
-	import flash.events.TextEvent;
+
+	import net.wg.gui.components.controls.CheckBox;
 	import net.wg.infrastructure.base.AbstractWindowView;
 	import net.wg.gui.components.controls.SoundButton;
 	import scaleform.clik.events.ButtonEvent;
 
+	import flash.events.*;
+	import flash.display.*;
+	import flash.utils.*;
+	import net.wg.gui.login.impl.views.SimpleForm;
+
 	public class AccountsManager extends AbstractWindowView 
 	{
-		public var py_log			: Function;
-		public var callFromFlash	: Function;
-		public var py_getTranslate	: Function;
+		public var py_log					: Function;
+		public var callFromFlash			: Function;
+		public var py_getTranslate			: Function;
+		public var py_setLoginDataById		: Function;
+		public var py_openAddAccountWindow	: Function;
 
-		private var langData		: Object;
-		private var accountsList	: TextField;
-		private var newAccButton	: SoundButton;
+		private var langData	: Object;
+
+		private var accountsList		: TextField;
+		private var newAccButton		: SoundButton;
+		private var autoEnterCheckBox	: CheckBox;
+		private var _form				: SimpleForm;
 
 		public function AccountsManager() 
 		{
@@ -62,27 +73,36 @@ package
 					break;
 			}
 
-			this.callFromFlash({
-				"action"	: action,
-				"id"		: id
-			});
+			if (action == "submit") {
+				this.py_setLoginDataById(id, this._form);
+				if (this.autoEnterCheckBox.selected) {
+					this._form.submit.dispatchEvent(new ButtonEvent(ButtonEvent.CLICK));
+				}
+			} else {
+				this.callFromFlash({
+					"action"	: action,
+					"id"		: id
+				});
+			}
 		}
 
 		public function handleAddButtonClick(e : ButtonEvent) : void
 		{
-			this.callFromFlash( { "action" : "addAcc" } );
+			this.py_openAddAccountWindow();
 		}
 
 		override protected function onPopulate() : void
 		{
 			super.onPopulate();
 
-			this.langData	= this.py_getTranslate();
+			this._form = this.recursiveFindDOC(DisplayObjectContainer(stage), "LoginFormUI") as SimpleForm;
+
+			this.langData = this.py_getTranslate();
 
 			this.window.title = this.langData.window_title_l10n;
 			this.width	= 340;
 			this.height	= 530;
-			
+
 			try
 			{
 				this.accountsList				= new TextField();
@@ -104,11 +124,35 @@ package
 					x:		122,
 					y:		500
 				})) as SoundButton;
+
+				this.autoEnterCheckBox = this.addChild(App.utils.classFactory.getComponent("CheckBox", CheckBox, {
+					label:		this.langData.auto_enter_l10n,
+					x:			10,
+					y:			500,
+					selected:	true
+				})) as CheckBox;
+
 				this.newAccButton.addEventListener(ButtonEvent.CLICK, this.handleAddButtonClick);
 			} catch (err : Error)
 			{
 				this.py_log("onPopulate " + err.message);
 			}
+		}
+
+		private function recursiveFindDOC(dOC:DisplayObjectContainer, className:String) : DisplayObjectContainer {
+			var child:DisplayObject = null;
+			var childOC:DisplayObjectContainer = null;
+			var i:int = 0;
+			var result:DisplayObjectContainer = null;
+			while (i < dOC.numChildren) {
+				child = dOC.getChildAt(i);
+				if ((child is DisplayObject) && (getQualifiedClassName(child) == className)) result = child as DisplayObjectContainer;
+				if (result != null) return result;
+				childOC = child as DisplayObjectContainer;
+				if ((childOC) && (childOC.numChildren > 0)) result = this.recursiveFindDOC(childOC, className);
+				i++;
+			}
+			return result;
 		}
 
 	}

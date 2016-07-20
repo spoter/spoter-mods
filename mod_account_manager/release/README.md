@@ -1,4 +1,4 @@
-### account_manager_extended v1.02 ###
+### account_manager v1.05 ###
 by S0me0ne, 
 reworked by spoter and ShadowHunterRUS
 

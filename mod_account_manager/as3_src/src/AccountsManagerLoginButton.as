@@ -1,81 +1,60 @@
 package
 {
 	import net.wg.infrastructure.base.AbstractView;
-	import net.wg.gui.login.impl.LoginPage;
-	import flash.display.MovieClip;
-	import flash.events.Event;
-	import flash.events.TextEvent;
-	import net.wg.gui.login.impl.views.SimpleForm;
-	import net.wg.infrastructure.events.LoaderEvent;
-	import net.wg.infrastructure.interfaces.IView;
-	import net.wg.gui.login.impl.ev.LoginViewStackEvent;
+	import flash.events.*;
+	import flash.display.*;
+	import flash.utils.*;
 	import components.AMButton;
+	import net.wg.gui.login.impl.views.SimpleForm;
+	import net.wg.gui.login.impl.LoginPage;
 
 	public class AccountsManagerLoginButton extends AbstractView 
 	{
-		public var py_log			: Function;
-		public var py_openAccMngr	: Function;
-		public var py_getTranslate	: Function;
+		public var py_log: Function;
+		public var py_openAccMngr: Function;
+		public var py_getTranslate: Function;
 
-		private var _login	: LoginPage;
-		private var _form	: SimpleForm;
-		
-		private var amBtn	: AMButton;
+		private var isLobby: Boolean = false;
+		private var amBtn: AMButton;
+
+		private var _login: LoginPage;
+		private var _form: SimpleForm;
 
 		public function AccountsManagerLoginButton() 
 		{
 			super();
-			this.init();
 		}
 
-		override protected function nextFrameAfterPopulateHandler() : void
-		{
-			if(this.parent != App.instance)
-			{
-				(App.instance as MovieClip).addChild(this);
-			}
-		}
+		public function as_populateLogin(): void {
+			try {
+				this.isLobby = false;
+				this._login = this.recursiveFindDOC(DisplayObjectContainer(stage), "LoginPageUI") as LoginPage;
+				this._form = this.recursiveFindDOC(DisplayObjectContainer(stage), "LoginFormUI") as SimpleForm;
 
-		private function onViewLoaded(e : LoaderEvent) : void
-		{
-			this.processView(e.view, false);
-		}
-
-		private function onViewChanged(e : LoginViewStackEvent) : void
-		{
-			setupForm(e.view as SimpleForm);
-		}
-
-		private function processView(view : IView, populated : Boolean) : void
-		{
-			var alias:String = view.as_alias;
-			try
-			{
-				if (alias == "login")
-				{
-					this._login = view as LoginPage;
-					this._login.loginViewStack.addEventListener(LoginViewStackEvent.VIEW_CHANGED, this.onViewChanged);
+				if (this._login != null) {
 					this.amBtn = new AMButton();
 					this.amBtn.tooltip = this.py_getTranslate().tooltip_l10n;
 					this._login.addChild(this.amBtn);
 					this.addEventListener(Event.RESIZE, this.resize);
 					this.amBtn.addEventListener(TextEvent.LINK, this.handleAMButtonClick);
+					this.resize();
 				}
-			} catch(err : Error)
-			{
-				this.py_log("processView " + err.message);
+			} catch(err: Error) {
+				this.py_log(err.getStackTrace());
 			}
 		}
 
-		private function resize(e : Event): void
-		{
-			this.setButtonPosition();
+		public function as_populateLobby(): void {
+			try {
+				this.isLobby = true;
+			} catch(err: Error) {
+				this.py_log(err.getStackTrace());
+			}
 		}
 
-		private function setButtonPosition(): void
+		private function resize(e : Event = null) : void
 		{
-			if (this._form != null && this._form.submit != null && this._form.keyboardLang != null)
-			{
+			if (!this.isLobby) {
 				this.amBtn.x = this._form.parent.x + this._form.keyboardLang.x;
 				this.amBtn.y = this._form.parent.y + this._form.submit.y;
 			}
@@ -86,25 +65,26 @@ package
 			this.py_openAccMngr();
 		}
 
-		private function init(e : Event = null) : void
-		{
-			if(!this.stage)
-			{
-				this.addEventListener(Event.ADDED_TO_STAGE, this.init);
-				return;
-			}
-			this.removeEventListener(Event.ADDED_TO_STAGE, this.init);
-			App.containerMgr.loader.addEventListener(LoaderEvent.VIEW_LOADED, this.onViewLoaded);
+		override protected function onPopulate() : void {
+			super.onPopulate();
+			//App.instance.loaderMgr.loadLibraries(Vector.<String>(["controls.swf"]));
 		}
 
-		private function setupForm(form : SimpleForm) : void
-		{
-            if (form != null && form.login != null && form.pass != null)
-			{
-				this._form = form;
-				this.setButtonPosition();
+		private function recursiveFindDOC(dOC:DisplayObjectContainer, className:String) : DisplayObjectContainer {
+			var child:DisplayObject = null;
+			var childOC:DisplayObjectContainer = null;
+			var i:int = 0;
+			var result:DisplayObjectContainer = null;
+			while (i < dOC.numChildren) {
+				child = dOC.getChildAt(i);
+				if ((child is DisplayObject) && (getQualifiedClassName(child) == className)) result = child as DisplayObjectContainer;
+				if (result != null) return result;
+				childOC = child as DisplayObjectContainer;
+				if ((childOC) && (childOC.numChildren > 0)) result = this.recursiveFindDOC(childOC, className);
+				i++;
 			}
-        }
+			return result;
+		}
 
 	}
 

@@ -11,11 +11,13 @@ package
 
 	public class AccountsManagerWindow extends AbstractWindowView 
 	{
-		public var py_log			: Function;
-		public var py_get_clusters	: Function;
-		public var py_getTranslate	: Function;
-		public var callFromFlash	: Function;
+		public var py_log				: Function;
+		public var py_get_clusters		: Function;
+		public var py_getTranslate		: Function;
+		public var py_setAddAccount		: Function;
+		public var py_setEditAccount	: Function;
 
+		private var wmode			: String = "add";
 		private var langData		: Object;
 		private var submitBtn		: SoundButton;
 		private var cancelBtn		: SoundButton;
@@ -28,7 +30,6 @@ package
 		private var loginVal		: TextInput;
 		private var passwordVal		: TextInput;
 		private var clusterVal		: DropdownMenu;
-		private var wmode			: String;
 		private var qweid			: String;
 
 		public function AccountsManagerWindow() 
@@ -41,25 +42,19 @@ package
 
 		private function handleSubmitBtnClick(e : ButtonEvent) : void
 		{
-			if (this.titleVal.text == "")
-			{
+			if (this.titleVal.text == "") {
 				this.titleVal.highlight = true;
 				return;
 			}
-			if (this.isValidEmail(this.loginVal.text) == false)
-			{
+			if (this.isValidEmail(this.loginVal.text) == false) {
 				this.loginVal.highlight = true;
 				return;
 			}
-			this.callFromFlash({
-				"accId"		: this.qweid,
-				"id"		: this.qweid,
-				"mode"		: this.wmode,
-				"title"		: this.titleVal.text,
-				"email"		: this.loginVal.text,
-				"password"	: this.passwordVal.text,
-				"cluster"	: this.clusterVal.selectedIndex
-			});
+			if (this.wmode == "add") {
+				this.py_setAddAccount(this.titleVal.text, this.loginVal.text, this.passwordVal.text, this.clusterVal.selectedIndex);
+			} else if (this.wmode == "edit") {
+				this.py_setEditAccount(this.qweid, this.titleVal.text, this.loginVal.text, this.passwordVal.text, this.clusterVal.selectedIndex);
+			}
 		}
 
 		private function handleCancelBtnClick(e : ButtonEvent) : void
@@ -72,26 +67,19 @@ package
 			this.passwordVal.displayAsPassword = !this.passwordVal.displayAsPassword;
 		}
 
-		public function as_callToFlash(data: Object) : void
+		public function as_setEditAccountData(id : String, title : String, email : String, password : String, cluster : int) : void
 		{
-			try
-			{
-				if (data.mode == "edit")
-				{
-					this.qweid						= String(data.id);
-					this.titleVal.text				= String(data.title);
-					this.loginVal.text				= String(data.email);
-					this.passwordVal.text			= String(data.password);
-					this.clusterVal.selectedIndex	= int(data.cluster);
-					this.wmode						= "edit";
-				} else
-				{
-					this.wmode = "add";
-				}
-			} catch(err : Error)
-			{
-				py_log("as_callToFlash " + err.message);
-			}
+			this.qweid = id;
+			this.titleVal.text = title;
+			this.loginVal.text = email;
+			this.passwordVal.text = password;
+			this.clusterVal.selectedIndex = cluster;
+			this.wmode = "edit";
+		}
+
+		public function as_setAddAccount() : void
+		{
+			this.wmode = "add";
 		}
 
 		override protected function onPopulate() : void
@@ -199,10 +187,9 @@ package
 					y: 165
 				})) as SoundButton;
 				this.cancelBtn.addEventListener(ButtonEvent.CLICK, this.handleCancelBtnClick);
-
 			} catch (err : Error)
 			{
-				py_log("onPopulate " + err.message);
+				this.py_log("onPopulate " + err.getStackTrace());
 			}
 		}
 
