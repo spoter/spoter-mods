@@ -41,5 +41,5 @@
     "UI_setting_iconSizeY_value": " px.",
     "UI_setting_sound_text": "Использовать звук",
     "UI_setting_sound_tooltip": "{HEADER}<font color=\"#FFD700\">Инфо:</font>{/HEADER}{BODY}Настройка звуков в конфиге: <font color=\"#FFD700\">/res_mods/configs/spotted_extended_light/spotted_extended_light.json</font>{/BODY}",
-    "version": 309
+    "version": 310
 }

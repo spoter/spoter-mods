@@ -1,25 +1,17 @@
 ﻿# -*- coding: utf-8 -*-
-import random
-import string
 import threading
-import traceback
 import urllib
 import urllib2
 
 import BigWorld
 
 import SoundGroups
-import game
 from Avatar import PlayerAvatar
 from constants import AUTH_REALM
-from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
-from gui.app_loader import g_appLoader
 from gui.battle_control import g_sessionProvider
-from helpers import getClientVersion
+from gui.mods.mod_mods_gui import g_gui, inject
 from helpers import getLanguageCode
 
-SHOW_DEBUG = True
-CURR_CLIENT = getClientVersion()
 SOUND_LIST = ['soundSpotted', 'soundRadioHitAssist', 'soundRadioKillAssist', 'soundTrackAssist']
 TEXT_LIST = ['UI_message_Spotted_text', 'UI_message_RadioHitAssist_text', 'UI_message_RadioKillAssist_text', 'UI_message_TrackAssist_text']
 COLOR_MESSAGES = ['messageColorSpotted', 'messageColorRadioHitAssist', 'messageColorRadioKillAssist', 'messageColorTrackAssist']
@@ -27,29 +19,11 @@ COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F
 MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
     'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
 
-mod_mods_gui = None
-try:
-    from gui.mods import mod_mods_gui
-except StandardError:
-    traceback.print_exc()
-
-def log(*args):
-    if SHOW_DEBUG:
-        msg = 'DEBUG[%s]: ' % _config.ids
-        length = len(args)
-        for text in args:
-            length -= 1
-            if length:
-                msg += '%s, ' % text
-            else:
-                msg += '%s' % text
-        print msg
-
 class _Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = '3.09 (20.07.2016)'
-        self.version_id = 309
+        self.version = '3.10 (28.07.2016)'
+        self.version_id = 310
         self.author = 'by spoter'
         self.data = {
             'version'                    : self.version_id,
@@ -191,71 +165,70 @@ class _Config(object):
         return res
 
     def apply(self, settings):
-        self.data = mod_mods_gui.g_gui.update_data(self.ids, settings)
-        mod_mods_gui.g_gui.update(self.ids, self.template)
+        self.data = g_gui.update_data(self.ids, settings)
+        g_gui.update(self.ids, self.template)
 
     def load(self):
         self.do_config()
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
 
     def do_config(self):
-        if mod_mods_gui:
-            self.data, self.i18n = mod_mods_gui.g_gui.register_data(self.ids, self.data, self.i18n)
-            mod_mods_gui.g_gui.register(self.ids, self.template, self.data, self.apply)
-            return
-        BigWorld.callback(1.0, self.do_config)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        g_gui.register(self.ids, self.template, self.data, self.apply)
 
 class Statistics(object):
     def __init__(self):
-        self.p__analytics_started = False
-        self.p__thread_analytics = None
-        self.p__user = None
-        self.p__old_user = None
+        self.analytics_started = False
+        self.thread_analytics = None
+        self.user = None
+        self.old_user = None
 
-    def p__analytics_start(self):
-        if not self.p__analytics_started:
-            p__lang = str(getLanguageCode()).upper()
-            p__param = urllib.urlencode({
+    @inject.log
+    def analytics_start(self):
+        if not self.analytics_started:
+            lang = str(getLanguageCode()).upper()
+            param = urllib.urlencode({
                 'v'  : 1, # Version.
                 'tid': 'UA-57975916-7',
-                'cid': self.p__user, # Anonymous Client ID.
+                'cid': self.user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Маленький Светлячок"', # App name.
                 'av' : 'Мод: "Маленький Светлячок" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
-                'ul' : '%s' % p__lang,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
+                'ul' : '%s' % lang,
                 'sc' : 'start'
             })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
-            self.p__analytics_started = True
-            self.p__old_user = BigWorld.player().databaseID
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
+            self.analytics_started = True
+            self.old_user = BigWorld.player().databaseID
 
-    def p__start(self):
-        p__player = BigWorld.player()
-        if self.p__user and self.p__user != p__player.databaseID:
-            self.p__old_user = p__player.databaseID
-            self.p__thread_analytics = threading.Thread(target=self.p__end, name='Thread')
-            self.p__thread_analytics.start()
-        self.p__user = p__player.databaseID
-        self.p__thread_analytics = threading.Thread(target=self.p__analytics_start, name='Thread')
-        self.p__thread_analytics.start()
+    def start(self):
+        player = BigWorld.player()
+        if self.user and self.user != player.databaseID:
+            self.old_user = player.databaseID
+            self.thread_analytics = threading.Thread(target=self.end, name='Thread')
+            self.thread_analytics.start()
+        self.user = player.databaseID
+        self.thread_analytics = threading.Thread(target=self.analytics_start, name='Thread')
+        self.thread_analytics.start()
 
-    def p__end(self):
-        if self.p__analytics_started:
-            p__lang = str(getLanguageCode()).upper()
-            p__param = urllib.urlencode({
+    @inject.log
+    def end(self):
+        if self.analytics_started:
+            lang = str(getLanguageCode()).upper()
+            param = urllib.urlencode({
                 'v'  : 1, # Version.
                 'tid': 'UA-57975916-7',
-                'cid': self.p__old_user, # Anonymous Client ID.
+                'cid': self.old_user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Маленький Светлячок"', # App name.
                 'av' : 'Мод: "Маленький Светлячок" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
-                'ul' : '%s' % p__lang,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
+                'ul' : '%s' % lang,
                 'sc' : 'end'
             })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
-            self.p__analytics_started = False
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
+            self.analytics_started = False
 
 class Assist(object):
     def __init__(self):
@@ -308,55 +281,25 @@ class Assist(object):
                 if self.check_macros('{full}'):
                     self.format_str['full'] += '%s[%s]' % (icon, target_info) if target_info else icon
             msg = _config.i18n[TEXT_LIST[assist_type]].format(**self.format_str)
-            if '0.9.15.0' in CURR_CLIENT:
-                res = '<font color="%s">%s</font>' % (COLOR[_config.data[COLOR_MESSAGES[assist_type]]], msg)
-                g_appLoader.getDefBattleApp().call('battle.PlayerMessagesPanel.ShowMessage', [msg + random.choice(string.ascii_letters), '%s' % res.decode('utf-8-sig'), 'gold'])
-                return
-            mod_mods_gui.showMessage(msg, COLOR[_config.data[COLOR_MESSAGES[assist_type]]])
-
-# deformed functions:
-def hook_update_all(*args):
-    hooked_update_all(*args)
-    try:
-        p__stat.p__start()
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_update_all', e)
-            traceback.print_exc()
-
-def hook_fini():
-    try:
-        p__stat.p__end()
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_fini', e)
-            traceback.print_exc()
-    hooked_fini()
-
-def hook_on_battle_event(self, event_type, details):
-    try:
-        if _config.data['enabled']:
-            if _config.data['sound']: assist.sound(event_type)
-            assist.post_message(event_type, details)
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_on_battle_event', e)
-            traceback.print_exc()
-    return hooked_on_battle_event(self, event_type, details)
+            inject.message(msg, COLOR[_config.data[COLOR_MESSAGES[assist_type]]])
 
 #start mod
-p__stat = Statistics()
+stat = Statistics()
 _config = _Config()
 assist = Assist()
-_config.load()
 
-#hooked
-# noinspection PyProtectedMember
-hooked_update_all = LobbyView._populate
-hooked_on_battle_event = PlayerAvatar.onBattleEvent
-hooked_fini = game.fini
+@inject.log
+def init():
+    _config.load()
 
-#hook
-LobbyView._populate = hook_update_all
-game.fini = hook_fini
-PlayerAvatar.onBattleEvent = hook_on_battle_event
+@inject.log
+def fini():
+    stat.end()
+
+@inject.hook(PlayerAvatar, 'onBattleEvent')
+def hook_PlayerAvatarVehicleOnEnterWorld(func, *args):
+    if _config.data['enabled']:
+        self, event_type, details = args
+        if _config.data['sound']: assist.sound(event_type)
+        assist.post_message(event_type, details)
+    return func(*args)
