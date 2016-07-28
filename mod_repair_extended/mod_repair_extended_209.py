@@ -10,7 +10,6 @@ import BattleReplay
 import Keys as Keys
 import SoundGroups
 from Avatar import PlayerAvatar
-from b4it_core import inject as inject
 from constants import AUTH_REALM
 from constants import DAMAGE_INFO_CODES
 from gui import InputHandler
