@@ -8,6 +8,8 @@ from gui.Scaleform.daapi.view.lobby.hangar.AmmunitionPanel import AmmunitionPane
 from gui.shared import g_itemsCache
 from gui.shared.utils.requesters import REQ_CRITERIA
 from gui.shared.gui_items import GUI_ITEM_TYPE_INDICES
+from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
+from Avatar import PlayerAvatar
 
 class AutoEquip(object):
     def __init__(self):
@@ -75,8 +77,26 @@ class AutoEquip(object):
             pass
         return invCount
 
+    def recreateXML(self):
+        player = BigWorld.player()
+        if hasattr(player, 'databaseID'):
+            player_id = player.databaseID
+        else:
+            player_id = player.arena.vehicles[player.playerVehicleID]['accountDBID']
+        self.g_xmlSetting = ResMgr.openSection('../res_mods/configs/repair_extended/repair_extended_AutoEquip_%s.xml' % player_id, True)
+        if not self.g_xmlSetting:
+            self.g_xmlSetting.save()
+
 auto_equip = AutoEquip()
 auto_equip.vehicleCheckCallback()
+
+def hookPopulate(*args):
+    hookedPopulate(*args)
+    auto_equip.recreateXML()
+
+def hookStartGUI(*args):
+    hookedStartGUI(*args)
+    auto_equip.recreateXML()
 
 def hook_setVehicleModule(self, newId, slotIdx, oldId, isRemove):
     hooked_setVehicleModule(self, newId, slotIdx, oldId, isRemove)
@@ -84,5 +104,13 @@ def hook_setVehicleModule(self, newId, slotIdx, oldId, isRemove):
 
 hooked_setVehicleModule = AmmunitionPanel.setVehicleModule
 AmmunitionPanel.setVehicleModule = hook_setVehicleModule
+
+# noinspection PyProtectedMember
+hookedPopulate = LobbyView._populate
+LobbyView._populate = hookPopulate
+
+# noinspection PyProtectedMember
+hookedStartGUI = PlayerAvatar._PlayerAvatar__startGUI
+PlayerAvatar._PlayerAvatar__startGUI = hookStartGUI
 
 print '[LOAD_MOD]:  [AutoEquip v1.05(28.07.2016), by Skino88, spoter]'
