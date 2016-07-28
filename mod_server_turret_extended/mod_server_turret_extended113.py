@@ -219,7 +219,7 @@ def hookVehicleGunRotatorSetShotPosition(func, *args):
             pass
     return func(*args)
 
-@inject.hook(Minimap.Minimap, 'start')
-def hookMinimapStart(func, *args):
+@inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
+def hookStartGUI(func, *args):
     func(*args)
     support.start_battle()
