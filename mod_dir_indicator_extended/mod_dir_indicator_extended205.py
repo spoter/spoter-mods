@@ -2,54 +2,24 @@
 import threading
 import urllib
 import urllib2
-import traceback
 
 import BigWorld
 import Math
-import game
 
 from Avatar import PlayerAvatar
 from constants import AUTH_REALM
+# noinspection PyProtectedMember
+from gui.Scaleform.daapi.view.battle.shared.indicators import _DirectionIndicator, _DIRECT_INDICATOR_SWF
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
 from gui.battle_control import g_sessionProvider
-from helpers import getClientVersion
+from gui.mods.mod_mods_gui import g_gui, inject
 from helpers import getLanguageCode
-
-CURR_CLIENT = getClientVersion()
-
-if '0.9.15.0' in CURR_CLIENT:
-    # noinspection PyUnresolvedReferences,PyProtectedMember
-    from gui.scaleform.daapi.view.battle.indicators import _DirectionIndicatorMessage, _DIRECT_INDICATOR_SWF
-else:
-    # noinspection PyProtectedMember
-    from gui.Scaleform.daapi.view.battle.shared.indicators import _DirectionIndicatorMessage, _DIRECT_INDICATOR_SWF
-
-SHOW_DEBUG = True
-mod_mods_gui = None
-try:
-    from gui.mods import mod_mods_gui
-except StandardError:
-    traceback.print_exc()
-
-
-def log(*args):
-    if SHOW_DEBUG:
-        msg = 'DEBUG[%s]: ' % _config.ids
-        length = len(args)
-        for text in args:
-            length -= 1
-            if length:
-                msg += '%s, ' % text
-            else:
-                msg += '%s' % text
-        print msg
-
 
 class _Config(object):
     def __init__(self):
         self.ids = 'dir_indicator_extended'
-        self.version = '2.04 (07.07.2016)'
-        self.version_id = 204
+        self.version = '2.05 (28.07.2016)'
+        self.version_id = 205
         self.author = 'by spoter, Thx to Lp()rtii'
         self.data = {
             'version'                          : self.version_id,
@@ -209,73 +179,71 @@ class _Config(object):
         }
 
     def apply(self, settings):
-        self.data = mod_mods_gui.g_gui.update_data(self.ids, settings)
-        mod_mods_gui.g_gui.update(self.ids, self.template)
+        self.data = g_gui.update_data(self.ids, settings)
+        g_gui.update(self.ids, self.template)
 
     def load(self):
         self.do_config()
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
 
     def do_config(self):
-        if mod_mods_gui:
-            self.data, self.i18n = mod_mods_gui.g_gui.register_data(self.ids, self.data, self.i18n)
-            mod_mods_gui.g_gui.register(self.ids, self.template, self.data, self.apply)
-            return
-        BigWorld.callback(1.0, self.do_config)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        g_gui.register(self.ids, self.template, self.data, self.apply)
 
 
 class Statistics(object):
     def __init__(self):
-        self.p__analytics_started = False
-        self.p__thread_analytics = None
-        self.p__user = None
-        self.p__old_user = None
+        self.analytics_started = False
+        self.thread_analytics = None
+        self.user = None
+        self.old_user = None
 
-    def p__analytics_start(self):
-        if not self.p__analytics_started:
-            p__lang = str(getLanguageCode()).upper()
-            p__param = urllib.urlencode({
+    @inject.log
+    def analytics_start(self):
+        if not self.analytics_started:
+            lang = str(getLanguageCode()).upper()
+            param = urllib.urlencode({
                 'v'  : 1, # Version.
                 'tid': 'UA-57975916-14',
-                'cid': self.p__user, # Anonymous Client ID.
+                'cid': self.user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Тылы"', # App name.
                 'av' : 'Мод: "Тылы" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
-                'ul' : '%s' % p__lang,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
+                'ul' : '%s' % lang,
                 'sc' : 'start'
             })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
-            self.p__analytics_started = True
-            self.p__old_user = BigWorld.player().databaseID
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
+            self.analytics_started = True
+            self.old_user = BigWorld.player().databaseID
 
-    def p__start(self):
-        p__player = BigWorld.player()
-        if self.p__user and self.p__user != p__player.databaseID:
-            self.p__old_user = p__player.databaseID
-            self.p__thread_analytics = threading.Thread(target=self.p__end, name='Thread')
-            self.p__thread_analytics.start()
-        self.p__user = p__player.databaseID
-        self.p__thread_analytics = threading.Thread(target=self.p__analytics_start, name='Thread')
-        self.p__thread_analytics.start()
+    def start(self):
+        player = BigWorld.player()
+        if self.user and self.user != player.databaseID:
+            self.old_user = player.databaseID
+            self.thread_analytics = threading.Thread(target=self.end, name='Thread')
+            self.thread_analytics.start()
+        self.user = player.databaseID
+        self.thread_analytics = threading.Thread(target=self.analytics_start, name='Thread')
+        self.thread_analytics.start()
 
-    def p__end(self):
-        if self.p__analytics_started:
-            p__lang = str(getLanguageCode()).upper()
-            p__param = urllib.urlencode({
+    @inject.log
+    def end(self):
+        if self.analytics_started:
+            lang = str(getLanguageCode()).upper()
+            param = urllib.urlencode({
                 'v'  : 1, # Version.
                 'tid': 'UA-57975916-14',
-                'cid': self.p__old_user, # Anonymous Client ID.
+                'cid': self.old_user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Тылы"', # App name.
                 'av' : 'Мод: "Тылы" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
-                'ul' : '%s' % p__lang,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
+                'ul' : '%s' % lang,
                 'sc' : 'end'
             })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
-            self.p__analytics_started = False
-
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
+            self.analytics_started = False
 
 class DirIndication(object):
     def __init__(self):
@@ -304,13 +272,15 @@ class DirIndication(object):
             self.clear_vars()
 
     def init_vehicle(self, vehicle_id):
-        if self.get_is_live(vehicle_id):
-            self.check_visible(vehicle_id)
-            if not self.get_is_friendly(vehicle_id) and vehicle_id not in self.enemies_list:
-                self.enemies_list[vehicle_id] = {
-                    'dir_indicator': _DirectionIndicatorMessage(_DIRECT_INDICATOR_SWF),
-                    'distance'     : 10000
-                }
+        if _config.data['enabled']:
+            if self.get_is_live(vehicle_id):
+                self.check_visible(vehicle_id)
+                if not self.get_is_friendly(vehicle_id) and vehicle_id not in self.enemies_list:
+                    self.enemies_list[vehicle_id] = {
+                        'dir_indicator': _DirectionIndicator(_DIRECT_INDICATOR_SWF),
+                        'distance'     : 10000
+                    }
+                    self.enemies_list[vehicle_id]['dir_indicator']._dObject.distance.x = -105
 
     def fin_vehicle(self, vehicle_id):
         if vehicle_id in self.enemies_list:
@@ -336,20 +306,17 @@ class DirIndication(object):
     def enable_indicator(self, vehicle_id, checkpoint):
         if vehicle_id in self.enemies_list:
             if 'dir_indicator' in self.enemies_list[vehicle_id]:
-                self.enemies_list[vehicle_id]['dir_indicator'].track(checkpoint)
-                if _config.data['distance_indicator']:
-                    self.enemies_list[vehicle_id]['dir_indicator'].setDistance(self.enemies_list[vehicle_id]['distance'])
-                if _config.data['tank_name_indicator']:
-                    target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vehicle_id)
-                    # noinspection PyProtectedMember
-                    if self.enemies_list[vehicle_id]['dir_indicator']._dObject and target_info and target_info[4]:
-                        # noinspection PyProtectedMember
-                        if '0.9.15.0' in CURR_CLIENT:
-                            # noinspection PyProtectedMember
-                            self.enemies_list[vehicle_id]['dir_indicator']._dObject.setVName(target_info[4])
-                        else:
-                            # noinspection PyProtectedMember
-                            self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(target_info[4])
+                # noinspection PyProtectedMember
+                if self.enemies_list[vehicle_id]['dir_indicator']._dObject:
+                    self.enemies_list[vehicle_id]['dir_indicator'].track(checkpoint)
+                    msg = ''
+                    if _config.data['distance_indicator']:
+                        msg += '%sm. ' %self.enemies_list[vehicle_id]['distance']
+                    if _config.data['tank_name_indicator']:
+                        target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vehicle_id)
+                        if target_info and target_info[4]:
+                            msg += '%s' %target_info[4]
+                    self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(msg)
 
     def on_vehicle_killed(self, target_id, attacker_id, equipment_id, reason):
         _, _, _ = attacker_id, reason, equipment_id
@@ -392,7 +359,7 @@ class DirIndication(object):
             if self.get_is_on_arena(vehicle_id) and self.get_is_live(vehicle_id):
                 visible, observe, checkpoint = self.check_visible(vehicle_id)
                 if observe and checkpoint:
-                    self.enemies_list[vehicle_id]['distance'] = (observe - checkpoint).length
+                    self.enemies_list[vehicle_id]['distance'] = int((observe - checkpoint).length)
                     if visible:
                         if _config.data['tertiary_indication']:
                             if self.enemies_list[vehicle_id]['distance'] < _config.data['max_distance_tertiary_indication']:
@@ -441,86 +408,44 @@ class DirIndication(object):
         return self.get_battle_on() and player.arena.vehicles[player.playerVehicleID]['team'] == player.arena.vehicles[vehicle_id]['team']
 
 
-# deformed functions:
-def hook_update_all(*args):
-    hooked_update_all(*args)
-    try:
-        p__stat.p__start()
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_update_all', e)
-            traceback.print_exc()
-
-
-def hook_fini():
-    try:
-        p__stat.p__end()
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_fini', e)
-            traceback.print_exc()
-    hooked_fini()
-
-
-def hook_vehicle_on_enter_world(self, vehicle):
-    hooked_vehicle_on_enter_world(self, vehicle)
-    try:
-        if _config.data['enabled']:
-            dir_ind.init_vehicle(vehicle.id)
-    except Exception as e:
-        log('hook_vehicle_on_enter_world', e)
-        traceback.print_exc()
-
-
-def hook_vehicle_on_leave_world(self, vehicle):
-    hooked_vehicle_on_leave_world(self, vehicle)
-    try:
-        if _config.data['enabled']:
-            dir_ind.fin_vehicle(vehicle.id)
-    except Exception as e:
-        log('hook_vehicle_on_leave_world', e)
-        traceback.print_exc()
-
-
-def hook_start_battle(self):
-    hooked_start_battle(self)
-    try:
-        dir_ind.start_battle()
-    except Exception as e:
-        log('hook_start_battle', e)
-        traceback.print_exc()
-
-
-def hook_stop_battle(self):
-    hooked_stop_battle(self)
-    try:
-        dir_ind.stop_battle()
-    except Exception as e:
-        log('hook_stop_battle', e)
-        traceback.print_exc()
-
-
 #start mod
-p__stat = Statistics()
 _config = _Config()
+stat = Statistics()
 dir_ind = DirIndication()
-_config.load()
 
-#hooked
-# noinspection PyProtectedMember
-hooked_update_all = LobbyView._populate
-hooked_fini = game.fini
-hooked_vehicle_on_enter_world = PlayerAvatar.vehicle_onEnterWorld
-hooked_vehicle_on_leave_world = PlayerAvatar.vehicle_onLeaveWorld
-# noinspection PyProtectedMember
-hooked_start_battle = PlayerAvatar._PlayerAvatar__startGUI
-# noinspection PyProtectedMember
-hooked_stop_battle = PlayerAvatar._PlayerAvatar__destroyGUI
+@inject.log
+def init():
+    _config.load()
 
-#hook
-LobbyView._populate = hook_update_all
-game.fini = hook_fini
-PlayerAvatar.vehicle_onEnterWorld = hook_vehicle_on_enter_world
-PlayerAvatar.vehicle_onLeaveWorld = hook_vehicle_on_leave_world
-PlayerAvatar._PlayerAvatar__startGUI = hook_start_battle
-PlayerAvatar._PlayerAvatar__destroyGUI = hook_stop_battle
+@inject.log
+def fini():
+    stat.end()
+
+@inject.hook(LobbyView, '_populate')
+def hookLobbyViewPopulate(func, *args):
+    func(*args)
+    stat.start()
+
+@inject.hook(PlayerAvatar, 'vehicle_onEnterWorld')
+def hook_PlayerAvatarVehicleOnEnterWorld(func, *args):
+    func(*args)
+    _, vehicle = args
+    dir_ind.init_vehicle(vehicle.id)
+
+
+@inject.hook(PlayerAvatar, 'vehicle_onLeaveWorld')
+def hook_PlayerAvatarVehicleOnLeaveWorld(func, *args):
+    func(*args)
+    _, vehicle = args
+    dir_ind.fin_vehicle(vehicle.id)
+
+
+@inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
+def hook_PlayerAvatarStartGUI(func, *args):
+    func(*args)
+    dir_ind.start_battle()
+
+@inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
+def hook_PlayerAvatarDestroyGUI(func, *args):
+    func(*args)
+    dir_ind.stop_battle()
