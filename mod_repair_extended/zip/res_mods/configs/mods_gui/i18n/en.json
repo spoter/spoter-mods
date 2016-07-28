@@ -7,5 +7,6 @@
     "gui_main_text": "Modifications list",
     "gui_main_tooltip": "Modifications list: comfortable run, setup and alert.",
     "gui_name": "Mods settings",
-    "gui_windowTitle": "Mods settings"
+    "gui_windowTitle": "Mods settings",
+    "version": 113
 }

@@ -5,17 +5,13 @@ import ResMgr
 
 from CurrentVehicle import g_currentVehicle
 from gui.Scaleform.daapi.view.lobby.hangar.AmmunitionPanel import AmmunitionPanel
-from gui.shared import g_itemsCache, REQ_CRITERIA
+from gui.shared import g_itemsCache
+from gui.shared.utils.requesters import REQ_CRITERIA
 from gui.shared.gui_items import GUI_ITEM_TYPE_INDICES
-
-description = 'AutoEquip'
-author = 'by Skino88, spoter'
-version = 'v1.04(26.11.2015)'
-
 
 class AutoEquip(object):
     def __init__(self):
-        self.g_xmlSetting = ResMgr.openSection('../res_mods/configs/spoter_mods/repair_extended/repair_extended_AutoEquip.xml', True)
+        self.g_xmlSetting = ResMgr.openSection('../res_mods/configs/repair_extended/repair_extended_AutoEquip.xml', True)
         if not self.g_xmlSetting:
             self.g_xmlSetting.save()
         self.g_prevVehicle = None
@@ -79,20 +75,14 @@ class AutoEquip(object):
             pass
         return invCount
 
-
 auto_equip = AutoEquip()
 auto_equip.vehicleCheckCallback()
-
 
 def hook_setVehicleModule(self, newId, slotIdx, oldId, isRemove):
     hooked_setVehicleModule(self, newId, slotIdx, oldId, isRemove)
     auto_equip.saveDeviceOnVehicle(g_currentVehicle.item, newId, slotIdx, isRemove)
 
-
 hooked_setVehicleModule = AmmunitionPanel.setVehicleModule
 AmmunitionPanel.setVehicleModule = hook_setVehicleModule
 
-print ''
-print '[LOAD_MOD]:  [' + str(description) + ' ' + str(author) + ']'
-print '[INFO]:      [' + str(description) + ' ' + str(version) + ' initialized ...]'
-print ''
+print '[LOAD_MOD]:  [AutoEquip v1.05(28.07.2016), by Skino88, spoter]'

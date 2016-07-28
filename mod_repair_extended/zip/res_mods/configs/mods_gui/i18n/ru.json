@@ -1,0 +1,12 @@
+﻿{
+    "gui_buttonApply": "Apply",
+    "gui_buttonCancel": "Cancel",
+    "gui_buttonOK": "Ok",
+    "gui_description": "Enable | Disable mods and configure settings",
+    "gui_enableButtonTooltip": "{HEADER}Mods settings{/HEADER}{BODY}Enable|Disable mods and configure settings{/BODY}",
+    "gui_main_text": "Modifications list",
+    "gui_main_tooltip": "Modifications list: comfortable run, setup and alert.",
+    "gui_name": "Mods settings",
+    "gui_windowTitle": "Mods settings",
+    "version": 113
+}
