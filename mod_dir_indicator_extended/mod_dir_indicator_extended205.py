@@ -190,7 +190,6 @@ class _Config(object):
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
 
-
 class Statistics(object):
     def __init__(self):
         self.analytics_started = False
@@ -280,6 +279,7 @@ class DirIndication(object):
                         'dir_indicator': _DirectionIndicator(_DIRECT_INDICATOR_SWF),
                         'distance'     : 10000
                     }
+                    # noinspection PyProtectedMember
                     self.enemies_list[vehicle_id]['dir_indicator']._dObject.distance.x = -105
 
     def fin_vehicle(self, vehicle_id):
@@ -311,11 +311,12 @@ class DirIndication(object):
                     self.enemies_list[vehicle_id]['dir_indicator'].track(checkpoint)
                     msg = ''
                     if _config.data['distance_indicator']:
-                        msg += '%sm. ' %self.enemies_list[vehicle_id]['distance']
+                        msg += '%sm. ' % self.enemies_list[vehicle_id]['distance']
                     if _config.data['tank_name_indicator']:
                         target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vehicle_id)
                         if target_info and target_info[4]:
-                            msg += '%s' %target_info[4]
+                            msg += '%s' % target_info[4]
+                    # noinspection PyProtectedMember
                     self.enemies_list[vehicle_id]['dir_indicator']._dObject.setMessage(msg)
 
     def on_vehicle_killed(self, target_id, attacker_id, equipment_id, reason):
@@ -407,7 +408,6 @@ class DirIndication(object):
         player = BigWorld.player()
         return self.get_battle_on() and player.arena.vehicles[player.playerVehicleID]['team'] == player.arena.vehicles[vehicle_id]['team']
 
-
 #start mod
 _config = _Config()
 stat = Statistics()
@@ -432,13 +432,11 @@ def hook_PlayerAvatarVehicleOnEnterWorld(func, *args):
     _, vehicle = args
     dir_ind.init_vehicle(vehicle.id)
 
-
 @inject.hook(PlayerAvatar, 'vehicle_onLeaveWorld')
 def hook_PlayerAvatarVehicleOnLeaveWorld(func, *args):
     func(*args)
     _, vehicle = args
     dir_ind.fin_vehicle(vehicle.id)
-
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
 def hook_PlayerAvatarStartGUI(func, *args):
