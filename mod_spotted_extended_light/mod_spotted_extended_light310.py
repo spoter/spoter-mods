@@ -232,14 +232,8 @@ class Statistics(object):
 
 class Assist(object):
     def __init__(self):
-        self.format_str = {
-            'icons'         : '',
-            'names'         : '',
-            'vehicles'      : '',
-            'icons_names'   : '',
-            'icons_vehicles': '',
-            'full'          : ''
-        }
+        self.format_str = {}
+        self.format_recreate()
 
     @staticmethod
     def check_macros(macros):
