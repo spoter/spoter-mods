@@ -11,6 +11,7 @@ from constants import AUTH_REALM
 from gui.battle_control import g_sessionProvider
 from gui.mods.mod_mods_gui import g_gui, inject
 from helpers import getLanguageCode
+from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
 
 SOUND_LIST = ['soundSpotted', 'soundRadioHitAssist', 'soundRadioKillAssist', 'soundTrackAssist']
 TEXT_LIST = ['UI_message_Spotted_text', 'UI_message_RadioHitAssist_text', 'UI_message_RadioKillAssist_text', 'UI_message_TrackAssist_text']
@@ -289,6 +290,12 @@ def init():
 @inject.log
 def fini():
     stat.end()
+
+@inject.hook(LobbyView, '_populate')
+def hookLobbyViewPopulate(func, *args):
+    func(*args)
+    stat.start()
+
 
 @inject.hook(PlayerAvatar, 'onBattleEvent')
 def hook_PlayerAvatarVehicleOnEnterWorld(func, *args):
