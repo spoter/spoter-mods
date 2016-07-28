@@ -1,8 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-import random
-import string
 import threading
-import traceback
 import urllib
 import urllib2
 
@@ -10,42 +7,20 @@ import BigWorld
 
 import CommandMapping
 import VehicleGunRotator
-import game
 from Avatar import PlayerAvatar
 from constants import AUTH_REALM
 from constants import SERVER_TICK_LENGTH
 from gui.Scaleform import Minimap
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
-from gui.app_loader import g_appLoader
+from gui.mods.mod_mods_gui import g_gui, inject
 from gun_rotation_shared import decodeGunAngles
 from helpers import getLanguageCode
-
-SHOW_DEBUG = False
-mod_mods_gui = None
-try:
-    from gui.mods import mod_mods_gui
-except StandardError:
-    traceback.print_exc()
-
-
-def log(*args):
-    if SHOW_DEBUG:
-        msg = 'DEBUG[%s]: ' % _config.ids
-        length = len(args)
-        for text in args:
-            length -= 1
-            if length:
-                msg += '%s, ' % text
-            else:
-                msg += '%s' % text
-        print msg
-
 
 class _Config(object):
     def __init__(self):
         self.ids = 'server_turret_extended'
-        self.version = '1.12 (07.07.2016)'
-        self.version_id = 112
+        self.version = '1.13 (28.07.2016)'
+        self.version_id = 113
         self.author = 'by spoter, reven86'
         self.data = {
             'version'             : self.version_id,
@@ -94,80 +69,77 @@ class _Config(object):
         }
 
     def apply(self, settings):
-        self.data = mod_mods_gui.g_gui.update_data(self.ids, settings)
-        mod_mods_gui.g_gui.update(self.ids, self.template)
+        self.data = g_gui.update_data(self.ids, settings)
+        g_gui.update(self.ids, self.template)
 
     def load(self):
         self.do_config()
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
 
+    @inject.log
     def do_config(self):
-        if mod_mods_gui:
-            self.data, self.i18n = mod_mods_gui.g_gui.register_data(self.ids, self.data, self.i18n)
-            mod_mods_gui.g_gui.register(self.ids, self.template, self.data, self.apply)
-            return
-        BigWorld.callback(1.0, self.do_config)
-
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        g_gui.register(self.ids, self.template, self.data, self.apply)
 
 class Statistics(object):
     def __init__(self):
-        self.p__analytics_started = False
-        self.p__thread_analytics = None
-        self.p__user = None
-        self.p__old_user = None
+        self.analytics_started = False
+        self.thread_analytics = None
+        self.user = None
+        self.old_user = None
 
-    def p__analytics_start(self):
-        if not self.p__analytics_started:
-            p__lang = str(getLanguageCode()).upper()
-            p__param = urllib.urlencode({
+    @inject.log
+    def analytics_start(self):
+        if not self.analytics_started:
+            lang = str(getLanguageCode()).upper()
+            param = urllib.urlencode({
                 'v'  : 1, # Version.
                 'tid': 'UA-57975916-13',
-                'cid': self.p__user, # Anonymous Client ID.
+                'cid': self.user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Стволик Хаоса"', # App name.
                 'av' : 'Мод: "Стволик Хаоса" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
-                'ul' : '%s' % p__lang,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
+                'ul' : '%s' % lang,
                 'sc' : 'start'
             })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
-            self.p__analytics_started = True
-            self.p__old_user = BigWorld.player().databaseID
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
+            self.analytics_started = True
+            self.old_user = BigWorld.player().databaseID
 
-    def p__start(self):
-        p__player = BigWorld.player()
-        if self.p__user and self.p__user != p__player.databaseID:
-            self.p__old_user = p__player.databaseID
-            self.p__thread_analytics = threading.Thread(target=self.p__end, name='Thread')
-            self.p__thread_analytics.start()
-        self.p__user = p__player.databaseID
-        self.p__thread_analytics = threading.Thread(target=self.p__analytics_start, name='Thread')
-        self.p__thread_analytics.start()
+    def start(self):
+        player = BigWorld.player()
+        if self.user and self.user != player.databaseID:
+            self.old_user = player.databaseID
+            self.thread_analytics = threading.Thread(target=self.end, name='Thread')
+            self.thread_analytics.start()
+        self.user = player.databaseID
+        self.thread_analytics = threading.Thread(target=self.analytics_start, name='Thread')
+        self.thread_analytics.start()
 
-    def p__end(self):
-        if self.p__analytics_started:
-            p__lang = str(getLanguageCode()).upper()
-            p__param = urllib.urlencode({
+    @inject.log
+    def end(self):
+        if self.analytics_started:
+            lang = str(getLanguageCode()).upper()
+            param = urllib.urlencode({
                 'v'  : 1, # Version.
                 'tid': 'UA-57975916-13',
-                'cid': self.p__old_user, # Anonymous Client ID.
+                'cid': self.old_user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Стволик Хаоса"', # App name.
                 'av' : 'Мод: "Стволик Хаоса" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, p__lang), # Screen name / content description.
-                'ul' : '%s' % p__lang,
+                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
+                'ul' : '%s' % lang,
                 'sc' : 'end'
             })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=p__param).read()
-            self.p__analytics_started = False
-
+            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
+            self.analytics_started = False
 
 class MovementControl(object):
     @staticmethod
     def move_pressed(avatar, is_down, key):
         if CommandMapping.g_instance.isFiredList((CommandMapping.CMD_MOVE_FORWARD, CommandMapping.CMD_MOVE_FORWARD_SPEC, CommandMapping.CMD_MOVE_BACKWARD, CommandMapping.CMD_ROTATE_LEFT, CommandMapping.CMD_ROTATE_RIGHT), key):
             avatar.moveVehicle(0, is_down)
-
 
 class GunRotatorMod:
     def __init__(self):
@@ -180,7 +152,7 @@ class GunRotatorMod:
 
     # noinspection PyProtectedMember
     def calc_marker_pos(self, gun_rotator, shot_pos, shot_vector):
-        marker_pos, marker_direction, marker_size, ideal_marker_size, coll_data = gun_rotator._VehicleGunRotator__getGunMarkerPosition(shot_pos, shot_vector, gun_rotator._VehicleGunRotator__dispersionAngle)
+        marker_pos, marker_direction, marker_size, ideal_marker_size, coll_data = gun_rotator._VehicleGunRotator__getGunMarkerPosition(shot_pos, shot_vector, gun_rotator._VehicleGunRotator__dispersionAngles)
         gun_rotator._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(marker_pos, marker_direction, (marker_size, ideal_marker_size), SERVER_TICK_LENGTH, coll_data)
         gun_rotator._VehicleGunRotator__lastShotPoint = marker_pos
         gun_rotator._VehicleGunRotator__avatar.inputHandler.updateGunMarker(marker_pos, marker_direction, (marker_size, ideal_marker_size), SERVER_TICK_LENGTH, coll_data)
@@ -200,79 +172,54 @@ class GunRotatorMod:
 class Support(object):
     @staticmethod
     def message():
-        app = g_appLoader.getDefBattleApp()
-        if app is not None:
-            app.call('battle.PlayerMessagesPanel.ShowMessage', [_config.i18n['UI_battle_activate_message'] + random.choice(string.ascii_letters), _config.i18n['UI_battle_activate_message'].decode('utf-8-sig'), 'gold'])
+        inject.message(_config.i18n['UI_battle_activate_message'])
 
     def start_battle(self):
-        if not _config.data['enabled']: return
-        if _config.data['activate_message']:
+        if _config.data['enabled'] and _config.data['activate_message']:
             BigWorld.callback(5.0, self.message)
 
-
-# deformed functions:
-def hook_update_all(*args):
-    hooked_update_all(*args)
-    try:
-        p__stat.p__start()
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_update_all', e)
-            traceback.print_exc()
-
-
-def hook_fini():
-    try:
-        p__stat.p__end()
-    except Exception as e:
-        if SHOW_DEBUG:
-            log('hook_fini', e)
-            traceback.print_exc()
-    hooked_fini()
-
-
-def hook_handle_key(self, is_down, key, mods):
-    if _config.data['enabled'] and _config.data['fix_accuracy_in_move']:
-        movement_control.move_pressed(self, is_down, key)
-    return hooked_handleKey(self, is_down, key, mods)
-
-
-def hook_set_shot_position(self, shot_pos, shot_vector, dispersion_angle):
-    if _config.data['enabled'] and _config.data['server_turret'] and 'strategic' not in BigWorld.player().inputHandler.aim.mode:
-        try:
-            self._VehicleGunRotator__dispersionAngle[0] = dispersion_angle
-            gunRotatorMod.blockGunRotator = self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker
-            if gunRotatorMod.blockGunRotator:
-                return gunRotatorMod.calc_marker_pos(self, shot_pos, shot_vector)
-        except StandardError:
-            return hooked_setShotPosition(self, shot_pos, shot_vector, dispersion_angle)
-    return hooked_setShotPosition(self, shot_pos, shot_vector, dispersion_angle)
-
-
-def hook_minimap_start(self):
-    hooked_Minimap_start(self)
-    support.start_battle()
-
-
 #start mod
+
 _config = _Config()
-_config.load()
-p__stat = Statistics()
+stat = Statistics()
 gunRotatorMod = GunRotatorMod()
 movement_control = MovementControl()
 support = Support()
 
-#hooked
-# noinspection PyProtectedMember
-hooked_update_all = LobbyView._populate
-hooked_fini = game.fini
-hooked_handleKey = PlayerAvatar.handleKey
-hooked_setShotPosition = VehicleGunRotator.VehicleGunRotator.setShotPosition
-hooked_Minimap_start = Minimap.Minimap.start
+@inject.log
+def init():
+    _config.load()
 
-#hook
-LobbyView._populate = hook_update_all
-game.fini = hook_fini
-PlayerAvatar.handleKey = hook_handle_key
-VehicleGunRotator.VehicleGunRotator.setShotPosition = hook_set_shot_position
-Minimap.Minimap.start = hook_minimap_start
+@inject.log
+def fini():
+    stat.end()
+
+@inject.hook(LobbyView, '_populate')
+def hookLobbyViewPopulate(func, *args):
+    func(*args)
+    stat.start()
+
+@inject.hook(PlayerAvatar, 'handleKey')
+def hookPlayerAvatarHandleKey(func, *args):
+    if _config.data['enabled'] and _config.data['fix_accuracy_in_move']:
+        self, is_down, key, mods = args
+        movement_control.move_pressed(self, is_down, key)
+    return func(*args)
+
+@inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
+def hookVehicleGunRotatorSetShotPosition(func, *args):
+    if _config.data['enabled'] and _config.data['server_turret'] and not BigWorld.player().inputHandler.isSPG:
+        try:
+            self, shot_pos, shot_vector, dispersion_angle = args
+            self._VehicleGunRotator__dispersionAngles[0] = dispersion_angle
+            gunRotatorMod.blockGunRotator = self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker
+            if gunRotatorMod.blockGunRotator:
+                return gunRotatorMod.calc_marker_pos(self, shot_pos, shot_vector)
+        except StandardError:
+            pass
+    return func(*args)
+
+@inject.hook(Minimap.Minimap, 'start')
+def hookMinimapStart(func, *args):
+    func(*args)
+    support.start_battle()
