@@ -32,6 +32,12 @@ class Config(object):
         self.data = {
             'version'               : self.version_id,
             'enabled'               : True,
+            'auto_repair'           : False,
+            'auto_heal'             : False,
+            'auto_extinguish'       : False,
+            'fire_time'             : 0.3,
+            'crew_time'             : 0.8,
+            'device_time'           : 0.7,
             'use_gold_med_kit'      : True,
             'use_gold_repair_kit'   : True,
             'chassis_auto_repair'   : False,
@@ -108,6 +114,24 @@ class Config(object):
                 'varName'     : 'button_chassis_repair'
             }, {
                 'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_auto_repair_text'],
+                'value'  : self.data['auto_repair'],
+                'tooltip': self.i18n['UI_repair_auto_repair_tooltip'],
+                'varName': 'auto_repair'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_auto_heal_text'],
+                'value'  : self.data['auto_heal'],
+                'tooltip': self.i18n['UI_repair_auto_heal_tooltip'],
+                'varName': 'auto_heal'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_auto_extinguish_text'],
+                'value'  : self.data['auto_extinguish'],
+                'tooltip': self.i18n['UI_repair_auto_extinguish_tooltip'],
+                'varName': 'auto_extinguish'
+            }, {
+                'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_repair_chassis_auto_repair_text'],
                 'value'  : self.data['chassis_auto_repair'],
                 'tooltip': self.i18n['UI_repair_chassis_auto_repair_tooltip'],
@@ -125,6 +149,33 @@ class Config(object):
                 'value'  : self.data['use_gold_repair_kit'],
                 'tooltip': self.i18n['UI_repair_use_gold_repair_kit_tooltip'],
                 'varName': 'use_gold_repair_kit'
+            }, {
+                'type'        : 'Slider',
+                'text'        : self.i18n['UI_repair_device_time_text'],
+                'minimum'     : 500,
+                'maximum'     : 1500,
+                'snapInterval': 100,
+                'value'       : self.data['device_time'],
+                'format'      : '{{value}}%s' % self.i18n['UI_repair_device_time_format'],
+                'varName'     : 'device_time'
+            }, {
+                'type'        : 'Slider',
+                'text'        : self.i18n['UI_repair_crew_time_text'],
+                'minimum'     : 500,
+                'maximum'     : 1500,
+                'snapInterval': 100,
+                'value'       : self.data['crew_time'],
+                'format'      : '{{value}}%s' % self.i18n['UI_repair_crew_time_format'],
+                'varName'     : 'crew_time'
+            }, {
+                'type'        : 'Slider',
+                'text'        : self.i18n['UI_repair_fire_time_text'],
+                'minimum'     : 300,
+                'maximum'     : 1500,
+                'snapInterval': 100,
+                'value'       : self.data['fire_time'],
+                'format'      : '{{value}}%s' % self.i18n['UI_repair_fire_time_format'],
+                'varName'     : 'fire_time'
             }]
         }
 
@@ -204,6 +255,7 @@ class Repair(object):
                 if damage_code in self.v_FireCodes and self.check_item('extinguisher'):
                     if damage_code == 'FIRE_STOPPED' or extra_name == '_None': self.fired = False
                     else: self.fired = True
+                    if config.data['auto_extinguish'] and self.fired: self.auto_fired()
                 if damage_code in self.v_DamageCodes:
                     if extra_name not in self.damaged and extra_name not in ['chassis', 'leftTrack', 'rightTrack']:
                         self.damaged.append(extra_name)
@@ -211,15 +263,27 @@ class Repair(object):
                         self.destroyed.append(extra_name)
                     if damage_code in self.v_RepairedCodes and extra_name in self.destroyed:
                         self.destroyed.remove(extra_name)
+                    if config.data['auto_repair']: self.auto_repair()
             if extra_name in self.crew:
                 if damage_code in self.m_DamageCodes:
                     if extra_name not in self.damaged:
                         self.damaged.append(extra_name)
+                    if config.data['auto_heal']: self.auto_heal()
+
+    def auto_fired(self):
+        if BigWorld.time() - self.time < config.data['fire_time'] * 0.001:
+            BigWorld.callback(0.1, self.auto_fired)
+        else: self.fires()
 
     def fires(self):
         if self.fired and self.check_item('extinguisher'):
             self.use_item(self.int_cd['extinguisher'])
             self.fired = False
+
+    def auto_heal(self):
+        if BigWorld.time() - self.time < config.data['crew_time'] * 0.001:
+            BigWorld.callback(0.1, self.auto_heal)
+        else: self.heal()
 
     @staticmethod
     def check_class(tank_class):
@@ -286,6 +350,11 @@ class Repair(object):
                             for module1 in self.crew:
                                 if module1 in self.damaged: self.damaged.remove(module1)
                             break
+
+    def auto_repair(self):
+        if BigWorld.time() - self.time < config.data['device_time'] * 0.001:
+            BigWorld.callback(0.1, self.auto_repair)
+        else: self.repair()
 
     def repair(self):
         my_tank_class = self.check_class(BigWorld.player().vehicleTypeDescriptor.type.tags)
