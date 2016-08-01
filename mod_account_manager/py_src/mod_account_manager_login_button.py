@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from gui.Scaleform.framework import ViewTypes, ScopeTemplates, g_entitiesFactories, ViewSettings
 from gui.Scaleform.framework.entities.View import View
 from gui.app_loader import g_appLoader

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 import json
 import os
 import time
-from hashlib import md5
 import codecs
-import traceback
+import md5
 
 import BigWorld
 
@@ -78,6 +76,7 @@ def _load_json(name, configOld, path, save=False):
                     jsonFile.close()
             except Exception as e:
                 log('[ERROR]:     %s' % e)
+                import traceback
                 traceback.print_exc()
         else:
             with codecs.open(newPath, 'w', encoding='utf-8-sig') as jsonFile:
@@ -275,7 +274,7 @@ class AccountsManagerSubwindow(AbstractWindowView):
             'cluster' : cluster,
             'email'   : BigWorld.wg_cpdata(email),
             'password': BigWorld.wg_cpdata(password),
-            'id'      : md5.new('id = %s' % time.time()).hexdigest(),
+            'id'      : md5.new('id = %s' % time.time()).hexdigest()
         })
         BigWorld.wh_data.write_accounts()
         BigWorld.wh_data.renew_accounts()
@@ -312,4 +311,4 @@ def init():
     g_entitiesFactories.addSettings(ViewSettings('AccountsManager', AccountsManager, 'AccountsManager/AccountsManager.swf', ViewTypes.WINDOW, None, ScopeTemplates.DEFAULT_SCOPE))
     g_entitiesFactories.addSettings(ViewSettings('AccountsManagerSubwindow', AccountsManagerSubwindow, 'AccountsManager/AccountsManagerWindow.swf', ViewTypes.WINDOW, None, ScopeTemplates.DEFAULT_SCOPE))
 
-print '[LOAD_MOD]:  [account_manager v1.05, by S0me0ne, reworked by ShadowHunterRUS & spoter]'
+print '[LOAD_MOD]:  [account_manager v1.06, by S0me0ne, reworked by ShadowHunterRUS & spoter]'

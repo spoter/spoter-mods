@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="..\release\res_mods\0.9.15\gui\flash\AccountsManager\AccountsManagerLoginButton.swf" />
+    <movie path="..\release\res_mods\0.9.15.1\gui\flash\AccountsManager\AccountsManagerLoginButton.swf" />
     <movie fps="50" />
     <movie width="41" />
     <movie height="41" />
@@ -56,7 +56,7 @@
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <element path="lib\wg.swc" />
+    <element path="lib\wg_lobby.swc" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>

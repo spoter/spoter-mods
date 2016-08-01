@@ -1,204 +1,201 @@
 package
 {
-	import net.wg.infrastructure.base.AbstractWindowView;
-	import net.wg.gui.components.controls.SoundButton;
-	import net.wg.gui.components.controls.TextFieldShort;
-	import net.wg.gui.components.controls.TextInput;
-	import net.wg.gui.components.controls.CheckBox;
-	import net.wg.gui.components.controls.DropdownMenu;
-	import scaleform.clik.events.ButtonEvent;
-	import scaleform.clik.data.DataProvider;
+    import net.wg.infrastructure.base.*;
+    import net.wg.gui.components.controls.*;
+    import scaleform.clik.events.*;
+    import scaleform.clik.data.*;
+    import components.*;
 
-	public class AccountsManagerWindow extends AbstractWindowView 
-	{
-		public var py_log				: Function;
-		public var py_get_clusters		: Function;
-		public var py_getTranslate		: Function;
-		public var py_setAddAccount		: Function;
-		public var py_setEditAccount	: Function;
+    public class AccountsManagerWindow extends AbstractWindowView
+    {
+        public var py_log: Function;
+        public var py_get_clusters: Function;
+        public var py_getTranslate: Function;
+        public var py_setAddAccount: Function;
+        public var py_setEditAccount: Function;
 
-		private var wmode			: String = "add";
-		private var langData		: Object;
-		private var submitBtn		: SoundButton;
-		private var cancelBtn		: SoundButton;
-		private var showPswd		: CheckBox;
-		private var titleLabel		: TextFieldShort;
-		private var emailLabel		: TextFieldShort;
-		private var passwordLabel	: TextFieldShort;
-		private var clusterLabel	: TextFieldShort;
-		private var titleVal		: TextInput;
-		private var loginVal		: TextInput;
-		private var passwordVal		: TextInput;
-		private var clusterVal		: DropdownMenu;
-		private var qweid			: String;
+        private var langData: /*LangObject*/ Object;
 
-		public function AccountsManagerWindow() 
-		{
-			super();
-			this.isModal	= true;
-			this.canClose	= true;
-			this.isCentered	= true;
-		}
+        private var wmode: String = AM_MODES.ADD;
+        private var submitBtn: SoundButton;
+        private var cancelBtn: SoundButton;
+        private var showPswd: CheckBox;
+        private var titleLabel: TextFieldShort;
+        private var emailLabel: TextFieldShort;
+        private var passwordLabel: TextFieldShort;
+        private var clusterLabel: TextFieldShort;
+        private var titleVal: TextInput;
+        private var loginVal: TextInput;
+        private var passwordVal: TextInput;
+        private var clusterVal: DropdownMenu;
+        private var qweid: String;
 
-		private function handleSubmitBtnClick(e : ButtonEvent) : void
-		{
-			if (this.titleVal.text == "") {
-				this.titleVal.highlight = true;
-				return;
-			}
-			if (this.isValidEmail(this.loginVal.text) == false) {
-				this.loginVal.highlight = true;
-				return;
-			}
-			if (this.wmode == "add") {
-				this.py_setAddAccount(this.titleVal.text, this.loginVal.text, this.passwordVal.text, this.clusterVal.selectedIndex);
-			} else if (this.wmode == "edit") {
-				this.py_setEditAccount(this.qweid, this.titleVal.text, this.loginVal.text, this.passwordVal.text, this.clusterVal.selectedIndex);
-			}
-		}
+        public function AccountsManagerWindow()
+        {
+            super();
+            isModal = true;
+            canClose = true;
+            isCentered = true;
+        }
 
-		private function handleCancelBtnClick(e : ButtonEvent) : void
-		{
-			this.onWindowClose();
-		}
+        private function handleSubmitBtnClick(e:ButtonEvent):void
+        {
+            if (titleVal.text == "") {
+                titleVal.highlight = true;
+                return;
+            }
+            if (!isValidEmail(loginVal.text)) {
+                loginVal.highlight = true;
+                return;
+            }
+            if (wmode == AM_MODES.ADD) {
+                py_setAddAccount(titleVal.text, loginVal.text, passwordVal.text, clusterVal.selectedIndex);
+            } else if (wmode == AM_MODES.EDIT) {
+                py_setEditAccount(qweid, titleVal.text, loginVal.text, passwordVal.text, clusterVal.selectedIndex);
+            }
+        }
 
-		private function handleShowPswdClick(e : ButtonEvent) : void
-		{
-			this.passwordVal.displayAsPassword = !this.passwordVal.displayAsPassword;
-		}
+        private function handleCancelBtnClick(e:ButtonEvent):void
+        {
+            onWindowClose();
+        }
 
-		public function as_setEditAccountData(id : String, title : String, email : String, password : String, cluster : int) : void
-		{
-			this.qweid = id;
-			this.titleVal.text = title;
-			this.loginVal.text = email;
-			this.passwordVal.text = password;
-			this.clusterVal.selectedIndex = cluster;
-			this.wmode = "edit";
-		}
+        private function handleShowPswdClick(e:ButtonEvent):void
+        {
+            passwordVal.displayAsPassword = !passwordVal.displayAsPassword;
+        }
 
-		public function as_setAddAccount() : void
-		{
-			this.wmode = "add";
-		}
+        public function as_setEditAccountData(id:String, title:String, email:String, password:String, cluster:int):void
+        {
+            qweid = id;
+            titleVal.text = title;
+            loginVal.text = email;
+            passwordVal.text = password;
+            clusterVal.selectedIndex = cluster;
+            wmode = AM_MODES.EDIT;
+        }
 
-		override protected function onPopulate() : void
-		{
-			super.onPopulate();
+        public function as_setAddAccount():void
+        {
+            wmode = AM_MODES.ADD;
+        }
 
-			this.langData	= this.py_getTranslate();
+        override protected function onPopulate():void
+        {
+            super.onPopulate();
 
-			this.window.title = this.langData.window_title_l10n;
-			this.window.setTitleIcon("team");
-			this.width	= 340;
-			this.height	= 200;
+            langData = py_getTranslate();
 
-			try
-			{
-				// Nickname
-				this.titleLabel = this.addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
-					label: this.langData.nick_l10n,
-					selectable: false,
-					showToolTip: false,
-					x: 5,
-					y: 10
-				})) as TextFieldShort;
+            window.title = langData.window_title_l10n;
+            window.setTitleIcon("team");
+            width = 340;
+            height = 200;
 
-				this.titleVal = this.addChild(App.utils.classFactory.getComponent("TextInput", TextInput, {
-					width: 210,
-					x: 60,
-					y: 5
-				})) as TextInput;
+            try
+            {
+                // Nickname
+                titleLabel = addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
+                    label: langData.nick_l10n,
+                    selectable: false,
+                    showToolTip: false,
+                    x: 5,
+                    y: 10
+                })) as TextFieldShort;
 
-				// Email
-				this.emailLabel = this.addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
-					label: "Email:",
-					selectable: false,
-					showToolTip: false,
-					x: 5,
-					y: 40
-				})) as TextFieldShort;
+                titleVal = addChild(App.utils.classFactory.getComponent("TextInput", TextInput, {
+                    width: 210,
+                    x: 60,
+                    y: 5
+                })) as TextInput;
 
-				this.loginVal = this.addChild(App.utils.classFactory.getComponent("TextInput", TextInput, {
-					width: 210,
-					x: 60,
-					y: 35
-				})) as TextInput;
+                // Email
+                emailLabel = addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
+                    label: "Email:",
+                    selectable: false,
+                    showToolTip: false,
+                    x: 5,
+                    y: 40
+                })) as TextFieldShort;
 
-				// Password
-				this.passwordLabel = this.addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
-					label: this.langData.password_l10n,
-					selectable: false,
-					showToolTip: false,
-					x: 5,
-					y: 70
-				})) as TextFieldShort;
+                loginVal = addChild(App.utils.classFactory.getComponent("TextInput", TextInput, {
+                    width: 210,
+                    x: 60,
+                    y: 35
+                })) as TextInput;
 
-				this.passwordVal = this.addChild(App.utils.classFactory.getComponent("TextInput", TextInput, {
-					displayAsPassword: true,
-					width: 210,
-					x: 60,
-					y: 65
-				})) as TextInput;
+                // Password
+                passwordLabel = addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
+                    label: langData.password_l10n,
+                    selectable: false,
+                    showToolTip: false,
+                    x: 5,
+                    y: 70
+                })) as TextFieldShort;
 
-				// Show password
-				this.showPswd = this.addChild(App.utils.classFactory.getComponent("CheckBox", CheckBox, {
-					label: this.langData.show_password_l10n,
-					visible: true,
-					x: 60,
-					y: 95
-				})) as CheckBox;
-				this.showPswd.addEventListener(ButtonEvent.CLICK, this.handleShowPswdClick);
+                passwordVal = addChild(App.utils.classFactory.getComponent("TextInput", TextInput, {
+                    displayAsPassword: true,
+                    width: 210,
+                    x: 60,
+                    y: 65
+                })) as TextInput;
 
-				// Cluster
-				this.clusterLabel = this.addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
-					label: this.langData.server_l10n,
-					selectable: false,
-					showToolTip: false,
-					x: 5,
-					y: 125
-				})) as TextFieldShort;
+                // Show password
+                showPswd = addChild(App.utils.classFactory.getComponent("CheckBox", CheckBox, {
+                    label: langData.show_password_l10n,
+                    visible: true,
+                    x: 60,
+                    y: 95
+                })) as CheckBox;
+                showPswd.addEventListener(ButtonEvent.CLICK, handleShowPswdClick);
 
-				var dp : Array = this.py_get_clusters();
-				this.clusterVal = this.addChild(App.utils.classFactory.getComponent("DropdownMenu", DropdownMenu, {
-					rowCount: 10,
-					width: 210,
-					x: 60,
-					y: 120,
-					menuDirection: "down",
-					itemRenderer: "DropDownListItemRendererSound",
-					dropdown: "DropdownMenu_ScrollingList",
-					dataProvider: new DataProvider(dp),
-					selectedIndex: 0
-				})) as DropdownMenu;
+                // Cluster
+                clusterLabel = addChild(App.utils.classFactory.getComponent("TextFieldShort", TextFieldShort, {
+                    label: langData.server_l10n,
+                    selectable: false,
+                    showToolTip: false,
+                    x: 5,
+                    y: 125
+                })) as TextFieldShort;
 
-				this.submitBtn = this.addChild(App.utils.classFactory.getComponent("ButtonNormal", SoundButton, {
-					label: this.langData.save_l10n,
-					width: 100,
-					x: 120,
-					y: 165
-				})) as SoundButton;
-				this.submitBtn.addEventListener(ButtonEvent.CLICK, this.handleSubmitBtnClick);
+                var dp:Array = py_get_clusters();
+                clusterVal = addChild(App.utils.classFactory.getComponent("DropdownMenu", DropdownMenu, {
+                    rowCount: 10,
+                    width: 210,
+                    x: 60,
+                    y: 120,
+                    menuDirection: "down",
+                    itemRenderer: "DropDownListItemRendererSound",
+                    dropdown: "DropdownMenu_ScrollingList",
+                    dataProvider: new DataProvider(dp),
+                    selectedIndex: 0
+                })) as DropdownMenu;
 
-				this.cancelBtn = this.addChild(App.utils.classFactory.getComponent("ButtonBlack", SoundButton, {
-					label: this.langData.cancel_l10n,
-					width: 100,
-					x: 230,
-					y: 165
-				})) as SoundButton;
-				this.cancelBtn.addEventListener(ButtonEvent.CLICK, this.handleCancelBtnClick);
-			} catch (err : Error)
-			{
-				this.py_log("onPopulate " + err.getStackTrace());
-			}
-		}
+                submitBtn = addChild(App.utils.classFactory.getComponent("ButtonNormal", SoundButton, {
+                    label: langData.save_l10n,
+                    width: 100,
+                    x: 120,
+                    y: 165
+                })) as SoundButton;
+                submitBtn.addEventListener(ButtonEvent.CLICK, handleSubmitBtnClick);
 
-		private function isValidEmail(email : String) : Boolean
-		{
-			var emailExpression : RegExp = /([a-z0-9._-]+?)@([a-z0-9.-]+)\.([a-z]{2,4})/;
-			return emailExpression.test(email);
-		}
+                cancelBtn = addChild(App.utils.classFactory.getComponent("ButtonBlack", SoundButton, {
+                    label: langData.cancel_l10n,
+                    width: 100,
+                    x: 230,
+                    y: 165
+                })) as SoundButton;
+                cancelBtn.addEventListener(ButtonEvent.CLICK, handleCancelBtnClick);
+            }
+            catch (err: Error)
+            {
+                py_log("onPopulate " + err.getStackTrace());
+            }
+        }
 
-	}
-
+        private function isValidEmail(email:String):Boolean
+        {
+            var emailExpression:RegExp = /([a-zA-Z0-9._-]+?)@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,4})/;
+            return emailExpression.test(email);
+        }
+    }
 }

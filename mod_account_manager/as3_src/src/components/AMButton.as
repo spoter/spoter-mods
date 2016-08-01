@@ -1,42 +1,40 @@
-package components 
+package components
 {
-	import flash.text.TextField;
-	import flash.events.MouseEvent;
+    import flash.text.*;
+    import flash.events.*;
 
-	public class AMButton extends TextField
-	{
-		protected var _tooltip		: String = "";
-		protected var _mouseoutimg	: String = "gui/flash/AccountsManager/AM_Icon_MouseOut.png";
-		protected var _mouseoverimg	: String = "gui/flash/AccountsManager/AM_Icon_MouseOver.png";
+    public class AMButton extends TextField
+    {
+        private var _tooltip: String = "";
+        private static const _mouseoutimg: String = "gui/flash/AccountsManager/AM_Icon_MouseOut.png";
+        private static const _mouseoverimg: String = "gui/flash/AccountsManager/AM_Icon_MouseOver.png";
 
-		public function set tooltip(new_tooltip : String) : void
-		{
-			this._tooltip = new_tooltip;
-		}
+        public function set tooltip(new_tooltip:String):void
+        {
+            _tooltip = new_tooltip;
+        }
 
-		public function AMButton() 
-		{
-			super();
-			this.htmlText = "<img width='39' height='39' src='img://" +this._mouseoutimg + "'>";
-			this.width = 41;
-			this.height = 41;
-			this.selectable = false;
-			this.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
-			this.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
-		}
+        public function AMButton()
+        {
+            super();
+            htmlText = "<img width='39' height='39' src='img://" + _mouseoutimg + "'>";
+            width = 41;
+            height = 41;
+            selectable = false;
+            addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
+            addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
+        }
 
-		public function onMouseOver(e : MouseEvent) : void
-		{
-			this.htmlText = "<a href='event:#'><img width='39' height='39' src='img://" +this._mouseoverimg + "'></a>";
-			App.toolTipMgr.show(this._tooltip);
-		}
+        public function onMouseOver(e:MouseEvent):void
+        {
+            htmlText = "<a href='event:#'><img width='39' height='39' src='img://" + _mouseoverimg + "'></a>";
+            App.toolTipMgr.show(_tooltip);
+        }
 
-		public function onMouseOut(e : MouseEvent) : void
-		{
-			this.htmlText = "<img width='39' height='39' src='img://" +this._mouseoutimg + "'>";
-			App.toolTipMgr.hide();
-		}
-
-	}
-
+        public function onMouseOut(e:MouseEvent):void
+        {
+            htmlText = "<img width='39' height='39' src='img://" + _mouseoutimg + "'>";
+            App.toolTipMgr.hide();
+        }
+    }
 }
