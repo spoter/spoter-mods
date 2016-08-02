@@ -19,7 +19,7 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'server_turret_extended'
-        self.version = '1.13 (28.07.2016)'
+        self.version = '1.14 (02.08.2016)'
         self.version_id = 113
         self.author = 'by spoter, reven86'
         self.data = {
@@ -171,6 +171,7 @@ class GunRotatorMod:
 
 class Support(object):
     @staticmethod
+    @inject.log
     def message():
         inject.message(_config.i18n['UI_battle_activate_message'])
 
@@ -195,11 +196,13 @@ def fini():
     stat.end()
 
 @inject.hook(LobbyView, '_populate')
+@inject.log
 def hookLobbyViewPopulate(func, *args):
     func(*args)
     stat.start()
 
 @inject.hook(PlayerAvatar, 'handleKey')
+@inject.log
 def hookPlayerAvatarHandleKey(func, *args):
     if _config.data['enabled'] and _config.data['fix_accuracy_in_move']:
         self, is_down, key, mods = args
@@ -207,6 +210,7 @@ def hookPlayerAvatarHandleKey(func, *args):
     return func(*args)
 
 @inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
+@inject.log
 def hookVehicleGunRotatorSetShotPosition(func, *args):
     if _config.data['enabled'] and _config.data['server_turret'] and not BigWorld.player().inputHandler.isSPG:
         try:
@@ -220,6 +224,7 @@ def hookVehicleGunRotatorSetShotPosition(func, *args):
     return func(*args)
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
+@inject.log
 def hookStartGUI(func, *args):
     func(*args)
     support.start_battle()
