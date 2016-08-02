@@ -20,10 +20,10 @@ COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F
 MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
     'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
 
-class _Config(object):
+class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = '3.10 (28.07.2016)'
+        self.version = '3.11 (02.08.2016)'
         self.version_id = 310
         self.author = 'by spoter'
         self.data = {
@@ -194,7 +194,7 @@ class Statistics(object):
                 'cid': self.user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Маленький Светлячок"', # App name.
-                'av' : 'Мод: "Маленький Светлячок" %s' % _config.version,
+                'av' : 'Мод: "Маленький Светлячок" %s' % config.version,
                 'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
                 'ul' : '%s' % lang,
                 'sc' : 'start'
@@ -223,7 +223,7 @@ class Statistics(object):
                 'cid': self.old_user, # Anonymous Client ID.
                 't'  : 'screenview', # Screenview hit type.
                 'an' : 'Мод: "Маленький Светлячок"', # App name.
-                'av' : 'Мод: "Маленький Светлячок" %s' % _config.version,
+                'av' : 'Мод: "Маленький Светлячок" %s' % config.version,
                 'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
                 'ul' : '%s' % lang,
                 'sc' : 'end'
@@ -239,7 +239,7 @@ class Assist(object):
     @staticmethod
     def check_macros(macros):
         for i in TEXT_LIST:
-            if macros in _config.i18n[i]:
+            if macros in config.i18n[i]:
                 return True
 
     def format_recreate(self):
@@ -255,7 +255,7 @@ class Assist(object):
     @staticmethod
     def sound(assist_type):
         if assist_type < 4:
-            sound = SoundGroups.g_instance.getSound2D(_config.data[SOUND_LIST[assist_type]])
+            sound = SoundGroups.g_instance.getSound2D(config.data[SOUND_LIST[assist_type]])
             if sound:
                 sound.stop()
                 sound.play()
@@ -266,7 +266,7 @@ class Assist(object):
             for i in vehicles_ids:
                 if i >> 32 & 4294967295L > 0: i = i >> 32 & 4294967295L
                 else: i &= 4294967295L
-                icon = '<img src="img://%s" width="%s" height="%s" />' % (g_sessionProvider.getArenaDP().getVehicleInfo(i).vehicleType.iconPath.replace('..', 'gui'), _config.data['iconSizeX'], _config.data['iconSizeY'])
+                icon = '<img src="img://%s" width="%s" height="%s" />' % (g_sessionProvider.getArenaDP().getVehicleInfo(i).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
                 target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vID=i)
                 if self.check_macros('{icons}'): self.format_str['icons'] += icon
                 if self.check_macros('{names}'): self.format_str['names'] += '[%s]' % target_info[1] if target_info[1] else icon
@@ -275,32 +275,33 @@ class Assist(object):
                 if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[%s]' % (icon, target_info[4]) if target_info[4] else icon
                 if self.check_macros('{full}'):
                     self.format_str['full'] += '%s[%s]' % (icon, target_info) if target_info else icon
-            msg = _config.i18n[TEXT_LIST[assist_type]].format(**self.format_str)
-            inject.message(msg, COLOR[_config.data[COLOR_MESSAGES[assist_type]]])
+            msg = config.i18n[TEXT_LIST[assist_type]].format(**self.format_str)
+            inject.message(msg, COLOR[config.data[COLOR_MESSAGES[assist_type]]])
 
 #start mod
 stat = Statistics()
-_config = _Config()
+config = Config()
 assist = Assist()
 
 @inject.log
 def init():
-    _config.load()
+    config.load()
 
 @inject.log
 def fini():
     stat.end()
 
 @inject.hook(LobbyView, '_populate')
+@inject.log
 def hookLobbyViewPopulate(func, *args):
     func(*args)
     stat.start()
 
-
 @inject.hook(PlayerAvatar, 'onBattleEvent')
+@inject.log
 def hook_PlayerAvatarVehicleOnEnterWorld(func, *args):
-    if _config.data['enabled']:
+    if config.data['enabled']:
         self, event_type, details = args
-        if _config.data['sound']: assist.sound(event_type)
+        if config.data['sound']: assist.sound(event_type)
         assist.post_message(event_type, details)
     return func(*args)
