@@ -4,13 +4,11 @@ import urllib
 import urllib2
 
 import BigWorld
-
 import CommandMapping
 import VehicleGunRotator
 from Avatar import PlayerAvatar
 from constants import AUTH_REALM
 from constants import SERVER_TICK_LENGTH
-from gui.Scaleform import Minimap
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
 from gui.mods.mod_mods_gui import g_gui, inject
 from gun_rotation_shared import decodeGunAngles
@@ -19,8 +17,8 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'server_turret_extended'
-        self.version = '1.14 (02.08.2016)'
-        self.version_id = 113
+        self.version = '1.15 (04.10.2016)'
+        self.version_id = 115
         self.author = 'by spoter, reven86'
         self.data = {
             'version'             : self.version_id,
