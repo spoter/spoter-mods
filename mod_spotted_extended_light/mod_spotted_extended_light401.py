@@ -28,7 +28,7 @@ MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflowe
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = '4.00 (07.11.2016)'
+        self.version = '4.01 (07.11.2016)'
         self.version_id = 400
         self.author = 'by spoter'
         self.data = {
@@ -243,7 +243,7 @@ class Assist(object):
         for data in events:
             feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
             eventID = feedbackEvent.getType()
-            if eventID in [FEEDBACK_EVENT_ID.PLAYER_SPOTTED_ENEMY, FEEDBACK_EVENT_ID.PLAYER_ASSIST_TO_KILL_ENEMY, PERSONAL_EFFICIENCY_TYPE.ASSIST_DAMAGE]:
+            if eventID in [FEEDBACK_EVENT_ID.PLAYER_SPOTTED_ENEMY, FEEDBACK_EVENT_ID.PLAYER_ASSIST_TO_KILL_ENEMY]:
                 vehicleID = feedbackEvent.getTargetID()
                 icon = '<img src="img://%s" width="%s" height="%s" />' % (arena.getVehicleInfo(vehicleID).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
                 target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vID=vehicleID)
@@ -253,10 +253,9 @@ class Assist(object):
                 if self.check_macros('{icons_names}'): self.format_str['icons_names'] += '%s[%s]' % (icon, target_info[1]) if target_info[1] else icon
                 if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[%s]' % (icon, target_info[4]) if target_info[4] else icon
                 if self.check_macros('{damage}'):
-                    if eventID == PERSONAL_EFFICIENCY_TYPE.ASSIST_DAMAGE:
-                        info = getDamageInfo(feedbackEvent)
-                        if info is not None:
-                            self.format_str['damage'] += ' +%s' % info.getDamage()
+                    info = getDamageInfo(feedbackEvent)
+                    if info is not None and info.getType() == PERSONAL_EFFICIENCY_TYPE.ASSIST_DAMAGE:
+                        self.format_str['damage'] += ' +%s' % info.getDamage()
                 if self.check_macros('{full}'):
                     self.format_str['full'] += '%s[%s]' % (icon, target_info) if target_info else icon
                 if eventID == FEEDBACK_EVENT_ID.PLAYER_SPOTTED_ENEMY:
