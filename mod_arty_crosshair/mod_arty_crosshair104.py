@@ -5,8 +5,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'arty_crosshair'
-        self.version = '1.03 (16.11.2016)'
-        self.version_id = 103
+        self.version = '1.04 (18.11.2016)'
+        self.version_id = 104
         self.author = 'by spoter, reven86'
         self.data = {
             'version': self.version_id,
@@ -34,3 +34,11 @@ def hookedCreateGunMarker(func, self, mode, isStrategic):
     if config.data['enabled']:
         status = False
     func(self, mode, status)
+
+# noinspection PyProtectedMember
+@inject.hook(control_modes._FlashGunMarker, 'updateAim')
+@inject.log
+def hookedCreateGunMarker(func, self):
+    func(self)
+    self._aim['strategic'] = self.settingsCore.getSetting('arcade')
+    
