@@ -8,7 +8,6 @@ import BigWorld
 import SoundGroups
 from Avatar import PlayerAvatar
 from constants import AUTH_REALM
-from gui.battle_control import g_sessionProvider
 from gui.battle_control.controllers import feedback_events
 from gui.mods.mod_mods_gui import g_gui, inject
 from helpers import getLanguageCode
@@ -28,7 +27,7 @@ MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflowe
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = '4.01 (07.11.2016)'
+        self.version = '4.02 (13.12.2016)'
         self.version_id = 400
         self.author = 'by spoter'
         self.data = {
@@ -238,14 +237,14 @@ class Assist(object):
             sound.play()
 
     def post_message(self, events):
-        arena = g_sessionProvider.getArenaDP()
+        g_sessionProvider = BigWorld.player().guiSessionProvider
         self.format_recreate()
         for data in events:
             feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
             eventID = feedbackEvent.getType()
             if eventID in [FEEDBACK_EVENT_ID.PLAYER_SPOTTED_ENEMY, FEEDBACK_EVENT_ID.PLAYER_ASSIST_TO_KILL_ENEMY]:
                 vehicleID = feedbackEvent.getTargetID()
-                icon = '<img src="img://%s" width="%s" height="%s" />' % (arena.getVehicleInfo(vehicleID).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
+                icon = '<img src="img://%s" width="%s" height="%s" />' % (g_sessionProvider.getArenaDP().getVehicleInfo(vehicleID).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
                 target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vID=vehicleID)
                 if self.check_macros('{icons}'): self.format_str['icons'] += icon
                 if self.check_macros('{names}'): self.format_str['names'] += '[%s]' % target_info[1] if target_info[1] else icon
