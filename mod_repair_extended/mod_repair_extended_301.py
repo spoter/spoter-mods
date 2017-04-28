@@ -16,7 +16,7 @@ from gui import InputHandler
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = '3.00 (27.04.2017)'
+        self.version = '3.01 (28.04.2017)'
         self.author = 'by spoter'
         self.version_id = 300
         self.buttons = {
@@ -167,7 +167,7 @@ class Repair(object):
         for equipmentTag in ('medkit', 'repairkit'):
             for intCD, equipment in self.ctrl.equipments.iterEquipmentsByTag(equipmentTag):
                 if equipment.isReady and equipment.isAvailableToUse:
-                    devices = list(set([name if name not in VEHICLE_DEVICE_IN_COMPLEX_ITEM else VEHICLE_DEVICE_IN_COMPLEX_ITEM[name] for name, state in equipment.getEntitiesIterator() if state in DEVICE_STATE_AS_DAMAGE]))
+                    devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
                     specific = config.data['repairPriority'][Vehicle.getVehicleClassTag(BigWorld.player().vehicleTypeDescriptor.type.tags)][equipmentTag]
                     for item in specific:
                         if item in devices:
@@ -180,7 +180,7 @@ class Repair(object):
         equipmentTag = 'repairkit'
         for intCD, equipment in self.ctrl.equipments.iterEquipmentsByTag(equipmentTag):
             if equipment.isReady and equipment.isAvailableToUse:
-                devices = [name for name, state in equipment.getEntitiesIterator() if state in DEVICE_STATE_DESTROYED]
+                devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_DESTROYED]
                 for name in devices:
                     if name in ['chassis', 'leftTrack', 'rightTrack']:
                         self.useItem(equipmentTag, name)
