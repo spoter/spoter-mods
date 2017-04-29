@@ -7,6 +7,7 @@ import VehicleGunRotator
 from gui import InputHandler
 from Avatar import PlayerAvatar
 from gui.app_loader import g_appLoader
+from AvatarInputHandler.aih_constants import CTRL_MODE_NAME
 # noinspection PyProtectedMember
 from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticObjectMarker3D
 
@@ -14,11 +15,11 @@ from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticOb
 class Config(object):
     def __init__(self):
         self.id = 'artySplash'
-        self.version = '2.01 (29.04.2017)'
+        self.version = '2.02 (29.04.2017)'
         self.author = 'by spoter'
-        self.version_id = 201
+        self.version_id = 202
         self.buttons = {
-            'buttonShowDot'   : [Keys.KEY_X, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
         }
         self.data = {
@@ -28,6 +29,9 @@ class Config(object):
             'buttonShowSplash'   : self.buttons['buttonShowSplash'],
             'showSplashOnDefault': True,
             'showDotOnDefault'   : True,
+            'showModeArcade'     : False,
+            'showModeSniper'     : True,
+            'showModeArty'       : True,
             'modelPathSplash'    : 'objects/artySplash.model',
             'modelPathDot'       : 'objects/artyDot.model'
         }
@@ -42,10 +46,16 @@ class Config(object):
             'UI_artySplash_showSplashOnDefault_tooltip': '',
             'UI_artySplash_showDotOnDefault_text'      : 'Show Dot on default',
             'UI_artySplash_showDotOnDefault_tooltip'   : '',
-            'UI_artySplash_messageSplashOn': 'HE Splash: Show Splash',
-            'UI_artySplash_messageSplashOff': 'HE Splash: Hide Splash',
-            'UI_artySplash_messageDotOn': 'HE Splash: Show Dot',
-            'UI_artySplash_messageDotOff': 'HE Splash: Hide Dot'
+            'UI_artySplash_showModeArcade_text'        : 'Arcade mode available',
+            'UI_artySplash_showModeArcade_tooltip'     : '',
+            'UI_artySplash_showModeSniper_text'        : 'Sniper mode available',
+            'UI_artySplash_showModeSniper_tooltip'     : '',
+            'UI_artySplash_showModeArty_text'          : 'Arty mode available',
+            'UI_artySplash_showModeArty_tooltip'       : '',
+            'UI_artySplash_messageSplashOn'            : 'HE Splash: Show Splash',
+            'UI_artySplash_messageSplashOff'           : 'HE Splash: Hide Splash',
+            'UI_artySplash_messageDotOn'               : 'HE Splash: Show Dot',
+            'UI_artySplash_messageDotOff'              : 'HE Splash: Hide Dot'
         }
         self.data, self.i18n = g_gui.register_data(self.id, self.data, self.i18n)
         g_gui.register(self.id, self.template, self.data, self.apply)
@@ -57,21 +67,6 @@ class Config(object):
             'settingsVersion': self.version,
             'enabled'        : self.data['enabled'],
             'column1'        : [{
-                'type'        : 'HotKey',
-                'text'        : self.i18n['UI_artySplash_buttonShowDot_text'],
-                'tooltip'     : self.i18n['UI_artySplash_buttonShowDot_tooltip'],
-                'value'       : self.data['buttonShowDot'],
-                'defaultValue': self.buttons['buttonShowDot'],
-                'varName'     : 'buttonShowDot'
-            }, {
-                'type'        : 'HotKey',
-                'text'        : self.i18n['UI_artySplash_buttonShowSplash_text'],
-                'tooltip'     : self.i18n['UI_artySplash_buttonShowSplash_tooltip'],
-                'value'       : self.data['buttonShowSplash'],
-                'defaultValue': self.buttons['buttonShowSplash'],
-                'varName'     : 'buttonShowSplash'
-            }],
-            'column2'        : [{
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_artySplash_showSplashOnDefault_text'],
                 'value'  : self.data['showSplashOnDefault'],
@@ -83,6 +78,39 @@ class Config(object):
                 'value'  : self.data['showDotOnDefault'],
                 'tooltip': self.i18n['UI_artySplash_showDotOnDefault_tooltip'],
                 'varName': 'showDotOnDefault'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_artySplash_showModeArcade_text'],
+                'value'  : self.data['showModeArcade'],
+                'tooltip': self.i18n['UI_artySplash_showModeArcade_tooltip'],
+                'varName': 'showModeArcade'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_artySplash_showModeSniper_text'],
+                'value'  : self.data['showModeSniper'],
+                'tooltip': self.i18n['UI_artySplash_showModeSniper_tooltip'],
+                'varName': 'showModeSniper'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_artySplash_showModeArty_text'],
+                'value'  : self.data['showModeArty'],
+                'tooltip': self.i18n['UI_artySplash_showModeArty_tooltip'],
+                'varName': 'showModeArty'
+            }],
+            'column2'        : [{
+                'type'        : 'HotKey',
+                'text'        : self.i18n['UI_artySplash_buttonShowSplash_text'],
+                'tooltip'     : self.i18n['UI_artySplash_buttonShowSplash_tooltip'],
+                'value'       : self.data['buttonShowSplash'],
+                'defaultValue': self.buttons['buttonShowSplash'],
+                'varName'     : 'buttonShowSplash'
+            }, {
+                'type'        : 'HotKey',
+                'text'        : self.i18n['UI_artySplash_buttonShowDot_text'],
+                'tooltip'     : self.i18n['UI_artySplash_buttonShowDot_tooltip'],
+                'value'       : self.data['buttonShowDot'],
+                'defaultValue': self.buttons['buttonShowDot'],
+                'varName'     : 'buttonShowDot'
             }]
         }
 
@@ -105,7 +133,7 @@ class ArtyBall(object):
 
     def startBattle(self):
         InputHandler.g_instance.onKeyDown += self.injectButton
-        #InputHandler.g_instance.onKeyUp += self.injectButton
+        # InputHandler.g_instance.onKeyUp += self.injectButton
         if config.data['enabled']:
             self.player = BigWorld.player()
             self.modelSplashVisible = config.data['showSplashOnDefault']
@@ -123,7 +151,7 @@ class ArtyBall(object):
 
     def stopBattle(self):
         InputHandler.g_instance.onKeyDown -= self.injectButton
-        #InputHandler.g_instance.onKeyUp -= self.injectButton
+        # InputHandler.g_instance.onKeyUp -= self.injectButton
         self.modelSplashVisible = False
         self.modelDotVisible = False
         self.modelSplashKeyPressed = False
@@ -146,6 +174,16 @@ class ArtyBall(object):
         if 'HIGH_EXPLOSIVE' not in self.player.vehicleTypeDescriptor.shot['shell']['kind']:
             self.hideVisible()
             return
+        if not config.data['showModeArcade'] and self.player.inputHandler.ctrlModeName == CTRL_MODE_NAME.ARCADE:
+            self.hideVisible()
+            return
+        if not config.data['showModeSniper'] and self.player.inputHandler.ctrlModeName == CTRL_MODE_NAME.SNIPER:
+            self.hideVisible()
+            return
+        if not config.data['showModeArty'] and self.player.inputHandler.ctrlModeName in [CTRL_MODE_NAME.STRATEGIC, CTRL_MODE_NAME.ARTY]:
+            self.hideVisible()
+            return
+
         if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
             if not self.scaleSplash or self.scaleSplash != self.player.vehicleTypeDescriptor.shot['shell']['explosionRadius']:
                 self.scaleSplash = self.player.vehicleTypeDescriptor.shot['shell']['explosionRadius']
@@ -169,9 +207,9 @@ class ArtyBall(object):
                 self.modelDot._StaticObjectMarker3D__model.visible = self.modelDotVisible
 
     def hideVisible(self):
-        if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
+        if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model and self.modelSplash._StaticObjectMarker3D__model.visible:
             self.modelSplash._StaticObjectMarker3D__model.visible = False
-        if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model:
+        if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model and self.modelDot._StaticObjectMarker3D__model.visible:
             self.modelDot._StaticObjectMarker3D__model.visible = False
 
     @inject.log
@@ -194,7 +232,6 @@ class ArtyBall(object):
                 self.setVisible()
 
 
-
 config = Config()
 artySplash = ArtyBall()
 
@@ -205,11 +242,13 @@ def hookStartGUI(func, *args):
     func(*args)
     artySplash.startBattle()
 
+
 @inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
 @inject.log
 def hookDestroyGUI(func, *args):
     func(*args)
     artySplash.stopBattle()
+
 
 @inject.hook(VehicleGunRotator.VehicleGunRotator, '_VehicleGunRotator__updateGunMarker')
 @inject.log
