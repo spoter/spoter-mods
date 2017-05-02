@@ -19,9 +19,9 @@ from gui import InputHandler
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = '3.01 (28.04.2017)'
+        self.version = 'v3.02 (2017-05-03)'
         self.author = 'by spoter'
-        self.version_id = 300
+        self.version_id = 302
         self.buttons = {
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
         }
@@ -30,6 +30,10 @@ class Config(object):
             'enabled'       : True,
             'buttonChassis' : self.buttons['buttonChassis'],
             'removeStun'    : True,
+            'extinguishFire': True,
+            'healCrew'      : True,
+            'repairDevices' : True,
+            'restoreChassis': True,
             'useGoldKits'   : True,
             'timerMin'      : 0.3,
             'timerMax'      : 0.8,
@@ -73,6 +77,14 @@ class Config(object):
             'UI_repair_timerMin_format'      : ' sec.',
             'UI_repair_timerMax_text'        : 'Max delay auto usage',
             'UI_repair_timerMax_format'      : ' sec.',
+            'UI_repair_extinguishFire_text'   : 'Extinguish fire',
+            'UI_repair_extinguishFire_tooltip': '',
+            'UI_repair_healCrew_text'   : 'Heal crew',
+            'UI_repair_healCrew_tooltip': '',
+            'UI_repair_restoreChassis_text'   : 'Restore chassis',
+            'UI_repair_restoreChassis_tooltip': '',
+            'UI_repair_repairDevices_text'   : 'Repair devices',
+            'UI_repair_repairDevices_tooltip': ''
 
         }
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
@@ -91,6 +103,12 @@ class Config(object):
                 'value'       : self.data['buttonChassis'],
                 'defaultValue': self.buttons['buttonChassis'],
                 'varName'     : 'buttonChassis'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_useGoldKits_text'],
+                'value'  : self.data['useGoldKits'],
+                'tooltip': self.i18n['UI_repair_useGoldKits_tooltip'],
+                'varName': 'useGoldKits'
             }, {
                 'type'        : 'Slider',
                 'text'        : self.i18n['UI_repair_timerMin_text'],
@@ -112,16 +130,34 @@ class Config(object):
             }],
             'column2'        : [{
                 'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_restoreChassis_text'],
+                'value'  : self.data['restoreChassis'],
+                'tooltip': self.i18n['UI_repair_restoreChassis_tooltip'],
+                'varName': 'restoreChassis'
+            }, {
+                'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_repair_removeStun_text'],
                 'value'  : self.data['removeStun'],
                 'tooltip': self.i18n['UI_repair_removeStun_tooltip'],
                 'varName': 'removeStun'
             }, {
                 'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_repair_useGoldKits_text'],
-                'value'  : self.data['useGoldKits'],
-                'tooltip': self.i18n['UI_repair_useGoldKits_tooltip'],
-                'varName': 'useGoldKits'
+                'text'   : self.i18n['UI_repair_extinguishFire_text'],
+                'value'  : self.data['extinguishFire'],
+                'tooltip': self.i18n['UI_repair_extinguishFire_tooltip'],
+                'varName': 'extinguishFire'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_healCrew_text'],
+                'value'  : self.data['healCrew'],
+                'tooltip': self.i18n['UI_repair_healCrew_tooltip'],
+                'varName': 'healCrew'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_repairDevices_text'],
+                'value'  : self.data['repairDevices'],
+                'tooltip': self.i18n['UI_repair_repairDevices_tooltip'],
+                'varName': 'repairDevices'
             }]
         }
 
@@ -160,14 +196,14 @@ class Repair(object):
             return
 
         sound = False
-        equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0])
+        equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
         if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
             # noinspection PyProtectedMember
             self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][0], item)
             sound = True
         else:
             if config.data['useGoldKits']:
-                equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1])
+                equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
                 if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
                     # noinspection PyProtectedMember
                     self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][1])
@@ -177,6 +213,7 @@ class Repair(object):
             BigWorld.callback(1.0, sound.play)
 
     def repairChassis(self):
+        if not config.data['restoreChassis']: return
         if self.ctrl is None:
             return
         equipmentTag = 'repairkit'
@@ -199,13 +236,10 @@ class Repair(object):
         if self.ctrl is None:
             return
         # status = '%s' % [key for key, ids in VEHICLE_VIEW_STATE.__dict__.iteritems() if ids == state][0]
-        if state == VEHICLE_VIEW_STATE.FIRE:
-            time = random.uniform(config.data['timerMin'], config.data['timerMax'])
+        time = random.uniform(config.data['timerMin'], config.data['timerMax'])
+        if config.data['extinguishFire'] and state == VEHICLE_VIEW_STATE.FIRE:
             BigWorld.callback(time, partial(self.useItem, 'extinguisher'))
-
-        if config.data['removeStun'] and state == VEHICLE_VIEW_STATE.STUN:
-            time = random.uniform(config.data['timerMin'], config.data['timerMax'])
-            BigWorld.callback(time, partial(self.useItem, 'medkit'))
+            time += 0.1
 
         if state == VEHICLE_VIEW_STATE.DEVICES:
             deviceName, deviceState, actualState = value
@@ -217,13 +251,17 @@ class Repair(object):
                 equipmentTag = 'medkit' if itemName in TANKMEN_ROLES_ORDER_DICT['enum'] else 'repairkit'
                 specific = config.data['repairPriority'][Vehicle.getVehicleClassTag(BigWorld.player().vehicleTypeDescriptor.type.tags)][equipmentTag]
                 if itemName in specific:
-                    time = random.uniform(config.data['timerMin'], config.data['timerMax'])
-                    BigWorld.callback(time, partial(self.useItem, equipmentTag, itemName))
+                    if config.data['healCrew'] and equipmentTag == 'medkit':
+                        BigWorld.callback(time, partial(self.useItem, equipmentTag, deviceName))
+                    if config.data['repairDevices'] and equipmentTag == 'repairkit':
+                        BigWorld.callback(time, partial(self.useItem, equipmentTag, deviceName))
+                        time += 0.1
 
+        if config.data['removeStun'] and state == VEHICLE_VIEW_STATE.STUN:
+            BigWorld.callback(time, partial(self.useItem, 'medkit'))
 
 config = Config()
 repair = Repair()
-
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
 @inject.log

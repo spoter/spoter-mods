@@ -1,0 +1,20 @@
+﻿{
+    "UI_repair_buttonChassis_text": "Button: Restore Chassis",
+    "UI_repair_buttonChassis_tooltip": "",
+    "UI_repair_buttonRepair_text": "Button: Smart Repair",
+    "UI_repair_buttonRepair_tooltip": "",
+    "UI_repair_name": "Repair extended",
+    "UI_repair_removeStun_text": "Remove stun",
+    "UI_repair_removeStun_tooltip": "",
+    "UI_repair_useGoldKits_text": "Use Gold Kits",
+    "UI_repair_useGoldKits_tooltip": "",
+    "UI_repair_extinguishFire_text": "Extinguish fire",
+    "UI_repair_extinguishFire_tooltip": "",
+    "UI_repair_healCrew_text": "Heal crew",
+    "UI_repair_healCrew_tooltip": "",
+    "UI_repair_restoreChassis_text": "Restore chassis",
+    "UI_repair_restoreChassis_tooltip": "",
+    "UI_repair_repairDevices_text": "Repair devices",
+    "UI_repair_repairDevices_tooltip": "",
+    "version": 302
+}

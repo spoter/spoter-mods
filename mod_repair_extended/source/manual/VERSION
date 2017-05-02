@@ -1,0 +1,8 @@
+{
+  "version": 3.02,
+  "source": "mod_repair_extended.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/repair_extended.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}

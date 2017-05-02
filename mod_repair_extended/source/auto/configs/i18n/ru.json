@@ -1,0 +1,22 @@
+﻿{
+    "UI_repair_buttonChassis_text": "Кнопка: Ремонт Гуслей",
+    "UI_repair_buttonChassis_tooltip": "",
+    "UI_repair_name": "Repair extended Cheat edition",
+    "UI_repair_removeStun_text": "Убирать стан",
+    "UI_repair_removeStun_tooltip": "",
+    "UI_repair_timerMax_format": " sec.",
+    "UI_repair_timerMax_text": "Макс. задержка срабатывания",
+    "UI_repair_timerMin_format": " sec.",
+    "UI_repair_timerMin_text": "Мин. задержка срабатывания",
+    "UI_repair_useGoldKits_text": "Использовать голдовые расходники",
+    "UI_repair_useGoldKits_tooltip": "",
+    "UI_repair_extinguishFire_text": "Тушить пожары",
+    "UI_repair_extinguishFire_tooltip": "",
+    "UI_repair_healCrew_text": "Лечить экипаж",
+    "UI_repair_healCrew_tooltip": "",
+    "UI_repair_restoreChassis_text": "Чинить траки",
+    "UI_repair_restoreChassis_tooltip": "",
+    "UI_repair_repairDevices_text": "Чинить устройства",
+    "UI_repair_repairDevices_tooltip": "",
+    "version": 302
+}
