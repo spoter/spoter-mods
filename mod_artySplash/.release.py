@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-
+ZIP = 'spotted_extended_light.zip'
 
 class Release(object):
 
@@ -59,5 +59,5 @@ class Release(object):
         except OSError:
             pass
 
-Release(build, 'mod_artySplash.zip')
+Release(build, ZIP)
 
