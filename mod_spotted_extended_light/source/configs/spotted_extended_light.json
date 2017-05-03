@@ -1,0 +1,13 @@
+﻿{
+    "enabled": true,
+    "iconSizeX": 47,
+    "iconSizeY": 16,
+    "messageColorAssistRadio": 6,
+    "messageColorAssistStun": 5,
+    "messageColorAssistTrack": 11,
+    "messageColorSpotted": 10,
+    "sound": true,
+    "soundAssist": "gun_intuition",
+    "soundSpotted": "enemy_sighted_for_team",
+    "version": 403
+}

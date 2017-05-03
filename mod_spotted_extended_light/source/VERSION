@@ -1,0 +1,8 @@
+{
+  "version": 4.03,
+  "source": "mod_spotted_extended_light.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/spotted_extended_light.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}
