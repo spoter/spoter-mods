@@ -10,6 +10,11 @@ import _build_manual as manual
 ZIP_AUTO = 'repair_extended_cheat.zip'
 ZIP_MANUAL = 'repair_extended.zip'
 
+try:
+    shutil.rmtree('zip', True)
+except OSError:
+    pass
+
 class Release(object):
 
     def __init__(self, build, zip):
@@ -19,7 +24,6 @@ class Release(object):
         self.versionPath = os.path.join(self.modsPath, self.data.CLIENT_VERSION)
         self.configPath = os.path.join(self.modsPath, 'configs', os.path.splitext(os.path.basename(self.data.build.VERSION["config"]))[0])
         self.i18n = os.path.join(self.configPath, 'i18n')
-        self.clearZip()
         self.packZip()
         self.clear()
 
@@ -44,12 +48,6 @@ class Release(object):
                         'create-7zip "%s"  "%s"\n' % (os.path.realpath(self.modsPath), os.path.realpath(self.zipPath)))
         xfile.close()
         subprocess.call('powershell -executionpolicy bypass -command "& {Set-ExecutionPolicy AllSigned; %s; Set-ExecutionPolicy Undefined}"' % ps)
-
-    def clearZip(self):
-        try:
-            shutil.rmtree(self.zipPath, True)
-        except OSError:
-            pass
 
     def clear(self):
         try:

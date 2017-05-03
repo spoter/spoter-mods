@@ -45,7 +45,7 @@ class Release(object):
 
     def clearZip(self):
         try:
-            shutil.rmtree(self.zipPath, True)
+            shutil.rmtree('zip', True)
         except OSError:
             pass
 
