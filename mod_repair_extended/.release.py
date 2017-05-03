@@ -7,6 +7,8 @@ import subprocess
 import _build_auto as auto
 import _build_manual as manual
 
+ZIP_AUTO = 'repair_extended_cheat.zip'
+ZIP_MANUAL = 'repair_extended.zip'
 
 class Release(object):
 
@@ -59,5 +61,5 @@ class Release(object):
         except OSError:
             pass
 
-Release(auto, 'repair_extended_cheat.zip')
-Release(manual, 'repair_extended.zip')
+Release(auto, ZIP_AUTO)
+Release(manual, ZIP_MANUAL)
