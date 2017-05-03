@@ -1,0 +1,19 @@
+﻿{
+    "buttonShowDot": [
+        46,
+        [ 56, 184 ]
+    ],
+    "buttonShowSplash": [
+        44,
+        [ 56, 184 ]
+    ],
+    "enabled": true,
+    "modelPathDot": "objects/artyDot.model",
+    "modelPathSplash": "objects/artySplash.model",
+    "showModeArcade": false,
+    "showModeArty": true,
+    "showModeSniper": true,
+    "showDotOnDefault": true,
+    "showSplashOnDefault": true,
+    "version": 203
+}

@@ -1,0 +1,22 @@
+﻿{
+    "UI_artySplash_buttonShowDot_text": "Кнопка: Точка прицеливания",
+    "UI_artySplash_buttonShowDot_tooltip": "",
+    "UI_artySplash_buttonShowSplash_text": "Кнопка: Сфера фугасного поражения",
+    "UI_artySplash_buttonShowSplash_tooltip": "",
+    "UI_artySplash_messageDotOff": "artySplash: Точка прицеливания ВЫКЛ",
+    "UI_artySplash_messageDotOn": "artySplash: Точка прицеливания ВКЛ",
+    "UI_artySplash_messageSplashOff": "artySplash: Сфера фугасного поражения ВЫКЛ",
+    "UI_artySplash_messageSplashOn": "artySplash: Сфера фугасного поражения ВКЛ",
+    "UI_artySplash_name": "Фугасный сплеш",
+    "UI_artySplash_showModeArcade_text": "Доступно: аркадный режим",
+    "UI_artySplash_showModeArcade_tooltip": "",
+    "UI_artySplash_showModeArty_text": "Доступно: арт. режим",
+    "UI_artySplash_showModeArty_tooltip": "",
+    "UI_artySplash_showModeSniper_text": "Доступно: снайп. режим",
+    "UI_artySplash_showModeSniper_tooltip": "",
+    "UI_artySplash_showDotOnDefault_text": "ВКЛ Точка прицеливания в начале боя",
+    "UI_artySplash_showDotOnDefault_tooltip": "",
+    "UI_artySplash_showSplashOnDefault_text": "ВКЛ Сфера фугасного поражения в начале боя",
+    "UI_artySplash_showSplashOnDefault_tooltip": "",
+    "version": 203
+}

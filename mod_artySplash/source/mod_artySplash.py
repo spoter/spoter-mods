@@ -14,10 +14,10 @@ from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticOb
 
 class Config(object):
     def __init__(self):
-        self.id = 'artySplash'
-        self.version = '2.02 (29.04.2017)'
+        self.ids = 'artySplash'
+        self.version = 'v2.03 (2017-05-03)'
         self.author = 'by spoter'
-        self.version_id = 202
+        self.version_id = 203
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -57,9 +57,9 @@ class Config(object):
             'UI_artySplash_messageDotOn'               : 'HE Splash: Show Dot',
             'UI_artySplash_messageDotOff'              : 'HE Splash: Hide Dot'
         }
-        self.data, self.i18n = g_gui.register_data(self.id, self.data, self.i18n)
-        g_gui.register(self.id, self.template, self.data, self.apply)
-        print '[LOAD_MOD]:  [%s v%s, %s]' % (self.id, self.version, self.author)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        g_gui.register(self.ids, self.template, self.data, self.apply)
+        print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
 
     def template(self):
         return {
@@ -115,8 +115,8 @@ class Config(object):
         }
 
     def apply(self, settings):
-        self.data = g_gui.update_data(self.id, settings)
-        g_gui.update(self.id, self.template)
+        self.data = g_gui.update_data(self.ids, settings)
+        g_gui.update(self.ids, self.template)
 
 
 # noinspection PyProtectedMember

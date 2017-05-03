@@ -1,0 +1,8 @@
+{
+  "version": 2.03,
+  "source": "mod_artySplash.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/artySplash.json",
+  "i18n": "configs/i18n",
+  "resources": ["objects"]
+}
