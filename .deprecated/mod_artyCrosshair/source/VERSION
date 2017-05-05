@@ -1,0 +1,8 @@
+{
+  "version": 2.00,
+  "source": "mod_artyCrosshair.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/artyCrosshair.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}

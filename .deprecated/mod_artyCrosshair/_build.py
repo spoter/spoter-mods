@@ -10,15 +10,14 @@ import subprocess
 import base64
 
 CLIENT_VERSION = '0.9.18.0'
-BUILD = 'auto'
-NAME = 'spoter.repair_extended_auto'
+NAME = 'spoter.artyCrosshair'
 ADD_LICENSE = True
 
 
 class Build(object):
     OUT_PATH = '.out'
     PYC_PATH = os.path.join(OUT_PATH, 'res', 'scripts', 'client', 'gui', 'mods')
-    BUILD_PATH = os.path.join('source', BUILD)
+    BUILD_PATH = os.path.join('source')
     VERSION = None
     RELEASE = '%s.wotmod' % NAME
     DATE = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -88,8 +87,8 @@ class Build(object):
         subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath(metaPath), os.path.realpath(self.OUT_PATH), metaFile))
         if self.VERSION["resources"]:
             for directory in self.VERSION["resources"]:
-                if os.path.exists(os.path.join(self.BUILD_PATH, directory)):
-                    subprocess.call('powershell robocopy %s %s /COPYALL /E' % (os.path.realpath(os.path.join(self.BUILD_PATH, directory)), os.path.realpath(os.path.join(self.OUT_PATH, 'res', directory))))
+                if os.path.exists(directory):
+                    subprocess.call('powershell robocopy %s %s /COPYALL /E' % (os.path.realpath(directory), os.path.realpath(os.path.join(self.OUT_PATH, 'res', directory))))
 
         with open(ps, 'w') as xfile:
             xfile.write('function create-7zip([String] $aDirectory, [String] $aZipfile){ [string]$pathToZipExe = "C:\Program Files\\7-zip\\7z.exe"; [Array]$arguments = "a", "-tzip", "-ssw", "-mx0", "$aZipfile", "$aDirectory"; & $pathToZipExe $arguments; }\n'
