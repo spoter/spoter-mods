@@ -15,9 +15,9 @@ from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticOb
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.03 (2017-05-03)'
+        self.version = 'v2.04 (2017-05-05)'
         self.author = 'by spoter'
-        self.version_id = 203
+        self.version_id = 204
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
