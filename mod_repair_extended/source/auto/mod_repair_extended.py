@@ -19,16 +19,19 @@ from gui import InputHandler
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.02 (2017-05-03)'
+        self.version = 'v3.03 (2017-05-09)'
         self.author = 'by spoter'
-        self.version_id = 302
+        self.version_id = 303
         self.buttons = {
+            'buttonRepair': [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
         }
         self.data = {
             'version'       : self.version_id,
             'enabled'       : True,
             'buttonChassis' : self.buttons['buttonChassis'],
+            'buttonRepair': self.buttons['buttonRepair'],
+            'autoRepair': True,
             'removeStun'    : True,
             'extinguishFire': True,
             'healCrew'      : True,
@@ -69,6 +72,8 @@ class Config(object):
             'UI_repair_name'                 : 'Repair extended Cheat edition',
             'UI_repair_buttonChassis_text'   : 'Button: Restore Chassis',
             'UI_repair_buttonChassis_tooltip': '',
+            'UI_repair_buttonRepair_text'   : 'Button: Smart Repair',
+            'UI_repair_buttonRepair_tooltip': '',
             'UI_repair_removeStun_text'      : 'Remove stun',
             'UI_repair_removeStun_tooltip'   : '',
             'UI_repair_useGoldKits_text'     : 'Use Gold Kits',
@@ -84,7 +89,9 @@ class Config(object):
             'UI_repair_restoreChassis_text'   : 'Restore chassis',
             'UI_repair_restoreChassis_tooltip': '',
             'UI_repair_repairDevices_text'   : 'Repair devices',
-            'UI_repair_repairDevices_tooltip': ''
+            'UI_repair_repairDevices_tooltip': '',
+            'UI_repair_autoRepair_text'   : 'Auto usage',
+            'UI_repair_autoRepair_tooltip': ''
 
         }
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
@@ -98,11 +105,24 @@ class Config(object):
             'enabled'        : self.data['enabled'],
             'column1'        : [{
                 'type'        : 'HotKey',
+                'text'        : self.i18n['UI_repair_buttonRepair_text'],
+                'tooltip'     : self.i18n['UI_repair_buttonRepair_tooltip'],
+                'value'       : self.data['buttonRepair'],
+                'defaultValue': self.buttons['buttonRepair'],
+                'varName'     : 'buttonRepair'
+            }, {
+                'type'        : 'HotKey',
                 'text'        : self.i18n['UI_repair_buttonChassis_text'],
                 'tooltip'     : self.i18n['UI_repair_buttonChassis_tooltip'],
                 'value'       : self.data['buttonChassis'],
                 'defaultValue': self.buttons['buttonChassis'],
                 'varName'     : 'buttonChassis'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_repair_autoRepair_text'],
+                'value'  : self.data['autoRepair'],
+                'tooltip': self.i18n['UI_repair_autoRepair_tooltip'],
+                'varName': 'autoRepair'
             }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_repair_useGoldKits_text'],
@@ -171,9 +191,9 @@ class Repair(object):
         self.ctrl = None
         self.consumablesPanel = None
         self.items = {
-            'extinguisher': [251, 251],
-            'medkit'      : [763, 1019],
-            'repairkit'   : [1275, 1531]
+            'extinguisher': [251, 251, None, None],
+            'medkit'      : [763, 1019, None, None],
+            'repairkit'   : [1275, 1531, None, None]
         }
 
     def startBattle(self):
@@ -182,12 +202,28 @@ class Repair(object):
         InputHandler.g_instance.onKeyUp += self.injectButton
         if self.ctrl.vehicleState is not None:
             self.ctrl.vehicleState.onVehicleStateUpdated += self.autoUse
+        if self.ctrl.equipments is not None:
+            self.ctrl.equipments.onEquipmentUpdated += self.onEquipmentUpdated
+        self.checkBattleStarted()
 
     def stopBattle(self):
         InputHandler.g_instance.onKeyDown -= self.injectButton
         InputHandler.g_instance.onKeyUp -= self.injectButton
         if self.ctrl.vehicleState is not None:
             self.ctrl.vehicleState.onVehicleStateUpdated -= self.autoUse
+        if self.ctrl.equipments is not None:
+            self.ctrl.equipments.onEquipmentUpdated -= self.onEquipmentUpdated
+        for equipmentTag in self.items:
+            self.items[equipmentTag][2] = None
+            self.items[equipmentTag][3] = None
+
+    def checkBattleStarted(self):
+        if hasattr(BigWorld.player(), 'arena') and BigWorld.player().arena.period is 3:
+            for equipmentTag in self.items:
+                self.items[equipmentTag][2] = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
+                self.items[equipmentTag][3] = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
+        else:
+            BigWorld.callback(0.1, self.checkBattleStarted)
 
     def useItem(self, equipmentTag, item=None):
         if not config.data['enabled']: return
@@ -212,6 +248,89 @@ class Repair(object):
             sound = SoundGroups.g_instance.getSound2D('vo_flt_repair')
             BigWorld.callback(1.0, sound.play)
 
+    def useItemManual(self, equipmentTag, item=None):
+        if not config.data['enabled']: return
+        if BattleReplay.g_replayCtrl.isPlaying: return
+        if self.ctrl is None:
+            return
+        equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
+        if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
+            # noinspection PyProtectedMember
+            self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][0], item)
+            sound = SoundGroups.g_instance.getSound2D('vo_flt_repair')
+            BigWorld.callback(1.0, sound.play)
+
+    def useItemGold(self, equipmentTag):
+        if not config.data['enabled']: return
+        if BattleReplay.g_replayCtrl.isPlaying: return
+        if self.ctrl is None:
+            return
+        equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
+        if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
+            # noinspection PyProtectedMember
+            self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][1])
+            sound = SoundGroups.g_instance.getSound2D('vo_flt_repair')
+            BigWorld.callback(1.0, sound.play)
+
+    def extinguishFire(self):
+        if self.ctrl.vehicleState.getStateValue(VEHICLE_VIEW_STATE.FIRE):
+            equipmentTag = 'extinguisher'
+            if self.items[equipmentTag][2]:
+                self.useItemManual(equipmentTag)
+
+    def removeStun(self):
+        if self.ctrl.vehicleState.getStateValue(VEHICLE_VIEW_STATE.STUN):
+            equipmentTag = 'medkit'
+            if self.items[equipmentTag][2]:
+                self.useItemManual(equipmentTag)
+            elif config.data['useGoldKits'] and self.items[equipmentTag][3]:
+                self.useItemGold(equipmentTag)
+
+    def repair(self, equipmentTag):
+        specific = config.data['repairPriority'][Vehicle.getVehicleClassTag(BigWorld.player().vehicleTypeDescriptor.type.tags)][equipmentTag]
+        if config.data['useGoldKits'] and self.items[equipmentTag][3]:
+            equipment = self.items[equipmentTag][3]
+            if equipment is not None:
+                # noinspection PyUnresolvedReferences
+                devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
+                result = []
+                for device in specific:
+                    if device in devices:
+                        result.append(device)
+                if len(result) > 1:
+                    self.useItemGold(equipmentTag)
+                elif result:
+                    self.useItemManual(equipmentTag, result[0])
+        elif self.items[equipmentTag][2]:
+            equipment = self.items[equipmentTag][2]
+            if equipment is not None:
+                # noinspection PyUnresolvedReferences
+                devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
+                result = []
+                for device in specific:
+                    if device in devices:
+                        result.append(device)
+                if len(result) > 1:
+                    self.useItemGold(equipmentTag)
+                elif result:
+                    self.useItemManual(equipmentTag, result[0])
+
+    def repairAll(self):
+        if self.ctrl is None:
+            return
+        if config.data['extinguishFire']:
+            self.extinguishFire()
+        if config.data['repairDevices']:
+            self.repair('repairkit')
+        if config.data['healCrew']:
+            self.repair('medkit')
+        if config.data['removeStun']:
+            self.removeStun()
+
+    # noinspection PyUnusedLocal
+    def onEquipmentUpdated(self, *args):
+        self.repairAll()
+
     def repairChassis(self):
         if not config.data['restoreChassis']: return
         if self.ctrl is None:
@@ -230,9 +349,12 @@ class Repair(object):
         if g_appLoader.getDefBattleApp():
             if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown():
                 self.repairChassis()
+            if g_gui.get_key(config.data['buttonRepair']) and event.isKeyDown():
+                self.repairAll()
 
     @inject.log
     def autoUse(self, state, value):
+        if not config.data['autoRepair']: return
         if self.ctrl is None:
             return
         # status = '%s' % [key for key, ids in VEHICLE_VIEW_STATE.__dict__.iteritems() if ids == state][0]
@@ -252,9 +374,9 @@ class Repair(object):
                 specific = config.data['repairPriority'][Vehicle.getVehicleClassTag(BigWorld.player().vehicleTypeDescriptor.type.tags)][equipmentTag]
                 if itemName in specific:
                     if config.data['healCrew'] and equipmentTag == 'medkit':
-                        BigWorld.callback(time, partial(self.useItem, equipmentTag, deviceName))
+                        BigWorld.callback(time, partial(self.useItem, 'medkit', deviceName))
                     if config.data['repairDevices'] and equipmentTag == 'repairkit':
-                        BigWorld.callback(time, partial(self.useItem, equipmentTag, deviceName))
+                        BigWorld.callback(time, partial(self.useItem, 'repairkit', deviceName))
                         time += 0.1
 
         if config.data['removeStun'] and state == VEHICLE_VIEW_STATE.STUN:

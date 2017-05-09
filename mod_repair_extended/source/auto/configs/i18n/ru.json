@@ -1,6 +1,10 @@
 ﻿{
+    "UI_repair_autoRepair_text": "Авто использование расходников",
+    "UI_repair_autoRepair_tooltip": "",
     "UI_repair_buttonChassis_text": "Кнопка: Ремонт Гуслей",
     "UI_repair_buttonChassis_tooltip": "",
+    "UI_repair_buttonRepair_text": "Кнопка: Умный ремонт",
+    "UI_repair_buttonRepair_tooltip": "",
     "UI_repair_name": "Repair extended Cheat edition",
     "UI_repair_removeStun_text": "Убирать стан",
     "UI_repair_removeStun_tooltip": "",
@@ -18,5 +22,5 @@
     "UI_repair_restoreChassis_tooltip": "",
     "UI_repair_repairDevices_text": "Чинить устройства",
     "UI_repair_repairDevices_tooltip": "",
-    "version": 302
+    "version": 303
 }

@@ -1,18 +1,18 @@
 ﻿{
+    "autoRepair": true,
     "buttonChassis": [
         [ 56, 184 ]
     ],
+    "buttonRepair": [ 57 ],
     "enabled": true,
-    "removeStun": true,
     "extinguishFire": true,
     "healCrew": true,
+    "removeStun": true,
     "repairDevices": true,
-    "restoreChassis": true,
-    "useGoldKits": true,
     "repairPriority": {
         "AllAvailableVariables": {
             "medkit": [ "commander", "gunner", "driver", "radioman", "loader" ],
-            "repairkit": [ "engine", "ammoBay", "gun", "turretRotator", "chassis", "surveyingDevice", "radio", "fuelTank" ]
+            "repairkit": [ "engine", "ammoBay", "gun", "turretRotator", "chassis", "surveyingDevice", "radio", "fuelTank", "leftTrack", "rightTrack" ]
         },
         "AT-SPG": {
             "medkit": [ "loader", "gunner", "commander", "driver" ],
@@ -35,7 +35,9 @@
             "repairkit": [ "ammoBay", "engine", "gun", "turretRotator", "fuelTank" ]
         }
     },
+    "restoreChassis": true,
     "timerMax": 0.8,
     "timerMin": 0.3,
-    "version": 302
+    "useGoldKits": true,
+    "version": 303
 }
