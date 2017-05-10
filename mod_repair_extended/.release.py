@@ -59,5 +59,6 @@ class Release(object):
         except OSError:
             pass
 
-Release(auto, ZIP_AUTO)
 Release(manual, ZIP_MANUAL)
+Release(auto, ZIP_AUTO)
+

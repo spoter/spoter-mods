@@ -10,14 +10,16 @@ from gui.app_loader import g_appLoader
 from AvatarInputHandler.aih_constants import CTRL_MODE_NAME
 # noinspection PyProtectedMember
 from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticObjectMarker3D
+from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
+from gui.shared.gui_items import Vehicle
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.04 (2017-05-05)'
+        self.version = 'v2.05 (2017-05-10)'
         self.author = 'by spoter'
-        self.version_id = 204
+        self.version_id = 205
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -145,7 +147,9 @@ class ArtyBall(object):
             self.modelDot = StaticObjectMarker3D({
                 'path': config.data['modelPathDot']
             }, (0, 0, 0))
-            self.modelDot._StaticObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
+            self.modelDot._StaticObjectMarker3D__model.scale = (0.1, 0.1, 0.1)
+            if Vehicle.getVehicleClassTag(self.player.vehicleTypeDescriptor.type.tags) == VEHICLE_CLASS_NAME.SPG:
+                self.modelDot._StaticObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
             self.modelSplash._StaticObjectMarker3D__model.visible = False
             self.modelDot._StaticObjectMarker3D__model.visible = False
 

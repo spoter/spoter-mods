@@ -16,7 +16,7 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.02 (2017-05-03)'
+        self.version = 'v3.02 (2017-05-09)'
         self.author = 'by spoter'
         self.version_id = 302
         self.buttons = {
@@ -186,7 +186,9 @@ class Repair(object):
         if self.ctrl is None:
             return
         equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
+        print 'equipment: %s, ready: %s, isAvailableToUse: %s' %(equipment, equipment.isReady, equipment.isAvailableToUse)
         if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
+            print 'pressed equipmentTag: %s, item: %s' %(equipmentTag, item)
             # noinspection PyProtectedMember
             self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][0], item)
             sound = SoundGroups.g_instance.getSound2D('vo_flt_repair')
@@ -220,43 +222,60 @@ class Repair(object):
 
     def repair(self, equipmentTag):
         specific = config.data['repairPriority'][Vehicle.getVehicleClassTag(BigWorld.player().vehicleTypeDescriptor.type.tags)][equipmentTag]
+        print 'specific: %s' %specific
+        print 'config.data[useGoldKits] and self.items[equipmentTag][3]: %s' %(config.data['useGoldKits'] and self.items[equipmentTag][3])
+        print 'self.items[equipmentTag][2]: %s' %self.items[equipmentTag][2]
         if config.data['useGoldKits'] and self.items[equipmentTag][3]:
             equipment = self.items[equipmentTag][3]
+            print 'equipment: %s' %equipment
             if equipment is not None:
                 # noinspection PyUnresolvedReferences
                 devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
+                print 'devices: %s' % devices
                 result = []
                 for device in specific:
                     if device in devices:
                         result.append(device)
+                print 'result: %s' % result
                 if len(result) > 1:
+                    print 'used goldKits: %s' %equipmentTag
                     self.useItemGold(equipmentTag)
                 elif result:
+                    print 'used silverKits: %s to %s' % (equipmentTag, result[0])
                     self.useItem(equipmentTag, result[0])
         elif self.items[equipmentTag][2]:
             equipment = self.items[equipmentTag][2]
+            print 'equipment: %s' % equipment
             if equipment is not None:
                 # noinspection PyUnresolvedReferences
                 devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
+                print 'devices: %s' % devices
                 result = []
                 for device in specific:
                     if device in devices:
                         result.append(device)
+                print 'result: %s' % result
                 if len(result) > 1:
+                    print 'used goldKits: %s' % equipmentTag
                     self.useItemGold(equipmentTag)
                 elif result:
+                    print 'used silverKits: %s to %s' % (equipmentTag, result[0])
                     self.useItem(equipmentTag, result[0])
 
     def repairAll(self):
         if self.ctrl is None:
             return
         if config.data['extinguishFire']:
+            print 'extinguishFire'
             self.extinguishFire()
         if config.data['repairDevices']:
+            print 'repairDevices'
             self.repair('repairkit')
         if config.data['healCrew']:
+            print 'healCrew'
             self.repair('medkit')
         if config.data['removeStun']:
+            print 'removeStun'
             self.removeStun()
 
     def repairChassis(self):
