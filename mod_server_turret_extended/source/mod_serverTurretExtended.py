@@ -16,9 +16,9 @@ from helpers import getLanguageCode
 
 class _Config(object):
     def __init__(self):
-        self.ids = 'server_turret_extended'
-        self.version = '1.15 (04.10.2016)'
-        self.version_id = 115
+        self.ids = 'serverTurretExtended'
+        self.version = 'v1.16 (2017-05-17)'
+        self.version_id = 116
         self.author = 'by spoter, reven86'
         self.data = {
             'version'             : self.version_id,
@@ -38,11 +38,14 @@ class _Config(object):
             'UI_setting_server_turret_tooltip'       : '{HEADER}Info:{/HEADER}{BODY}Move Turret to Server Aim coordinates (need enabled Server Sight in game settings){/BODY}',
             'UI_battle_activate_message'             : '"Muzzle chaos": Activated'
         }
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        g_gui.register(self.ids, self.template, self.data, self.apply)
+        print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
     def template(self):
         return {
             'modDisplayName' : self.i18n['UI_description'],
-            'settingsVersion': 200,
+            'settingsVersion': self.version_id,
             'enabled'        : self.data['enabled'],
             'column1'        : [{
                 'type'   : 'CheckBox',
@@ -70,69 +73,6 @@ class _Config(object):
         self.data = g_gui.update_data(self.ids, settings)
         g_gui.update(self.ids, self.template)
 
-    def load(self):
-        self.do_config()
-        print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
-
-    @inject.log
-    def do_config(self):
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
-        g_gui.register(self.ids, self.template, self.data, self.apply)
-
-class Statistics(object):
-    def __init__(self):
-        self.analytics_started = False
-        self.thread_analytics = None
-        self.user = None
-        self.old_user = None
-
-    @inject.log
-    def analytics_start(self):
-        if not self.analytics_started:
-            lang = str(getLanguageCode()).upper()
-            param = urllib.urlencode({
-                'v'  : 1, # Version.
-                'tid': 'UA-57975916-13',
-                'cid': self.user, # Anonymous Client ID.
-                't'  : 'screenview', # Screenview hit type.
-                'an' : 'Мод: "Стволик Хаоса"', # App name.
-                'av' : 'Мод: "Стволик Хаоса" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
-                'ul' : '%s' % lang,
-                'sc' : 'start'
-            })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
-            self.analytics_started = True
-            self.old_user = BigWorld.player().databaseID
-
-    def start(self):
-        player = BigWorld.player()
-        if self.user and self.user != player.databaseID:
-            self.old_user = player.databaseID
-            self.thread_analytics = threading.Thread(target=self.end, name='Thread')
-            self.thread_analytics.start()
-        self.user = player.databaseID
-        self.thread_analytics = threading.Thread(target=self.analytics_start, name='Thread')
-        self.thread_analytics.start()
-
-    @inject.log
-    def end(self):
-        if self.analytics_started:
-            lang = str(getLanguageCode()).upper()
-            param = urllib.urlencode({
-                'v'  : 1, # Version.
-                'tid': 'UA-57975916-13',
-                'cid': self.old_user, # Anonymous Client ID.
-                't'  : 'screenview', # Screenview hit type.
-                'an' : 'Мод: "Стволик Хаоса"', # App name.
-                'av' : 'Мод: "Стволик Хаоса" %s' % _config.version,
-                'cd' : 'Cluster: [%s], lang: [%s]' % (AUTH_REALM, lang), # Screen name / content description.
-                'ul' : '%s' % lang,
-                'sc' : 'end'
-            })
-            urllib2.urlopen(url='http://www.google-analytics.com/collect?', data=param).read()
-            self.analytics_started = False
-
 class MovementControl(object):
     @staticmethod
     def move_pressed(avatar, is_down, key):
@@ -142,11 +82,6 @@ class MovementControl(object):
 class GunRotatorMod:
     def __init__(self):
         self.blockGunRotator = False
-        self.serverTurretYaw = 0.0
-        self.serverGunPitch = 0.0
-        self.serverReceiveTime = 0.0
-        self.lastTime = 0.0
-        return
 
     # noinspection PyProtectedMember
     def calc_marker_pos(self, gun_rotator, shot_pos, shot_vector):
@@ -162,9 +97,6 @@ class GunRotatorMod:
         gun_rotator._VehicleGunRotator__turretYaw, gun_rotator._VehicleGunRotator__gunPitch = decodeGunAngles(vehicle.gunAnglesPacked, vehicle_descr.gun['pitchLimits']['absolute'])
         gun_rotator._VehicleGunRotator__updateTurretMatrix(gun_rotator._VehicleGunRotator__turretYaw, SERVER_TICK_LENGTH)
         gun_rotator._VehicleGunRotator__updateGunMatrix(gun_rotator._VehicleGunRotator__gunPitch, SERVER_TICK_LENGTH)
-        self.serverTurretYaw = gun_rotator._VehicleGunRotator__turretYaw
-        self.serverGunPitch = gun_rotator._VehicleGunRotator__gunPitch
-        self.serverReceiveTime = BigWorld.time()
         return
 
 class Support(object):
@@ -180,24 +112,9 @@ class Support(object):
 #start mod
 
 _config = _Config()
-stat = Statistics()
 gunRotatorMod = GunRotatorMod()
 movement_control = MovementControl()
 support = Support()
-
-@inject.log
-def init():
-    _config.load()
-
-@inject.log
-def fini():
-    stat.end()
-
-@inject.hook(LobbyView, '_populate')
-@inject.log
-def hookLobbyViewPopulate(func, *args):
-    func(*args)
-    stat.start()
 
 @inject.hook(PlayerAvatar, 'handleKey')
 @inject.log

@@ -1,0 +1,7 @@
+﻿{
+    "activate_message": false,
+    "enabled": true,
+    "fix_accuracy_in_move": true,
+    "server_turret": true,
+    "version": 116
+}
