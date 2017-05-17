@@ -1,0 +1,16 @@
+﻿{
+    "UI_description": "Улучшенный круг разброса",
+    "UI_setting_DispersionCircleScale_format": "x",
+    "UI_setting_DispersionCircleScale_text": "Масштабировать круг разброса",
+    "UI_setting_HorizontalStabilizer_text": "Горизонтальная стабилизация прицела",
+    "UI_setting_HorizontalStabilizer_tooltip": "",
+    "UI_setting_Remove_DamageEffects_text": "Убрать эффекты попадания по танку",
+    "UI_setting_Remove_DamageEffects_tooltip": "",
+    "UI_setting_Remove_DynamicEffects_text": "Убрать эффекты динамической камеры и сглаживания",
+    "UI_setting_Remove_DynamicEffects_tooltip": "",
+    "UI_setting_ReplaceOriginalCircle_text": "Заменить круг сведения на круг разброса",
+    "UI_setting_ReplaceOriginalCircle_tooltip": "{HEADER}Info:{/HEADER}{BODY}Заменить оригинальный круг сведения кругом разброса (Улучшит точность){/BODY}",
+    "UI_setting_UseServerDispersion_text": "Показывать серверный круг разброса",
+    "UI_setting_UseServerDispersion_tooltip": "{HEADER}Info:{/HEADER}{BODY}Показывать серверный круг разброса, а не клиентский (не зависит от галочки в клиенте, не работает в реплеях){/BODY}",
+    "version": 300
+}
