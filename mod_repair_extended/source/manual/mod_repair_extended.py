@@ -16,7 +16,7 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.02 (2017-05-09)'
+        self.version = 'v3.02 (2017-05-19)'
         self.author = 'by spoter'
         self.version_id = 302
         self.buttons = {
