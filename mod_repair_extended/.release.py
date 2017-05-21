@@ -4,9 +4,6 @@ import os
 import shutil
 import subprocess
 
-import _build_auto as auto
-import _build_manual as manual
-
 ZIP_AUTO = 'repair_extended_cheat.zip'
 ZIP_MANUAL = 'repair_extended.zip'
 
@@ -54,11 +51,8 @@ class Release(object):
             shutil.rmtree(self.data.build.OUT_PATH, True)
         except OSError:
             pass
-        try:
-            shutil.rmtree('release', True)
-        except OSError:
-            pass
-
+import _build_manual as manual
 Release(manual, ZIP_MANUAL)
+import _build_auto as auto
 Release(auto, ZIP_AUTO)
 
