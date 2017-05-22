@@ -1,0 +1,8 @@
+{
+  "version": 5.00,
+  "source": "mod_crewExtended.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/crewExtended.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}
