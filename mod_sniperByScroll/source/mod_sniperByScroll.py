@@ -36,12 +36,17 @@ def hookedActivateAlternateMode(self, pos=None, bByScroll=False):
 
 # noinspection PyUnusedLocal
 def create(self, markersInfo, vehicleInfo, components=None):
-    dataProvider = markersInfo.serverMarkerDataProvider if markersInfo.isServerMarkerActivated else markersInfo.clientMarkerDataProvider
-    markerType = GUN_MARKER_TYPE.SERVER if markersInfo.isServerMarkerActivated else GUN_MARKER_TYPE.CLIENT
-    component = self._findComponent(markerType, dataProvider, components, _CONSTANTS.SNIPER_GUN_MARKER_NAME)
-    if component is None:
-        component = _components.DefaultGunMarkerComponent(markerType, _VIEW_ID.SNIPER, _CONSTANTS.SNIPER_GUN_MARKER_NAME, _CONSTANTS.GUN_MARKER_LINKAGE, dataProvider)
-    return component,
+    if vehicleInfo.isSPG():
+        dataProvider = markersInfo.serverMarkerDataProvider if markersInfo.isServerMarkerActivated else markersInfo.clientMarkerDataProvider
+        markerType = GUN_MARKER_TYPE.SERVER if markersInfo.isServerMarkerActivated else GUN_MARKER_TYPE.CLIENT
+        component = self._findComponent(markerType, dataProvider, components, _CONSTANTS.SNIPER_GUN_MARKER_NAME)
+        if component is None:
+            component = _components.DefaultGunMarkerComponent(markerType, _VIEW_ID.SNIPER, _CONSTANTS.SNIPER_GUN_MARKER_NAME, _CONSTANTS.GUN_MARKER_LINKAGE, dataProvider)
+        return component,
+    elif markersInfo.isEnabledInVideoMode:
+        return (self._createVideoMarker(GUN_MARKER_TYPE.CLIENT, markersInfo.clientMarkerDataProvider, components),)
+    else:
+        return tuple()
 
 # noinspection PyProtectedMember
 hookActivateAlternateMode = ArcadeControlMode._ArcadeControlMode__activateAlternateMode
@@ -49,4 +54,4 @@ ArcadeControlMode._ArcadeControlMode__activateAlternateMode = hookedActivateAlte
 _OptionalMarkersFactory.create = create
 
 
-print '[LOAD_MOD]:  [sniperByScroll 2.00 (22-05-2017), by Kainenger, spoter, angelsoft]'
+print '[LOAD_MOD]:  [sniperByScroll 2.01 (22-05-2017), by Kainenger, spoter, angelsoft]'
