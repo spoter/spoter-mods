@@ -11,8 +11,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v5.00 (2017-05-22)'
-        self.version_id = 500
+        self.version = 'v5.01 (2017-05-23)'
+        self.version_id = 501
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -21,10 +21,14 @@ class Config(object):
             'personalFileSkillXP'    : True,
             'personalFileSkillBattle': True,
             'currentCrewRankOnTop' : True,
-            'currentCrewRankBattles': True,
-            'currentCrewRoleBattles': False,
+            'currentCrewRankBattle': True,
+            'currentCrewRoleBattle': False,
             'currentCrewBattleIcon': True,
-            'currentColor' : 6, 
+            'currentColorBattle' : 6,
+            'currentCrewRankExp': False,
+            'currentCrewRoleExp': True,
+            'currentCrewExpIcon': True,
+            'currentColorExp': 5,
             'colors': ['0000FF', 'A52A2B', 'D3691E', '6595EE', 'FCF5C8', '00FFFF', '28F09C', 'FFD700', '008000', 'ADFF2E', 'FF69B5', '00FF00', 'FFA500', 'FFC0CB', '800080', 'FF0000', '8378FC', 'DB0400', '80D639', 'FFE041', 'FFFF00', 'FA8072'],
             'color_i18n': ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime', 'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
         }
@@ -39,16 +43,24 @@ class Config(object):
             'UI_setting_personalFileSkillBattle_text'   : 'Show battles to 100%',
             'UI_setting_personalFileSkillBattle_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill with format: 1 battle to 1% (100 battle to 100%){/BODY}',
             'UI_setting_currentCrew_label': 'Current Crew :',
-            'UI_setting_currentColor_text'   : 'Change color',
-            'UI_setting_currentColor_tooltip': '',
+            'UI_setting_currentColorBattle_text'   : 'Change Battles color',
+            'UI_setting_currentColorBattle_tooltip': '',
             'UI_setting_currentCrewRankOnTop_text'   : 'Show Rank on Top',
             'UI_setting_currentCrewRankOnTop_tooltip': '{HEADER}Info:{/HEADER}{BODY}Default Role on top in current crew list in hangar, change it! :){/BODY}',
-            'UI_setting_currentCrewRankBattles_text'   : 'Show Battles in Rank',
-            'UI_setting_currentCrewRankBattles_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Rank field{/BODY}',
-            'UI_setting_currentCrewRoleBattles_text'   : 'Show Battles in Role',
-            'UI_setting_currentCrewRoleBattles_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Role field{/BODY}',
+            'UI_setting_currentCrewRankBattle_text'   : 'Show Battles in Rank',
+            'UI_setting_currentCrewRankBattle_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Rank field{/BODY}',
+            'UI_setting_currentCrewRoleBattle_text'   : 'Show Battles in Role',
+            'UI_setting_currentCrewRoleBattle_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Role field{/BODY}',
             'UI_setting_currentCrewBattleIcon_text'   : 'Show Battle Icon',
             'UI_setting_currentCrewBattleIcon_tooltip': '',
+            'UI_setting_currentCrewRankExp_text'   : 'Show Exp in Rank',
+            'UI_setting_currentCrewRankExp_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Rank field{/BODY}',
+            'UI_setting_currentCrewRoleExp_text'   : 'Show Exp in Role',
+            'UI_setting_currentCrewRoleExp_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Role field{/BODY}',
+            'UI_setting_currentCrewExpIcon_text'    : 'Show Exp Icon',
+            'UI_setting_currentCrewExpIcon_tooltip' : '',
+            'UI_setting_currentColorExp_text'   : 'Change Exp color',
+            'UI_setting_currentColorExp_tooltip': '',
             'UI_menu_blue'           : 'Blue',
             'UI_menu_brown'          : 'Brown',
             'UI_menu_chocolate'      : 'Chocolate',
@@ -88,39 +100,32 @@ class Config(object):
                 'tooltip': '',
             }, {
                 'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_setting_currentCrewRankOnTop_text'],
-                'value'  : self.data['currentCrewRankOnTop'],
-                'tooltip': self.i18n['UI_setting_currentCrewRankOnTop_tooltip'],
-                'varName': 'currentCrewRankOnTop'
-            }, {
-                'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_currentCrewBattleIcon_text'],
                 'value'  : self.data['currentCrewBattleIcon'],
                 'tooltip': self.i18n['UI_setting_currentCrewBattleIcon_tooltip'],
                 'varName': 'currentCrewBattleIcon'
             }, {
                 'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_setting_currentCrewRankBattles_text'],
-                'value'  : self.data['currentCrewRankBattles'],
-                'tooltip': self.i18n['UI_setting_currentCrewRankBattles_tooltip'],
-                'varName': 'currentCrewRankBattles'
+                'text'   : self.i18n['UI_setting_currentCrewRankBattle_text'],
+                'value'  : self.data['currentCrewRankBattle'],
+                'tooltip': self.i18n['UI_setting_currentCrewRankBattle_tooltip'],
+                'varName': 'currentCrewRankBattle'
             }, {
                 'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_setting_currentCrewRoleBattles_text'],
-                'value'  : self.data['currentCrewRoleBattles'],
-                'tooltip': self.i18n['UI_setting_currentCrewRoleBattles_tooltip'],
-                'varName': 'currentCrewRoleBattles'
+                'text'   : self.i18n['UI_setting_currentCrewRoleBattle_text'],
+                'value'  : self.data['currentCrewRoleBattle'],
+                'tooltip': self.i18n['UI_setting_currentCrewRoleBattle_tooltip'],
+                'varName': 'currentCrewRoleBattle'
             }, {
                 'type'        : 'Dropdown',
-                'text'        : self.i18n['UI_setting_currentColor_text'],
-                'tooltip'     : self.i18n['UI_setting_currentColor_tooltip'],
+                'text'        : self.i18n['UI_setting_currentColorBattle_text'],
+                'tooltip'     : self.i18n['UI_setting_currentColorBattle_tooltip'],
                 'itemRenderer': 'DropDownListItemRendererSound',
                 'options'     : self.generator_menu(),
                 'width'       : 200,
-                'value'       : self.data['currentColor'],
-                'varName'     : 'currentColor'
-            }],
-            'column2'        : [{
+                'value'       : self.data['currentColorBattle'],
+                'varName'     : 'currentColorBattle'
+            }, {
                 'type'   : 'Label',
                 'text'   : self.i18n['UI_setting_personalFile_label'],
                 'tooltip': '',
@@ -142,6 +147,40 @@ class Config(object):
                 'value'  : self.data['personalFileSkillXP'],
                 'tooltip': self.i18n['UI_setting_personalFileSkillXP_tooltip'],
                 'varName': 'personalFileSkillXP'
+            }],
+            'column2'        : [{
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_currentCrewRankOnTop_text'],
+                'value'  : self.data['currentCrewRankOnTop'],
+                'tooltip': self.i18n['UI_setting_currentCrewRankOnTop_tooltip'],
+                'varName': 'currentCrewRankOnTop'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_currentCrewExpIcon_text'],
+                'value'  : self.data['currentCrewExpIcon'],
+                'tooltip': self.i18n['UI_setting_currentCrewExpIcon_tooltip'],
+                'varName': 'currentCrewExpIcon'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_currentCrewRankExp_text'],
+                'value'  : self.data['currentCrewRankExp'],
+                'tooltip': self.i18n['UI_setting_currentCrewRankExp_tooltip'],
+                'varName': 'currentCrewRankExp'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_currentCrewRoleExp_text'],
+                'value'  : self.data['currentCrewRoleExp'],
+                'tooltip': self.i18n['UI_setting_currentCrewRoleExp_tooltip'],
+                'varName': 'currentCrewRoleExp'
+            }, {
+                'type'        : 'Dropdown',
+                'text'        : self.i18n['UI_setting_currentColorExp_text'],
+                'tooltip'     : self.i18n['UI_setting_currentColorExp_tooltip'],
+                'itemRenderer': 'DropDownListItemRendererSound',
+                'options'     : self.generator_menu(),
+                'width'       : 200,
+                'value'       : self.data['currentColorExp'],
+                'varName'     : 'currentColorExp'
             }]
         }
 
@@ -204,21 +243,26 @@ def changeTankman(data):
                 g_currentVehicle.itemsCache = g_itemsCache
             tankman = g_currentVehicle.itemsCache.items.getTankman(tankmenData['tankmanID'])
             dossier = g_currentVehicle.itemsCache.items.getTankmanDossier(tankmenData['tankmanID'])
-            battles = dossier.getLastSkillBattlesLeft(tankman)
-            text = ''
-            if battles:
-                if g_currentVehicle.item.isPremium:
-                    battles = dossier._TankmanDossier__getBattlesLeftOnPremiumVehicle(battles)
-                color = config.data['colors'][config.data['currentColor']]
-                text = '<font color="#%s">%s </font>' % (color, dossier._TankmanDossier__formatValueForUI(battles))
-                if config.data['currentCrewBattleIcon']:
-                    text += '<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\"/>'
-            if config.data['currentCrewRankBattles']:
-                tankmenData['rank'] = text + tankmenData['rank']
-            if config.data['currentCrewRoleBattles']:
-                tankmenData['role'] = text + tankmenData['role']
+            exp = max(1, tankman.getNextSkillXpCost() if not None else 0)
+            battles = max(1, dossier.getLastSkillBattlesLeft(tankman) if not None else 0)
+            if g_currentVehicle.item.isPremium:
+                battles = dossier._TankmanDossier__getBattlesLeftOnPremiumVehicle(battles)
+            textBattle = generateTextString(dossier, 'Battle', battles)
+            textExp = generateTextString(dossier, 'Exp', exp)
+            tankmenData['rank'] = textBattle[0] + textExp[0] + tankmenData['rank']
+            tankmenData['role'] = textBattle[1] + textExp[1] + tankmenData['role']
     return data
 
+def generateTextString(dossier, sign, value):
+    color = config.data['colors'][config.data['currentColor%s' %sign]]
+    text = '<font color="#%s">%s </font>' % (color, dossier._TankmanDossier__formatValueForUI(value))
+    if config.data['currentCrew%sIcon' %sign]:
+        if 'Battle' in sign:
+            text += '<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\"/>'
+        if 'Exp' in sign:
+            text += '<img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>'
+    return text if config.data['currentCrewRank%s' %sign] else '', text if config.data['currentCrewRole%s' %sign] else ''
+    
 
 config = Config()
 TankmanDossier.getLastSkillBattlesLeft = getLastSkillBattlesLeft
