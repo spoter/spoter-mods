@@ -1,0 +1,8 @@
+﻿{
+    "UI_description": "AutoAim Optimize",
+    "UI_setting_angle_text": "Set angle to catch target",
+    "UI_setting_angle_value": "\u00b0",
+    "UI_setting_catchHiddenTarget_text": "Catch target hidden behind an obstacle",
+    "UI_setting_catchHiddenTarget_tooltip": "",
+    "version": 103
+}

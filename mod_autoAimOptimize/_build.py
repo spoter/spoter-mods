@@ -10,7 +10,7 @@ import subprocess
 import base64
 
 CLIENT_VERSION = '0.9.19.0'
-NAME = 'spoter.crewExtended'
+NAME = 'spoter.autoAimOptimize'
 ADD_LICENSE = True
 
 
