@@ -24,7 +24,7 @@
     "UI_menu_yellow": "Жёлтый",
     "UI_setting_currentColorBattle_text": "Выбрать цвет Битв",
     "UI_setting_currentColorBattle_tooltip": "",
-    "UI_setting_currentColorExp_text": "Выбрать цвет Опыта,
+    "UI_setting_currentColorExp_text": "Выбрать цвет Опыта",
     "UI_setting_currentColorExp_tooltip": "",
     "UI_setting_currentCrewBattleIcon_text": "Показывать иконку Битв",
     "UI_setting_currentCrewBattleIcon_tooltip": "",
@@ -33,7 +33,7 @@
     "UI_setting_currentCrewRankBattles_text": "Битв до 100% в поле Должность",
     "UI_setting_currentCrewRankBattles_tooltip": "{HEADER}Info:{/HEADER}{BODY}Битв до 100% текущего умения в поле Должность{/BODY}",
     "UI_setting_currentCrewRankExp_text": "Опыта до 100% в поле Должность",
-    "UI_setting_currentCrewRankExp_tooltip": "{HEADER}Info:{/HEADER}{BODY}Опыта до 100% текущего умения в поле Должность{/BODY}
+    "UI_setting_currentCrewRankExp_tooltip": "{HEADER}Info:{/HEADER}{BODY}Опыта до 100% текущего умения в поле Должность{/BODY}",
     "UI_setting_currentCrewRankOnTop_text": "Должность первой",
     "UI_setting_currentCrewRankOnTop_tooltip": "{HEADER}Info:{/HEADER}{BODY}Поле Звание показывается первым, замените его на должность! :){/BODY}",
     "UI_setting_currentCrewRoleBattles_text": "Битв до 100% в поле Звание",
