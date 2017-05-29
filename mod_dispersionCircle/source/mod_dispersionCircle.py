@@ -24,7 +24,7 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.00 (2017-05-23)'
+        self.version = 'v3.00 (2017-05-29)'
         self.version_id = 300
         self.author = 'by StranikS_Scan'
         self.data = {

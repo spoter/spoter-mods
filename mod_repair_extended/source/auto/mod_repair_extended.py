@@ -19,7 +19,7 @@ from gui import InputHandler
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.03 (2017-05-23)'
+        self.version = 'v3.03 (2017-05-29)'
         self.author = 'by spoter'
         self.version_id = 303
         self.buttons = {
