@@ -24,8 +24,8 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.00 (2017-05-29)'
-        self.version_id = 300
+        self.version = 'v3.01 (2017-06-01)'
+        self.version_id = 301
         self.author = 'by StranikS_Scan'
         self.data = {
             'enabled'              : True,
@@ -387,7 +387,7 @@ def glideFov(func, *args):
 def PyOscillator(func, *args):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
         return func(1e-05, (1e-05, 1e-05, 1e-05), (1e-05, 1e-05, 1e-05), (0.0, 0.0, 0.0))
-    func(*args)
+    return func(*args)
 
 
 @inject.hook(Math, 'PyNoiseOscillator')
@@ -395,7 +395,7 @@ def PyOscillator(func, *args):
 def PyNoiseOscillator(func, *args):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
         return func(1e-05, (1e-05, 1e-05, 1e-05), (1e-05, 1e-05, 1e-05))
-    func(*args)
+    return func(*args)
 
 
 @inject.hook(Math, 'PyRandomNoiseOscillatorFlat')
@@ -403,7 +403,7 @@ def PyNoiseOscillator(func, *args):
 def PyRandomNoiseOscillatorFlat(func, *args):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
         return func(1e-05, 1e-05, 1e-05)
-    func(*args)
+    return func(*args)
 
 
 @inject.hook(Math, 'PyRandomNoiseOscillatorSpherical')
@@ -411,7 +411,7 @@ def PyRandomNoiseOscillatorFlat(func, *args):
 def PyRandomNoiseOscillatorSpherical(func, *args):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
         return func(1e-05, 1e-05, 1e-05, (0.0, 0.0, 0.0))
-    func(*args)
+    return func(*args)
 
 
 @inject.hook(EffectsList._FlashBangEffectDesc, 'create')
