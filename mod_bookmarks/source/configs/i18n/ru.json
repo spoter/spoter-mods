@@ -1,0 +1,21 @@
+﻿{
+    "UI_description"      : "Закладки",
+    "UI_setting_showLiked_text"   : "Показывать Любимые закладки",
+    "UI_setting_showLiked_tooltip": "",
+    "UI_setting_showMods_text"    : "Показывать закладки сайтов с модами",
+    "UI_setting_showMods_tooltip" : "",
+    "UI_setting_showStats_text"   : "Показывать закладки сайтов со статистикой",
+    "UI_setting_showStats_tooltip": "",
+    "UI_setting_showNews_text"    : "Показывать закладки сайтов с новостями",
+    "UI_setting_showNews_tooltip" : "",
+    "UI_setting_showBlog_text"    : "Показывать закладки любимых блогеров",
+    "UI_setting_showBlog_tooltip" : "",
+    "UI_setting_config_text"      : "Редактировать список в конфиге: /mods/configs/bookmarks/bookmarks.json",
+    "UI_setting_config_tooltip"   : "",
+    "UI_setting_message_liked"    : "Любимые закладки",
+    "UI_setting_message_mods"     : "Закладки сайтов с модами",
+    "UI_setting_message_stats"    : "Закладки сайтов со статистикой",
+    "UI_setting_message_news"     : "Закладки сайтов с новостями",
+    "UI_setting_message_blog"     : "Закладки любимых блогеров",
+    "version": 100
+}

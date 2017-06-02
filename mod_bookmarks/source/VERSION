@@ -1,0 +1,8 @@
+{
+  "version": 1.00,
+  "source": "mod_bookmarks.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/bookmarks.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}

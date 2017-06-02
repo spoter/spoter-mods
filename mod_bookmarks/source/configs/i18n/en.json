@@ -1,0 +1,21 @@
+﻿{
+    "UI_description"      : "Bookmarks",
+    "UI_setting_showLiked_text"   : "Show Liked site bookmarks",
+    "UI_setting_showLiked_tooltip": "",
+    "UI_setting_showMods_text"    : "Show Mods site bookmarks",
+    "UI_setting_showMods_tooltip" : "",
+    "UI_setting_showStats_text"   : "Show Statistics site bookmarks",
+    "UI_setting_showStats_tooltip": "",
+    "UI_setting_showNews_text"    : "Show News site bookmarks",
+    "UI_setting_showNews_tooltip" : "",
+    "UI_setting_showBlog_text"    : "Show Blog Bookmarks",
+    "UI_setting_showBlog_tooltip" : "",
+    "UI_setting_config_text"      : "Links list in config: /mods/configs/bookmarks/bookmarks.json",
+    "UI_setting_config_tooltip"   : "",
+    "UI_setting_message_liked"    : "Liked site bookmarks",
+    "UI_setting_message_mods"     : "Mods site bookmarks",
+    "UI_setting_message_stats"    : "Statistics site bookmarks",
+    "UI_setting_message_news"     : "News site bookmarks",
+    "UI_setting_message_blog"     : "Blog Bookmarks",
+    "version": 100
+}

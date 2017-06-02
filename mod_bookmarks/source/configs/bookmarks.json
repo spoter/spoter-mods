@@ -1,0 +1,49 @@
+﻿{
+    "enabled": true,
+    "showBlog": true,
+    "showLiked": true,
+    "showMods": true,
+    "showNews": true,
+    "showStats": true,
+    "blog": [
+        ["Канал Вспышки", "https://www.youtube.com/user/VspishkaArm/videos"],
+        ["Канал Near_You", "https://www.youtube.com/user/alexeykuchkin/videos"],
+        ["Канал ТоТ СаМый CEZAR", "https://www.youtube.com/channel/UC1HLYmxSmpQ_plKZw6QNwfg/videos"],
+        ["Канал KorbenDallas", "https://www.youtube.com/channel/UCHJUP0eG8AiejFG_xkJGbRA/videos"],
+        ["Канал G1deon", "https://www.youtube.com/user/gdwintmn/videos"],
+        ["Канал GrimOptimist", "https://www.youtube.com/user/dmitryamba/videos"],
+        ["Канал jmr WoT", "https://www.youtube.com/user/JMRWoT/videos"],
+        ["Канал Fermani WoT", "https://www.youtube.com/user/fermani1/videos"],
+        ["Канал Rados23 K.R.S", "https://www.youtube.com/channel/UCohZi_kki3pz_p9wSAXeGzg/videos"],
+        ["Канал Amway921", "https://www.youtube.com/user/Amway921WOT/videos"],
+        ["Канал DeSeRtod", "https://www.youtube.com/user/DeSeRtodTV/videos"],
+        ["Канал Arti25", "https://www.youtube.com/user/TheArti25/videos"],
+        ["Канал EviL_GrannY", "https://www.youtube.com/channel/UCIIOIYlkNb6vFftQV-nUhDQ/videos"],
+    ],
+    "liked": [
+        ["Канал Вспышки", "https://www.youtube.com/user/VspishkaArm/videos"],
+        ["Канал ТоТ СаМый CEZAR", "https://www.youtube.com/user/UC1HLYmxSmpQ_plKZw6QNwfg/videos"],
+        ["Канал KorbenDallas", "https://www.youtube.com/user/UCHJUP0eG8AiejFG_xkJGbRA/videos"],
+        ["Всё актуальное и самое важное о мире Танков.", "http://vk.com/wotclue"],
+    ],
+    "mods": [
+        [ "wotspeak.ru", "http://wotspeak.ru" ],
+        [ "wotsite.net", "http://wotsite.net" ],
+        [ "wgmods.net", "https://wgmods.net" ],
+        [ "aces.gg", "http://aces.gg/mods/" ],
+        [ "res-mods.ru", "http://res-mods.ru" ]
+    ],
+    "news": [
+        ["Новости World of Tanks каждый день", "http://wot-news.com"],
+        ["Новости WoT на официальном сайте", "http://worldoftanks.ru/ru/news/"],
+        ["Всё актуальное и самое важное о мире Танков.", "http://vk.com/wotclue"],
+        ["Последняя информация о будущих обновлениях", "http://vk.com/wotleaks"],
+    ],
+    "stats": [
+        [ "kttc.ru", "https://kttc.ru/wot/ru/user/{}" ],
+        [ "wot-news.com", "http://wot-news.com/stat/nstat/ru/ru/{}" ],
+        [ "noobmeter.com", "http://www.noobmeter.com/player/ru/{}" ],
+        [ "wotomatic.net ", "http://wotomatic.net/?search={}" ]
+    ],
+    "version": 100
+}
