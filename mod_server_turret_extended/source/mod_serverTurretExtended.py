@@ -17,7 +17,7 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v1.16 (2017-05-29)'
+        self.version = 'v1.16 (2017-06-04)'
         self.version_id = 116
         self.author = 'by spoter, reven86'
         self.data = {
