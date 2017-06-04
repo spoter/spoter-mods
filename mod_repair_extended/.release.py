@@ -56,3 +56,7 @@ Release(manual, ZIP_MANUAL)
 import _build_auto as auto
 Release(auto, ZIP_AUTO)
 
+try:
+    shutil.rmtree('release', True)
+except OSError:
+    pass
