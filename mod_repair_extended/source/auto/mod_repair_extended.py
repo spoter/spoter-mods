@@ -10,33 +10,44 @@ from Avatar import PlayerAvatar as PlayerAvatar
 from gui import TANKMEN_ROLES_ORDER_DICT
 from gui.Scaleform.daapi.view.battle.shared.consumables_panel import ConsumablesPanel
 from gui.app_loader import g_appLoader
-from gui.battle_control.battle_constants import DEVICE_STATE_AS_DAMAGE, DEVICE_STATE_DESTROYED, VEHICLE_DEVICE_IN_COMPLEX_ITEM, VEHICLE_VIEW_STATE
+from gui.battle_control.battle_constants import DEVICE_STATE_AS_DAMAGE, DEVICE_STATE_DESTROYED, VEHICLE_VIEW_STATE, DEVICE_STATE_NORMAL
 from gui.mods.mod_mods_gui import g_gui, inject
 from gui.shared.gui_items import Vehicle
 from gui import InputHandler
+
+COMPLEX_ITEM = {
+    'leftTrack' : 'chassis',
+    'rightTrack': 'chassis',
+    'gunner1'   : 'gunner',
+    'gunner2'   : 'gunner',
+    'radioman1' : 'radioman',
+    'radioman2' : 'radioman',
+    'loader1'   : 'loader',
+    'loader2'   : 'loader'
+}
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.03 (2017-06-04)'
+        self.version = 'v3.04 (2017-06-05)'
         self.author = 'by spoter'
-        self.version_id = 303
+        self.version_id = 304
         self.buttons = {
-            'buttonRepair': [Keys.KEY_SPACE],
+            'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
         }
         self.data = {
             'version'       : self.version_id,
             'enabled'       : True,
             'buttonChassis' : self.buttons['buttonChassis'],
-            'buttonRepair': self.buttons['buttonRepair'],
-            'autoRepair': True,
+            'buttonRepair'  : self.buttons['buttonRepair'],
+            'autoRepair'    : True,
             'removeStun'    : True,
             'extinguishFire': True,
             'healCrew'      : True,
             'repairDevices' : True,
-            'restoreChassis': True,
+            'restoreChassis': False,
             'useGoldKits'   : True,
             'timerMin'      : 0.3,
             'timerMax'      : 0.8,
@@ -68,30 +79,30 @@ class Config(object):
             }
         }
         self.i18n = {
-            'version'                        : self.version_id,
-            'UI_repair_name'                 : 'Repair extended Cheat edition',
-            'UI_repair_buttonChassis_text'   : 'Button: Restore Chassis',
-            'UI_repair_buttonChassis_tooltip': '',
-            'UI_repair_buttonRepair_text'   : 'Button: Smart Repair',
-            'UI_repair_buttonRepair_tooltip': '',
-            'UI_repair_removeStun_text'      : 'Remove stun',
-            'UI_repair_removeStun_tooltip'   : '',
-            'UI_repair_useGoldKits_text'     : 'Use Gold Kits',
-            'UI_repair_useGoldKits_tooltip'  : '',
-            'UI_repair_timerMin_text'        : 'Min delay auto usage',
-            'UI_repair_timerMin_format'      : ' sec.',
-            'UI_repair_timerMax_text'        : 'Max delay auto usage',
-            'UI_repair_timerMax_format'      : ' sec.',
+            'version'                         : self.version_id,
+            'UI_repair_name'                  : 'Repair extended Cheat edition',
+            'UI_repair_buttonChassis_text'    : 'Button: Restore Chassis',
+            'UI_repair_buttonChassis_tooltip' : '',
+            'UI_repair_buttonRepair_text'     : 'Button: Smart Repair',
+            'UI_repair_buttonRepair_tooltip'  : '',
+            'UI_repair_removeStun_text'       : 'Remove stun',
+            'UI_repair_removeStun_tooltip'    : '',
+            'UI_repair_useGoldKits_text'      : 'Use Gold Kits',
+            'UI_repair_useGoldKits_tooltip'   : '',
+            'UI_repair_timerMin_text'         : 'Min delay auto usage',
+            'UI_repair_timerMin_format'       : ' sec.',
+            'UI_repair_timerMax_text'         : 'Max delay auto usage',
+            'UI_repair_timerMax_format'       : ' sec.',
             'UI_repair_extinguishFire_text'   : 'Extinguish fire',
             'UI_repair_extinguishFire_tooltip': '',
-            'UI_repair_healCrew_text'   : 'Heal crew',
-            'UI_repair_healCrew_tooltip': '',
+            'UI_repair_healCrew_text'         : 'Heal crew',
+            'UI_repair_healCrew_tooltip'      : '',
             'UI_repair_restoreChassis_text'   : 'Restore chassis',
             'UI_repair_restoreChassis_tooltip': '',
-            'UI_repair_repairDevices_text'   : 'Repair devices',
-            'UI_repair_repairDevices_tooltip': '',
-            'UI_repair_autoRepair_text'   : 'Auto usage',
-            'UI_repair_autoRepair_tooltip': ''
+            'UI_repair_repairDevices_text'    : 'Repair devices',
+            'UI_repair_repairDevices_tooltip' : '',
+            'UI_repair_autoRepair_text'       : 'Auto usage',
+            'UI_repair_autoRepair_tooltip'    : ''
 
         }
         print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
@@ -292,10 +303,14 @@ class Repair(object):
             equipment = self.items[equipmentTag][3]
             if equipment is not None:
                 # noinspection PyUnresolvedReferences
-                devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
+                devices = [name for name, state in equipment.getEntitiesIterator() if state and state != DEVICE_STATE_NORMAL]
                 result = []
                 for device in specific:
-                    if device in devices:
+                    if device in COMPLEX_ITEM:
+                        itemName = COMPLEX_ITEM[device]
+                    else:
+                        itemName = device
+                    if itemName in devices:
                         result.append(device)
                 if len(result) > 1:
                     self.useItemGold(equipmentTag)
@@ -305,10 +320,14 @@ class Repair(object):
             equipment = self.items[equipmentTag][2]
             if equipment is not None:
                 # noinspection PyUnresolvedReferences
-                devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_AS_DAMAGE]
+                devices = [name for name, state in equipment.getEntitiesIterator() if state and state != DEVICE_STATE_NORMAL]
                 result = []
                 for device in specific:
-                    if device in devices:
+                    if device in COMPLEX_ITEM:
+                        itemName = COMPLEX_ITEM[device]
+                    else:
+                        itemName = device
+                    if itemName in devices:
                         result.append(device)
                 if len(result) > 1:
                     self.useItemGold(equipmentTag)
@@ -326,13 +345,14 @@ class Repair(object):
             self.repair('medkit')
         if config.data['removeStun']:
             self.removeStun()
+        if config.data['restoreChassis']:
+            self.repairChassis()
 
     # noinspection PyUnusedLocal
     def onEquipmentUpdated(self, *args):
         self.repairAll()
 
     def repairChassis(self):
-        if not config.data['restoreChassis']: return
         if self.ctrl is None:
             return
         equipmentTag = 'repairkit'
@@ -366,8 +386,8 @@ class Repair(object):
         if state == VEHICLE_VIEW_STATE.DEVICES:
             deviceName, deviceState, actualState = value
             if deviceState in DEVICE_STATE_AS_DAMAGE:
-                if deviceName in VEHICLE_DEVICE_IN_COMPLEX_ITEM:
-                    itemName = VEHICLE_DEVICE_IN_COMPLEX_ITEM[deviceName]
+                if deviceName in COMPLEX_ITEM:
+                    itemName = COMPLEX_ITEM[deviceName]
                 else:
                     itemName = deviceName
                 equipmentTag = 'medkit' if itemName in TANKMEN_ROLES_ORDER_DICT['enum'] else 'repairkit'
@@ -382,8 +402,10 @@ class Repair(object):
         if config.data['removeStun'] and state == VEHICLE_VIEW_STATE.STUN:
             BigWorld.callback(time, partial(self.useItem, 'medkit'))
 
+
 config = Config()
 repair = Repair()
+
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
 @inject.log

@@ -1,5 +1,5 @@
 {
-  "version": 3.02,
+  "version": 3.04,
   "source": "mod_repair_extended.py",
   "meta": "configs/meta.xml",
   "config": "configs/repair_extended.json",

@@ -35,9 +35,9 @@
             "repairkit": [ "ammoBay", "engine", "gun", "turretRotator", "fuelTank" ]
         }
     },
-    "restoreChassis": true,
+    "restoreChassis": false,
     "timerMax": 0.8,
     "timerMin": 0.3,
     "useGoldKits": true,
-    "version": 303
+    "version": 304
 }
