@@ -2,5 +2,6 @@
     "angle": 1.3,
     "catchHiddenTarget": true,
     "enabled": true,
-    "version": 103
+    "disableArtyMode": true,
+    "version": 104
 }

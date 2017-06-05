@@ -7,7 +7,6 @@ import BigWorld
 import CommandMapping
 from Avatar import PlayerAvatar
 from AvatarInputHandler import cameras, control_modes
-from gui import InputHandler
 from gui.app_loader import g_appLoader
 from gui.mods.mod_mods_gui import g_gui, inject
 
@@ -15,14 +14,15 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'autoAimOptimize'
-        self.version = 'v1.03 (2017-06-04)'
-        self.version_id = 103
+        self.version = 'v1.04 (2017-06-05)'
+        self.version_id = 104
         self.author = 'by spoter'
         self.data = {
             'version'          : self.version_id,
             'enabled'          : True,
             'angle'            : 1.3,
-            'catchHiddenTarget': True
+            'catchHiddenTarget': True,
+            'disableArtyMode': True
         }
         self.i18n = {
             'version'                             : self.version_id,
@@ -30,7 +30,9 @@ class Config(object):
             'UI_setting_angle_text'               : 'Set angle to catch target',
             'UI_setting_angle_value'              : '%s' % unichr(176),
             'UI_setting_catchHiddenTarget_text'   : 'Catch target hidden behind an obstacle',
-            'UI_setting_catchHiddenTarget_tooltip': ''
+            'UI_setting_catchHiddenTarget_tooltip': '',
+            'UI_setting_disableArtyMode_text'   : 'Disable in Arty mode',
+            'UI_setting_disableArtyMode_tooltip': ''
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -57,6 +59,12 @@ class Config(object):
                 'value'  : self.data['catchHiddenTarget'],
                 'tooltip': self.i18n['UI_setting_catchHiddenTarget_tooltip'],
                 'varName': 'catchHiddenTarget'
+            },{
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_disableArtyMode_text'],
+                'value'  : self.data['disableArtyMode'],
+                'tooltip': self.i18n['UI_setting_disableArtyMode_tooltip'],
+                'varName': 'disableArtyMode'
             }]
         }
 
@@ -146,14 +154,14 @@ def hookKeyEventSniper(func, *args):
 @inject.hook(control_modes.StrategicControlMode, 'handleKeyEvent')
 @inject.log
 def hookKeyEventStrategic(func, *args):
-    if mod.injectButton(args[1], args[2]):
+    if not config.data['disableArtyMode'] and mod.injectButton(args[1], args[2]):
         return True
     func(*args)
 
 @inject.hook(control_modes.ArtyControlMode, 'handleKeyEvent')
 @inject.log
 def hookKeyEventArty(func, *args):
-    if mod.injectButton(args[1], args[2]):
+    if not config.data['disableArtyMode'] and mod.injectButton(args[1], args[2]):
         return True
     func(*args)
 

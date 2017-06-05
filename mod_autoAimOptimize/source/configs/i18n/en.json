@@ -4,5 +4,7 @@
     "UI_setting_angle_value": "\u00b0",
     "UI_setting_catchHiddenTarget_text": "Catch target hidden behind an obstacle",
     "UI_setting_catchHiddenTarget_tooltip": "",
-    "version": 103
+    "UI_setting_disableArtyMode_text": "Disable in Arty mode",
+    "UI_setting_disableArtyMode_tooltip": "",
+    "version": 104
 }
