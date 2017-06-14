@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '0.9.19.0.1'
+CLIENT_VERSION = '0.9.19.0.2'
 NAME = 'spoter.serverTurretExtended'
 ADD_LICENSE = True
 
