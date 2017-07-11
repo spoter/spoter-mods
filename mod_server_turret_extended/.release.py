@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-ZIP = 'server_turret_extended.zip'
+ZIP = 'mods_server_turret_extended.zip'
 
 class Release(object):
 

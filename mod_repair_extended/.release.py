@@ -4,8 +4,8 @@ import os
 import shutil
 import subprocess
 
-ZIP_AUTO = 'repair_extended_cheat.zip'
-ZIP_MANUAL = 'repair_extended.zip'
+ZIP_AUTO = 'mods_repair_extended_cheat.zip'
+ZIP_MANUAL = 'mods_repair_extended.zip'
 
 try:
     shutil.rmtree('zip', True)

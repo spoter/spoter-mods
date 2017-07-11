@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-ZIP = 'spotted_extended_light.zip'
+ZIP = 'mods_spotted_extended_light.zip'
 
 class Release(object):
 

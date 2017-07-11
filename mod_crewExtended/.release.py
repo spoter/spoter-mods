@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-ZIP = 'crewExtended.zip'
+ZIP = 'mods_crewExtended.zip'
 
 class Release(object):
 

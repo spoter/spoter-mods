@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-ZIP = 'mod_autoAimOptimize.zip'
+ZIP = 'mods_autoAimOptimize.zip'
 
 class Release(object):
 

@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-ZIP = 'mod_bookmarks.zip'
+ZIP = 'mods_bookmarks.zip'
 
 class Release(object):
 

@@ -6,7 +6,7 @@ import subprocess
 
 import _build as build
 
-ZIP = 'mod_dispersionCircle.zip'
+ZIP = 'mods_dispersionCircle.zip'
 
 class Release(object):
 
