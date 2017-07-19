@@ -25,9 +25,9 @@ COMPLEX_ITEM = {
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.04 (2017-07-11)'
+        self.version = 'v3.05 (2017-07-20)'
         self.author = 'by spoter'
-        self.version_id = 304
+        self.version_id = 305
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]

@@ -30,9 +30,9 @@ COMPLEX_ITEM = {
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.04 (2017-07-11)'
+        self.version = 'v3.05 (2017-07-20)'
         self.author = 'by spoter'
-        self.version_id = 304
+        self.version_id = 305
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -390,7 +390,7 @@ class Repair(object):
                     itemName = COMPLEX_ITEM[deviceName]
                 else:
                     itemName = deviceName
-                equipmentTag = 'medkit' if itemName in TANKMEN_ROLES_ORDER_DICT['enum'] else 'repairkit'
+                equipmentTag = 'medkit' if deviceName in TANKMEN_ROLES_ORDER_DICT['enum'] else 'repairkit'
                 specific = config.data['repairPriority'][Vehicle.getVehicleClassTag(BigWorld.player().vehicleTypeDescriptor.type.tags)][equipmentTag]
                 if itemName in specific:
                     if config.data['healCrew'] and equipmentTag == 'medkit':
