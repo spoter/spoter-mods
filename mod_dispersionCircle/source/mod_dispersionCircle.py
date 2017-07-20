@@ -24,8 +24,8 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.01 (2017-06-04)'
-        self.version_id = 301
+        self.version = 'v3.02 (2017-07-20)'
+        self.version_id = 302
         self.author = 'by StranikS_Scan'
         self.data = {
             'enabled'              : True,
@@ -164,8 +164,7 @@ class new_DefaultGunMarkerController(_GunMarkerController):
 
 class DispersionCircle(object):
     @staticmethod
-    def gunMarkersDecoratorSetPosition(*args):
-        func, position, markerType = args
+    def gunMarkersDecoratorSetPosition(func, position, markerType):
         if not config.data['ReplaceOriginalCircle']:
             if markerType == _MARKER_TYPE.CLIENT:
                 func._GunMarkersDecorator__clientMarker.setPosition(position)
@@ -184,36 +183,35 @@ class DispersionCircle(object):
                 func._GunMarkersDecorator__serverMarker.setPosition(position)
 
     @staticmethod
-    def gunMarkersDecoratorUpdate(*args):
-        self, markerType, position, dir, size, relaxTime, collData = args
+    def gunMarkersDecoratorUpdate(func, markerType, position, dir, size, relaxTime, collData): #(self, position, markerType=_MARKER_TYPE.CLIENT):
         if not config.data['ReplaceOriginalCircle']:
             if markerType == _MARKER_TYPE.CLIENT:
-                self._GunMarkersDecorator__clientState = (position, relaxTime, collData)
-                if self._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
-                    self._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
+                func._GunMarkersDecorator__clientState = (position, relaxTime, collData)
+                if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
+                    func._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
             if config.data['UseServerDispersion']:
                 if markerType == _MARKER_TYPE.SERVER:
-                    self._GunMarkersDecorator__serverState = (position, relaxTime, collData)
-                    if self._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
-                        self._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
+                    func._GunMarkersDecorator__serverState = (position, relaxTime, collData)
+                    if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
+                        func._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
             elif markerType == _MARKER_TYPE.CLIENT:
-                self._GunMarkersDecorator__serverState = (position, relaxTime, collData)
-                if self._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
-                    self._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
+                func._GunMarkersDecorator__serverState = (position, relaxTime, collData)
+                if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
+                    func._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
         else:
             if config.data['UseServerDispersion']:
                 if markerType == _MARKER_TYPE.SERVER:
-                    self._GunMarkersDecorator__clientState = (position, relaxTime, collData)
-                    if self._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
-                        self._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
+                    func._GunMarkersDecorator__clientState = (position, relaxTime, collData)
+                    if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
+                        func._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
             elif markerType == _MARKER_TYPE.CLIENT:
-                self._GunMarkersDecorator__clientState = (position, relaxTime, collData)
-                if self._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
-                    self._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
+                func._GunMarkersDecorator__clientState = (position, relaxTime, collData)
+                if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
+                    func._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
             if markerType == _MARKER_TYPE.SERVER:
-                self._GunMarkersDecorator__serverState = (position, relaxTime, collData)
-                if self._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
-                    self._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
+                func._GunMarkersDecorator__serverState = (position, relaxTime, collData)
+                if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
+                    func._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
 
     @staticmethod
     def createGunMarker(isStrategic):
@@ -227,78 +225,76 @@ class DispersionCircle(object):
         return _GunMarkersDecorator(clientMarker, serverMarker)
 
     @staticmethod
-    def arcadeCameraInit(self):
+    def arcadeCameraInit(func):
         if not config.data['Remove_DynamicEffects']: return
-        self._ArcadeCamera__dynamicCfg['accelerationSensitivity'] = 0.0
-        self._ArcadeCamera__dynamicCfg['frontImpulseToPitchRatio'] = 0.0
-        self._ArcadeCamera__dynamicCfg['sideImpulseToRollRatio'] = 0.0
-        self._ArcadeCamera__dynamicCfg['sideImpulseToYawRatio'] = 0.0
-        self._ArcadeCamera__dynamicCfg['accelerationThreshold'] = 0.0
-        self._ArcadeCamera__dynamicCfg['accelerationMax'] = 0.0
-        self._ArcadeCamera__dynamicCfg['maxShotImpulseDistance'] = 0.0
-        self._ArcadeCamera__dynamicCfg['maxExplosionImpulseDistance'] = 0.0
-        self._ArcadeCamera__dynamicCfg['zoomExposure'] = 0.0
-        for x in self._ArcadeCamera__dynamicCfg['impulseSensitivities']:
-            self._ArcadeCamera__dynamicCfg['impulseSensitivities'][x] = 0.0
-        for x in self._ArcadeCamera__dynamicCfg['impulseLimits']:
-            self._ArcadeCamera__dynamicCfg['impulseLimits'][x] = (0.0, 0.0)
-        for x in self._ArcadeCamera__dynamicCfg['noiseSensitivities']:
-            self._ArcadeCamera__dynamicCfg['noiseSensitivities'][x] = 0.0
-        for x in self._ArcadeCamera__dynamicCfg['noiseLimits']:
-            self._ArcadeCamera__dynamicCfg['noiseLimits'][x] = (0.0, 0.0)
+        func._ArcadeCamera__dynamicCfg['accelerationSensitivity'] = 0.0
+        func._ArcadeCamera__dynamicCfg['frontImpulseToPitchRatio'] = 0.0
+        func._ArcadeCamera__dynamicCfg['sideImpulseToRollRatio'] = 0.0
+        func._ArcadeCamera__dynamicCfg['sideImpulseToYawRatio'] = 0.0
+        func._ArcadeCamera__dynamicCfg['accelerationThreshold'] = 0.0
+        func._ArcadeCamera__dynamicCfg['accelerationMax'] = 0.0
+        func._ArcadeCamera__dynamicCfg['maxShotImpulseDistance'] = 0.0
+        func._ArcadeCamera__dynamicCfg['maxExplosionImpulseDistance'] = 0.0
+        func._ArcadeCamera__dynamicCfg['zoomExposure'] = 0.0
+        for x in func._ArcadeCamera__dynamicCfg['impulseSensitivities']:
+            func._ArcadeCamera__dynamicCfg['impulseSensitivities'][x] = 0.0
+        for x in func._ArcadeCamera__dynamicCfg['impulseLimits']:
+            func._ArcadeCamera__dynamicCfg['impulseLimits'][x] = (0.0, 0.0)
+        for x in func._ArcadeCamera__dynamicCfg['noiseSensitivities']:
+            func._ArcadeCamera__dynamicCfg['noiseSensitivities'][x] = 0.0
+        for x in func._ArcadeCamera__dynamicCfg['noiseLimits']:
+            func._ArcadeCamera__dynamicCfg['noiseLimits'][x] = (0.0, 0.0)
 
     @staticmethod
-    def sniperCameraInit(self):
+    def sniperCameraInit(func):
         if not config.data['Remove_DynamicEffects']: return
-        self._SniperCamera__dynamicCfg['accelerationSensitivity'] = Math.Vector3(0.0, 0.0, 0.0)
-        self._SniperCamera__dynamicCfg['accelerationThreshold'] = 0.0
-        self._SniperCamera__dynamicCfg['accelerationMax'] = 0.0
-        self._SniperCamera__dynamicCfg['maxShotImpulseDistance'] = 0.0
-        self._SniperCamera__dynamicCfg['maxExplosionImpulseDistance'] = 0.0
-        self._SniperCamera__dynamicCfg['impulsePartToRoll'] = 0.0
-        self._SniperCamera__dynamicCfg['pivotShift'] = Math.Vector3(0, -0.5, 0)
-        for x in self._SniperCamera__dynamicCfg['impulseSensitivities']:
-            self._SniperCamera__dynamicCfg['impulseSensitivities'][x] = 0.0
-        for x in self._SniperCamera__dynamicCfg['impulseLimits']:
-            self._SniperCamera__dynamicCfg['impulseLimits'][x] = (0.0, 0.0)
-        for x in self._SniperCamera__dynamicCfg['noiseSensitivities']:
-            self._SniperCamera__dynamicCfg['noiseSensitivities'][x] = 0.0
-        for x in self._SniperCamera__dynamicCfg['noiseLimits']:
-            self._SniperCamera__dynamicCfg['noiseLimits'][x] = (0.0, 0.0)
+        func._SniperCamera__dynamicCfg['accelerationSensitivity'] = Math.Vector3(0.0, 0.0, 0.0)
+        func._SniperCamera__dynamicCfg['accelerationThreshold'] = 0.0
+        func._SniperCamera__dynamicCfg['accelerationMax'] = 0.0
+        func._SniperCamera__dynamicCfg['maxShotImpulseDistance'] = 0.0
+        func._SniperCamera__dynamicCfg['maxExplosionImpulseDistance'] = 0.0
+        func._SniperCamera__dynamicCfg['impulsePartToRoll'] = 0.0
+        func._SniperCamera__dynamicCfg['pivotShift'] = Math.Vector3(0, -0.5, 0)
+        for x in func._SniperCamera__dynamicCfg['impulseSensitivities']:
+            func._SniperCamera__dynamicCfg['impulseSensitivities'][x] = 0.0
+        for x in func._SniperCamera__dynamicCfg['impulseLimits']:
+            func._SniperCamera__dynamicCfg['impulseLimits'][x] = (0.0, 0.0)
+        for x in func._SniperCamera__dynamicCfg['noiseSensitivities']:
+            func._SniperCamera__dynamicCfg['noiseSensitivities'][x] = 0.0
+        for x in func._SniperCamera__dynamicCfg['noiseLimits']:
+            func._SniperCamera__dynamicCfg['noiseLimits'][x] = (0.0, 0.0)
 
     @staticmethod
-    def strategicCameraInit(self):
+    def strategicCameraInit(func):
         if not config.data['Remove_DynamicEffects']: return
-        for x in self._StrategicCamera__dynamicCfg['impulseSensitivities']:
-            self._StrategicCamera__dynamicCfg['impulseSensitivities'][x] = 0.0
-        for x in self._StrategicCamera__dynamicCfg['impulseLimits']:
-            self._StrategicCamera__dynamicCfg['impulseLimits'][x] = (0.0, 0.0)
-        for x in self._StrategicCamera__dynamicCfg['noiseSensitivities']:
-            self._StrategicCamera__dynamicCfg['noiseSensitivities'][x] = 0.0
-        for x in self._StrategicCamera__dynamicCfg['noiseLimits']:
-            self._StrategicCamera__dynamicCfg['noiseLimits'][x] = (0.0, 0.0)
+        for x in func._StrategicCamera__dynamicCfg['impulseSensitivities']:
+            func._StrategicCamera__dynamicCfg['impulseSensitivities'][x] = 0.0
+        for x in func._StrategicCamera__dynamicCfg['impulseLimits']:
+            func._StrategicCamera__dynamicCfg['impulseLimits'][x] = (0.0, 0.0)
+        for x in func._StrategicCamera__dynamicCfg['noiseSensitivities']:
+            func._StrategicCamera__dynamicCfg['noiseSensitivities'][x] = 0.0
+        for x in func._StrategicCamera__dynamicCfg['noiseLimits']:
+            func._StrategicCamera__dynamicCfg['noiseLimits'][x] = (0.0, 0.0)
 
     @staticmethod
-    def enableHorizontalStabilizerRuntime(self):
+    def enableHorizontalStabilizerRuntime(func):
         yawConstraint = math.pi * 2.1 if config.data['HorizontalStabilizer'] else 0.0
-        self._SniperAimingSystem__yprDeviationConstraints.x = yawConstraint
+        func._SniperAimingSystem__yprDeviationConstraints.x = yawConstraint
 
     @staticmethod
-    def glide(*args):
-        self, posDelta = args
-        self._InputInertia__deltaEasing.reset(posDelta, Math.Vector3(0.0), 0.001)
+    def glide(func, posDelta):
+        func._InputInertia__deltaEasing.reset(posDelta, Math.Vector3(0.0), 0.001)
 
     @staticmethod
-    def glideFov(*args):
-        self, newRelativeFocusDist = args
-        minMulti, maxMulti = self._InputInertia__minMaxZoomMultiplier
+    def glideFov(func, newRelativeFocusDist):
+        minMulti, maxMulti = func._InputInertia__minMaxZoomMultiplier
         endMulti = mathUtils.lerp(minMulti, maxMulti, newRelativeFocusDist)
-        self._InputInertia__zoomMultiplierEasing.reset(self._InputInertia__zoomMultiplierEasing.value, endMulti, 0.001)
+        func._InputInertia__zoomMultiplierEasing.reset(func._InputInertia__zoomMultiplierEasing.value, endMulti, 0.001)
 
 
 @inject.hook(_GunMarkerController, 'update')
 @inject.log
-def gunMarkerControllerUpdate(func, *args):
+def gunMarkerControllerUpdate(func, *args): #(self, markerType, position, dir, size, relaxTime, collData)
     if config.data['enabled']:
         args[0]._position = args[2]
         return
@@ -307,18 +303,18 @@ def gunMarkerControllerUpdate(func, *args):
 
 @inject.hook(_GunMarkersDecorator, 'setPosition')
 @inject.log
-def gunMarkersDecoratorSetPosition(func, self, position, markerType=_MARKER_TYPE.CLIENT):
+def gunMarkersDecoratorSetPosition(func, *args): #(self, position, markerType=_MARKER_TYPE.CLIENT):
     if config.data['enabled']:
-        dispersionCircle.gunMarkersDecoratorSetPosition(self, position, markerType)
+        dispersionCircle.gunMarkersDecoratorSetPosition(args[0], args[1], args[2])
         return
-    func(self, position, markerType)
+    func(*args)
 
 
 @inject.hook(_GunMarkersDecorator, 'update')
 @inject.log
-def gunMarkersDecoratorUpdate(func, *args):
+def gunMarkersDecoratorUpdate(func, *args): #(self, markerType, position, dir, size, relaxTime, collData)
     if config.data['enabled']:
-        dispersionCircle.gunMarkersDecoratorUpdate(*args)
+        dispersionCircle.gunMarkersDecoratorUpdate(args[0], args[1], args[2], args[3], args[4], args[5], args[6])
         return
     func(*args)
 
@@ -333,18 +329,18 @@ def createGunMarker(func, *args):
 
 @inject.hook(ArcadeCamera, '__init__')
 @inject.log
-def arcadeCameraInit(func, self, dataSec, defaultOffset=None):
-    func(self, dataSec, defaultOffset)
+def arcadeCameraInit(func, *args): #(self, dataSec, defaultOffset=None)
+    func(*args)
     if config.data['enabled']:
-        dispersionCircle.arcadeCameraInit(self)
+        dispersionCircle.arcadeCameraInit(args[0])
 
 
 @inject.hook(SniperCamera, '__init__')
 @inject.log
-def sniperCameraInit(func, self, dataSec, defaultOffset=None, binoculars=None):
-    func(self, dataSec, defaultOffset, binoculars)
+def sniperCameraInit(func, *args): #(func, self, dataSec, defaultOffset=None, binoculars=None):
+    func(*args)
     if config.data['enabled']:
-        dispersionCircle.sniperCameraInit(self)
+        dispersionCircle.sniperCameraInit(args[0])
 
 
 @inject.hook(StrategicCamera, '__init__')
@@ -366,9 +362,9 @@ def enableHorizontalStabilizerRuntime(func, *args):
 
 @inject.hook(_InputInertia, 'glide')
 @inject.log
-def glide(func, *args):
+def glide(func, *args): #(self, posDelta)
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
-        dispersionCircle.glide(*args)
+        dispersionCircle.glide(args[0], args[1])
         return
     func(*args)
 
@@ -377,7 +373,7 @@ def glide(func, *args):
 @inject.log
 def glideFov(func, *args):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
-        dispersionCircle.glideFov(*args)
+        dispersionCircle.glideFov(args[0], args[1])
         return
     func(*args)
 
@@ -432,12 +428,12 @@ def shockWaveEffectDescCreate(func, *args):
 
 @inject.hook(VehicleGunRotator, 'setShotPosition')
 @inject.log
-def setShotPosition(func, *args):
+def setShotPosition(func, *args): #(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
     if config.data['enabled'] and config.data['UseServerDispersion']:
-        self, vehicleID, shotPos, shotVec, dispersionAngle = args
+        self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh = args
         if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker:
             return func(*args)
-        dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
+        #dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
         markerPos, markerDir, markerSize, idealMarkerSize, collData = self._VehicleGunRotator__getGunMarkerPosition(shotPos, shotVec, self._VehicleGunRotator__dispersionAngles)
         self._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(markerPos, markerDir, (markerSize, idealMarkerSize), SERVER_TICK_LENGTH, collData)
         return

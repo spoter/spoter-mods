@@ -12,5 +12,5 @@
     "UI_setting_ReplaceOriginalCircle_tooltip": "{HEADER}Info:{/HEADER}{BODY}Replace the original aiming circle to dispersion circle (To improve accuracy){/BODY}",
     "UI_setting_UseServerDispersion_text": "Use server side circle of dispersion",
     "UI_setting_UseServerDispersion_tooltip": "{HEADER}Info:{/HEADER}{BODY}Change client to server circle of dispersion(not working in replays){/BODY}",
-    "version": 301
+    "version": 302
 }
