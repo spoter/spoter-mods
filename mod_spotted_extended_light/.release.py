@@ -61,3 +61,4 @@ class Release(object):
 
 Release(build, ZIP)
 
+subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('zip'), os.path.realpath('..\mod_spotted_extended\zip'), '*.zip') )

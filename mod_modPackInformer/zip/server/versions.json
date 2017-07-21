@@ -1,18 +1,18 @@
 {
-    "version"      : "0.9.19.0.2 #02",
-    "name"         : "Test ModPack",
-    "author"       : "TEST AUTHOR",
-    "link"         : "https://koreanrandom.com/forum/topic/36987-mod-packages-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D1%8B-%D0%BC%D0%BE%D0%B4%D0%BE%D0%B2/",
-    "date"         : "14.06.2017",
+    "version"      : "0.9.19.1 #01",
+    "name"         : "Gox ModPack",
+    "author"       : "GOX",
+    "link"         : "http://www.goxwot.net/",
+    "date"         : "05.07.2017",
     "image"        : true,
-    "imageName"    : "update.png",
-    "imageLink"    : "https://koreanrandom.com/forum/uploads/profile/photo-40063.jpg?_r=1484226817",
-    "imageWidth"   : 200,
-    "imageHeight"  : 200,
+    "imageName"    : "gox_09191_01.png",
+    "imageLink"    : "https://vignette1.wikia.nocookie.net/mixels/images/2/21/41536_GOX_a.png/revision/latest/scale-to-width-down/300?cb=20160705184756",
+    "imageWidth"   : 300,
+    "imageHeight"  : 300,
     "messageLinkName"  : "Get Details",
     "windowName"  : "Update Available",
     "buttonNameOpen"  : "Open",
     "buttonNameClose"  : "Close",
     "header"       : "<textformat><font color=\"#00ffff\">Modpack {name} by <b>{author}</b></font><br/><font color=\"#E2D2A2\">New version avaliable:<br/>{name}: </font><font color=\"#00ffff\">{version}</font> <font color=\"#02C9B3\">({date})</font><br/><font color=\"#FE0E00\"><b>Dont forget update!</b></textformat>",
-    "message"      : "<font color=\"#E2D2A2\">ChangeLog:</font><br/><font color=\"#FE0E00\">1. Added new Crazy mod by AntiCheaterWG<br/>2. Removed non Crazy mod by Cheater4WG</font>"
+    "message"      : "<font color=\"#E2D2A2\">ChangeLog:</font><br/><font color=\"#FE0E00\">We publish first release! :)</font>"
 }
