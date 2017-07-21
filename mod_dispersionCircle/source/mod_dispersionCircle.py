@@ -24,7 +24,7 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.02 (2017-07-20)'
+        self.version = 'v3.02 (2017-07-21)'
         self.version_id = 302
         self.author = 'by StranikS_Scan'
         self.data = {
@@ -186,30 +186,30 @@ class DispersionCircle(object):
     def gunMarkersDecoratorUpdate(func, markerType, position, dir, size, relaxTime, collData): #(self, position, markerType=_MARKER_TYPE.CLIENT):
         if not config.data['ReplaceOriginalCircle']:
             if markerType == _MARKER_TYPE.CLIENT:
-                func._GunMarkersDecorator__clientState = (position, relaxTime, collData)
+                func._GunMarkersDecorator__clientState = (position, dir, collData)
                 if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
                     func._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
             if config.data['UseServerDispersion']:
                 if markerType == _MARKER_TYPE.SERVER:
-                    func._GunMarkersDecorator__serverState = (position, relaxTime, collData)
+                    func._GunMarkersDecorator__serverState = (position, dir, collData)
                     if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
                         func._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
             elif markerType == _MARKER_TYPE.CLIENT:
-                func._GunMarkersDecorator__serverState = (position, relaxTime, collData)
+                func._GunMarkersDecorator__serverState = (position, dir, collData)
                 if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
                     func._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
         else:
             if config.data['UseServerDispersion']:
                 if markerType == _MARKER_TYPE.SERVER:
-                    func._GunMarkersDecorator__clientState = (position, relaxTime, collData)
+                    func._GunMarkersDecorator__clientState = (position, dir, collData)
                     if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
                         func._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
             elif markerType == _MARKER_TYPE.CLIENT:
-                func._GunMarkersDecorator__clientState = (position, relaxTime, collData)
+                func._GunMarkersDecorator__clientState = (position, dir, collData)
                 if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.CLIENT_MODE_ENABLED:
                     func._GunMarkersDecorator__clientMarker.update(markerType, position, dir, size, relaxTime, collData)
             if markerType == _MARKER_TYPE.SERVER:
-                func._GunMarkersDecorator__serverState = (position, relaxTime, collData)
+                func._GunMarkersDecorator__serverState = (position, dir, collData)
                 if func._GunMarkersDecorator__gunMarkersFlags & _MARKER_FLAG.SERVER_MODE_ENABLED:
                     func._GunMarkersDecorator__serverMarker.update(markerType, position, dir, size, relaxTime, collData)
 
@@ -294,88 +294,88 @@ class DispersionCircle(object):
 
 @inject.hook(_GunMarkerController, 'update')
 @inject.log
-def gunMarkerControllerUpdate(func, *args): #(self, markerType, position, dir, size, relaxTime, collData)
+def gunMarkerControllerUpdate(func, self, markerType, position, dir, size, relaxTime, collData):
     if config.data['enabled']:
-        args[0]._position = args[2]
+        self._position = position
         return
-    func(*args)
+    func(self, markerType, position, dir, size, relaxTime, collData)
 
 
 @inject.hook(_GunMarkersDecorator, 'setPosition')
 @inject.log
-def gunMarkersDecoratorSetPosition(func, *args): #(self, position, markerType=_MARKER_TYPE.CLIENT):
+def gunMarkersDecoratorSetPosition(func, self, position, markerType=_MARKER_TYPE.CLIENT):
     if config.data['enabled']:
-        dispersionCircle.gunMarkersDecoratorSetPosition(args[0], args[1], args[2])
+        dispersionCircle.gunMarkersDecoratorSetPosition(self, position, markerType)
         return
-    func(*args)
+    func(self, position, markerType)
 
 
 @inject.hook(_GunMarkersDecorator, 'update')
 @inject.log
-def gunMarkersDecoratorUpdate(func, *args): #(self, markerType, position, dir, size, relaxTime, collData)
+def gunMarkersDecoratorUpdate(func, self, markerType, position, dir, size, relaxTime, collData): #(self, markerType, position, dir, size, relaxTime, collData)
     if config.data['enabled']:
-        dispersionCircle.gunMarkersDecoratorUpdate(args[0], args[1], args[2], args[3], args[4], args[5], args[6])
+        dispersionCircle.gunMarkersDecoratorUpdate(self, markerType, position, dir, size, relaxTime, collData)
         return
-    func(*args)
+    func(self, markerType, position, dir, size, relaxTime, collData)
 
 
 @inject.hook(gun_marker_ctrl, 'createGunMarker')
 @inject.log
-def createGunMarker(func, *args):
+def createGunMarker(func, isStrategic):
     if config.data['enabled']:
-        return dispersionCircle.createGunMarker(args[0])
-    return func(*args)
+        return dispersionCircle.createGunMarker(isStrategic)
+    return func(isStrategic)
 
 
 @inject.hook(ArcadeCamera, '__init__')
 @inject.log
-def arcadeCameraInit(func, *args): #(self, dataSec, defaultOffset=None)
-    func(*args)
+def arcadeCameraInit(func, self, dataSec, defaultOffset=None): #(self, dataSec, defaultOffset=None)
+    func(self, dataSec, defaultOffset)
     if config.data['enabled']:
-        dispersionCircle.arcadeCameraInit(args[0])
+        dispersionCircle.arcadeCameraInit(self)
 
 
 @inject.hook(SniperCamera, '__init__')
 @inject.log
-def sniperCameraInit(func, *args): #(func, self, dataSec, defaultOffset=None, binoculars=None):
-    func(*args)
+def sniperCameraInit(func, self, dataSec, defaultOffset=None, binoculars=None): #(func, self, dataSec, defaultOffset=None, binoculars=None):
+    func(self, dataSec, defaultOffset, binoculars)
     if config.data['enabled']:
-        dispersionCircle.sniperCameraInit(args[0])
+        dispersionCircle.sniperCameraInit(self)
 
 
 @inject.hook(StrategicCamera, '__init__')
 @inject.log
-def strategicCameraInit(func, *args):
-    func(*args)
+def strategicCameraInit(func, self, dataSec):
+    func(self, dataSec)
     if config.data['enabled']:
-        dispersionCircle.strategicCameraInit(args[0])
+        dispersionCircle.strategicCameraInit(self)
 
 
 @inject.hook(SniperAimingSystem, 'enableHorizontalStabilizerRuntime')
 @inject.log
-def enableHorizontalStabilizerRuntime(func, *args):
+def enableHorizontalStabilizerRuntime(func, self, enable):
     if config.data['enabled']:
-        dispersionCircle.enableHorizontalStabilizerRuntime(args[0])
+        dispersionCircle.enableHorizontalStabilizerRuntime(self)
         return
-    func(*args)
+    func(self, enable)
 
 
 @inject.hook(_InputInertia, 'glide')
 @inject.log
-def glide(func, *args): #(self, posDelta)
+def glide(func, self, posDelta):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
-        dispersionCircle.glide(args[0], args[1])
+        dispersionCircle.glide(self, posDelta)
         return
-    func(*args)
+    func(self, posDelta)
 
 
 @inject.hook(_InputInertia, 'glideFov')
 @inject.log
-def glideFov(func, *args):
+def glideFov(func, self, newRelativeFocusDist):
     if config.data['enabled'] and config.data['Remove_DynamicEffects']:
-        dispersionCircle.glideFov(args[0], args[1])
+        dispersionCircle.glideFov(self, newRelativeFocusDist)
         return
-    func(*args)
+    func(self, newRelativeFocusDist)
 
 
 @inject.hook(Math, 'PyOscillator')
@@ -428,34 +428,33 @@ def shockWaveEffectDescCreate(func, *args):
 
 @inject.hook(VehicleGunRotator, 'setShotPosition')
 @inject.log
-def setShotPosition(func, *args): #(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
+def setShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
     if config.data['enabled'] and config.data['UseServerDispersion']:
-        self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh = args
         if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker:
-            return func(*args)
+            return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
         #dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
         markerPos, markerDir, markerSize, idealMarkerSize, collData = self._VehicleGunRotator__getGunMarkerPosition(shotPos, shotVec, self._VehicleGunRotator__dispersionAngles)
         self._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(markerPos, markerDir, (markerSize, idealMarkerSize), SERVER_TICK_LENGTH, collData)
         return
-    func(*args)
+    func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
 @inject.hook(PlayerAvatar, 'enableServerAim')
 @inject.log
-def enableServerAim(func, *args):
+def enableServerAim(func, self, enable):
     if config.data['enabled']:
-        func(args[0], config.data['UseServerDispersion'])
+        func(self, config.data['UseServerDispersion'])
         return
-    func(*args)
+    func(self, enable)
 
 
 @inject.hook(VehicleGunRotator, 'applySettings')
 @inject.log
-def enableServerAim(func, *args):
+def enableServerAim(func, self, diff):
     if config.data['enabled']:
-        func(args[0], {})
+        func(self, {})
         return
-    func(*args)
+    func(self, diff)
 
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
