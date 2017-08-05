@@ -17,9 +17,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.05 (2017-07-22)'
+        self.version = 'v2.06 (2017-08-05)'
         self.author = 'by spoter'
-        self.version_id = 205
+        self.version_id = 206
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -175,7 +175,8 @@ class ArtyBall(object):
         if not hasattr(self.player, 'vehicleTypeDescriptor') or not hasattr(self.player, 'gunRotator'):
             self.hideVisible()
             return
-        if 'HIGH_EXPLOSIVE' not in self.player.vehicleTypeDescriptor.shot['shell']['kind']:
+        shell = self.player.getVehicleDescriptor().shot.shell
+        if 'HIGH_EXPLOSIVE' not in shell.kind:
             self.hideVisible()
             return
         if not config.data['showModeArcade'] and self.player.inputHandler.ctrlModeName == CTRL_MODE_NAME.ARCADE:
@@ -189,8 +190,8 @@ class ArtyBall(object):
             return
 
         if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
-            if not self.scaleSplash or self.scaleSplash != self.player.vehicleTypeDescriptor.shot['shell']['explosionRadius']:
-                self.scaleSplash = self.player.vehicleTypeDescriptor.shot['shell']['explosionRadius']
+            if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
+                self.scaleSplash = shell.type.explosionRadius
                 self.modelSplash._StaticObjectMarker3D__model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
