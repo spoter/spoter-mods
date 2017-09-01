@@ -14,7 +14,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'autoAimOptimize'
-        self.version = 'v1.04 (2017-07-22)'
+        self.version = 'v1.04 (2017-09-01)'
         self.version_id = 104
         self.author = 'by spoter'
         self.data = {
@@ -36,7 +36,7 @@ class Config(object):
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
-        print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
+        print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
     def template(self):
         return {
