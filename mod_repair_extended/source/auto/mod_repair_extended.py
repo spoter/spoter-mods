@@ -30,9 +30,9 @@ COMPLEX_ITEM = {
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.05 (2017-09-01)'
+        self.version = 'v3.06 (2017-09-01)'
         self.author = 'by spoter'
-        self.version_id = 305
+        self.version_id = 306
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -105,7 +105,7 @@ class Config(object):
             'UI_repair_autoRepair_tooltip'    : ''
 
         }
-        print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
+        print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
 
