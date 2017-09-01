@@ -24,7 +24,7 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.02 (2017-07-21)'
+        self.version = 'v3.02 (2017-09-01)'
         self.version_id = 302
         self.author = 'by StranikS_Scan'
         self.data = {
@@ -32,8 +32,8 @@ class _Config(object):
             'ReplaceOriginalCircle': True,
             'UseServerDispersion'  : True,
             'DispersionCircleScale': 1.0,
-            'HorizontalStabilizer' : True,
-            'Remove_DynamicEffects': True,
+            'HorizontalStabilizer' : False,
+            'Remove_DynamicEffects': False,
             'Remove_DamageEffects' : False,
             'version'              : self.version_id
         }
