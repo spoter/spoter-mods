@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '0.9.19.1.1'
+CLIENT_VERSION = '0.9.20.0'
 NAME = 'spoter.bookmarks'
 ADD_LICENSE = True
 
