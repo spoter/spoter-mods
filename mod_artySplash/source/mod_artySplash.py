@@ -17,9 +17,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.06 (2017-09-01)'
+        self.version = 'v2.07 (2017-09-01)'
         self.author = 'by spoter'
-        self.version_id = 206
+        self.version_id = 207
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -61,7 +61,7 @@ class Config(object):
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
-        print '[LOAD_MOD]:  [%s v%s, %s]' % (self.ids, self.version, self.author)
+        print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
     def template(self):
         return {
