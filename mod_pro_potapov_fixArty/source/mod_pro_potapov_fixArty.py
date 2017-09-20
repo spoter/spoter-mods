@@ -33,13 +33,12 @@ def hook(handler, cls, method):
 class Stunned(object):
     hook = staticmethod(hookDecorator(overrideMethod))
     def __init__(self):
-        self.stunnedList = []
+        self.stunnedList = {}
         self.stunned = {}
         self.timer = None
 
     def clear(self):
-        del self.stunnedList
-        self.stunnedList = []
+        self.stunnedList.clear()
         self.stunned.clear()
 
     def timerStop(self):
@@ -92,7 +91,7 @@ class Stunned(object):
                 if HT_AT:
                     cache['stunned_HT_AT'] += 1
                 if vehicleID not in self.stunnedList:
-                    self.stunnedList.append(vehicleID)
+                    self.stunnedList[vehicleID] = {'stunned_team_damaged_count': False}
                     cache['stunned_damaged_count'] += 1
             if flags & VEHICLE_HIT_FLAGS.VEHICLE_KILLED:
                 if vehicleID in self.stunned:
@@ -116,7 +115,9 @@ class Stunned(object):
                     cache['stunned_damage'] += extra.getDamage()
                     vehicleID = feedbackEvent.getTargetID()
                     if vehicleID in self.stunnedList:
-                        cache['stunned_team_damaged_count'] += 1
+                        if not self.stunnedList[vehicleID]['stunned_team_damaged_count']:
+                            self.stunnedList[vehicleID]['stunned_team_damaged_count'] = True
+                            cache['stunned_team_damaged_count'] += 1
 
 
 def updateFlashDataArty():
