@@ -1198,11 +1198,6 @@ if enabled:
         func(self, results)
         stunned.shots(self, results)
 
-    @stunned.hook(mod_pro_potapov.g_potapov, 'clearCache')
-    def hookClearCache(func, self):
-        func(self)
-        clear()
-
     @stunned.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
     def hookStartBattle(func,self):
         func(self)
@@ -1211,9 +1206,10 @@ if enabled:
     @stunned.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
     def hookStopBattle(func,self):
         stunned.timerStop()
+        clear()
         func(self)
 
     upd_config()
     mod_pro_potapov.g_potapov.updateFlashData = updateFlashDataArty
     clear()
-    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.01 (20-09-2017), by spoter]'
+    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.02 (21-09-2017), by spoter]'
