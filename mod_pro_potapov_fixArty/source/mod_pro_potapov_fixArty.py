@@ -494,6 +494,7 @@ def updater():
     if not self.__cache['battle']['inited']:
         return BigWorld.callback(1.0, updater)
     #"САУ-1. Заявить о себе" 61, 136, 211, 286
+    clear()
     if self.__cache['currentID'] == 61:
         def quest_61(quest):
             main_list, adv_list = ([], [])
