@@ -125,9 +125,9 @@ def updateFlashDataArty():
     self.__config = self._Potapov__config
     self.__showHint = self._Potapov__showHint
     self.__prevFlashData = self._Potapov__prevFlashData
-    self.potapovFlash = mod_pro_potapov.g_appLoader.getDefBattleApp().containerManager.getContainer(mod_pro_potapov.ViewTypes.VIEW).getView().components['PotapovUI']
     if not self.__config['enable'] or not self.__cache['battle']['inited']:
         return
+    self.potapovFlash = mod_pro_potapov.g_appLoader.getDefBattleApp().containerManager.getContainer(mod_pro_potapov.ViewTypes.VIEW).getView().components['PotapovUI']
     quest = self.__config['texts'][str(self.__cache['currentID'])]
     main_list, adv_list = self.generateFalshData(quest)
     main = self.__config['pattern']['mainQuest'].replace('{main}', self.__config['pattern']['seperators']['main'].join(main_list))
