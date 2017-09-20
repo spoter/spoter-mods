@@ -11,7 +11,27 @@ try:
     enabled = True
 except StandardError: pass
 
+def overrideMethod(handler, cls, method):
+    orig = getattr(cls, method)
+    new = lambda *args, **kwargs: handler(orig, *args, **kwargs)
+    setattr(cls, method, new if type(orig) is not property else property(new))
+
+def hookDecorator(func):
+    def oneDecorator(*args, **kwargs):
+        def twoDecorator(handler):
+            func(handler, *args, **kwargs)
+
+        return twoDecorator
+
+    return oneDecorator
+
+def hook(handler, cls, method):
+    orig = getattr(cls, method)
+    new = lambda *args, **kwargs: handler(orig, *args, **kwargs)
+    setattr(cls, method, new if type(orig) is not property else property(new))
+
 class Stunned(object):
+    hook = staticmethod(hookDecorator(overrideMethod))
     def __init__(self):
         self.stunnedList = []
         self.stunned = {}
@@ -33,18 +53,23 @@ class Stunned(object):
             data = []
             for vehicleID in self.stunned:
                 vehicle = BigWorld.entity(vehicleID)
-                if vehicle is not None and vehicle.stunInfo:
-                    cache['seconds'] += 0.1
-                    if self.stunned[vehicleID]['HT_AT']:
-                        cache['seconds_HT_AT'] += 0.1
+                if vehicle is not None:
+                    time = round(BigWorld.time() - self.stunned[vehicleID]['time'], 1)
+                    if time < 0.1:
+                        continue
+                    if vehicle.stunInfo:
+                        self.stunned[vehicleID]['time'] = BigWorld.time()
+                        cache['seconds'] += time if time > 0 else 0
+                        if self.stunned[vehicleID]['HT_AT']:
+                            cache['seconds_HT_AT'] += time if time > 0 else 0
+                    else:
+                        data.append(vehicleID)
                 else:
                     data.append(vehicleID)
             for vehicleID in data:
                 self.stunned.pop(vehicleID)
-        if self.stunned:
-            self.timer = BigWorld.callback(0.1, self.stunChecker)
-        else:
-            self.timerStop()
+        self.timer = BigWorld.callback(0.1, self.stunChecker)
+
 
     def shots(self, avatar, results):
         if not mod_pro_potapov.g_potapov._Potapov__config['enable'] or not mod_pro_potapov.g_potapov._Potapov__cache['battle']['inited']:
@@ -56,11 +81,13 @@ class Stunned(object):
             flags = r >> 32 & 4294967295L
             if avatar.playerVehicleID == vehicleID:
                 continue
+            if avatar.team == avatar.arena.vehicles[vehicleID]['team']:
+                continue
             if flags & VEHICLE_HIT_FLAGS.STUN_STARTED:
                 MULTI += 1
                 cache['stunned'] += 1
                 HT_AT = avatar.guiSessionProvider.getArenaDP().getVehicleInfo(vehicleID).vehicleType.classTag in ['heavyTank', 'AT-SPG']
-                self.stunned[vehicleID] = {'HT_AT': HT_AT}
+                self.stunned[vehicleID] = {'HT_AT': HT_AT, 'time': BigWorld.time()}
                 self.stunChecker()
                 if HT_AT:
                     cache['stunned_HT_AT'] += 1
@@ -520,8 +547,8 @@ def updater():
             data_2 = self.__cache['player']['kill']['counter_any']
             cond_1 = '{{done}}' if data_1 >= 50 else '{{notDone}}'
             cond_2 = '{{done}}' if data_2 >= 1 else '{{notDone}}'
-            main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
+            main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
         self.generateFalshData = quest_62
     if self.__cache['currentID'] == 137:
@@ -531,8 +558,8 @@ def updater():
             data_2 = self.__cache['player']['kill']['counter_any']
             cond_1 = '{{done}}' if data_1 >= 100 else '{{notDone}}'
             cond_2 = '{{done}}' if data_2 >= 2 else '{{notDone}}'
-            main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
+            main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
         self.generateFalshData = quest_137
     if self.__cache['currentID'] == 212:
@@ -542,8 +569,8 @@ def updater():
             data_2 = self.__cache['player']['kill']['counter_any']
             cond_1 = '{{done}}' if data_1 >= 150 else '{{notDone}}'
             cond_2 = '{{done}}' if data_2 >= 3 else '{{notDone}}'
-            main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
+            main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
         self.generateFalshData = quest_212
     if self.__cache['currentID'] == 287:
@@ -553,8 +580,8 @@ def updater():
             data_2 = self.__cache['player']['kill']['counter_any']
             cond_1 = '{{done}}' if data_1 >= 200 else '{{notDone}}'
             cond_2 = '{{done}}' if data_2 >= 4 else '{{notDone}}'
-            main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
+            main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
         self.generateFalshData = quest_287
 
@@ -1158,55 +1185,35 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
         self.generateFalshData = quest_300
-
-def hookOnBattleEvents(self, events):
-    data = oldOnBattleEvents(self, events)
-    stunned.event(self, events)
-    return data
-
-def hookShowShotResults(self, results):
-    data = oldShowShotResults(self, results)
-    stunned.shots(self, results)
-    return data
-
-def hookClearCache(self):
-    data = oldClearCache(self)
-    clear()
-    return data
-
-def hookStartBattle(self):
-    data = oldStartBattle(self)
-    updater()
-    return data
-
-def hookStopBattle(self):
-    data = oldStopBattle(self)
-    stunned.timerStop()
-    return data
-
-
 if enabled:
     stunned = Stunned()
+
+    @stunned.hook(PlayerAvatar, 'onBattleEvents')
+    def hookOnBattleEvents(func, self, events):
+        func(self, events)
+        stunned.event(self, events)
+
+    @stunned.hook(PlayerAvatar, 'showShotResults')
+    def hookShowShotResults(func, self, results):
+        func(self, results)
+        stunned.shots(self, results)
+
+    @stunned.hook(mod_pro_potapov.g_potapov, 'clearCache')
+    def hookClearCache(func, self):
+        func(self)
+        clear()
+
+    @stunned.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
+    def hookStartBattle(func,self):
+        func(self)
+        updater()
+
+    @stunned.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
+    def hookStopBattle(func,self):
+        stunned.timerStop()
+        func(self)
+
     upd_config()
     mod_pro_potapov.g_potapov.updateFlashData = updateFlashDataArty
-
-    oldClearCache = mod_pro_potapov.g_potapov.clearCache
-    mod_pro_potapov.g_potapov.clearCache = hookClearCache
-
     clear()
-
-    oldStartBattle = PlayerAvatar._PlayerAvatar__startGUI
-    PlayerAvatar._PlayerAvatar__startGUI = hookStartBattle
-
-    oldStopBattle = PlayerAvatar._PlayerAvatar__destroyGUI
-    PlayerAvatar._PlayerAvatar__destroyGUI = hookStopBattle
-
-    oldOnBattleEvents = PlayerAvatar.onBattleEvents
-    PlayerAvatar.onBattleEvents = hookOnBattleEvents
-
-    oldShowShotResults = PlayerAvatar.showShotResults
-    PlayerAvatar.showShotResults = hookShowShotResults
-
-
-
-
+    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.01 (20-09-2017), by spoter]'
