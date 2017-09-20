@@ -111,7 +111,7 @@ class Stunned(object):
             feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
             eventID = feedbackEvent.getBattleEventType()
             extra = feedbackEvent.getExtra()
-            if eventID in [BATTLE_EVENT_TYPE.STUN_ASSIST, TRACK_ASSIST]:
+            if eventID in [BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST]:
                 if extra:
                     cache['stunned_damage'] += extra.getDamage()
                     vehicleID = feedbackEvent.getTargetID()
