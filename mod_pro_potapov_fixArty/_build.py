@@ -10,7 +10,7 @@ import subprocess
 import base64
 
 CLIENT_VERSION = '0.9.20.0'
-NAME = 'spoter.spotted_extended_light'
+NAME = 'spoter.mod_pro_potapov_fixArty'
 ADD_LICENSE = True
 
 

@@ -47,12 +47,17 @@ class Build(object):
 
     def createFileDict(self):
         version = '{:.2f}'.format(float(self.VERSION["version"]))
-        files = [(os.path.join(self.BUILD_PATH, self.VERSION["source"]), 'self.version = ', "'v%s (%s)'" % (version, self.DATE)),
-                 (os.path.join(self.BUILD_PATH, self.VERSION["source"]), 'self.version_id = ', re.sub('[.\s]', '', '%s' % version)),
-                 (os.path.join(self.BUILD_PATH, self.VERSION["meta"]), '<version>', '%s</version>' % version),
-                 (os.path.join(self.BUILD_PATH, self.VERSION["config"]), '"version": ', re.sub('[.\s]', '', '%s' % version))]
-        for path in glob.glob(os.path.join(self.BUILD_PATH, self.VERSION["i18n"], "*.json")):
-            files.append((path, '"version": ', re.sub('[.\s]', '', '%s' % version)))
+        files = []
+        if self.VERSION["source"]:
+            files.append((os.path.join(self.BUILD_PATH, self.VERSION["source"]), 'self.version = ', "'v%s (%s)'" % (version, self.DATE)))
+            files.append((os.path.join(self.BUILD_PATH, self.VERSION["source"]), 'self.version_id = ', re.sub('[.\s]', '', '%s' % version)))
+        if self.VERSION["meta"]:
+            files.append((os.path.join(self.BUILD_PATH, self.VERSION["meta"]), '<version>', '%s</version>' % version))
+        if self.VERSION["config"]:
+            files.append((os.path.join(self.BUILD_PATH, self.VERSION["config"]), '"version": ', re.sub('[.\s]', '', '%s' % version)))
+        if self.VERSION["i18n"]:
+            for path in glob.glob(os.path.join(self.BUILD_PATH, self.VERSION["i18n"], "*.json")):
+                files.append((path, '"version": ', re.sub('[.\s]', '', '%s' % version)))
         for path in files:
             self.updateFiles(*path)
 
