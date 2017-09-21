@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from functools import partial
 from Avatar import PlayerAvatar
 import BigWorld
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
@@ -35,40 +36,18 @@ class Stunned(object):
     def __init__(self):
         self.stunnedList = {}
         self.stunned = {}
-        self.timer = None
 
     def clear(self):
         self.stunnedList.clear()
         self.stunned.clear()
 
-    def timerStop(self):
-        if self.timer is not None:
-            BigWorld.cancelCallback(self.timer)
-            self.timer = None
-
-    def stunChecker(self):
-        if self.stunned:
-            cache = mod_pro_potapov.g_potapov._Potapov__cache['player']['stun']
-            data = []
-            for vehicleID in self.stunned:
-                vehicle = BigWorld.entity(vehicleID)
-                if vehicle is not None:
-                    time = round(BigWorld.time() - self.stunned[vehicleID]['time'], 1)
-                    if time < 0.1:
-                        continue
-                    if vehicle.stunInfo:
-                        self.stunned[vehicleID]['time'] = BigWorld.time()
-                        cache['seconds'] += time if time > 0 else 0
-                        if self.stunned[vehicleID]['HT_AT']:
-                            cache['seconds_HT_AT'] += time if time > 0 else 0
-                    else:
-                        data.append(vehicleID)
-                else:
-                    data.append(vehicleID)
-            for vehicleID in data:
-                self.stunned.pop(vehicleID)
-        self.timer = BigWorld.callback(0.1, self.stunChecker)
-
+    def getStunTimer(self, cache, vehicleID):
+        vehicle = BigWorld.entity(vehicleID)
+        if vehicle is not None and vehicle.stunInfo:
+            stunDuration = round(vehicle.stunInfo - BigWorld.serverTime(), 1) if vehicle.stunInfo else 0.0
+            cache['seconds'] += stunDuration
+            if self.stunned[vehicleID]['HT_AT']:
+                cache['seconds_HT_AT'] += stunDuration
 
     def shots(self, avatar, results):
         if not mod_pro_potapov.g_potapov._Potapov__config['enable'] or not mod_pro_potapov.g_potapov._Potapov__cache['battle']['inited']:
@@ -87,7 +66,8 @@ class Stunned(object):
                 cache['stunned'] += 1
                 HT_AT = avatar.guiSessionProvider.getArenaDP().getVehicleInfo(vehicleID).vehicleType.classTag in ['heavyTank', 'AT-SPG']
                 self.stunned[vehicleID] = {'HT_AT': HT_AT, 'time': BigWorld.time()}
-                self.stunChecker()
+                BigWorld.callback(0.1, partial(self.getStunTimer, cache, vehicleID))
+                #self.stunChecker()
                 if HT_AT:
                     cache['stunned_HT_AT'] += 1
                 if vehicleID not in self.stunnedList:
@@ -1210,7 +1190,6 @@ if enabled:
 
     @stunned.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
     def hookStopBattle(func,self):
-        stunned.timerStop()
         clear()
         func(self)
 
