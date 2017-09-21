@@ -118,6 +118,8 @@ class Stunned(object):
                         if not self.stunnedList[vehicleID]['stunned_team_damaged_count']:
                             self.stunnedList[vehicleID]['stunned_team_damaged_count'] = True
                             cache['stunned_team_damaged_count'] += 1
+                    if eventID == BATTLE_EVENT_TYPE.TRACK_ASSIST:
+                        cache['track_assist_damage'] += extra.getDamage()
 
 
 def updateFlashDataArty():
@@ -170,6 +172,7 @@ def clear():
         'stunned_tracked_kill': 0,
         'stunned_counter_double': 0,
         'stunned_counter_triple': 0,
+        'track_assist_damage': 0
     }
     stunned.clear()
 
@@ -1052,7 +1055,7 @@ def updater():
     if self.__cache['currentID'] == 73:
         def quest_73(quest):
             main_list, adv_list = ([], [])
-            data_1 = self.__cache['player']['squad']['counter_any']
+            data_1 = self.__cache['squad']['counter_any'] + self.__cache['player']['damage']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
             cond_1 = '{{done}}' if data_1 >= 4 or data_2 >= 6 else '{{notDone}}'
             cond_2 = '{{unknown}}'
@@ -1063,7 +1066,7 @@ def updater():
     if self.__cache['currentID'] == 148:
         def quest_148(quest):
             main_list, adv_list = ([], [])
-            data_1 = self.__cache['player']['squad']['counter_any']
+            data_1 = self.__cache['squad']['counter_any'] + self.__cache['player']['damage']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
             cond_1 = '{{done}}' if data_1 >= 6 or data_2 >= 8 else '{{notDone}}'
             cond_2 = '{{unknown}}'
@@ -1074,7 +1077,7 @@ def updater():
     if self.__cache['currentID'] == 223:
         def quest_223(quest):
             main_list, adv_list = ([], [])
-            data_1 = self.__cache['player']['squad']['counter_any']
+            data_1 = self.__cache['squad']['counter_any'] + self.__cache['player']['damage']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
             cond_1 = '{{done}}' if data_1 >= 8 or data_2 >= 10 else '{{notDone}}'
             cond_2 = '{{unknown}}'
@@ -1085,7 +1088,7 @@ def updater():
     if self.__cache['currentID'] == 298:
         def quest_298(quest):
             main_list, adv_list = ([], [])
-            data_1 = self.__cache['player']['squad']['counter_any']
+            data_1 = self.__cache['squad']['counter_any'] + self.__cache['player']['damage']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
             cond_1 = '{{done}}' if data_1 >= 10 or data_2 >= 12 else '{{notDone}}'
             cond_2 = '{{unknown}}'
@@ -1098,7 +1101,7 @@ def updater():
         def quest_74(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['seconds']
-            data_2 = self.__cache['player']['damage']['track_by_alies']
+            data_2 = self.__cache['player']['stun']['track_assist_damage']
             cond_1 = '{{done}}' if data_1 >= 70 or data_2 >= 400 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
@@ -1109,7 +1112,7 @@ def updater():
         def quest_149(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['seconds']
-            data_2 = self.__cache['player']['damage']['track_by_alies']
+            data_2 = self.__cache['player']['stun']['track_assist_damage']
             cond_1 = '{{done}}' if data_1 >= 100 or data_2 >= 600 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
@@ -1120,7 +1123,7 @@ def updater():
         def quest_224(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['seconds']
-            data_2 = self.__cache['player']['damage']['track_by_alies']
+            data_2 = self.__cache['player']['stun']['track_assist_damage']
             cond_1 = '{{done}}' if data_1 >= 180 or data_2 >= 800 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
@@ -1131,7 +1134,7 @@ def updater():
         def quest_299(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['seconds']
-            data_2 = self.__cache['player']['damage']['track_by_alies']
+            data_2 = self.__cache['player']['stun']['track_assist_damage']
             cond_1 = '{{done}}' if data_1 >= 250 or data_2 >= 1000 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
