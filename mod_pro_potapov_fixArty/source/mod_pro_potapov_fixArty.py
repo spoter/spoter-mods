@@ -855,7 +855,7 @@ def updater():
         def quest_69(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['damage']['counter_devices']
-            cond_1 = '{{unknown}}' if data_1 >= 3 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 3 else '{{notDone}}'
             cond_2 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
@@ -865,7 +865,7 @@ def updater():
         def quest_144(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['damage']['counter_devices']
-            cond_1 = '{{unknown}}' if data_1 >= 5 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 5 else '{{notDone}}'
             cond_2 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
             cond_3 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
@@ -877,7 +877,7 @@ def updater():
         def quest_219(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['damage']['counter_devices']
-            cond_1 = '{{unknown}}' if data_1 >= 8 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 8 else '{{notDone}}'
             cond_2 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
             cond_3 = '{{unknown}}'
             cond_4 = '{{notDone}}' if self.__cache['player']['observed'] else '{{unknown}}'
@@ -891,7 +891,7 @@ def updater():
         def quest_294(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['damage']['counter_devices']
-            cond_1 = '{{unknown}}' if data_1 >= 10 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 10 else '{{notDone}}'
             cond_2 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
             cond_3 = '{{unknown}}'
             cond_4 = '{{notDone}}' if self.__cache['player']['observed'] else '{{unknown}}'
@@ -1054,7 +1054,7 @@ def updater():
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['squad']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
-            cond_1 = '{{unknown}}' if data_1 >= 4 or data_2 >= 6 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 4 or data_2 >= 6 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
@@ -1065,7 +1065,7 @@ def updater():
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['squad']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
-            cond_1 = '{{unknown}}' if data_1 >= 6 or data_2 >= 8 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 6 or data_2 >= 8 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
@@ -1076,7 +1076,7 @@ def updater():
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['squad']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
-            cond_1 = '{{unknown}}' if data_1 >= 8 or data_2 >= 10 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 8 or data_2 >= 10 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
@@ -1087,7 +1087,7 @@ def updater():
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['squad']['counter_any']
             data_2 = self.__cache['player']['stun']['stunned']
-            cond_1 = '{{unknown}}' if data_1 >= 10 or data_2 >= 12 else '{{notDone}}'
+            cond_1 = '{{done}}' if data_1 >= 10 or data_2 >= 12 else '{{notDone}}'
             cond_2 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))

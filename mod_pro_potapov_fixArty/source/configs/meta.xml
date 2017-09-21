@@ -1,6 +1,6 @@
 <root>
     <id>mod_pro_potapov_fixArty</id>
-    <version>1.05</version>
+    <version>1.06</version>
     <name>Fix Potapov assistance for Arty missions</name>
     <description>Added arty missions to mod_pro_potapov</description>
 </root>
