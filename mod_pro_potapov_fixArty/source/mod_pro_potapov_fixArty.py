@@ -1209,4 +1209,4 @@ if enabled:
     upd_config()
     mod_pro_potapov.g_potapov.updateFlashData = updateFlashDataArty
     clear()
-    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.02 (21-09-2017), by spoter]'
+    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.09 (17-10-2017), by spoter]'
