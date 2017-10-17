@@ -988,8 +988,8 @@ def updater():
             cond_2 = '{{done}}' if data_2 >= 1 else '{{notDone}}'
             cond_3 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
-            adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
+            main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
         self.generateFlashData = quest_72
     if self.__cache['currentID'] == 147:
@@ -1001,8 +1001,8 @@ def updater():
             cond_2 = '{{done}}' if data_2 >= 1 else '{{notDone}}'
             cond_3 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
-            adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
+            main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
         self.generateFlashData = quest_147
     if self.__cache['currentID'] == 222:
@@ -1014,8 +1014,8 @@ def updater():
             cond_2 = '{{done}}' if data_2 >= 2 else '{{notDone}}'
             cond_3 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
-            adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
+            main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
         self.generateFlashData = quest_222
     if self.__cache['currentID'] == 297:
@@ -1027,8 +1027,8 @@ def updater():
             cond_2 = '{{done}}' if data_2 >= 3 else '{{notDone}}'
             cond_3 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
-            adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
+            main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
         self.generateFlashData = quest_297
     # "САУ-13. Совместные действия (лично/взвод)" 73, 148, 223, 298
@@ -1209,4 +1209,4 @@ if enabled:
     upd_config()
     mod_pro_potapov.g_potapov.updateFlashData = updateFlashDataArty
     clear()
-    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.09 (17-10-2017), by spoter]'
+    print '[LOAD_MOD]:  [mod_pro_potapov_fixArty 1.10 (17-10-2017), by spoter]'
