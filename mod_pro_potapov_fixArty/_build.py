@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '0.9.20.0'
+CLIENT_VERSION = '0.9.20.1'
 NAME = 'spoter.mod_pro_potapov_fixArty'
 ADD_LICENSE = True
 

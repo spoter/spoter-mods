@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 from functools import partial
 from Avatar import PlayerAvatar
 import BigWorld
@@ -112,7 +112,7 @@ def updateFlashDataArty():
         return
     self.potapovFlash = mod_pro_potapov.g_appLoader.getDefBattleApp().containerManager.getContainer(mod_pro_potapov.ViewTypes.VIEW).getView().components['PotapovUI']
     quest = self.__config['texts'][str(self.__cache['currentID'])]
-    main_list, adv_list = self.generateFalshData(quest)
+    main_list, adv_list = self.generateFlashData(quest)
     main = self.__config['pattern']['mainQuest'].replace('{main}', self.__config['pattern']['seperators']['main'].join(main_list))
     adv = self.__config['pattern']['advQuest'].replace('{adv}', self.__config['pattern']['seperators']['adv'].join(adv_list))
     main = main.replace('{{done}}', self.__config['pattern']['state']['done'])
@@ -233,7 +233,7 @@ def upd_config():
         "75" : {  # StuG IV - САУ 15
             "name": "САУ-15. Боги войны",
             "main": ["{state} Попасть в топ-5 команды по опыту.", "{state} Помочь союзникам нанести не менее 1000 урона, оглушив и/или обездвижив технику противника.. <font color=\"#2EFE2E\"><b>{counter}</b></font>"],
-            "adv" : ["{state} Выжить."]
+            "adv" : ["{state} Нанести 1000 урона. <font color=\"#2EFE2E\"><b>{counter}</b></font>", "{state} Победить."]
         },
 
         "136": {  # T28 Concept - САУ 1
@@ -309,7 +309,7 @@ def upd_config():
         "150": {  # T28 Concept - САУ 15
             "name": "САУ-15. Боги войны",
             "main": ["{state} Попасть в топ-3 игроков своей команды по опыту.", "{state} Помочь союзникам нанести не менее 1500 урона, оглушив и/или обездвижив технику противника. <font color=\"#2EFE2E\"><b>{counter}</b></font>"],
-            "adv" : ["{state} Выжить."]
+            "adv" : ["{state} Нанести 1500 урона. <font color=\"#2EFE2E\"><b>{counter}</b></font>", "{state} Победить."]
         },
 
         "211": {  # T 55A - САУ 1
@@ -385,7 +385,7 @@ def upd_config():
         "225": {  # T 55A - САУ 15
             "name": "САУ-15. Боги войны",
             "main": ["{state} Занять 1 место в команде по опыту.", "{state} Помочь союзникам нанести не менее 2500 урона, оглушив и/или обездвижив технику противника. <font color=\"#2EFE2E\"><b>{counter}</b></font>"],
-            "adv" : ["{state} Выжить."]
+            "adv" : ["{state} Нанести 3000 урона. <font color=\"#2EFE2E\"><b>{counter}</b></font>", "{state} Победить."]
         },
 
         "286": {  # Объект 260 - САУ 1
@@ -461,7 +461,7 @@ def upd_config():
         "300": {  # Объект 260 - САУ 15
             "name": "САУ-15. Боги войны",
             "main": ["{state} Занять 1 место в командах по опыту.", "{state} Помочь союзникам нанести не менее 3500 урона, оглушив и/или обездвижив технику противника. <font color=\"#2EFE2E\"><b>{counter}</b></font>"],
-            "adv" : ["{state} Выжить."]
+            "adv" : ["{state} Нанести 4000 урона. <font color=\"#2EFE2E\"><b>{counter}</b></font>", "{state} Победить."]
         },
     }
 
@@ -489,7 +489,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_61
+        self.generateFlashData = quest_61
     if self.__cache['currentID'] == 136:
         def quest_136(quest):
             main_list, adv_list = ([], [])
@@ -500,7 +500,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_136
+        self.generateFlashData = quest_136
     if self.__cache['currentID'] == 211:
         def quest_211(quest):
             main_list, adv_list = ([], [])
@@ -511,7 +511,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_211
+        self.generateFlashData = quest_211
     if self.__cache['currentID'] == 286:
         def quest_286(quest):
             main_list, adv_list = ([], [])
@@ -522,7 +522,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_286
+        self.generateFlashData = quest_286
 
     # "САУ-2. Тик-так" 62, 137, 212, 287
     if self.__cache['currentID'] == 62:
@@ -535,7 +535,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_62
+        self.generateFlashData = quest_62
     if self.__cache['currentID'] == 137:
         def quest_137(quest):
             main_list, adv_list = ([], [])
@@ -546,7 +546,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_137
+        self.generateFlashData = quest_137
     if self.__cache['currentID'] == 212:
         def quest_212(quest):
             main_list, adv_list = ([], [])
@@ -557,7 +557,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_212
+        self.generateFlashData = quest_212
     if self.__cache['currentID'] == 287:
         def quest_287(quest):
             main_list, adv_list = ([], [])
@@ -568,7 +568,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_287
+        self.generateFlashData = quest_287
 
     #"САУ-3. Лишить преимущества" 63, 138, 213, 288
     if self.__cache['currentID'] == 63:
@@ -580,7 +580,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_63
+        self.generateFlashData = quest_63
     if self.__cache['currentID'] == 138:
         def quest_138(quest):
             main_list, adv_list = ([], [])
@@ -590,7 +590,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_138
+        self.generateFlashData = quest_138
     if self.__cache['currentID'] == 213:
         def quest_213(quest):
             main_list, adv_list = ([], [])
@@ -602,7 +602,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_213
+        self.generateFlashData = quest_213
     if self.__cache['currentID'] == 288:
         def quest_288(quest):
             main_list, adv_list = ([], [])
@@ -614,7 +614,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_288
+        self.generateFlashData = quest_288
     # "САУ-4. Не стой под стрелой!" 64, 139, 214, 289
     if self.__cache['currentID'] == 64:
         def quest_64(quest):
@@ -625,7 +625,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_64
+        self.generateFlashData = quest_64
     if self.__cache['currentID'] == 139:
         def quest_139(quest):
             main_list, adv_list = ([], [])
@@ -635,7 +635,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_139
+        self.generateFlashData = quest_139
     if self.__cache['currentID'] == 214:
         def quest_214(quest):
             main_list, adv_list = ([], [])
@@ -647,7 +647,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_214
+        self.generateFlashData = quest_214
     if self.__cache['currentID'] == 289:
         def quest_289(quest):
             main_list, adv_list = ([], [])
@@ -659,7 +659,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_289
+        self.generateFlashData = quest_289
 
     # "САУ-5. Загоризонтная поддержка" 65, 140, 215, 290
     if self.__cache['currentID'] == 65:
@@ -672,7 +672,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_65
+        self.generateFlashData = quest_65
     if self.__cache['currentID'] == 140:
         def quest_140(quest):
             main_list, adv_list = ([], [])
@@ -683,7 +683,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_140
+        self.generateFlashData = quest_140
     if self.__cache['currentID'] == 215:
         def quest_215(quest):
             main_list, adv_list = ([], [])
@@ -694,7 +694,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_215
+        self.generateFlashData = quest_215
     if self.__cache['currentID'] == 290:
         def quest_290(quest):
             main_list, adv_list = ([], [])
@@ -705,7 +705,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_290
+        self.generateFlashData = quest_290
     # "САУ-6. Молот Тора" 66, 141, 216, 291
     if self.__cache['currentID'] == 66:
         def quest_66(quest):
@@ -716,7 +716,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_66
+        self.generateFlashData = quest_66
     if self.__cache['currentID'] == 141:
         def quest_141(quest):
             main_list, adv_list = ([], [])
@@ -726,7 +726,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_141
+        self.generateFlashData = quest_141
     if self.__cache['currentID'] == 216:
         def quest_216(quest):
             main_list, adv_list = ([], [])
@@ -738,7 +738,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_216
+        self.generateFlashData = quest_216
     if self.__cache['currentID'] == 291:
         def quest_291(quest):
             main_list, adv_list = ([], [])
@@ -750,7 +750,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_291
+        self.generateFlashData = quest_291
     # "САУ-7. Контроль популяции" 67, 142, 217, 292
     if self.__cache['currentID'] == 67:
         def quest_67(quest):
@@ -761,7 +761,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_67
+        self.generateFlashData = quest_67
     if self.__cache['currentID'] == 142:
         def quest_142(quest):
             main_list, adv_list = ([], [])
@@ -771,7 +771,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_142
+        self.generateFlashData = quest_142
     if self.__cache['currentID'] == 217:
         def quest_217(quest):
             main_list, adv_list = ([], [])
@@ -783,7 +783,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_217
+        self.generateFlashData = quest_217
     if self.__cache['currentID'] == 292:
         def quest_292(quest):
             main_list, adv_list = ([], [])
@@ -795,7 +795,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_292
+        self.generateFlashData = quest_292
     # "САУ-8. Удачный бой" 68, 143, 218, 293
     if self.__cache['currentID'] == 68:
         def quest_68(quest):
@@ -805,7 +805,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_68
+        self.generateFlashData = quest_68
     if self.__cache['currentID'] == 143:
         def quest_143(quest):
             main_list, adv_list = ([], [])
@@ -814,7 +814,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_143
+        self.generateFlashData = quest_143
     if self.__cache['currentID'] == 218:
         def quest_218(quest):
             main_list, adv_list = ([], [])
@@ -823,7 +823,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_218
+        self.generateFlashData = quest_218
     if self.__cache['currentID'] == 293:
         def quest_293(quest):
             main_list, adv_list = ([], [])
@@ -832,7 +832,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_293
+        self.generateFlashData = quest_293
     # "САУ-9. Бей в кость" 69, 144, 219, 294
     if self.__cache['currentID'] == 69:
         def quest_69(quest):
@@ -843,7 +843,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_69
+        self.generateFlashData = quest_69
     if self.__cache['currentID'] == 144:
         def quest_144(quest):
             main_list, adv_list = ([], [])
@@ -855,7 +855,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_144
+        self.generateFlashData = quest_144
     if self.__cache['currentID'] == 219:
         def quest_219(quest):
             main_list, adv_list = ([], [])
@@ -869,7 +869,7 @@ def updater():
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             adv_list.append(quest['adv'][2].replace('{state}', str(cond_4)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_219
+        self.generateFlashData = quest_219
     if self.__cache['currentID'] == 294:
         def quest_294(quest):
             main_list, adv_list = ([], [])
@@ -883,7 +883,7 @@ def updater():
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             adv_list.append(quest['adv'][2].replace('{state}', str(cond_4)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_294
+        self.generateFlashData = quest_294
     # "САУ-10. Весь спектр услуг" 70, 145, 220, 295
     if self.__cache['currentID'] == 70:
         def quest_70(quest):
@@ -895,7 +895,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_70
+        self.generateFlashData = quest_70
     if self.__cache['currentID'] == 145:
         def quest_145(quest):
             main_list, adv_list = ([], [])
@@ -906,7 +906,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_145
+        self.generateFlashData = quest_145
     if self.__cache['currentID'] == 220:
         def quest_220(quest):
             main_list, adv_list = ([], [])
@@ -919,7 +919,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_220
+        self.generateFlashData = quest_220
     if self.__cache['currentID'] == 295:
         def quest_295(quest):
             main_list, adv_list = ([], [])
@@ -932,7 +932,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_295
+        self.generateFlashData = quest_295
     # "САУ-11. Площадь поражения" 71, 146, 221, 296
     if self.__cache['currentID'] == 71:
         def quest_71(quest):
@@ -944,7 +944,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_71
+        self.generateFlashData = quest_71
     if self.__cache['currentID'] == 146:
         def quest_146(quest):
             main_list, adv_list = ([], [])
@@ -955,7 +955,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_146
+        self.generateFlashData = quest_146
     if self.__cache['currentID'] == 221:
         def quest_221(quest):
             main_list, adv_list = ([], [])
@@ -966,7 +966,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_221
+        self.generateFlashData = quest_221
     if self.__cache['currentID'] == 296:
         def quest_296(quest):
             main_list, adv_list = ([], [])
@@ -977,7 +977,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter}', str(data_1)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_296
+        self.generateFlashData = quest_296
     # "САУ-12. Дурной глаз" 72, 147, 222, 297
     if self.__cache['currentID'] == 72:
         def quest_72(quest):
@@ -991,7 +991,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_72
+        self.generateFlashData = quest_72
     if self.__cache['currentID'] == 147:
         def quest_147(quest):
             main_list, adv_list = ([], [])
@@ -1004,7 +1004,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_147
+        self.generateFlashData = quest_147
     if self.__cache['currentID'] == 222:
         def quest_222(quest):
             main_list, adv_list = ([], [])
@@ -1017,7 +1017,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_222
+        self.generateFlashData = quest_222
     if self.__cache['currentID'] == 297:
         def quest_297(quest):
             main_list, adv_list = ([], [])
@@ -1030,7 +1030,7 @@ def updater():
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)).replace('{counter}', str(data_2)))
             adv_list.append(quest['adv'][1].replace('{state}', str(cond_3)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_297
+        self.generateFlashData = quest_297
     # "САУ-13. Совместные действия (лично/взвод)" 73, 148, 223, 298
     if self.__cache['currentID'] == 73:
         def quest_73(quest):
@@ -1042,7 +1042,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_73
+        self.generateFlashData = quest_73
     if self.__cache['currentID'] == 148:
         def quest_148(quest):
             main_list, adv_list = ([], [])
@@ -1053,7 +1053,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_148
+        self.generateFlashData = quest_148
     if self.__cache['currentID'] == 223:
         def quest_223(quest):
             main_list, adv_list = ([], [])
@@ -1064,7 +1064,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_223
+        self.generateFlashData = quest_223
     if self.__cache['currentID'] == 298:
         def quest_298(quest):
             main_list, adv_list = ([], [])
@@ -1075,7 +1075,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_298
+        self.generateFlashData = quest_298
     # "САУ-14. Часть корабля - часть команды (лично/взвод)" 74, 149, 224, 299
     if self.__cache['currentID'] == 74:
         def quest_74(quest):
@@ -1087,7 +1087,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_74
+        self.generateFlashData = quest_74
     if self.__cache['currentID'] == 149:
         def quest_149(quest):
             main_list, adv_list = ([], [])
@@ -1098,7 +1098,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_149
+        self.generateFlashData = quest_149
     if self.__cache['currentID'] == 224:
         def quest_224(quest):
             main_list, adv_list = ([], [])
@@ -1109,7 +1109,7 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_224
+        self.generateFlashData = quest_224
     if self.__cache['currentID'] == 299:
         def quest_299(quest):
             main_list, adv_list = ([], [])
@@ -1120,56 +1120,69 @@ def updater():
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)).replace('{counter_1}', str(data_1)).replace('{counter_2}', str(data_2)))
             adv_list.append(quest['adv'][0].replace('{state}', str(cond_2)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_299
+        self.generateFlashData = quest_299
     # "САУ-15. Боги войны" 75, 150, 225, 300
     if self.__cache['currentID'] == 75:
         def quest_75(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['stunned_damage']
+            data_2 = self.__cache['player']['damage']['any']
             cond_1 = '{{unknown}}'
             cond_2 = '{{done}}' if data_1 >= 1000 else '{{notDone}}'
-            cond_3 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
+            cond_3 = '{{done}}' if data_2 >= 1000 else '{{notDone}}'
+            cond_4 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][1].replace('{state}', str(cond_4)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_75
+        self.generateFlashData = quest_75
     if self.__cache['currentID'] == 150:
         def quest_150(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['stunned_damage']
+            data_2 = self.__cache['player']['damage']['any']
             cond_1 = '{{unknown}}'
             cond_2 = '{{done}}' if data_1 >= 1500 else '{{notDone}}'
-            cond_3 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
+            cond_3 = '{{done}}' if data_2 >= 1500 else '{{notDone}}'
+            cond_4 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][1].replace('{state}', str(cond_4)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_150
+        self.generateFlashData = quest_150
     if self.__cache['currentID'] == 225:
         def quest_225(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['stunned_damage']
+            data_2 = self.__cache['player']['damage']['any']
             cond_1 = '{{unknown}}'
             cond_2 = '{{done}}' if data_1 >= 2500 else '{{notDone}}'
-            cond_3 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
+            cond_3 = '{{done}}' if data_2 >= 3000 else '{{notDone}}'
+            cond_4 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][1].replace('{state}', str(cond_4)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_225
+        self.generateFlashData = quest_225
     if self.__cache['currentID'] == 300:
         def quest_300(quest):
             main_list, adv_list = ([], [])
             data_1 = self.__cache['player']['stun']['stunned_damage']
+            data_2 = self.__cache['player']['damage']['any']
             cond_1 = '{{unknown}}'
             cond_2 = '{{done}}' if data_1 >= 3500 else '{{notDone}}'
-            cond_3 = '{{unknown}}' if self.__cache['player']['alive'] else '{{notDone}}'
+            cond_3 = '{{done}}' if data_2 >= 4000 else '{{notDone}}'
+            cond_4 = '{{unknown}}'
             main_list.append(quest['main'][0].replace('{state}', str(cond_1)))
             main_list.append(quest['main'][1].replace('{state}', str(cond_2)).replace('{counter}', str(data_1)))
-            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)))
+            adv_list.append(quest['adv'][0].replace('{state}', str(cond_3)).replace('{counter}', str(data_2)))
+            adv_list.append(quest['adv'][1].replace('{state}', str(cond_4)))
             return (main_list, adv_list)
-        self.generateFalshData = quest_300
+        self.generateFlashData = quest_300
+
 if enabled:
     stunned = Stunned()
 
