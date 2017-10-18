@@ -1,8 +1,10 @@
 ﻿# -*- coding: utf-8 -*-
+import traceback
 from functools import partial
 from Avatar import PlayerAvatar
 import BigWorld
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
+from bootcamp.aop.common import AspectRedirectMethod
 from constants import VEHICLE_HIT_FLAGS
 from gui.battle_control.controllers import feedback_events
 
@@ -1205,6 +1207,22 @@ if enabled:
     def hookStopBattle(func,self):
         clear()
         func(self)
+    
+
+    @stunned.hook(AspectRedirectMethod, 'atCall')
+    def new_atCall(func, self, cd):
+        try:
+            func(self, cd)
+        except KeyError:
+            try:
+                exc_format = traceback.format_exc()
+                if 'onEnterWorld' in exc_format:
+                    f = self._AspectRedirectMethod__override['vehicle_onEnterWorld']
+                    if f(*cd.args, **cd.kwargs):
+                        cd.avoid()
+            except KeyError:
+                raise
+
 
     upd_config()
     mod_pro_potapov.g_potapov.updateFlashData = updateFlashDataArty
