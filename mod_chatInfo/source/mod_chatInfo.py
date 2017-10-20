@@ -17,8 +17,8 @@ WIN = [0.0, 46.5, 48.5, 52.5, 57.5, 64.5]
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v1.01 (2017-10-20)'
-        self.version_id = 101
+        self.version = 'v1.02 (2017-10-20)'
+        self.version_id = 102
         self.author = 'by spoter'
         self.data = {
             'version'    : self.version_id,
@@ -112,7 +112,7 @@ class ChatInfo(object):
             if (datetime.datetime.utcnow() - self.dossiers[databaseID]['time']).total_seconds() < 3600:
                 return self.dossiers[databaseID]
         try:
-            url = 'https://api.worldoftanks.ru/wot/account/info/?application_id=demo&fields=created_at%2Cglobal_rating%2Cstatistics.all.wins%2C+statistics.all.battles&account_id={id}'.format(id=databaseID)
+            url = 'https://api.worldoftanks.{region}/wot/account/info/?application_id=demo&fields=created_at%2Cglobal_rating%2Cstatistics.all.wins%2C+statistics.all.battles&account_id={id}'.format(region=self.region(databaseID), id=databaseID)
             request = json.loads(urllib2.urlopen(url, timeout=1).read()).get('data', None)
         except IOError:
             request = None
@@ -150,6 +150,15 @@ class ChatInfo(object):
             pass
         return result
 
+    @staticmethod
+    def region(databaseID):
+        if databaseID < 500000000:
+            return 'ru'
+        if databaseID < 1000000000:
+            return 'eu'
+        if databaseID < 2000000000:
+            return 'na'
+        return 'asia'
 
 config = Config()
 chatInfo = ChatInfo()
