@@ -1,0 +1,8 @@
+﻿{
+    "enabled": true,
+    "newbieDays": 30,
+    "newbieWinRate": 46.0,
+    "showNewbie": true,
+    "showWinRate": true,
+    "version": 101
+}

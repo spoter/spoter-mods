@@ -1,0 +1,14 @@
+﻿{
+    "UI_chat_newbieMarkColor": "#60FF00",
+    "UI_chat_winRate": "[{winRate}]",
+    "UI_description": "Chat Info",
+    "UI_setting_newbieDays_text": "How long is a newbie",
+    "UI_setting_newbieDays_value": " day's",
+    "UI_setting_newbieWinRate_text": "Newbie winRate status",
+    "UI_setting_newbieWinRate_value": "%",
+    "UI_setting_showNewbie_text": "Show Newbie status in chat",
+    "UI_setting_showNewbie_tooltip": "",
+    "UI_setting_showWinRate_text": "Show winRate to user in chat",
+    "UI_setting_showWinRate_tooltip": "",
+    "version": 101
+}

@@ -1,0 +1,8 @@
+{
+  "version": 1.01,
+  "source": "mod_chatInfo.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/chatInfo.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}

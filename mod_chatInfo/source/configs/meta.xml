@@ -1,0 +1,6 @@
+<root>
+    <id>spoter.mod_chatInfo</id>
+    <version>1.01</version>
+    <name>Chat Info</name>
+    <description>Show Newbie status and winRate in chat</description>
+</root>

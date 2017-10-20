@@ -1,0 +1,14 @@
+﻿{
+    "UI_chat_newbieMarkColor": "#60FF00",
+    "UI_chat_winRate": "[{winRate}]",
+    "UI_description": "Chat Info",
+    "UI_setting_newbieDays_text": "Как долго считать новичком",
+    "UI_setting_newbieDays_value": " (дни)",
+    "UI_setting_newbieWinRate_text": "Процент побед для статуса новичка",
+    "UI_setting_newbieWinRate_value": "%",
+    "UI_setting_showNewbie_text": "Подсвечивать новичков в чате",
+    "UI_setting_showNewbie_tooltip": "",
+    "UI_setting_showWinRate_text": "Показывать процент побед в чате",
+    "UI_setting_showWinRate_tooltip": "",
+    "version": 101
+}
