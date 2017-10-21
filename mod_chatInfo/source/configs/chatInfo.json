@@ -1,8 +1,15 @@
 ﻿{
+    "colorNewbie": 11,
+    "colorNewbieSpammer": 23,
+    "colorTwink": 6,
+    "colorTwinkSpammer": 23,
     "enabled": true,
     "newbieDays": 30,
     "newbieWinRate": 46.0,
+    "showBattles": true,
     "showNewbie": true,
+    "showTwink": true,
     "showWinRate": true,
-    "version": 102
+    "twinkBattles": 5.0,
+    "version": 103
 }
