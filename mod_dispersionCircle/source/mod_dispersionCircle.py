@@ -325,10 +325,10 @@ def gunMarkersDecoratorUpdate(func, self, markerType, position, dir, size, relax
 
 @inject.hook(gun_marker_ctrl, 'createGunMarker')
 @inject.log
-def createGunMarker(func, isStrategic):
+def createGunMarker(func, isStrategic, turretIndex=0):
     if config.data['enabled']:
-        return dispersionCircle.createGunMarker(isStrategic)
-    return func(isStrategic)
+        return dispersionCircle.createGunMarker(isStrategic, turretIndex)
+    return func(isStrategic, turretIndex)
 
 
 @inject.hook(ArcadeCamera, '__init__')
