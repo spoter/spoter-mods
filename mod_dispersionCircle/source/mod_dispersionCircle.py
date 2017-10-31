@@ -2,6 +2,7 @@
 import Math
 import math
 
+# noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
 import BattleReplay
@@ -24,8 +25,8 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.03 (2017-10-31)'
-        self.version_id = 303
+        self.version = 'v3.04 (2017-10-31)'
+        self.version_id = 304
         self.author = 'by StranikS_Scan'
         self.data = {
             'enabled'              : True,
@@ -124,6 +125,7 @@ class new_DefaultGunMarkerController(_GunMarkerController):
         self.__curSize = 0.0
         self.__screenRatio = 0.0
 
+    @inject.log
     def enable(self):
         super(new_DefaultGunMarkerController, self).enable()
         self.__updateScreenRatio()
@@ -131,6 +133,7 @@ class new_DefaultGunMarkerController(_GunMarkerController):
         if replayCtrl.isPlaying and replayCtrl.isClientReady:
             self.__replSwitchTime = 0.2
 
+    @inject.log
     def update(self, markerType, pos, dir, sizeVector, relaxTime, collData):
         super(new_DefaultGunMarkerController, self).update(markerType, pos, dir, sizeVector, relaxTime, collData)
         positionMatrix = Math.Matrix()
@@ -156,11 +159,16 @@ class new_DefaultGunMarkerController(_GunMarkerController):
         else:
             self._dataProvider.updateSize(self.__curSize, relaxTime)
 
+    @inject.log
     def onRecreateDevice(self):
         self.__updateScreenRatio()
 
+    @inject.log
     def __updateScreenRatio(self):
         self.__screenRatio = GUI.screenResolution()[0] * 0.5
+
+    def getSize(self):
+        return self.__curSize
 
 
 class DispersionCircle(object):
@@ -184,7 +192,7 @@ class DispersionCircle(object):
                 func._GunMarkersDecorator__serverMarker.setPosition(position)
 
     @staticmethod
-    def gunMarkersDecoratorUpdate(func, markerType, position, dir, size, relaxTime, collData): #(self, position, markerType=_MARKER_TYPE.CLIENT):
+    def gunMarkersDecoratorUpdate(func, markerType, position, dir, size, relaxTime, collData):  # (self, position, markerType=_MARKER_TYPE.CLIENT):
         if not config.data['ReplaceOriginalCircle']:
             if markerType in (_MARKER_TYPE.CLIENT, _MARKER_TYPE.SUB):
                 func._GunMarkersDecorator__clientState = (position, dir, collData)
@@ -316,7 +324,7 @@ def gunMarkersDecoratorSetPosition(func, self, position, markerType=_MARKER_TYPE
 
 @inject.hook(_GunMarkersDecorator, 'update')
 @inject.log
-def gunMarkersDecoratorUpdate(func, self, markerType, position, dir, size, relaxTime, collData): #(self, markerType, position, dir, size, relaxTime, collData)
+def gunMarkersDecoratorUpdate(func, self, markerType, position, dir, size, relaxTime, collData):  # (self, markerType, position, dir, size, relaxTime, collData)
     if config.data['enabled']:
         dispersionCircle.gunMarkersDecoratorUpdate(self, markerType, position, dir, size, relaxTime, collData)
         return
@@ -333,7 +341,7 @@ def createGunMarker(func, isStrategic, turretIndex=0):
 
 @inject.hook(ArcadeCamera, '__init__')
 @inject.log
-def arcadeCameraInit(func, self, dataSec, defaultOffset=None): #(self, dataSec, defaultOffset=None)
+def arcadeCameraInit(func, self, dataSec, defaultOffset=None):  # (self, dataSec, defaultOffset=None)
     func(self, dataSec, defaultOffset)
     if config.data['enabled']:
         dispersionCircle.arcadeCameraInit(self)
@@ -341,7 +349,7 @@ def arcadeCameraInit(func, self, dataSec, defaultOffset=None): #(self, dataSec, 
 
 @inject.hook(SniperCamera, '__init__')
 @inject.log
-def sniperCameraInit(func, self, dataSec, defaultOffset=None, binoculars=None): #(func, self, dataSec, defaultOffset=None, binoculars=None):
+def sniperCameraInit(func, self, dataSec, defaultOffset=None, binoculars=None):  # (func, self, dataSec, defaultOffset=None, binoculars=None):
     func(self, dataSec, defaultOffset, binoculars)
     if config.data['enabled']:
         dispersionCircle.sniperCameraInit(self)
@@ -436,9 +444,9 @@ def setShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, tu
     if config.data['enabled'] and config.data['UseServerDispersion']:
         if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker:
             return func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)
-        #dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
-        markerPos, markerDir, markerSize, idealMarkerSize, collData = self._VehicleGunRotator__getGunMarkerPosition(
-            shotPos, shotVec, self._VehicleGunRotator__turretDispersionAnglesList[turretIndex], turretIndex)
+        # dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
+        func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)
+        markerPos, markerDir, markerSize, idealMarkerSize, collData = self._VehicleGunRotator__getGunMarkerPosition(shotPos, shotVec, self._VehicleGunRotator__turretDispersionAnglesList[turretIndex], turretIndex)
         self._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(markerPos, markerDir, (markerSize, idealMarkerSize), SERVER_TICK_LENGTH, collData)
         return
     func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)

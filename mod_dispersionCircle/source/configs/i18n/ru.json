@@ -12,5 +12,5 @@
     "UI_setting_ReplaceOriginalCircle_tooltip": "{HEADER}Info:{/HEADER}{BODY}Заменить оригинальный круг сведения кругом разброса (Улучшит точность){/BODY}",
     "UI_setting_UseServerDispersion_text": "Показывать серверный круг разброса",
     "UI_setting_UseServerDispersion_tooltip": "{HEADER}Info:{/HEADER}{BODY}Показывать серверный круг разброса, а не клиентский (не зависит от галочки в клиенте, не работает в реплеях){/BODY}",
-    "version": 303
+    "version": 304
 }
