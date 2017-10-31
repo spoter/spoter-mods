@@ -41,7 +41,7 @@ def create(self, markersInfo, vehicleInfo, components=None):
         markerType = GUN_MARKER_TYPE.SERVER if markersInfo.isServerMarkerActivated else GUN_MARKER_TYPE.CLIENT
         component = self._findComponent(markerType, dataProvider, components, _CONSTANTS.SNIPER_GUN_MARKER_NAME)
         if component is None:
-            component = _components.DefaultGunMarkerComponent(markerType, _VIEW_ID.SNIPER, _CONSTANTS.SNIPER_GUN_MARKER_NAME, _CONSTANTS.GUN_MARKER_LINKAGE, dataProvider)
+            component = _components.DefaultGunMarkerComponent(markerType, _VIEW_ID.SNIPER, _CONSTANTS.SNIPER_GUN_MARKER_NAME, _CONSTANTS.DEFAULT_GUN_MARKER_LINKAGE, dataProvider)
         return component,
     elif markersInfo.isEnabledInVideoMode:
         return (self._createVideoMarker(GUN_MARKER_TYPE.CLIENT, markersInfo.clientMarkerDataProvider, components),)
@@ -54,4 +54,4 @@ ArcadeControlMode._ArcadeControlMode__activateAlternateMode = hookedActivateAlte
 _OptionalMarkersFactory.create = create
 
 
-print '[LOAD_MOD]:  [sniperByScroll 2.01 (22-05-2017), by Kainenger, spoter, angelsoft]'
+print '[LOAD_MOD]:  [sniperByScroll 2.02 (26-10-2017), by Kainenger, spoter, angelsoft]'
