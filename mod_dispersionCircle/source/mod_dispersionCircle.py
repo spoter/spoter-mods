@@ -25,8 +25,8 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.04 (2017-10-31)'
-        self.version_id = 304
+        self.version = 'v3.05 (2017-10-31)'
+        self.version_id = 305
         self.author = 'by StranikS_Scan'
         self.data = {
             'enabled'              : True,
@@ -445,7 +445,6 @@ def setShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, tu
         if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker:
             return func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)
         # dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
-        func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)
         markerPos, markerDir, markerSize, idealMarkerSize, collData = self._VehicleGunRotator__getGunMarkerPosition(shotPos, shotVec, self._VehicleGunRotator__turretDispersionAnglesList[turretIndex], turretIndex)
         self._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(markerPos, markerDir, (markerSize, idealMarkerSize), SERVER_TICK_LENGTH, collData)
         return

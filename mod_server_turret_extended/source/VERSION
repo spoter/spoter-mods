@@ -1,5 +1,5 @@
 {
-  "version": 1.16,
+  "version": 1.17,
   "source": "mod_serverTurretExtended.py",
   "meta": "configs/meta.xml",
   "config": "configs/serverTurretExtended.json",

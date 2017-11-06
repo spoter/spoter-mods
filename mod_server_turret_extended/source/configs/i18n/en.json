@@ -7,5 +7,5 @@
     "UI_setting_fix_accuracy_in_move_tooltip": "{HEADER}Info:{/HEADER}{BODY}When you tank move and then stop, used fix accuracy to not lost aiming{/BODY}",
     "UI_setting_server_turret_text": "Server Turret",
     "UI_setting_server_turret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Move Turret to Server Aim coordinates (need enabled Server Sight in game settings){/BODY}",
-    "version": 116
+    "version": 117
 }

@@ -1,24 +1,19 @@
 ﻿# -*- coding: utf-8 -*-
-import threading
-import urllib
-import urllib2
+
+# noinspection PyUnresolvedReferences
+from gui.mods.mod_mods_gui import g_gui, inject
 
 import BigWorld
 import CommandMapping
 import VehicleGunRotator
 from Avatar import PlayerAvatar
-from constants import AUTH_REALM
-from constants import SERVER_TICK_LENGTH
-from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
-from gui.mods.mod_mods_gui import g_gui, inject
-from gun_rotation_shared import decodeGunAngles
-from helpers import getLanguageCode
+
 
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v1.16 (2017-10-16)'
-        self.version_id = 116
+        self.version = 'v1.17 (2017-11-06)'
+        self.version_id = 117
         self.author = 'by spoter, reven86'
         self.data = {
             'version'             : self.version_id,
@@ -73,31 +68,13 @@ class _Config(object):
         self.data = g_gui.update_data(self.ids, settings)
         g_gui.update(self.ids, self.template)
 
+
 class MovementControl(object):
     @staticmethod
     def move_pressed(avatar, is_down, key):
         if CommandMapping.g_instance.isFiredList((CommandMapping.CMD_MOVE_FORWARD, CommandMapping.CMD_MOVE_FORWARD_SPEC, CommandMapping.CMD_MOVE_BACKWARD, CommandMapping.CMD_ROTATE_LEFT, CommandMapping.CMD_ROTATE_RIGHT), key):
             avatar.moveVehicle(0, is_down)
 
-class GunRotatorMod:
-    def __init__(self):
-        self.blockGunRotator = False
-
-    # noinspection PyProtectedMember
-    def calc_marker_pos(self, gun_rotator, shot_pos, shot_vector):
-        marker_pos, marker_direction, marker_size, ideal_marker_size, coll_data = gun_rotator._VehicleGunRotator__getGunMarkerPosition(shot_pos, shot_vector, gun_rotator._VehicleGunRotator__dispersionAngles)
-        gun_rotator._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(marker_pos, marker_direction, (marker_size, ideal_marker_size), SERVER_TICK_LENGTH, coll_data)
-        gun_rotator._VehicleGunRotator__lastShotPoint = marker_pos
-        gun_rotator._VehicleGunRotator__avatar.inputHandler.updateGunMarker(marker_pos, marker_direction, (marker_size, ideal_marker_size), SERVER_TICK_LENGTH, coll_data)
-        gun_rotator._VehicleGunRotator__markerInfo = (marker_pos, marker_direction, marker_size)
-
-        vehicle = BigWorld.entity(gun_rotator._VehicleGunRotator__avatar.playerVehicleID)
-        vehicle_descr = vehicle.typeDescriptor
-
-        gun_rotator._VehicleGunRotator__turretYaw, gun_rotator._VehicleGunRotator__gunPitch = decodeGunAngles(vehicle.gunAnglesPacked, vehicle_descr.gun['pitchLimits']['absolute'])
-        gun_rotator._VehicleGunRotator__updateTurretMatrix(gun_rotator._VehicleGunRotator__turretYaw, SERVER_TICK_LENGTH)
-        gun_rotator._VehicleGunRotator__updateGunMatrix(gun_rotator._VehicleGunRotator__gunPitch, SERVER_TICK_LENGTH)
-        return
 
 class Support(object):
     @staticmethod
@@ -109,12 +86,13 @@ class Support(object):
         if _config.data['enabled'] and _config.data['activate_message']:
             BigWorld.callback(5.0, self.message)
 
-#start mod
+
+# start mod
 
 _config = _Config()
-gunRotatorMod = GunRotatorMod()
 movement_control = MovementControl()
 support = Support()
+
 
 @inject.hook(PlayerAvatar, 'handleKey')
 @inject.log
@@ -124,19 +102,15 @@ def hookPlayerAvatarHandleKey(func, *args):
         movement_control.move_pressed(self, is_down, key)
     return func(*args)
 
+
 @inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
 @inject.log
-def hookVehicleGunRotatorSetShotPosition(func, *args):
+def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh=False):
     if _config.data['enabled'] and _config.data['server_turret'] and not BigWorld.player().inputHandler.isSPG:
-        try:
-            self, shot_pos, shot_vector, dispersion_angle = args
-            self._VehicleGunRotator__dispersionAngles[0] = dispersion_angle
-            gunRotatorMod.blockGunRotator = self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker
-            if gunRotatorMod.blockGunRotator:
-                return gunRotatorMod.calc_marker_pos(self, shot_pos, shot_vector)
-        except StandardError:
-            pass
-    return func(*args)
+        if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
+            forceValueRefresh = True
+    return func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)
+
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
 @inject.log
