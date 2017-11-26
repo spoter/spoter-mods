@@ -21,3 +21,7 @@ This is still developed mods for world of tanks.
 16. mod_spotted_extended_light: сообщение о первичном засвете, дамаге по засвету и т.д. над миникартой + звук
 17. mod_spotted_extended: подсвечивает противников, которых сетит ващ взвод
 18. mod_personalMissionColored: Подкрашивает лбз на карте красным, если они выполнены не на Отлично.
+
+Скриншоты:
+18. mod_personalMissionColored:
+![ScreenShot](./mod_personalMissionColored/screen.png)
