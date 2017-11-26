@@ -5,10 +5,10 @@ from gui.Scaleform.genConsts.PERSONAL_MISSIONS_ALIASES import PERSONAL_MISSIONS_
 def hookedGetQuestStatusData(self, vehType, quest):
     data = hookGetQuestStatusData(self, vehType, quest)
     if data['state'] == PERSONAL_MISSIONS_ALIASES.REGION_COMPLETED:
-        data['state'] = PERSONAL_MISSIONS_ALIASES.OPERATION_COMPLETE_STATE
+        data['state'] = 5
     return data
 
 hookGetQuestStatusData = PersonalMissionsMapView._PersonalMissionsMapView__getQuestStatusData
 PersonalMissionsMapView._PersonalMissionsMapView__getQuestStatusData = hookedGetQuestStatusData
 
-print '[LOAD_MOD]:  [mod_personalMissionColored 1.01 (26-11-2017), by spoter]'
+print '[LOAD_MOD]:  [mod_personalMissionColored 1.02 (26-11-2017), by spoter]'
