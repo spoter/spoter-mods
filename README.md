@@ -2,7 +2,7 @@
 for work, used pycharm
 This is still developed mods for world of tanks.
 
-Описание модов:
+# Описание модов:
 1. mod_artySplash: Рисуется сфера предполагаемого распространения фугасного урона и оглушения (если есть)
 2. mod_autoAimOptimize: Авто-захват цели за препятствиями (Запрещённая модификация, только для изучения)
 3. mod_bookmarks: Закладки браузера в ангаре, открывает сайты из закладок во внутри-игровом браузере.
@@ -22,7 +22,7 @@ This is still developed mods for world of tanks.
 17. mod_spotted_extended: подсвечивает противников, которых светит ващ взвод
 18. mod_personalMissionColored: Подкрашивает лбз на карте красным, если они выполнены не на Отлично.
 
-Скриншоты:
+# Скриншоты:
 
 18. mod_personalMissionColored:
 ![ScreenShot](./mod_personalMissionColored/screen.png)
