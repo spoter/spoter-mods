@@ -19,9 +19,10 @@ This is still developed mods for world of tanks.
 14. mod_sniperByScroll: добавляет режим стрельбы прямой наводкой для артиллерии, активируется скроллом колёсика мыши.
 15. mod_spotMarks: Маркеры точек пассивного засвета на картах(большие стрелки), рекомендуется для выполнения лбз на засвет.
 16. mod_spotted_extended_light: сообщение о первичном засвете, дамаге по засвету и т.д. над миникартой + звук
-17. mod_spotted_extended: подсвечивает противников, которых сетит ващ взвод
+17. mod_spotted_extended: подсвечивает противников, которых светит ващ взвод
 18. mod_personalMissionColored: Подкрашивает лбз на карте красным, если они выполнены не на Отлично.
 
 Скриншоты:
+
 18. mod_personalMissionColored:
 ![ScreenShot](./mod_personalMissionColored/screen.png)
