@@ -10,7 +10,7 @@ from notification.settings import NOTIFICATION_GROUP
 class Config(object):
     def __init__(self):
         self.ids = 'bookmarks'
-        self.version = 'v1.00 (2017-11-06)'
+        self.version = 'v1.00 (2017-12-18)'
         self.version_id = 100
         self.author = 'by spoter'
         self.data = {
@@ -139,23 +139,24 @@ class Messages(object):
     def __init__(self):
         pass
 
-    def createMessage(self, status, priority):
+    @staticmethod
+    def createMessage(status, priority):
         message = {
             'typeID'              : 1,
-            'entityID': 999000 + priority,
-                   'message'             : {'bgIcon'       : '',
-                                            'defaultIcon'  : '',
-                                            'savedData'    : 0,
-                                            'timestamp'    : -1,
-                                            'filters'      : [],
-                                            'buttonsLayout': [],
-                                            'message'      : '',
-                                            'type'         : 'black',
-                                            'icon'         : 'img://gui/maps/icons/buttons/search.png'
-                                            },
-                   'hidingAnimationSpeed': 1.0,
-                   'notify'              : False,
-                   'auxData'             : ['PowerLevel']}
+            'entityID'            : 999000 + priority,
+            'message'             : {'bgIcon'       : '',
+                                     'defaultIcon'  : '',
+                                     'savedData'    : 0,
+                                     'timestamp'    : -1,
+                                     'filters'      : [],
+                                     'buttonsLayout': [],
+                                     'message'      : '',
+                                     'type'         : 'black',
+                                     'icon'         : 'img://gui/maps/icons/buttons/search.png'
+                                     },
+            'hidingAnimationSpeed': 1.0,
+            'notify'              : False,
+            'auxData'             : ['PowerLevel']}
         links = ''
         if status == 'showLiked':
             message['message']['message'] = '%s\n' % config.i18n['UI_setting_message_liked']
@@ -182,20 +183,21 @@ class Messages(object):
         return message
 
     def popUpGenerator(self):
-        messages = []
+        message = []
         if config.data['showMods']:
-            messages.append(self.createMessage('showMods', 1))
+            message.append(self.createMessage('showMods', 1))
         if config.data['showStats']:
-            messages.append(self.createMessage('showStats', 2))
+            message.append(self.createMessage('showStats', 2))
         if config.data['showNews']:
-            messages.append(self.createMessage('showNews', 3))
+            message.append(self.createMessage('showNews', 3))
         if config.data['showBlog']:
-            messages.append(self.createMessage('showBlog', 4))
+            message.append(self.createMessage('showBlog', 4))
         if config.data['showLiked']:
-            messages.append(self.createMessage('showLiked', 5))
-        return messages
+            message.append(self.createMessage('showLiked', 5))
+        return message
 
-    def openLink(self, entityID, action):
+    @staticmethod
+    def openLink(entityID, action):
         if entityID in xrange(999001, 999006):
             if re.match('https?://', action, re.I):
                 if entityID == 999002:
@@ -213,13 +215,15 @@ messages = Messages()
 @inject.log
 def hookNotificationListViewGetMessagesList(func, *args):
     result = func(*args)
+    # noinspection PyProtectedMember
     if args[0]._NotificationListView__currentGroup == NOTIFICATION_GROUP.OFFER:
         result.extend(messages.popUpGenerator())
     return result
 
+
 @inject.hook(NotificationListView, 'onClickAction')
 @inject.log
 def hookNotificationListViewOnClickAction(func, *args):
-    if messages.openLink(args[2],args[3]):
+    if messages.openLink(args[2], args[3]):
         return
     func(*args)

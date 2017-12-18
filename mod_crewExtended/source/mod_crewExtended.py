@@ -8,10 +8,11 @@ from items import tankmen
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
+
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v5.01 (2017-11-06)'
+        self.version = 'v5.01 (2017-12-18)'
         self.version_id = 501
         self.author = 'by spoter'
         self.data = {
@@ -20,17 +21,17 @@ class Config(object):
             'personalFileTotalXP'    : True,
             'personalFileSkillXP'    : True,
             'personalFileSkillBattle': True,
-            'currentCrewRankOnTop' : True,
-            'currentCrewRankBattle': True,
-            'currentCrewRoleBattle': False,
-            'currentCrewBattleIcon': True,
-            'currentColorBattle' : 6,
-            'currentCrewRankExp': False,
-            'currentCrewRoleExp': True,
-            'currentCrewExpIcon': True,
-            'currentColorExp': 5,
-            'colors': ['0000FF', 'A52A2B', 'D3691E', '6595EE', 'FCF5C8', '00FFFF', '28F09C', 'FFD700', '008000', 'ADFF2E', 'FF69B5', '00FF00', 'FFA500', 'FFC0CB', '800080', 'FF0000', '8378FC', 'DB0400', '80D639', 'FFE041', 'FFFF00', 'FA8072'],
-            'color_i18n': ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime', 'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
+            'currentCrewRankOnTop'   : True,
+            'currentCrewRankBattle'  : True,
+            'currentCrewRoleBattle'  : False,
+            'currentCrewBattleIcon'  : True,
+            'currentColorBattle'     : 6,
+            'currentCrewRankExp'     : False,
+            'currentCrewRoleExp'     : True,
+            'currentCrewExpIcon'     : True,
+            'currentColorExp'        : 5,
+            'colors'                 : ['0000FF', 'A52A2B', 'D3691E', '6595EE', 'FCF5C8', '00FFFF', '28F09C', 'FFD700', '008000', 'ADFF2E', 'FF69B5', '00FF00', 'FFA500', 'FFC0CB', '800080', 'FF0000', '8378FC', 'DB0400', '80D639', 'FFE041', 'FFFF00', 'FA8072'],
+            'color_i18n'             : ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime', 'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
         }
         self.i18n = {
             'version'                                   : self.version_id,
@@ -42,47 +43,47 @@ class Config(object):
             'UI_setting_personalFileSkillXP_tooltip'    : '{HEADER}Info:{/HEADER}{BODY}Show Experience to current skill with format: to 1% (to 100%){/BODY}',
             'UI_setting_personalFileSkillBattle_text'   : 'Show battles to 100%',
             'UI_setting_personalFileSkillBattle_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill with format: 1 battle to 1% (100 battle to 100%){/BODY}',
-            'UI_setting_currentCrew_label': 'Current Crew :',
-            'UI_setting_currentColorBattle_text'   : 'Change Battles color',
-            'UI_setting_currentColorBattle_tooltip': '',
-            'UI_setting_currentCrewRankOnTop_text'   : 'Show Rank on Top',
-            'UI_setting_currentCrewRankOnTop_tooltip': '{HEADER}Info:{/HEADER}{BODY}Default Role on top in current crew list in hangar, change it! :){/BODY}',
-            'UI_setting_currentCrewRankBattle_text'   : 'Show Battles in Rank',
-            'UI_setting_currentCrewRankBattle_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Rank field{/BODY}',
-            'UI_setting_currentCrewRoleBattle_text'   : 'Show Battles in Role',
-            'UI_setting_currentCrewRoleBattle_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Role field{/BODY}',
-            'UI_setting_currentCrewBattleIcon_text'   : 'Show Battle Icon',
-            'UI_setting_currentCrewBattleIcon_tooltip': '',
-            'UI_setting_currentCrewRankExp_text'   : 'Show Exp in Rank',
-            'UI_setting_currentCrewRankExp_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Rank field{/BODY}',
-            'UI_setting_currentCrewRoleExp_text'   : 'Show Exp in Role',
-            'UI_setting_currentCrewRoleExp_tooltip': '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Role field{/BODY}',
-            'UI_setting_currentCrewExpIcon_text'    : 'Show Exp Icon',
-            'UI_setting_currentCrewExpIcon_tooltip' : '',
-            'UI_setting_currentColorExp_text'   : 'Change Exp color',
-            'UI_setting_currentColorExp_tooltip': '',
-            'UI_menu_blue'           : 'Blue',
-            'UI_menu_brown'          : 'Brown',
-            'UI_menu_chocolate'      : 'Chocolate',
-            'UI_menu_cornflower_blue': 'Cornflower Blue',
-            'UI_menu_cream'          : 'Cream',
-            'UI_menu_cyan'           : 'Cyan',
-            'UI_menu_emerald'        : 'Emerald',
-            'UI_menu_gold'           : 'Gold',
-            'UI_menu_green'          : 'Green',
-            'UI_menu_green_yellow'   : 'Green Yellow',
-            'UI_menu_hot_pink'       : 'Hot Pink',
-            'UI_menu_lime'           : 'Lime',
-            'UI_menu_orange'         : 'Orange',
-            'UI_menu_pink'           : 'Pink',
-            'UI_menu_purple'         : 'Purple',
-            'UI_menu_red'            : 'Red',
-            'UI_menu_wg_blur'        : 'WG Blur',
-            'UI_menu_wg_enemy'       : 'WG Enemy',
-            'UI_menu_wg_friend'      : 'WG Friend',
-            'UI_menu_wg_squad'       : 'WG Squad',
-            'UI_menu_yellow'         : 'Yellow',
-            'UI_menu_nice_red'       : 'Nice Red'
+            'UI_setting_currentCrew_label'              : 'Current Crew :',
+            'UI_setting_currentColorBattle_text'        : 'Change Battles color',
+            'UI_setting_currentColorBattle_tooltip'     : '',
+            'UI_setting_currentCrewRankOnTop_text'      : 'Show Rank on Top',
+            'UI_setting_currentCrewRankOnTop_tooltip'   : '{HEADER}Info:{/HEADER}{BODY}Default Role on top in current crew list in hangar, change it! :){/BODY}',
+            'UI_setting_currentCrewRankBattle_text'     : 'Show Battles in Rank',
+            'UI_setting_currentCrewRankBattle_tooltip'  : '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Rank field{/BODY}',
+            'UI_setting_currentCrewRoleBattle_text'     : 'Show Battles in Role',
+            'UI_setting_currentCrewRoleBattle_tooltip'  : '{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Role field{/BODY}',
+            'UI_setting_currentCrewBattleIcon_text'     : 'Show Battle Icon',
+            'UI_setting_currentCrewBattleIcon_tooltip'  : '',
+            'UI_setting_currentCrewRankExp_text'        : 'Show Exp in Rank',
+            'UI_setting_currentCrewRankExp_tooltip'     : '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Rank field{/BODY}',
+            'UI_setting_currentCrewRoleExp_text'        : 'Show Exp in Role',
+            'UI_setting_currentCrewRoleExp_tooltip'     : '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Role field{/BODY}',
+            'UI_setting_currentCrewExpIcon_text'        : 'Show Exp Icon',
+            'UI_setting_currentCrewExpIcon_tooltip'     : '',
+            'UI_setting_currentColorExp_text'           : 'Change Exp color',
+            'UI_setting_currentColorExp_tooltip'        : '',
+            'UI_menu_blue'                              : 'Blue',
+            'UI_menu_brown'                             : 'Brown',
+            'UI_menu_chocolate'                         : 'Chocolate',
+            'UI_menu_cornflower_blue'                   : 'Cornflower Blue',
+            'UI_menu_cream'                             : 'Cream',
+            'UI_menu_cyan'                              : 'Cyan',
+            'UI_menu_emerald'                           : 'Emerald',
+            'UI_menu_gold'                              : 'Gold',
+            'UI_menu_green'                             : 'Green',
+            'UI_menu_green_yellow'                      : 'Green Yellow',
+            'UI_menu_hot_pink'                          : 'Hot Pink',
+            'UI_menu_lime'                              : 'Lime',
+            'UI_menu_orange'                            : 'Orange',
+            'UI_menu_pink'                              : 'Pink',
+            'UI_menu_purple'                            : 'Purple',
+            'UI_menu_red'                               : 'Red',
+            'UI_menu_wg_blur'                           : 'WG Blur',
+            'UI_menu_wg_enemy'                          : 'WG Enemy',
+            'UI_menu_wg_friend'                         : 'WG Friend',
+            'UI_menu_wg_squad'                          : 'WG Squad',
+            'UI_menu_yellow'                            : 'Yellow',
+            'UI_menu_nice_red'                          : 'Nice Red'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -198,6 +199,7 @@ class Config(object):
         self.data = g_gui.update_data(self.ids, settings)
         g_gui.update(self.ids, self.template)
 
+
 @inject.log
 def getLastSkillBattlesLeft(self, tankman):
     if not self.getBattlesCount():
@@ -238,9 +240,6 @@ def changeTankman(data):
             if config.data['currentCrewRankOnTop']:
                 role, rank = (tankmenData['role'], tankmenData['rank'])
                 tankmenData['role'], tankmenData['rank'] = (rank, role)
-            if not hasattr(g_currentVehicle, 'itemsCache'):
-                from gui.shared import g_itemsCache
-                g_currentVehicle.itemsCache = g_itemsCache
             tankman = g_currentVehicle.itemsCache.items.getTankman(tankmenData['tankmanID'])
             dossier = g_currentVehicle.itemsCache.items.getTankmanDossier(tankmenData['tankmanID'])
             exp = max(1, tankman.getNextSkillXpCost() if not None else 0)
@@ -253,16 +252,18 @@ def changeTankman(data):
             tankmenData['role'] = textBattle[1] + textExp[1] + tankmenData['role']
     return data
 
+
 def generateTextString(dossier, sign, value):
-    color = config.data['colors'][config.data['currentColor%s' %sign]]
+    color = config.data['colors'][config.data['currentColor%s' % sign]]
+    # noinspection PyProtectedMember
     text = '<font color="#%s">%s </font>' % (color, dossier._TankmanDossier__formatValueForUI(value))
-    if config.data['currentCrew%sIcon' %sign]:
+    if config.data['currentCrew%sIcon' % sign]:
         if 'Battle' in sign:
             text += '<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\"/>'
         if 'Exp' in sign:
             text += '<img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>'
-    return text if config.data['currentCrewRank%s' %sign] else '', text if config.data['currentCrewRole%s' %sign] else ''
-    
+    return text if config.data['currentCrewRank%s' % sign] else '', text if config.data['currentCrewRole%s' % sign] else ''
+
 
 config = Config()
 TankmanDossier.getLastSkillBattlesLeft = getLastSkillBattlesLeft
@@ -282,6 +283,3 @@ def tankmanResponse(func, *args):
     if config.data['enabled']:
         return func(args[0], changeTankman(args[1]))
     return func(*args)
-
-
-

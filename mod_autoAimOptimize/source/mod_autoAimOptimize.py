@@ -14,7 +14,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'autoAimOptimize'
-        self.version = 'v1.04 (2017-11-06)'
+        self.version = 'v1.04 (2017-12-18)'
         self.version_id = 104
         self.author = 'by spoter'
         self.data = {
@@ -22,7 +22,7 @@ class Config(object):
             'enabled'          : True,
             'angle'            : 1.3,
             'catchHiddenTarget': True,
-            'disableArtyMode': True
+            'disableArtyMode'  : True
         }
         self.i18n = {
             'version'                             : self.version_id,
@@ -31,8 +31,8 @@ class Config(object):
             'UI_setting_angle_value'              : '%s' % unichr(176),
             'UI_setting_catchHiddenTarget_text'   : 'Catch target hidden behind an obstacle',
             'UI_setting_catchHiddenTarget_tooltip': '',
-            'UI_setting_disableArtyMode_text'   : 'Disable in Arty mode',
-            'UI_setting_disableArtyMode_tooltip': ''
+            'UI_setting_disableArtyMode_text'     : 'Disable in Arty mode',
+            'UI_setting_disableArtyMode_tooltip'  : ''
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -59,7 +59,7 @@ class Config(object):
                 'value'  : self.data['catchHiddenTarget'],
                 'tooltip': self.i18n['UI_setting_catchHiddenTarget_tooltip'],
                 'varName': 'catchHiddenTarget'
-            },{
+            }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_disableArtyMode_text'],
                 'value'  : self.data['disableArtyMode'],
@@ -144,12 +144,14 @@ def hookStartGUI(func, *args):
     func(*args)
     mod.startBattle()
 
+
 @inject.hook(control_modes.SniperControlMode, 'handleKeyEvent')
 @inject.log
 def hookKeyEventSniper(func, *args):
     if mod.injectButton(args[1], args[2]):
         return True
     func(*args)
+
 
 @inject.hook(control_modes.StrategicControlMode, 'handleKeyEvent')
 @inject.log
@@ -158,12 +160,14 @@ def hookKeyEventStrategic(func, *args):
         return True
     func(*args)
 
+
 @inject.hook(control_modes.ArtyControlMode, 'handleKeyEvent')
 @inject.log
 def hookKeyEventArty(func, *args):
     if not config.data['disableArtyMode'] and mod.injectButton(args[1], args[2]):
         return True
     func(*args)
+
 
 @inject.hook(control_modes.ArcadeControlMode, 'handleKeyEvent')
 @inject.log
