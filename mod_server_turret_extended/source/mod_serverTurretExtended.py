@@ -12,8 +12,8 @@ from Avatar import PlayerAvatar
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v1.17 (2017-12-18)'
-        self.version_id = 117
+        self.version = 'v1.18 (2017-12-18)'
+        self.version_id = 118
         self.author = 'by spoter, reven86'
         self.data = {
             'version'             : self.version_id,
@@ -105,11 +105,11 @@ def hookPlayerAvatarHandleKey(func, *args):
 
 @inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
 @inject.log
-def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh=False):
+def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
     if _config.data['enabled'] and _config.data['server_turret'] and not BigWorld.player().inputHandler.isSPG:
         if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
             forceValueRefresh = True
-    return func(self, vehicleID, shotPos, shotVec, dispersionAngle, turretIndex, forceValueRefresh)
+    return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI')
