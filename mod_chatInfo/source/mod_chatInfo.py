@@ -21,8 +21,8 @@ MENU = ['UI_color_blue', 'UI_color_brown', 'UI_color_chocolate', 'UI_color_cornf
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v1.03 (2017-12-18)'
-        self.version_id = 103
+        self.version = 'v1.04 (2018-01-17)'
+        self.version_id = 104
         self.author = 'by spoter'
         self.data = {
             'version'           : self.version_id,
@@ -254,8 +254,6 @@ class ChatInfo(object):
     def generateText(self, message, result):
         try:
             databaseID = message.originator
-            if message.originatorNickName == 'spoter':
-                result = result.replace('spoter', '<font color="#D042F3">spoter[мододел]</font>')
             if databaseID in self.dossiers:
                 if not message.group:
                     if config.data['showNewbie']:
