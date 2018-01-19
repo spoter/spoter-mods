@@ -1,0 +1,8 @@
+﻿{
+    "UI_description": "Переключатель боевого чата",
+    "UI_message_chatOff": "Чат: Вкл",
+    "UI_message_chatOn": "Чат: Выкл",
+    "UI_setting_button_text": "Чат: кнопка переключения",
+    "UI_setting_button_tooltip": "{HEADER}<font color=\"#FFD700\">Инфо:</font>{/HEADER}{BODY}Быстро включить или ыключить чат{/BODY}",
+    "version": 101
+}

@@ -1,0 +1,8 @@
+{
+  "version": 1.01,
+  "source": "mod_battleChatSwitcher.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/battleChatSwitcher.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}
