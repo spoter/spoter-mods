@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import Keys
+# noinspection PyUnresolvedReferences
 from gui import InputHandler
 from gui.app_loader import g_appLoader
 from gui.mods.mod_mods_gui import g_gui, inject
@@ -7,27 +8,28 @@ from account_helpers.settings_core import settings_constants
 from skeletons.account_helpers.settings_core import ISettingsCore
 from helpers import dependency
 
+
 class Config(object):
     def __init__(self):
         self.ids = 'battleChatSwitcher'
-        self.version = 'v1.01 (2018-01-19)'
-        self.version_id = 101
+        self.version = 'v1.02 (2018-01-19)'
+        self.version_id = 102
         self.author = 'by spoter'
         self.buttons = {
-            'button': [Keys.KEY_C, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL]]
+            'button': [Keys.KEY_Z, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL]]
         }
         self.data = {
-            'version'           : self.version_id,
-            'enabled'           : True,
-            'button': self.buttons['button'],
+            'version': self.version_id,
+            'enabled': True,
+            'button' : self.buttons['button'],
         }
         self.i18n = {
-            'version'                              : self.version_id,
-            'UI_description'                       : 'Battle chat switcher',
-            'UI_setting_button_text'    : 'Hot key: battle chat',
-            'UI_setting_button_tooltip' : '{HEADER}<font color="#FFD700">Info:</font>{/HEADER}{BODY}Fast disable or enable battle chat{/BODY}',
-            'UI_message_chatOn': 'Chat: enable',
-            'UI_message_chatOff': 'Chat: disable'
+            'version'                  : self.version_id,
+            'UI_description'           : 'Battle chat switcher',
+            'UI_setting_button_text'   : 'Hot key: battle chat',
+            'UI_setting_button_tooltip': '{HEADER}<font color="#FFD700">Info:</font>{/HEADER}{BODY}Fast disable or enable battle chat{/BODY}',
+            'UI_message_chatOn'        : 'Chat: enable',
+            'UI_message_chatOff'       : 'Chat: disable'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -57,6 +59,7 @@ class Config(object):
 
 class BattleChatSwitcher(object):
     settingsCore = dependency.descriptor(ISettingsCore)
+
     def __init__(self):
         InputHandler.g_instance.onKeyDown += self.injectButton
 

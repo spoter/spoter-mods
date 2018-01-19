@@ -1,5 +1,5 @@
 {
-  "version": 1.01,
+  "version": 1.02,
   "source": "mod_battleChatSwitcher.py",
   "meta": "configs/meta.xml",
   "config": "configs/battleChatSwitcher.json",

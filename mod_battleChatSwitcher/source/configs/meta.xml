@@ -1,6 +1,6 @@
 <root>
     <id>spoter.battleChatSwitcher</id>
-    <version>1.01</version>
+    <version>1.02</version>
     <name>Battle chat switcher</name>
     <description>Fast disable\enable battle chat</description>
 </root>
