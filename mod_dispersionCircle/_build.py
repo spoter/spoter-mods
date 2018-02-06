@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '0.9.21.0.3'
+CLIENT_VERSION = '0.9.22.0'
 NAME = 'StranikS_Scan.dispersionCircle'
 ADD_LICENSE = True
 
