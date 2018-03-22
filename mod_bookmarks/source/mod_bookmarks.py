@@ -10,7 +10,7 @@ from notification.settings import NOTIFICATION_GROUP
 class Config(object):
     def __init__(self):
         self.ids = 'bookmarks'
-        self.version = 'v1.00 (2017-12-18)'
+        self.version = 'v1.00 (2018-03-22)'
         self.version_id = 100
         self.author = 'by spoter'
         self.data = {

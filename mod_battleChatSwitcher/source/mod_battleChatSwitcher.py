@@ -12,7 +12,7 @@ from helpers import dependency
 class Config(object):
     def __init__(self):
         self.ids = 'battleChatSwitcher'
-        self.version = 'v1.02 (2018-01-19)'
+        self.version = 'v1.02 (2018-03-22)'
         self.version_id = 102
         self.author = 'by spoter'
         self.buttons = {
