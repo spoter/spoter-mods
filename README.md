@@ -1,10 +1,14 @@
 ﻿# Spoter-mods
 Различные авторские модификации для игры **WorldfOfTanks**.
 
-## Среда разработки
+### Среда разработки
 [**PyCharm**](https://www.jetbrains.com/pycharm/): Python IDE for Professional Developers by JetBrains
 
-## Описание модов:
+### Установка модов:
+1. Перейти по ссылке выше в папку мода, затем в папку **"zip\\"**
+2. Скачать **zip**-архив с модом и извлечь его содержимое в папку **"World_of_Tanks\\"** на компе
+
+### Описание модов:
 * [mod_artySplash][] - Сфера предполагаемого распространения фугасного урона и оглушения (для ОФ снарядов)
 * [mod_autoAimOptimize][] - Автозахват цели за препятствиями (*запрещённая модификация, только для изучения*)
 * [mod_battleChatSwitcher][] - Быстрое включение/отключение чата в бою по горячей клавише
@@ -23,15 +27,7 @@
 * [mod_spotMarks][] - Маркеры точек пассивного засвета на картах (большие стрелки), рекомендуется для выполнения ЛБЗ на засвет
 * [mod_spotted_extended][] - "Светлячок", подсвечивает противников, которых светит ваш взвод
 * [mod_spotted_extended_light][] - "Светлячок Light", сообщения о первичном засвете и дамаге по засвету над миникартой + звук
-
 * [mod_mods_gui][] - Функциональное ядро, обязательный пакет с системными модулями (без него моды работать не будут)
-
-## Установка модов:
-1. Перейти по ссылкам выше в папку мода, затем в папку **"zip\"**
-2. Скачать **zip**-архив с модом и извлечь его содержимое в папку **"World_of_Tanks\"** на компе
-
-## Скриншоты
-![mod_artySplash](./mod_artySplash/screen.jpg) ![mod_artySplash](./mod_battleChatSwitcher/screen.jpg) ![mod_marksOnGunExtended](./mod_marksOnGunExtended/screen3.jpg) ![mod_modPackInformer](./mod_modPackInformer/screen1.jpg)
 
 [mod_artySplash]:./mod_artySplash/
 [mod_autoAimOptimize]:./mod_autoAimOptimize/
