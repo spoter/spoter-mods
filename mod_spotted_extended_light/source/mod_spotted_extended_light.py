@@ -24,8 +24,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.03 (2018-03-22)'
-        self.version_id = 403
+        self.version = 'v4.04 (2018-03-29)'
+        self.version_id = 404
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -196,10 +196,7 @@ class Assist(object):
 
     @staticmethod
     def sound(assist_type):
-        sound = SoundGroups.g_instance.getSound2D(config.data[SOUND_LIST[assist_type]])
-        if sound:
-            sound.stop()
-            sound.play()
+        BigWorld.player().soundNotifications.play(config.data[SOUND_LIST[assist_type]])
 
     def textGenerator(self, event):
         text, color = GENERATOR[event]
