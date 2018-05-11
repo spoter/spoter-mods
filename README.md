@@ -28,6 +28,7 @@
 * [mod_spotted_extended][] - "Светлячок", подсвечивает противников, которых светит ваш взвод
 * [mod_spotted_extended_light][] - "Светлячок Light", сообщения о первичном засвете и дамаге по засвету над миникартой + звук
 * [mod_mods_gui][] - Функциональное ядро, обязательный пакет с системными модулями (без него моды работать не будут)
+* [mod_tooltipsCountItemsLimitExtend][] - Расширяет список танков, на котором установлено оборудование (в ангарных подсказках)
 
 [mod_artySplash]:./mod_artySplash/
 [mod_autoAimOptimize]:./mod_autoAimOptimize/
@@ -48,3 +49,4 @@
 [mod_spotted_extended]:./mod_spotted_extended/
 [mod_spotted_extended_light]:./mod_spotted_extended_light/
 [mod_mods_gui]:./mod_mods_gui/
+[mod_tooltipsCountItemsLimitExtend]:./mod_tooltipsCountItemsLimitExtend/
