@@ -12,8 +12,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v5.01 (2018-03-22)'
-        self.version_id = 501
+        self.version = 'v5.02 (2018-05-20)'
+        self.version_id = 502
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -36,6 +36,7 @@ class Config(object):
         self.i18n = {
             'version'                                   : self.version_id,
             'UI_description'                            : 'Crew Extended',
+            'UI_setting_personalFileSilverXP_text'      : 'To reset main skill: {} experience',
             'UI_setting_personalFile_label'             : 'Personal File :',
             'UI_setting_personalFileTotalXP_text'       : 'Show total exp',
             'UI_setting_personalFileTotalXP_tooltip'    : '{HEADER}Info:{/HEADER}{BODY}Show Total Experience to current tankman{/BODY}',
@@ -84,6 +85,7 @@ class Config(object):
             'UI_menu_wg_squad'                          : 'WG Squad',
             'UI_menu_yellow'                            : 'Yellow',
             'UI_menu_nice_red'                          : 'Nice Red'
+
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -219,7 +221,15 @@ def getLastSkillBattlesLeft(self, tankman):
 def changeStats(data, dossier, tankman):
     for index in data:
         if config.data['personalFileTotalXP'] and index['label'] == 'common':
-            index['stats'] += (dossier._TankmanDossier__packStat('xp', tankman.descriptor.totalXP()),)
+            totalXP = dossier._TankmanDossier__packStat('xp', tankman.descriptor.totalXP())
+            isMaxRoleLevel = tankman.roleLevel == 100
+            if isMaxRoleLevel:
+                silverXP = dossier._TankmanDossier__packStat('empty', 0)
+                silverXP['value'] = config.i18n['UI_setting_personalFileSilverXP_text'].format(dossier._TankmanDossier__formatValueForUI(min(0,tankman.descriptor.freeXP - 39153)))
+                silverXP['premiumValue'] = ''
+                index['stats'] += (totalXP, silverXP)
+            else:
+                index['stats'] += (totalXP,)
         if index['label'] == 'studying':
             for ids in index['stats']:
                 if config.data['personalFileSkillXP'] and ids['name'] == 'nextSkillXPLeft':
