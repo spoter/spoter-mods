@@ -18,6 +18,8 @@ class Mod:
         return None
 
     def processQueueInfo(self, _):
+        if self.prbEntity is None:
+            return
         if self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
             self.restartEnqueueRandom()
         self._count += 1
@@ -42,4 +44,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.00 (25-05-2018), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.01 (25-05-2018), by spoter]'
