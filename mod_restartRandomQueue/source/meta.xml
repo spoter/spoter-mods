@@ -1,6 +1,6 @@
 <root>
     <id>mod_restartRandomQueue</id>
-    <version>1.00</version>
+    <version>1.02</version>
     <name>mod_restartRandomQueue</name>
     <description>restart long random queue</description>
 </root>
