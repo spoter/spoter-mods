@@ -1,5 +1,5 @@
 {
-  "version": 5.02,
+  "version": 5.03,
   "source": "mod_crewExtended.py",
   "meta": "configs/meta.xml",
   "config": "configs/crewExtended.json",

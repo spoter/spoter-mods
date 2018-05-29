@@ -17,9 +17,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.07 (2018-03-22)'
+        self.version = 'v2.08 (2018-05-29)'
         self.author = 'by spoter'
-        self.version_id = 207
+        self.version_id = 208
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -59,7 +59,7 @@ class Config(object):
             'UI_artySplash_messageDotOn'               : 'HE Splash: Show Dot',
             'UI_artySplash_messageDotOff'              : 'HE Splash: Hide Dot'
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
@@ -117,7 +117,7 @@ class Config(object):
         }
 
     def apply(self, settings):
-        self.data = g_gui.update_data(self.ids, settings)
+        self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
 
 

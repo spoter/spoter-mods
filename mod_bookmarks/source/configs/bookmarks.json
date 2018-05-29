@@ -45,5 +45,5 @@
         [ "noobmeter.com", "http://www.noobmeter.com/player/ru/{}" ],
         [ "wotomatic.net ", "http://wotomatic.net/?search={}" ]
     ],
-    "version": 100
+    "version": 101
 }

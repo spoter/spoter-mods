@@ -24,8 +24,8 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.06 (2018-03-22)'
-        self.version_id = 306
+        self.version = 'v3.07 (2018-05-29)'
+        self.version_id = 307
         self.author = 'by StranikS_Scan'
         self.data = {
             'enabled'              : True,
@@ -53,7 +53,7 @@ class _Config(object):
             'UI_setting_Remove_DamageEffects_tooltip' : '',
             'version'                                 : self.version_id
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
@@ -106,7 +106,7 @@ class _Config(object):
         }
 
     def apply(self, settings):
-        self.data = g_gui.update_data(self.ids, settings)
+        self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
         if not self.data['ReplaceOriginalCircle']:
             gun_marker_ctrl.useClientGunMarker = lambda: True

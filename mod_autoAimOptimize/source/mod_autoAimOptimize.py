@@ -14,8 +14,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'autoAimOptimize'
-        self.version = 'v1.04 (2018-03-22)'
-        self.version_id = 104
+        self.version = 'v1.05 (2018-05-29)'
+        self.version_id = 105
         self.author = 'by spoter'
         self.data = {
             'version'          : self.version_id,
@@ -34,7 +34,7 @@ class Config(object):
             'UI_setting_disableArtyMode_text'     : 'Disable in Arty mode',
             'UI_setting_disableArtyMode_tooltip'  : ''
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
@@ -69,7 +69,7 @@ class Config(object):
         }
 
     def apply(self, settings):
-        self.data = g_gui.update_data(self.ids, settings)
+        self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
 
 

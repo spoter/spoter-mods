@@ -18,8 +18,8 @@ class Release(object):
         self.data = build
         self.zipPath = os.path.join('zip', zip)
         self.modsPath = os.path.join(self.data.build.OUT_PATH, 'mods')
-        self.versionPath = os.path.join(self.modsPath, self.data.CLIENT_VERSION)
-        self.configPath = os.path.join(self.modsPath, 'configs', os.path.splitext(os.path.basename(self.data.build.VERSION["config"]))[0])
+        self.versionPath = os.path.join(self.modsPath, self.data.CLIENT_VERSION, 'spoter')
+        self.configPath = os.path.join(self.modsPath, 'configs', 'spoter', os.path.splitext(os.path.basename(self.data.build.VERSION["config"]))[0])
         self.i18n = os.path.join(self.configPath, 'i18n')
         self.packZip()
         self.clear()
@@ -36,7 +36,7 @@ class Release(object):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.join(self.data.build.BUILD_PATH, self.data.build.VERSION["i18n"]), os.path.realpath(self.i18n), os.path.basename(path)))
         #copy mod_mods_gui core
         if os.path.exists('../mod_mods_gui/release'):
-            subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release'), os.path.realpath(self.versionPath), '*.wotmod') )
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, self.data.CLIENT_VERSION), '*.wotmod') )
         if os.path.exists('../mod_mods_gui/release/i18n'):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.json') )
         ps = '%s\%s' % (os.path.realpath(self.data.build.OUT_PATH), 'create-7zip.ps1')

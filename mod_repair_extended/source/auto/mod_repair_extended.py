@@ -30,9 +30,9 @@ COMPLEX_ITEM = {
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.06 (2018-03-22)'
+        self.version = 'v3.07 (2018-05-29)'
         self.author = 'by spoter'
-        self.version_id = 306
+        self.version_id = 307
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -106,7 +106,7 @@ class Config(object):
 
         }
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
 
     def template(self):
@@ -193,7 +193,7 @@ class Config(object):
         }
 
     def apply(self, settings):
-        self.data = g_gui.update_data(self.ids, settings)
+        self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
 
 

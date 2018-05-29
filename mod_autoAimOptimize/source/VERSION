@@ -1,5 +1,5 @@
 {
-  "version": 1.04,
+  "version": 1.05,
   "source": "mod_autoAimOptimize.py",
   "meta": "configs/meta.xml",
   "config": "configs/autoAimOptimize.json",

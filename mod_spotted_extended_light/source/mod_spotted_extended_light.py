@@ -24,8 +24,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.04 (2018-03-29)'
-        self.version_id = 404
+        self.version = 'v4.05 (2018-05-29)'
+        self.version_id = 405
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -86,7 +86,7 @@ class Config(object):
             'UI_message_AssistStun_text'                : 'Assist Stun:{vehicles}{damage}',
             'UI_message_macrosList'                     : 'Available macros in messages {icons}, {names}, {vehicles}, {icons_names}, {icons_vehicles}, {full}, {damage}'
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n)
+        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
@@ -168,7 +168,7 @@ class Config(object):
         return res
 
     def apply(self, settings):
-        self.data = g_gui.update_data(self.ids, settings)
+        self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
 
 

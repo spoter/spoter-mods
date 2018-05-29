@@ -49,5 +49,5 @@
     "UI_setting_personalFileTotalXP_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Total Experience to current tankman{/BODY}",
     "UI_setting_personalFileSilverXP_text": "To reset main skill: {} experience",
     "UI_setting_personalFile_label": "Personal File :",
-    "version": 502
+    "version": 503
 }
