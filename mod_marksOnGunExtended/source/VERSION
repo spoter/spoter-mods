@@ -1,0 +1,8 @@
+{
+  "version": 5.02,
+  "source": "mod_marksOnGunExtended.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/marksOnGunExtended.json",
+  "i18n": "configs/i18n",
+  "resources": ["objects"]
+}
