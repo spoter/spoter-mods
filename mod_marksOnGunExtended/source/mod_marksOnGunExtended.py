@@ -24,7 +24,7 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
 COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FA8072', '#FFFFFF']
-MENU  = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
+MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
         'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red', 'UI_menu_white']
 RATING = {
     'neutral'  : '#FFFFFF',
@@ -36,15 +36,15 @@ RATING = {
     'unique'   : '#D042F3'
 }
 statisticRating = [RATING['normal'], RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique'], RATING['unique']]
-techTreeRating  = [RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique']]
+techTreeRating = [RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique']]
 
-battleDamageRating0   = RATING['very_bad']
-battleDamageRating20  = RATING['very_bad']
-battleDamageRating40  = RATING['bad']
-battleDamageRating55  = RATING['bad']
-battleDamageRating65  = RATING['normal']
-battleDamageRating85  = RATING['good']
-battleDamageRating95  = RATING['very_good']
+battleDamageRating0 = RATING['very_bad']
+battleDamageRating20 = RATING['very_bad']
+battleDamageRating40 = RATING['bad']
+battleDamageRating55 = RATING['bad']
+battleDamageRating65 = RATING['normal']
+battleDamageRating85 = RATING['good']
+battleDamageRating95 = RATING['very_good']
 battleDamageRating100 = RATING['unique']
 
 battleDamageRating = [battleDamageRating0, battleDamageRating20, battleDamageRating40, battleDamageRating55, battleDamageRating65, battleDamageRating85, battleDamageRating95, battleDamageRating100]
@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.02 (2018-11-02)'
-        self.version_id = 502
+        self.version = 'v5.03 (2018-11-19)'
+        self.version_id = 503
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -785,9 +785,10 @@ class Worker(object):
     def keyPressed(self, event):
         if not config.data['enabled']: return
         if not g_appLoader.getDefBattleApp(): return
+        if BigWorld.player().arena.bonusType != ARENA_BONUS_TYPE.REGULAR: return
         if self.level and self.movingAvgDamage:
             isKeyDownTrigger = event.isKeyDown()
-            
+
             if event.key in [Keys.KEY_LALT, Keys.KEY_RALT]:
                 if isKeyDownTrigger:
                     self.altMode = True
@@ -813,10 +814,10 @@ class Worker(object):
                 self.calc()
 
     def calc(self):
-        if not config.data['enabled']      : return
-        if not config.data['showInBattle'] : return
-        if not self.level                  : return
-        if not self.movingAvgDamage        : return
+        if not config.data['enabled']: return
+        if not config.data['showInBattle']: return
+        if not self.level: return
+        if not self.movingAvgDamage: return
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
         k = 0.0198019801980198022206547392443098942749202251434326171875  # 2 / (100.0 + 1)
         EMA = k * EDn + (1 - k) * self.movingAvgDamage
@@ -842,16 +843,16 @@ class Worker(object):
             self.formatStrings['status'] = config.data['battleMessage{status}Unknown']
             self.formatStrings['c_status'] = '%s%s%s' % (self.formatStrings['colorOpen'], config.data['battleMessage{c_status}Unknown'], self.formatStrings['colorClose'])
             unknown = True
-        self.formatStrings['battleMarkOfGun']        = config.data['battleMessage{battleMarkOfGun}'] % nextMark  # if d0 and self.initiated or self.replay else '--.--%'
-        self.formatStrings['c_battleMarkOfGun']      = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['battleMarkOfGun'], self.formatStrings['colorClose'])  # if d0 and self.initiated or self.replay else '--.--%'
+        self.formatStrings['battleMarkOfGun'] = config.data['battleMessage{battleMarkOfGun}'] % nextMark  # if d0 and self.initiated or self.replay else '--.--%'
+        self.formatStrings['c_battleMarkOfGun'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['battleMarkOfGun'], self.formatStrings['colorClose'])  # if d0 and self.initiated or self.replay else '--.--%'
         nextMarkOfGun, damage, colorNowDamage, colorNextDamage, colorNextPercent = self.getColor(nextMark, EDn)
-        self.formatStrings['nextMarkOfGun']          = config.data['battleMessage{nextMarkOfGun}'] % nextMarkOfGun
-        self.formatStrings['c_nextMarkOfGun']        = '%s%s%s' % ('<font color="%s">' % colorNextPercent if not unknown else self.formatStrings['colorOpen'], self.formatStrings['nextMarkOfGun'], self.formatStrings['colorClose'])
-        self.formatStrings['damageCurrent']          = config.data['battleMessage{damageCurrent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
-        self.formatStrings['damageNextPercent']      = config.data['battleMessage{damageNextPercent}'] % damage  # if d0 and self.initiated or self.replay else '[--]'
-        self.formatStrings['c_damageCurrent']        = '%s%s%s' % ('<font color="%s">' % colorNowDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageCurrent'], self.formatStrings['colorClose'])
+        self.formatStrings['nextMarkOfGun'] = config.data['battleMessage{nextMarkOfGun}'] % nextMarkOfGun
+        self.formatStrings['c_nextMarkOfGun'] = '%s%s%s' % ('<font color="%s">' % colorNextPercent if not unknown else self.formatStrings['colorOpen'], self.formatStrings['nextMarkOfGun'], self.formatStrings['colorClose'])
+        self.formatStrings['damageCurrent'] = config.data['battleMessage{damageCurrent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['c_damageCurrent'] = '%s%s%s' % ('<font color="%s">' % colorNowDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageCurrent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageCurrentPercent'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['damageCurrentPercent'], self.formatStrings['colorClose'])
-        self.formatStrings['c_damageNextPercent']    = '%s%s%s' % ('<font color="%s">' % colorNextDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageNextPercent'], self.formatStrings['colorClose'])
+        self.formatStrings['c_damageNextPercent'] = '%s%s%s' % ('<font color="%s">' % colorNextDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageNextPercent'], self.formatStrings['colorClose'])
         flash.setVisible(True)
         flash.set_text(self.battleMessage.format(**self.formatStrings).format(color=self.formatStrings['color']))
 
@@ -862,7 +863,7 @@ class Worker(object):
         return vehicle.id == BigWorld.player().playerVehicleID
 
     def onVehicleKilled(self, target_id, attacker_id, equipment_id, reason):
-        #_, _, _ = attacker_id, reason, equipment_id
+        # _, _, _ = attacker_id, reason, equipment_id
         if target_id == BigWorld.player().playerVehicleID:
             self.killed = True
             self.calc()
@@ -877,26 +878,26 @@ class Worker(object):
 
     @inject.log
     def treadStartBattle(self):
-        vehicle    = BigWorld.player().getVehicleAttached()
-        dBid       = self.check_player_thread()
-        self.name  = vehicle.typeDescriptor.name
+        vehicle = BigWorld.player().getVehicleAttached()
+        dBid = self.check_player_thread()
+        self.name = vehicle.typeDescriptor.name
         self.level = vehicle.typeDescriptor.level > 4
         if dBid not in config.values:
             config.values[dBid] = {}
         if self.replay:
             if self.name in config.values[dBid]:
                 values = config.values[dBid][self.name]
-                
-                self.damageRating    = values[2]
+
+                self.damageRating = values[2]
                 self.movingAvgDamage = values[3]
             else:
-                self.damageRating    = 1.0
+                self.damageRating = 1.0
                 self.movingAvgDamage = 100.0
-                
+
                 self.name = 'ReplayTest'
         if self.level and self.movingAvgDamage:
-            BigWorld.player().arena.onVehicleKilled  += self.onVehicleKilled
-            self.formatStrings['currentMarkOfGun']   = config.data['battleMessage{currentMarkOfGun}'] % self.damageRating
+            BigWorld.player().arena.onVehicleKilled += self.onVehicleKilled
+            self.formatStrings['currentMarkOfGun'] = config.data['battleMessage{currentMarkOfGun}'] % self.damageRating
             self.formatStrings['c_currentMarkOfGun'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['currentMarkOfGun'], self.formatStrings['colorClose'])
             if self.name in config.values[dBid]:
                 self.requestCurData(self.damageRating, self.movingAvgDamage)
@@ -909,9 +910,9 @@ class Worker(object):
                 config.values = g_gui.update_data('%s_stats' % config.ids, config.values)
 
     def endBattle(self):
-        if not config.data['enabled']                      : return
-        if not config.data['showInBattle']                 : return
-        if self.replay and not config.data['showInReplay'] : return
+        if not config.data['enabled']: return
+        if not config.data['showInBattle']: return
+        if self.replay and not config.data['showInReplay']: return
         if self.level and self.movingAvgDamage:
             BigWorld.player().arena.onVehicleKilled -= self.onVehicleKilled
 
@@ -940,7 +941,7 @@ class Worker(object):
     def calcStatisticsCoeff(self, p, d):
         pC = math.floor(p) + 1
         dC = self.calcPercent(d, p, pC, d, p)
-        
+
         p20 = self.calcPercent(0, 0.0, 20.0, d, p)
         p40 = self.calcPercent(p20, 20.0, 40.0, d, p)
         p55 = self.calcPercent(p40, 40.0, 55.0, d, p)
@@ -948,18 +949,18 @@ class Worker(object):
         p85 = self.calcPercent(p65, 65.0, 85.0, d, p)
         p95 = self.calcPercent(p85, 85.0, 95.0, d, p)
         p100 = self.calcPercent(p95, 95.0, 100.0, d, p)
-        
+
         data = [0, p20, p40, p55, p65, p85, p95, p100]
-        
+
         idx = filter(lambda x: x >= p, LEVELS)[0]
-        
+
         limit1 = data[LEVELS.index(idx) - 1]
         limit2 = data[LEVELS.index(idx)]
-        
+
         check = LEVELS.index(idx)
-        
+
         delta = limit2 - limit1
-        
+
         for value in xrange(len(data)):
             if data[value] == limit1 or data[value] == limit2:
                 continue
@@ -967,17 +968,17 @@ class Worker(object):
                 data[value] -= delta
             if value > check:
                 data[value] += delta
-        
+
         if pC == 101:
             pC = 100
             dC = data[7]
-        
+
         return pC, dC, data[1], data[2], data[3], data[4], data[5], data[6], data[7]
 
     def calcStatistics(self, p, d):
         pC = math.floor(p) + 1
         dC = self.calcPercent(d, p, pC, d, p)
-        
+
         p20 = self.calcPercent(0, 0.0, 20.0, d, p)
         p40 = self.calcPercent(0, 0.0, 40.0, d, p)
         p55 = self.calcPercent(0, 0.0, 55.0, d, p)
@@ -985,28 +986,28 @@ class Worker(object):
         p85 = self.calcPercent(0, 0.0, 85.0, d, p)
         p95 = self.calcPercent(0, 0.0, 95.0, d, p)
         p100 = self.calcPercent(0, 0.0, 100.0, d, p)
-        
+
         data = [0, p20, p40, p55, p65, p85, p95, p100]
-        
+
         idx = filter(lambda x: x >= p, LEVELS)[0]
-        
+
         limit1 = dC
         limit2 = data[LEVELS.index(idx)]
-        
+
         check = LEVELS.index(idx)
-        
+
         delta = limit2 - limit1
-        
+
         for value in xrange(len(data)):
             if data[value] == limit1 or data[value] == limit2:
                 continue
             if value > check:
                 data[value] = self.getNormalizeDigitsCoeff(data[value] + delta)
-        
+
         if pC == 101:
             pC = 100
             dC = data[7]
-        
+
         return pC, dC, data[1], data[2], data[3], data[4], data[5], data[6], data[7]
 
 
@@ -1018,9 +1019,9 @@ class Flash(object):
         self.data = {}
 
     def startBattle(self):
-        if not config.data['enabled']                                   : return
-        if not config.data['showInBattle']                              : return
-        if BattleReplay.isPlaying() and not config.data['showInReplay'] : return
+        if not config.data['enabled']: return
+        if not config.data['showInBattle']: return
+        if BattleReplay.isPlaying() and not config.data['showInReplay']: return
         self.setup()
         COMPONENT_EVENT.UPDATED += self.update
         self.createObject(COMPONENT_TYPE.PANEL)
@@ -1036,9 +1037,9 @@ class Flash(object):
         self.screenResize()
 
     def stopBattle(self):
-        if not config.data['enabled']                                   : return
-        if not config.data['showInBattle']                              : return
-        if BattleReplay.isPlaying() and not config.data['showInReplay'] : return
+        if not config.data['enabled']: return
+        if not config.data['showInBattle']: return
+        if BattleReplay.isPlaying() and not config.data['showInReplay']: return
         g_guiResetters.remove(self.screenResize)
         COMPONENT_EVENT.UPDATED -= self.update
         self.deleteObject(COMPONENT_TYPE.PANEL)
