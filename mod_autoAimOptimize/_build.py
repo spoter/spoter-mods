@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.1.0'
+CLIENT_VERSION = '1.2.0.2'
 NAME = 'spoter.autoAimOptimize'
 ADD_LICENSE = True
 

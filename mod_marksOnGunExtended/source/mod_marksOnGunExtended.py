@@ -55,7 +55,7 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.03 (2018-11-19)'
+        self.version = 'v5.03 (2018-11-28)'
         self.version_id = 503
         self.author = 'by spoter to b4it.org'
         self.buttons = {
