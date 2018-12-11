@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.04 (2018-12-11)'
-        self.version_id = 504
+        self.version = 'v5.05 (2018-12-11)'
+        self.version_id = 505
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -445,12 +445,12 @@ class Worker(object):
                                         '{c_damageToMark65}{c_damageToMark85}\n'
                                         '{c_damageToMark95}{c_damageToMark100}',
         }
-        self.levels = []
-        self.damages = []
+        self.levels = [0]
+        self.damages = [0]
         self.battleMessage = config.data['battleMessage'] if not self.altMode else config.data['battleMessageAlt']
         self.checkBattleMessage()
         self.health = {}
-        self.battleDamageRatingIndex = []
+        self.battleDamageRatingIndex = [0]
         self.startCount = 0
         self.gunLevel = 0
 
@@ -516,11 +516,11 @@ class Worker(object):
             'colorClose'             : '</font>',
             'color'                  : ''
         }
-        self.levels = []
-        self.damages = []
+        self.levels = [0]
+        self.damages = [0]
         self.checkBattleMessage()
         self.health.clear()
-        self.battleDamageRatingIndex = []
+        self.battleDamageRatingIndex = [0]
 
     @inject.log
     def getCurrentHangarData(self):
@@ -878,7 +878,7 @@ class Worker(object):
         if self.replay and not config.data['showInReplay']: return
         self.startCount = 0
         BigWorld.callback(1.0, self.treadStartBattle)
-        flash.setVisible(False)
+
 
     @inject.log
     def treadStartBattle(self):
@@ -889,7 +889,7 @@ class Worker(object):
                 return BigWorld.callback(1.0, self.treadStartBattle)
             else:
                 return
-
+        flash.setVisible(False)
         dBid = self.check_player_thread()
         self.gunLevel = vehicle.publicInfo['marksOnGun']
         self.name = vehicle.typeDescriptor.name
