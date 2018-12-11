@@ -14,7 +14,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'autoAimOptimize'
-        self.version = 'v1.05 (2018-11-28)'
+        self.version = 'v1.05 (2018-12-11)'
         self.version_id = 105
         self.author = 'by spoter'
         self.data = {

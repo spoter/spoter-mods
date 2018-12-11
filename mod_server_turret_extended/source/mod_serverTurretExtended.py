@@ -12,7 +12,7 @@ from Avatar import PlayerAvatar
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v1.19 (2018-11-28)'
+        self.version = 'v1.19 (2018-12-11)'
         self.version_id = 119
         self.author = 'by spoter, reven86'
         self.data = {

@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.2.0.2'
+CLIENT_VERSION = '1.3.0.0'
 NAME = 'spoter.crewExtended'
 ADD_LICENSE = True
 
