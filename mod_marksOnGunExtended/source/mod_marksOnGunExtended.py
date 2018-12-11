@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.05 (2018-12-11)'
-        self.version_id = 505
+        self.version = 'v5.06 (2018-12-11)'
+        self.version_id = 506
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -445,12 +445,12 @@ class Worker(object):
                                         '{c_damageToMark65}{c_damageToMark85}\n'
                                         '{c_damageToMark95}{c_damageToMark100}',
         }
-        self.levels = [0]
-        self.damages = [0]
+        self.levels = []
+        self.damages = []
         self.battleMessage = config.data['battleMessage'] if not self.altMode else config.data['battleMessageAlt']
         self.checkBattleMessage()
         self.health = {}
-        self.battleDamageRatingIndex = [0]
+        self.battleDamageRatingIndex = []
         self.startCount = 0
         self.gunLevel = 0
 
@@ -516,11 +516,11 @@ class Worker(object):
             'colorClose'             : '</font>',
             'color'                  : ''
         }
-        self.levels = [0]
-        self.damages = [0]
+        self.levels = []
+        self.damages = []
         self.checkBattleMessage()
         self.health.clear()
-        self.battleDamageRatingIndex = [0]
+        self.battleDamageRatingIndex = []
 
     @inject.log
     def getCurrentHangarData(self):
@@ -627,7 +627,9 @@ class Worker(object):
         colorNextDamage = battleDamageRating[self.battleDamageRatingIndex.index(idx[0])] if idx else battleDamageRating[-1]
         idx = filter(lambda x: x >= percent, LEVELS)[0]
         colorNextPercent = battleDamageRating[LEVELS.index(idx)] if idx else battleDamageRating[-1]
-        return self.levels[n], self.damages[n], colorNowDamage, colorNextDamage, colorNextPercent
+        levels = self.levels[n] if self.levels else 0
+        damages = self.damages[n] if self.damages else 0
+        return levels, damages, colorNowDamage, colorNextDamage, colorNextPercent
 
     def calcBattlePercents(self):
         p0, d0, p1, d1 = self.values
