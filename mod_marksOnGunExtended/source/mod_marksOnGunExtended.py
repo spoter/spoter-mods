@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.03 (2018-11-28)'
-        self.version_id = 503
+        self.version = 'v5.04 (2018-12-11)'
+        self.version_id = 504
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -451,6 +451,8 @@ class Worker(object):
         self.checkBattleMessage()
         self.health = {}
         self.battleDamageRatingIndex = []
+        self.startCount = 0
+        self.gunLevel = 0
 
     def checkBattleMessage(self):
         if not config.data['UI']:
@@ -777,7 +779,8 @@ class Worker(object):
                 break
 
     def checkMark(self, nextMark):
-        for i in [65.0, 85.0, 95.0, 100.0]:
+        levels = [65.0, 85.0, 95.0, 100.0]
+        for i in levels[self.gunLevel - 4:]:
             if self.damageRating < i <= nextMark:
                 return True
         return
@@ -873,13 +876,22 @@ class Worker(object):
         if not config.data['showInBattle']: return
         self.replay = BattleReplay.isPlaying()
         if self.replay and not config.data['showInReplay']: return
+        self.startCount = 0
         BigWorld.callback(1.0, self.treadStartBattle)
         flash.setVisible(False)
 
     @inject.log
     def treadStartBattle(self):
         vehicle = BigWorld.player().getVehicleAttached()
+        if not vehicle:
+            self.startCount += 1
+            if self.startCount < 10:
+                return BigWorld.callback(1.0, self.treadStartBattle)
+            else:
+                return
+
         dBid = self.check_player_thread()
+        self.gunLevel = vehicle.publicInfo['marksOnGun']
         self.name = vehicle.typeDescriptor.name
         self.level = vehicle.typeDescriptor.level > 4
         if dBid not in config.values:
