@@ -20,7 +20,6 @@
 * [mod_marksOnGunExtended][] - "Отметки", прогресс отметок на орудии в бою и показ границ суммарного урона для взятия отметки в статистике танка
 * [mod_modPackInformer][] - Информер о выходе новых версий модпаков (для модпакеров)
 * [mod_personalMissionColored][] - Подкрашивает ЛБЗ на карте красным, если они выполнены не на "Отлично"
-* [mod_pro_potapov_fixArty][] - Исправление для модпака PROTanki, чтобы показывались ЛБЗ для артиллерии в моде mod_pro_potapov
 * [mod_repair_extended][] - "Винтик", быстрый ремонт и лечение экипажа в двух версиях: ручная и автоматическая (*запрещённая модификация*)
 * [mod_server_turret_extended][] - "Стволик Хаоса", доворачивает башню танка по серверным координатам, автоматически активирует "Остановку для выстрела" при торможении танка, повышает кучность стрельбы
 * [mod_sniperByScroll][] - Добавляет режим стрельбы прямой наводкой для артиллерии (активируется скроллом колёсика мыши)
@@ -42,7 +41,6 @@
 [mod_marksOnGunExtended]:./mod_marksOnGunExtended/
 [mod_modPackInformer]:./mod_modPackInformer/
 [mod_personalMissionColored]:./mod_personalMissionColored/
-[mod_pro_potapov_fixArty]:./mod_pro_potapov_fixArty/
 [mod_repair_extended]:./mod_repair_extended/
 [mod_server_turret_extended]:./mod_server_turret_extended/
 [mod_sniperByScroll]:./mod_sniperByScroll/

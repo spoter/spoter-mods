@@ -30,7 +30,7 @@ COMPLEX_ITEM = {
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.07 (2018-12-11)'
+        self.version = 'v3.07 (2018-12-13)'
         self.author = 'by spoter'
         self.version_id = 307
         self.buttons = {
