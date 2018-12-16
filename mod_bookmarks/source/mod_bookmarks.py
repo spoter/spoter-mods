@@ -1,17 +1,16 @@
 ﻿# -*- coding: utf-8 -*-
 
 import BigWorld
-import re
-from gui.mods.mod_mods_gui import browser, g_gui, inject
+from gui.mods.mod_mods_gui import g_gui, inject
+from gui.shared.notifications import NotificationGroup
 from notification.NotificationListView import NotificationListView
-from notification.settings import NOTIFICATION_GROUP
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'bookmarks'
-        self.version = 'v1.01 (2018-12-13)'
-        self.version_id = 101
+        self.version = 'v1.02 (2018-12-16)'
+        self.version_id = 102
         self.author = 'by spoter'
         self.data = {
             'version'  : self.version_id,
@@ -179,7 +178,8 @@ class Messages(object):
             links = 'blog'
         if links:
             for obj in config.data[links]:
-                message['message']['message'] += '<a href="event:%s">%s</a>\n' % (obj[1], obj[0])
+                link = obj[1] if 'stats' not in links else obj[1].format(BigWorld.player().name)
+                message['message']['message'] += '<a href="event:%s">%s</a>\n' % (link, obj[0])
         return message
 
     def popUpGenerator(self):
@@ -196,16 +196,6 @@ class Messages(object):
             message.append(self.createMessage('showLiked', 5))
         return message
 
-    @staticmethod
-    def openLink(entityID, action):
-        if entityID in xrange(999001, 999006):
-            if re.match('https?://', action, re.I):
-                if entityID == 999002:
-                    action = action.format(BigWorld.player().name)
-                browser.open(action)
-                return True
-        return
-
 
 config = Config()
 messages = Messages()
@@ -216,14 +206,6 @@ messages = Messages()
 def hookNotificationListViewGetMessagesList(func, *args):
     result = func(*args)
     # noinspection PyProtectedMember
-    if args[0]._NotificationListView__currentGroup == NOTIFICATION_GROUP.OFFER:
+    if args[0]._NotificationListView__currentGroup == NotificationGroup.OFFER:
         result.extend(messages.popUpGenerator())
     return result
-
-
-@inject.hook(NotificationListView, 'onClickAction')
-@inject.log
-def hookNotificationListViewOnClickAction(func, *args):
-    if messages.openLink(args[2], args[3]):
-        return
-    func(*args)
