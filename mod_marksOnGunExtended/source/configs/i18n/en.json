@@ -64,5 +64,5 @@
     "UI_setting_upColor_text": "Battle: color when % mark up",
     "UI_setting_upColor_tooltip": "",
     "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentDamage} current total damage</font>\nTo <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> total damage\nThis statistic available to last battle on this vehicle\nTo <font color=\"#FFFFFF\" size=\"12\">20% </font>   need <font color=\"#F8F400\" size=\"12\">~{_20}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">40% </font>   need <font color=\"#F8F400\" size=\"12\">~{_40}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">55% </font>   need <font color=\"#F8F400\" size=\"12\">~{_55}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">65% </font>   need <font color=\"#60FF00\" size=\"12\">~{_65}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> total damage\nUsed statistic after patch 0.8.8",
-    "version": 506
+    "version": 507
 }

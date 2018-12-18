@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.06 (2018-12-13)'
-        self.version_id = 506
+        self.version = 'v5.07 (2018-12-18)'
+        self.version_id = 507
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -370,8 +370,7 @@ class Config(object):
 
 class Worker(object):
     def __init__(self):
-        InputHandler.g_instance.onKeyDown += self.keyPressed
-        InputHandler.g_instance.onKeyUp += self.keyPressed
+
         self.altMode = False
         self.movingAvgDamage = 0.0
         self.damageRating = 0.0
@@ -790,7 +789,9 @@ class Worker(object):
     def keyPressed(self, event):
         if not config.data['enabled']: return
         if not g_appLoader.getDefBattleApp(): return
-        if BigWorld.player().arena.bonusType != ARENA_BONUS_TYPE.REGULAR: return
+        player = BigWorld.player()
+        if not player.arena: return
+        if player.arena.bonusType != ARENA_BONUS_TYPE.REGULAR: return
         if self.level and self.movingAvgDamage:
             isKeyDownTrigger = event.isKeyDown()
 
@@ -891,6 +892,7 @@ class Worker(object):
                 return BigWorld.callback(1.0, self.treadStartBattle)
             else:
                 return
+
         flash.setVisible(False)
         dBid = self.check_player_thread()
         self.gunLevel = vehicle.publicInfo['marksOnGun']
@@ -910,6 +912,8 @@ class Worker(object):
 
                 self.name = 'ReplayTest'
         if self.level and self.movingAvgDamage:
+            InputHandler.g_instance.onKeyDown += self.keyPressed
+            InputHandler.g_instance.onKeyUp += self.keyPressed
             BigWorld.player().arena.onVehicleKilled += self.onVehicleKilled
             self.formatStrings['currentMarkOfGun'] = config.data['battleMessage{currentMarkOfGun}'] % self.damageRating
             self.formatStrings['c_currentMarkOfGun'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['currentMarkOfGun'], self.formatStrings['colorClose'])
@@ -928,6 +932,8 @@ class Worker(object):
         if not config.data['showInBattle']: return
         if self.replay and not config.data['showInReplay']: return
         if self.level and self.movingAvgDamage:
+            InputHandler.g_instance.onKeyDown -= self.keyPressed
+            InputHandler.g_instance.onKeyUp -= self.keyPressed
             BigWorld.player().arena.onVehicleKilled -= self.onVehicleKilled
 
     @staticmethod
