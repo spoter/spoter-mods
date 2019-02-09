@@ -19,13 +19,23 @@ COMPLEX_ITEM = {
     'radioman1' : 'radioman',
     'radioman2' : 'radioman',
     'loader1'   : 'loader',
-    'loader2'   : 'loader'
+    'loader2'   : 'loader',
+    'wheel0': 'wheel',
+    'wheel1': 'wheel',
+    'wheel2': 'wheel',
+    'wheel3': 'wheel',
+    'wheel4': 'wheel',
+    'wheel5': 'wheel',
+    'wheel6': 'wheel',
+    'wheel7': 'wheel'
 }
+
+CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'wheel2', 'wheel3', 'wheel4', 'wheel5', 'wheel6', 'wheel7']
 
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.07 (2018-12-13)'
+        self.version = 'v3.07 (2019-02-10)'
         self.author = 'by spoter'
         self.version_id = 307
         self.buttons = {
@@ -66,7 +76,7 @@ class Config(object):
                 },
                 'AllAvailableVariables': {
                     'medkit'   : ['commander', 'gunner', 'driver', 'radioman', 'loader'],
-                    'repairkit': ['engine', 'ammoBay', 'gun', 'turretRotator', 'chassis', 'surveyingDevice', 'radio', 'fuelTank']
+                    'repairkit': ['engine', 'ammoBay', 'gun', 'turretRotator', 'chassis', 'surveyingDevice', 'radio', 'fuelTank', 'wheel']
                 }
             }
         }
@@ -286,7 +296,7 @@ class Repair(object):
             if equipment.isReady and equipment.isAvailableToUse:
                 devices = [name for name, state in equipment.getEntitiesIterator() if state and state in DEVICE_STATE_DESTROYED]
                 for name in devices:
-                    if name in ['chassis', 'leftTrack', 'rightTrack']:
+                    if name in CHASSIS:
                         self.useItem(equipmentTag, name)
                         return
 
