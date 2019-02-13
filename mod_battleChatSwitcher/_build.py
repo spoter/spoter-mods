@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.3.0.1'
+CLIENT_VERSION = '1.4.0.1'
 NAME = 'spoter.mod_battleChatSwitcher'
 ADD_LICENSE = True
 

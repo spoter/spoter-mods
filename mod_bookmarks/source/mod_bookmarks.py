@@ -9,7 +9,7 @@ from notification.NotificationListView import NotificationListView
 class Config(object):
     def __init__(self):
         self.ids = 'bookmarks'
-        self.version = 'v1.02 (2018-12-16)'
+        self.version = 'v1.02 (2019-02-13)'
         self.version_id = 102
         self.author = 'by spoter'
         self.data = {
