@@ -21,6 +21,8 @@ from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TY
 from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
 from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
+import datetime
+
 
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
 COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FA8072', '#FFFFFF']
@@ -55,8 +57,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.10 (2019-02-17)'
-        self.version_id = 510
+        self.version = 'v5.11 (2019-02-18)'
+        self.version_id = 511
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -397,7 +399,7 @@ class Worker(object):
         self.TANKING = 0.0
         self.killed = False
         self.level = False
-        self.values = [0, 0, 0, 0]
+        self.values = [0, 0, 0, 0, datetime.datetime.toordinal(datetime.datetime.utcnow()), datetime.datetime.toordinal(datetime.datetime.utcnow())]
         self.name = ''
         self.dossier = None
         self.initiated = False
@@ -472,6 +474,7 @@ class Worker(object):
         self.battleDamageRatingIndex = []
         self.startCount = 0
         self.gunLevel = 0
+        self.dateTime = datetime.datetime.toordinal(datetime.datetime.utcnow())
 
     def checkBattleMessage(self):
         if not config.data['UI']:
@@ -512,7 +515,7 @@ class Worker(object):
         self.TANKING = 0.0
         self.killed = False
         self.level = False
-        self.values = [0, 0, 0, 0]
+        self.values = [0, 0, 0, 0, datetime.datetime.toordinal(datetime.datetime.utcnow()), datetime.datetime.toordinal(datetime.datetime.utcnow())]
         self.name = ''
         self.initiated = False
         self.replay = False
@@ -552,6 +555,7 @@ class Worker(object):
         self.checkBattleMessage()
         self.health.clear()
         self.battleDamageRatingIndex = []
+        self.dateTime = datetime.datetime.toordinal(datetime.datetime.utcnow())
 
     @inject.log
     def getCurrentHangarData(self):
@@ -625,26 +629,33 @@ class Worker(object):
         d0 = 0
         p1 = damageRating
         d1 = movingAvgDamage
-        self.values = [p0, d0, p1, d1]
+        self.values = [p0, d0, p1, d1, datetime.datetime.toordinal(datetime.datetime.utcnow()), datetime.datetime.toordinal(datetime.datetime.utcnow())]
         config.values[self.check_player_thread()][self.name] = self.values
         self.initiated = False
 
     def requestCurData(self, damageRating, movingAvgDamage):
         self.values = config.values[self.check_player_thread()][self.name]
-        if movingAvgDamage not in self.values:
+        if len(self.values) == 4:
+            tm = datetime.datetime.toordinal(datetime.datetime.utcnow()) - 1
+            self.values.extend([tm, tm])
+            config.values[self.check_player_thread()][self.name] = self.values
+        if movingAvgDamage not in self.values or datetime.datetime.toordinal(datetime.datetime.utcnow()) >= self.values[5] + 1:
             p0 = self.values[2]
             d0 = self.values[3]
+            t0 = self.values[5]
             p1 = damageRating
             d1 = movingAvgDamage
-            self.values = [p0, d0, p1, d1] if p1 > p0 else [p1, d1, p0, d0]
+            t1 = datetime.datetime.toordinal(datetime.datetime.utcnow())
+            self.values = [p0, d0, p1, d1, t0, t1]
             config.values[self.check_player_thread()][self.name] = self.values
         if self.values[0] == self.values[2] and self.values[1] == self.values[3]:
             self.values[3] += 1
+            self.values[5] = datetime.datetime.toordinal(datetime.datetime.utcnow())
             config.values[self.check_player_thread()][self.name] = self.values
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
         k = 0.0198019801980198022206547392443098942749202251434326171875  # 2 / (100.0 + 1)
         EMA = k * EDn + (1 - k) * self.movingAvgDamage
-        p0, d0, p1, d1 = self.values
+        p0, d0, p1, d1, _, _ = self.values
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0) if p0 != 100.0 or p1 != 100.0 else 100.0
         nextMark = round(min(100.0, result), 2) if result > 0 else 0.0
         self.initiated = self.values[1] and not nextMark >= self.damageRating and not self.damageRating - nextMark > 3
@@ -652,7 +663,10 @@ class Worker(object):
     def getColor(self, percent, damage):
         a = filter(lambda x: x <= round(percent, 2), self.levels)
         i = self.levels.index(a[-1]) if a else 0
-        n = max(2, min(i + 1, len(self.levels) - 1))
+        if config.data['showInBattleHalfPercents']:
+            n = min(i + 1, len(self.levels) - 1)
+        else:
+            n = max(2, min(i + 1, len(self.levels) - 1))
         idx = filter(lambda x: x >= damage, self.battleDamageRatingIndex)
         colorNowDamage = battleDamageRating[self.battleDamageRatingIndex.index(idx[0])] if idx else battleDamageRating[-1]
         idx = filter(lambda x: x >= self.damages[n], self.battleDamageRatingIndex)
@@ -664,7 +678,7 @@ class Worker(object):
         return levels, damages, colorNowDamage, colorNextDamage, colorNextPercent
 
     def calcBattlePercents(self):
-        p0, d0, p1, d1 = self.values
+        p0, d0, p1, d1, _, _ = self.values
         curPercent = p1
         nextPercent = float(int(curPercent + 1))
         halfPercent = nextPercent - curPercent >= 0.5
@@ -863,10 +877,10 @@ class Worker(object):
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
         k = 0.0198019801980198022206547392443098942749202251434326171875  # 2 / (100.0 + 1)
         EMA = k * EDn + (1 - k) * self.movingAvgDamage
-        p0, d0, p1, d1 = self.values
+        p0, d0, p1, d1, t0, t1 = self.values
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         nextMark = round(min(100.0, result), 2) if result > 0.0 else 0.0
-        unknown = False
+        unknown = t0 < self.dateTime or t1 < self.dateTime
         if d0 and self.initiated or self.replay:
             if nextMark >= self.damageRating:
                 self.formatStrings['color'] = '%s' % COLOR[config.data['upColor']]
