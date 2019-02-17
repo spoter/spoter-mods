@@ -697,13 +697,14 @@ class Worker(object):
         self.levels.append(nextPercent)
         self.damages.append(EDn)
 
-        nextPercent_0_5 = nextPercent + 0.5
-        while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100:
-            EDn += 1
-            EMA = k * EDn + (1 - k) * d1
-            start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
-        self.levels.append(nextPercent_0_5)
-        self.damages.append(EDn)
+        if config.data['showInBattleHalfPercents']:
+            nextPercent_0_5 = nextPercent + 0.5
+            while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100:
+                EDn += 1
+                EMA = k * EDn + (1 - k) * d1
+                start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
+            self.levels.append(nextPercent_0_5)
+            self.damages.append(EDn)
 
         nextPercent1 = nextPercent + 1.0
         while start <= nextPercent1 < 100.001 and 0 <= start <= 100:
