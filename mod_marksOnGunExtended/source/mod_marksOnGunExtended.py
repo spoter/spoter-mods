@@ -881,7 +881,7 @@ class Worker(object):
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         nextMark = round(min(100.0, result), 2) if result > 0.0 else 0.0
         unknown = t0 < self.dateTime or t1 < self.dateTime
-        if d0 and self.initiated or self.replay:
+        if not unknown and d0 and self.initiated or self.replay:
             if nextMark >= self.damageRating:
                 self.formatStrings['color'] = '%s' % COLOR[config.data['upColor']]
                 if self.checkMark(nextMark):
