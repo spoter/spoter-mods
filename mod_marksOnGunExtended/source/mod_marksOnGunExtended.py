@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.07 (2019-02-13)'
-        self.version_id = 507
+        self.version = 'v5.08 (2019-02-17)'
+        self.version_id = 508
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -172,6 +172,10 @@ class Config(object):
             'UI_menu_UINormal'                                                : 'Normal',
             'UI_menu_UIMaximum'                                               : 'Maximum 1',
             'UI_menu_UIMaximum2'                                              : 'Maximum 2',
+            'UI_menu_UIReplayColor'                                           : 'Colored Replay',
+            'UI_menu_UIReplayColorDamage': 'Colored Replay with damage',
+            'UI_menu_UIReplay'                                                : 'Replay',
+            'UI_menu_UIReplayDamage': 'Replay with damage',
             'UI_menu_UIConfig'                                                : 'Config',
             'UI_menu_blue'                                                    : 'Blue',
             'UI_menu_brown'                                                   : 'Brown',
@@ -255,7 +259,10 @@ class Config(object):
                         {'label': self.i18n['UI_menu_UINormal']},
                         {'label': self.i18n['UI_menu_UIMaximum']},
                         {'label': self.i18n['UI_menu_UIMaximum2']},
-
+                        {'label': self.i18n['UI_menu_UIReplay']},
+                        {'label': self.i18n['UI_menu_UIReplayDamage']},
+                        {'label': self.i18n['UI_menu_UIReplayColor']},
+                        {'label': self.i18n['UI_menu_UIReplayColorDamage']},
                     ],
                     'width'       : 200,
                     'value'       : self.data['UI'],
@@ -419,30 +426,35 @@ class Worker(object):
             'color'                  : ''
         }
         self.messages = {
-            'battleMessageMinimal'    : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
-            'battleMessageMinimalAlt' : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
-                                        '{c_damageCurrent} ({damageCurrentPercent})',
+            'battleMessageMinimal'       : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
+            'battleMessageMinimalAlt'    : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
+                                           '{c_damageCurrent} ({damageCurrentPercent})',
 
-            'battleMessageNormal'     : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
-            'battleMessageNormalAlt'  : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
-                                        '<font size=\"15\">{currentMarkOfGun}{damageCurrentPercent}</font>',
+            'battleMessageNormal'        : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
+            'battleMessageNormalAlt'     : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
+                                           '<font size=\"15\">{currentMarkOfGun}{damageCurrentPercent}</font>',
 
-            'battleMessageMaximum'    : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
-                                        '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n'
-                                        '<font size=\"15\">{currentMarkOfGun}:{damageCurrentPercent}</font>',
+            'battleMessageMaximum'       : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
+                                           '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n'
+                                           '<font size=\"15\">{currentMarkOfGun}:{damageCurrentPercent}</font>',
 
-            'battleMessageMaximumAlt' : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
-                                        '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n'
-                                        '<font size=\"15\">{currentMarkOfGun}:{damageCurrentPercent}</font>\n'
-                                        '{c_damageToMark65}{c_damageToMark85}\n'
-                                        '{c_damageToMark95}{c_damageToMark100}',
-            'battleMessageMaximum2'   : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
-                                        '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
+            'battleMessageMaximumAlt'    : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
+                                           '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n'
+                                           '<font size=\"15\">{currentMarkOfGun}:{damageCurrentPercent}</font>\n'
+                                           '{c_damageToMark65}{c_damageToMark85}\n'
+                                           '{c_damageToMark95}{c_damageToMark100}',
+            'battleMessageMaximum2'      : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+                                           '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
 
-            'battleMessageMaximum2Alt': '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
-                                        '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
-                                        '{c_damageToMark65}{c_damageToMark85}\n'
-                                        '{c_damageToMark95}{c_damageToMark100}',
+            'battleMessageMaximum2Alt'   : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+                                           '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
+                                           '{c_damageToMark65}{c_damageToMark85}\n'
+                                           '{c_damageToMark95}{c_damageToMark100}',
+            'battleMessageReplay'        : '<font size=\"72\">{battleMarkOfGun}</font>',
+            'battleMessageReplayAlt'     : '<font size=\"72\">{battleMarkOfGun}</font><font size=\"32\">{damageCurrent}</font>',
+
+            'battleMessageReplayColor'   : '<font size=\"72\">{c_battleMarkOfGun}',
+            'battleMessageReplayColorAlt': '<font size=\"72\">{c_battleMarkOfGun}</font><font size=\"32\">{c_damageCurrent}</font>',
         }
         self.levels = []
         self.damages = []
@@ -467,6 +479,18 @@ class Worker(object):
 
         if config.data['UI'] == 4:
             self.battleMessage = self.messages['battleMessageMaximum2'] if not self.altMode else self.messages['battleMessageMaximum2Alt']
+
+        if config.data['UI'] == 5:
+            self.battleMessage = self.messages['battleMessageReplay'] if not self.altMode else self.messages['battleMessageReplayAlt']
+
+        if config.data['UI'] == 6:
+            self.battleMessage = self.messages['battleMessageReplayAlt'] if not self.altMode else self.messages['battleMessageReplayAlt']
+
+        if config.data['UI'] == 7:
+            self.battleMessage = self.messages['battleMessageReplayColor'] if not self.altMode else self.messages['battleMessageReplayColorAlt']
+
+        if config.data['UI'] == 8:
+            self.battleMessage = self.messages['battleMessageReplayColorAlt'] if not self.altMode else self.messages['battleMessageReplayColorAlt']
 
     def clearData(self):
         self.altMode = False
@@ -604,9 +628,10 @@ class Worker(object):
             d0 = self.values[3]
             p1 = damageRating
             d1 = movingAvgDamage
-            if p0 == p1 and d0 == d1:
-                d1 += 1
-            self.values = [p0, d0, p1, d1]  # if p1 > p0 else [p1, d1, p0, d0]
+            self.values = [p0, d0, p1, d1] if p1 > p0 else [p1, d1, p0, d0]
+            config.values[self.check_player_thread()][self.name] = self.values
+        if self.values[0] == self.values[2] and self.values[1] == self.values[3]:
+            self.values[3] += 1
             config.values[self.check_player_thread()][self.name] = self.values
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
         k = 0.0198019801980198022206547392443098942749202251434326171875  # 2 / (100.0 + 1)
@@ -641,7 +666,7 @@ class Worker(object):
         start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         self.levels.append(start)
         self.damages.append(EDn)
-        while start <= curPercent and 0 <= start <= 100:
+        while start <= curPercent < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -650,14 +675,14 @@ class Worker(object):
         self.damages.append(EDn)
         if halfPercent:
             halfPercent = nextPercent - 0.5
-            while start <= halfPercent and 0 <= start <= 100:
+            while start <= halfPercent < 100 and 0 <= start <= 100:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
             self.levels.append(halfPercent)
             self.damages.append(EDn)
 
-        while start <= nextPercent and 0 <= start <= 100:
+        while start <= nextPercent < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -665,7 +690,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent_0_5 = nextPercent + 0.5
-        while start <= nextPercent_0_5 and 0 <= start <= 100:
+        while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -673,7 +698,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent1 = nextPercent + 1.0
-        while start <= nextPercent1 and 0 <= start <= 100:
+        while start <= nextPercent1 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -681,7 +706,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent1_5 = nextPercent + 1.5
-        while start <= nextPercent1_5 and 0 <= start <= 100:
+        while start <= nextPercent1_5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -689,7 +714,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent2 = nextPercent + 2.0
-        while start <= nextPercent2 and 0 <= start <= 100:
+        while start <= nextPercent2 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -697,7 +722,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent2_5 = nextPercent + 2.5
-        while start <= nextPercent2_5 and 0 <= start <= 100:
+        while start <= nextPercent2_5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -705,7 +730,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent3 = nextPercent + 3.0
-        while start <= nextPercent3 and 0 <= start <= 100:
+        while start <= nextPercent3 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -713,7 +738,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent3_5 = nextPercent + 3.5
-        while start <= nextPercent3_5 and 0 <= start <= 100:
+        while start <= nextPercent3_5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -721,7 +746,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent4 = nextPercent + 4.0
-        while start <= nextPercent4 and 0 <= start <= 100:
+        while start <= nextPercent4 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -729,7 +754,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent4_5 = nextPercent + 4.5
-        while start <= nextPercent4_5 and 0 <= start <= 100:
+        while start <= nextPercent4_5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -737,7 +762,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent5 = nextPercent + 5.0
-        while start <= nextPercent5 and 0 <= start <= 100:
+        while start <= nextPercent5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -745,7 +770,7 @@ class Worker(object):
         self.damages.append(EDn)
 
         nextPercent5_5 = nextPercent + 5.5
-        while start <= nextPercent5_5 and 0 <= start <= 100:
+        while start <= nextPercent5_5 < 100.001 and 0 <= start <= 100:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -808,9 +833,9 @@ class Worker(object):
                     self.calc()
             if g_gui.get_key(config.data['buttonShow']) and isKeyDownTrigger:
                 config.data['UI'] += 1
-                if config.data['UI'] > 4:
+                if config.data['UI'] > 8:
                     config.data['UI'] = 1
-                status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIMinimal'], config.i18n['UI_menu_UINormal'], config.i18n['UI_menu_UIMaximum'], config.i18n['UI_menu_UIMaximum2']]
+                status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIMinimal'], config.i18n['UI_menu_UINormal'], config.i18n['UI_menu_UIMaximum'], config.i18n['UI_menu_UIMaximum2'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage']]
                 message = config.i18n['UI_message'] % status[config.data['UI']]
                 color = '#84DE40'
                 inject.message(message, color)
@@ -882,7 +907,6 @@ class Worker(object):
         self.startCount = 0
         BigWorld.callback(1.0, self.treadStartBattle)
 
-
     @inject.log
     def treadStartBattle(self):
         vehicle = BigWorld.player().getVehicleAttached()
@@ -949,7 +973,7 @@ class Worker(object):
 
     @staticmethod
     def calcPercent(ema, start, end, d, p):
-        while start <= end:
+        while start <= end < 100.001:
             ema += 0.1
             start = ema / d * p
         return ema
@@ -1108,7 +1132,7 @@ class Flash(object):
         #    self.data[name]['width'] = config.data['panel'].get('width')
         #    self.data[name]['height'] = config.data['panel'].get('height')
 
-    def setupSize(self):
+    def setupSize(self, h=None, w=None):
         height = int(config.data['panelSize'].get('heightNormal', 50)) if not worker.altMode else int(config.data['panelSize'].get('heightAlt', 80))
         width = int(config.data['panelSize'].get('widthNormal', 163)) if not worker.altMode else int(config.data['panelSize'].get('widthAlt', 163))
         if config.data['UI'] == 1:
@@ -1123,6 +1147,14 @@ class Flash(object):
         if config.data['UI'] == 4:
             height = 50 if not worker.altMode else 80
             width = 163 if not worker.altMode else 163
+
+        if config.data['UI'] in (5, 6, 7, 8):
+            height = 82 if not worker.altMode else 82
+            width = 343 if not worker.altMode else 343
+
+        if h is not None and w is not None:
+            height = h
+            width = w
 
         for name in self.data:
             self.data[name]['height'] = height
@@ -1141,6 +1173,8 @@ class Flash(object):
         self.updateObject(COMPONENT_TYPE.PANEL, data)
         self.updateObject(COMPONENT_TYPE.LABEL, data)
         if config.data['background']:
+            if config.data['UI'] in (5, 6, 7, 8):
+                data = {'visible': False}
             self.updateObject(COMPONENT_TYPE.IMAGE, data)
 
     @staticmethod
@@ -1197,10 +1231,6 @@ class Flash(object):
 config = Config()
 flash = Flash()
 worker = Worker()
-
-
-# BigWorld.MoESetupSize = flash.setupSize
-# BigWorld.MoEText = flash.set_text
 
 
 @inject.hook(CrewMeta, 'as_tankmenResponseS')
@@ -1334,3 +1364,10 @@ def getExtraInfo(func, *args):
             result['nameString'] = '%s%s%s' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText, masteryStr)
 
     return result
+
+
+BigWorld.MoESetupSize = flash.setupSize
+# BigWorld.MoESetupSize(h = 100, w = 200)
+
+BigWorld.MoEText = flash.set_text
+# BigWorld.MoEText('<font size=\"60\">100.00%</font>')
