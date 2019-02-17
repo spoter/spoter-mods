@@ -43,6 +43,8 @@
     "UI_setting_downColor_tooltip": "",
     "UI_setting_showInBattle_text": "Battle: enabled",
     "UI_setting_showInBattle_tooltip": "",
+    "UI_setting_showInBattleHalfPercents_text": "Battle: show damage to +0.5%",
+    "UI_setting_showInBattleHalfPercents_tooltip": "",
     "UI_setting_showInReplay_text": "Replay[test]: enabled",
     "UI_setting_showInReplay_tooltip": "{HEADER}Show in replay{/HEADER}{BODY}Not good, but useful for tests{/BODY}",
     "UI_setting_showInStatistic_text": "Statistic: enabled",
@@ -68,5 +70,5 @@
     "UI_setting_upColor_text": "Battle: color when % mark up",
     "UI_setting_upColor_tooltip": "",
     "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentDamage} current total damage</font>\nTo <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> total damage\nThis statistic available to last battle on this vehicle\nTo <font color=\"#FFFFFF\" size=\"12\">20% </font>   need <font color=\"#F8F400\" size=\"12\">~{_20}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">40% </font>   need <font color=\"#F8F400\" size=\"12\">~{_40}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">55% </font>   need <font color=\"#F8F400\" size=\"12\">~{_55}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">65% </font>   need <font color=\"#60FF00\" size=\"12\">~{_65}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> total damage\nTo <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> total damage\nUsed statistic after patch 0.8.8",
-    "version": 508
+    "version": 509
 }

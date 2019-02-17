@@ -72,6 +72,7 @@
         "quality": 1
     },
     "showInBattle": true,
+    "showInBattleHalfPercents": false,
     "showInReplay": true,
     "showInStatistic": true,
     "showInTechTree": true,
@@ -84,5 +85,5 @@
     "techTreeMasterySize": 16,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 508
+    "version": 509
 }

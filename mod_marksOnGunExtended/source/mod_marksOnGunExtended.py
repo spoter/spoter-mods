@@ -55,8 +55,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.08 (2019-02-17)'
-        self.version_id = 508
+        self.version = 'v5.09 (2019-02-17)'
+        self.version_id = 509
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -66,6 +66,7 @@ class Config(object):
             'enabled'                                      : True,
             'buttonShow'                                   : self.buttons['buttonShow'],
             'showInBattle'                                 : True,
+            'showInBattleHalfPercents'                     : False,
             'showInReplay'                                 : True,
             'showInStatistic'                              : True,
             'showInTechTree'                               : True,
@@ -134,6 +135,8 @@ class Config(object):
             'UI_setting_buttonShow_tooltip'                                   : '',
             'UI_setting_showInBattle_text'                                    : 'Battle: enabled',
             'UI_setting_showInBattle_tooltip'                                 : '',
+            'UI_setting_showInBattleHalfPercents_text'   : 'Battle: show damage to +0.5%',
+            'UI_setting_showInBattleHalfPercents_tooltip': '',
             'UI_setting_showInReplay_text'                                    : 'Replay[test]: enabled',
             'UI_setting_showInReplay_tooltip'                                 : '{HEADER}Show in replay{/HEADER}{BODY}Not good, but useful for tests{/BODY}',
             'UI_setting_showInStatistic_text'                                 : 'Statistic: enabled',
@@ -173,9 +176,9 @@ class Config(object):
             'UI_menu_UIMaximum'                                               : 'Maximum 1',
             'UI_menu_UIMaximum2'                                              : 'Maximum 2',
             'UI_menu_UIReplayColor'                                           : 'Colored Replay',
-            'UI_menu_UIReplayColorDamage': 'Colored Replay with damage',
+            'UI_menu_UIReplayColorDamage'                                     : 'Colored Replay with damage',
             'UI_menu_UIReplay'                                                : 'Replay',
-            'UI_menu_UIReplayDamage': 'Replay with damage',
+            'UI_menu_UIReplayDamage'                                          : 'Replay with damage',
             'UI_menu_UIConfig'                                                : 'Config',
             'UI_menu_blue'                                                    : 'Blue',
             'UI_menu_brown'                                                   : 'Brown',
@@ -304,8 +307,13 @@ class Config(object):
                     'value'       : self.data['buttonShow'],
                     'defaultValue': self.buttons['buttonShow'],
                     'varName'     : 'buttonShow'
-                },
-                {
+                }, {
+                    'type'   : 'CheckBox',
+                    'text'   : self.i18n['UI_setting_showInBattleHalfPercents_text'],
+                    'value'  : self.data['showInBattleHalfPercents'],
+                    'tooltip': self.i18n['UI_setting_showInBattleHalfPercents_tooltip'],
+                    'varName': 'showInBattleHalfPercents'
+                }, {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInTechTree_text'],
                     'value'  : self.data['showInTechTree'],
@@ -673,7 +681,7 @@ class Worker(object):
         self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
         self.levels.append(curPercent)
         self.damages.append(EDn)
-        if halfPercent:
+        if halfPercent and config.data['showInBattleHalfPercents']:
             halfPercent = nextPercent - 0.5
             while start <= halfPercent < 100 and 0 <= start <= 100:
                 EDn += 1
