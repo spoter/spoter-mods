@@ -23,22 +23,21 @@ from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
 import datetime
 
-
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
-COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FA8072', '#FFFFFF']
+COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FF6347', '#FFFFFF']
 MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
         'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red', 'UI_menu_white']
 RATING = {
     'neutral'  : '#FFFFFF',
-    'very_bad' : '#FA8072',
+    'very_bad' : '#FF6347',
     'bad'      : '#FE7903',
     'normal'   : '#F8F400',
     'good'     : '#60FF00',
     'very_good': '#02C9B3',
     'unique'   : '#D042F3'
 }
-#statisticRating = [RATING['normal'], RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique'], RATING['unique']]
-#techTreeRating = [RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique']]
+# statisticRating = [RATING['normal'], RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique'], RATING['unique']]
+# techTreeRating = [RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique']]
 
 battleDamageRating0 = RATING['very_bad']
 battleDamageRating20 = RATING['very_bad']
@@ -57,8 +56,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.11 (2019-02-18)'
-        self.version_id = 511
+        self.version = 'v5.12 (2019-02-18)'
+        self.version_id = 512
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -86,7 +85,7 @@ class Config(object):
             'background'                                   : True,
             'backgroundImage'                              : '../maps/icons/quests/inBattleHint.png',
             'backgroundData'                               : {'alpha': 1.0},
-            'shadow'                                       : False,
+            'shadow'                                       : True,
             'panelSize'                                    : {'widthAlt': 163, 'heightAlt': 80, 'widthNormal': 163, 'heightNormal': 50},
             'panel'                                        : {'x': 230, 'y': -228, 'width': 163, 'height': 50, 'drag': True, 'border': True, 'alignX': COMPONENT_ALIGN.LEFT, 'alignY': COMPONENT_ALIGN.BOTTOM},
             'shadowText'                                   : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 1, 'blurX': 1, 'blurY': 1, 'strength': 1, 'quality': 1},
@@ -137,8 +136,8 @@ class Config(object):
             'UI_setting_buttonShow_tooltip'                                   : '',
             'UI_setting_showInBattle_text'                                    : 'Battle: enabled',
             'UI_setting_showInBattle_tooltip'                                 : '',
-            'UI_setting_showInBattleHalfPercents_text'   : 'Battle: show damage to +0.5%',
-            'UI_setting_showInBattleHalfPercents_tooltip': '',
+            'UI_setting_showInBattleHalfPercents_text'                        : 'Battle: show damage to +0.5%',
+            'UI_setting_showInBattleHalfPercents_tooltip'                     : '',
             'UI_setting_showInReplay_text'                                    : 'Replay[test]: enabled',
             'UI_setting_showInReplay_tooltip'                                 : '{HEADER}Show in replay{/HEADER}{BODY}Not good, but useful for tests{/BODY}',
             'UI_setting_showInStatistic_text'                                 : 'Statistic: enabled',
@@ -399,7 +398,7 @@ class Worker(object):
         self.TANKING = 0.0
         self.killed = False
         self.level = False
-        self.values = [0, 0, 0, 0, datetime.datetime.toordinal(datetime.datetime.utcnow()), datetime.datetime.toordinal(datetime.datetime.utcnow())]
+        self.values = [0, 0, 0, 0, datetime.datetime.toordinal(datetime.datetime.utcnow()) - 1, datetime.datetime.toordinal(datetime.datetime.utcnow()) - 1]
         self.name = ''
         self.dossier = None
         self.initiated = False
@@ -515,7 +514,7 @@ class Worker(object):
         self.TANKING = 0.0
         self.killed = False
         self.level = False
-        self.values = [0, 0, 0, 0, datetime.datetime.toordinal(datetime.datetime.utcnow()), datetime.datetime.toordinal(datetime.datetime.utcnow())]
+        self.values = [0, 0, 0, 0, datetime.datetime.toordinal(datetime.datetime.utcnow()) - 1, datetime.datetime.toordinal(datetime.datetime.utcnow()) - 1]
         self.name = ''
         self.initiated = False
         self.replay = False
@@ -629,7 +628,8 @@ class Worker(object):
         d0 = 0
         p1 = damageRating
         d1 = movingAvgDamage
-        self.values = [p0, d0, p1, d1, datetime.datetime.toordinal(datetime.datetime.utcnow()), datetime.datetime.toordinal(datetime.datetime.utcnow())]
+        t0 = datetime.datetime.toordinal(datetime.datetime.utcnow()) - 1
+        self.values = [p0, d0, p1, d1, t0, t0]
         config.values[self.check_player_thread()][self.name] = self.values
         self.initiated = False
 
@@ -655,7 +655,7 @@ class Worker(object):
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
         k = 0.0198019801980198022206547392443098942749202251434326171875  # 2 / (100.0 + 1)
         EMA = k * EDn + (1 - k) * self.movingAvgDamage
-        p0, d0, p1, d1, _, _ = self.values
+        p0, d0, p1, d1, t0, t1 = self.values
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0) if p0 != 100.0 or p1 != 100.0 else 100.0
         nextMark = round(min(100.0, result), 2) if result > 0 else 0.0
         self.initiated = self.values[1] and not nextMark >= self.damageRating and not self.damageRating - nextMark > 3
@@ -678,7 +678,10 @@ class Worker(object):
         return levels, damages, colorNowDamage, colorNextDamage, colorNextPercent
 
     def calcBattlePercents(self):
-        p0, d0, p1, d1, _, _ = self.values
+        if len(self.values) == 4:
+            p0, d0, p1, d1 = self.values
+        else:
+            p0, d0, p1, d1, t0, t1 = self.values
         curPercent = p1
         nextPercent = float(int(curPercent + 1))
         halfPercent = nextPercent - curPercent >= 0.5
@@ -881,7 +884,7 @@ class Worker(object):
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         nextMark = round(min(100.0, result), 2) if result > 0.0 else 0.0
         unknown = t0 < self.dateTime or t1 < self.dateTime
-        if not unknown and d0 and self.initiated or self.replay:
+        if not unknown or d0 and self.initiated or self.replay:
             if nextMark >= self.damageRating:
                 self.formatStrings['color'] = '%s' % COLOR[config.data['upColor']]
                 if self.checkMark(nextMark):

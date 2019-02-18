@@ -60,7 +60,7 @@
         "widthAlt": 163,
         "widthNormal": 163
     },
-    "shadow": false,
+    "shadow": true,
     "shadowText": {
         "distance": 0,
         "blurX": 1,
@@ -85,5 +85,5 @@
     "techTreeMasterySize": 16,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 511
+    "version": 512
 }

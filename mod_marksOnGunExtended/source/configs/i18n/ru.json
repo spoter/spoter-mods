@@ -70,5 +70,5 @@
     "UI_setting_upColor_text": "Бой: цвет когда отметка растёт",
     "UI_setting_upColor_tooltip": "",
     "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentDamage} текущий средний урон</font>\nДля <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   нужно <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> суммарного урона\nДанные на момент последнего боя этим танком\nДля <font color=\"#FFFFFF\" size=\"12\">20% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_20}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">40% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_40}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">55% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_55}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">65% </font>   нужно <font color=\"#60FF00\" size=\"12\">~{_65}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">85% </font>   нужно <font color=\"#02C9B3\" size=\"12\">~{_85}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">95% </font>   нужно <font color=\"#D042F3\" size=\"12\">~{_95}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">100% </font>  нужно <font color=\"#D042F3\" size=\"12\">~{_100}</font> суммарного урона\nИспользуется статистика после патча 0.8.8",
-    "version": 511
+    "version": 512
 }
