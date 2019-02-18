@@ -56,8 +56,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.12 (2019-02-18)'
-        self.version_id = 512
+        self.version = 'v5.13 (2019-02-18)'
+        self.version_id = 513
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -649,7 +649,7 @@ class Worker(object):
             self.values = [p0, d0, p1, d1, t0, t1]
             config.values[self.check_player_thread()][self.name] = self.values
         if self.values[0] == self.values[2] and self.values[1] == self.values[3]:
-            self.values[3] += 1
+            self.values[3] += 10
             self.values[5] = datetime.datetime.toordinal(datetime.datetime.utcnow())
             config.values[self.check_player_thread()][self.name] = self.values
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
@@ -691,7 +691,7 @@ class Worker(object):
         start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         self.levels.append(start)
         self.damages.append(EDn)
-        while start <= curPercent < 100.001 and 0 <= start <= 100:
+        while start <= curPercent < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -700,14 +700,14 @@ class Worker(object):
         self.damages.append(EDn)
         if halfPercent and config.data['showInBattleHalfPercents']:
             halfPercent = nextPercent - 0.5
-            while start <= halfPercent < 100 and 0 <= start <= 100:
+            while start <= halfPercent < 100 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
             self.levels.append(halfPercent)
             self.damages.append(EDn)
 
-        while start <= nextPercent < 100.001 and 0 <= start <= 100:
+        while start <= nextPercent < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -716,7 +716,7 @@ class Worker(object):
 
         if config.data['showInBattleHalfPercents']:
             nextPercent_0_5 = nextPercent + 0.5
-            while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100:
+            while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -724,7 +724,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent1 = nextPercent + 1.0
-        while start <= nextPercent1 < 100.001 and 0 <= start <= 100:
+        while start <= nextPercent1 < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -733,7 +733,7 @@ class Worker(object):
 
         if config.data['showInBattleHalfPercents']:
             nextPercent1_5 = nextPercent + 1.5
-            while start <= nextPercent1_5 < 100.001 and 0 <= start <= 100:
+            while start <= nextPercent1_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -741,7 +741,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent2 = nextPercent + 2.0
-        while start <= nextPercent2 < 100.001 and 0 <= start <= 100:
+        while start <= nextPercent2 < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -750,7 +750,7 @@ class Worker(object):
 
         if config.data['showInBattleHalfPercents']:
             nextPercent2_5 = nextPercent + 2.5
-            while start <= nextPercent2_5 < 100.001 and 0 <= start <= 100:
+            while start <= nextPercent2_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -758,7 +758,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent3 = nextPercent + 3.0
-        while start <= nextPercent3 < 100.001 and 0 <= start <= 100:
+        while start <= nextPercent3 < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -766,7 +766,7 @@ class Worker(object):
         self.damages.append(EDn)
         if config.data['showInBattleHalfPercents']:
             nextPercent3_5 = nextPercent + 3.5
-            while start <= nextPercent3_5 < 100.001 and 0 <= start <= 100:
+            while start <= nextPercent3_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -774,7 +774,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent4 = nextPercent + 4.0
-        while start <= nextPercent4 < 100.001 and 0 <= start <= 100:
+        while start <= nextPercent4 < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -782,7 +782,7 @@ class Worker(object):
         self.damages.append(EDn)
         if config.data['showInBattleHalfPercents']:
             nextPercent4_5 = nextPercent + 4.5
-            while start <= nextPercent4_5 < 100.001 and 0 <= start <= 100:
+            while start <= nextPercent4_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -790,7 +790,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent5 = nextPercent + 5.0
-        while start <= nextPercent5 < 100.001 and 0 <= start <= 100:
+        while start <= nextPercent5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -798,7 +798,7 @@ class Worker(object):
         self.damages.append(EDn)
         if config.data['showInBattleHalfPercents']:
             nextPercent5_5 = nextPercent + 5.5
-            while start <= nextPercent5_5 < 100.001 and 0 <= start <= 100:
+            while start <= nextPercent5_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -1001,7 +1001,7 @@ class Worker(object):
 
     @staticmethod
     def calcPercent(ema, start, end, d, p):
-        while start <= end < 100.001:
+        while start <= end < 100.001 and ema < 30000:
             ema += 0.1
             start = ema / d * p
         return ema
