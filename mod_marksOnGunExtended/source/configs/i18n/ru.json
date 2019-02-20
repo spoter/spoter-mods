@@ -1,4 +1,5 @@
 ﻿{
+    "NaN": "[<b>мало битв</b>]",
     "UI_description": "Отметки на Орудии Extended",
     "UI_menu_UIConfig": "Из конфига",
     "UI_menu_UIMaximum": "Максимальный 1",
@@ -37,6 +38,12 @@
     "UI_setting_UI_tooltip": "{HEADER}Стиль отображения в бою{/HEADER}{BODY}Расширенная версия:<br/><img src=\"img://objects/ui_extended.png\"></img><br/>Упрощённая версия:<br/><img src=\"img://objects/ui_simple.png\"></img><br/>Из конфига:<br/>/mods/configs/marksOnGunExtended/marksOnGunExtended.json<br/>{/BODY}",
     "UI_setting_buttonShow_text": "Кнопка: Смена стиля",
     "UI_setting_buttonShow_tooltip": "",
+    "UI_setting_buttonReset_text": "Кнопка: Сброс настроек",
+    "UI_setting_buttonReset_tooltip": "",
+    "UI_setting_buttonSizeDown_text": "Кнопка: Размер -10%",
+    "UI_setting_buttonSizeDown_tooltip": "",
+    "UI_setting_buttonSizeUp_text": "Кнопка: Размер +10%",
+    "UI_setting_buttonSizeUp_tooltip": "",
     "UI_setting_background_text": "Бой: показывать бэкграунд",
     "UI_setting_background_tooltip": "",
     "UI_setting_downColor_text": "Бой: цвет когда отметка падает",
@@ -70,5 +77,10 @@
     "UI_setting_upColor_text": "Бой: цвет когда отметка растёт",
     "UI_setting_upColor_tooltip": "",
     "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentDamage} текущий средний урон</font>\nДля <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   нужно <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> суммарного урона\nДанные на момент последнего боя этим танком\nДля <font color=\"#FFFFFF\" size=\"12\">20% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_20}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">40% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_40}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">55% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_55}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">65% </font>   нужно <font color=\"#60FF00\" size=\"12\">~{_65}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">85% </font>   нужно <font color=\"#02C9B3\" size=\"12\">~{_85}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">95% </font>   нужно <font color=\"#D042F3\" size=\"12\">~{_95}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">100% </font>  нужно <font color=\"#D042F3\" size=\"12\">~{_100}</font> суммарного урона\nИспользуется статистика после патча 0.8.8",
-    "version": 513
+    "battleMessageSizeDown": "MoE mod: Размер <b>-10%</b>",
+    "battleMessageSizeLimitMax": "MoE mod: Достигнут <b>максимум[1000%]</b>",
+    "battleMessageSizeLimitMin": "MoE mod: Достигнут <b>минимум[10%]</b>",
+    "battleMessageSizeReset": "MoE mod: Сброс настроек</b>",
+    "battleMessageSizeUp": "MoE mod: Размер <b>+10%</b>",
+    "version": 600
 }

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import math
 
 import BattleReplay
@@ -21,7 +22,6 @@ from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TY
 from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
 from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
-import datetime
 
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
 COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FF6347', '#FFFFFF']
@@ -56,16 +56,22 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v5.13 (2019-02-18)'
-        self.version_id = 513
+        self.version = 'v6.00 (2019-02-20)'
+        self.version_id = 600
         self.author = 'by spoter to b4it.org'
         self.buttons = {
-            'buttonShow': [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonShow'     : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonSizeUp'   : [Keys.KEY_PGUP, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonSizeDown' : [Keys.KEY_PGDN, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonReset': [Keys.KEY_DELETE, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL], [Keys.KEY_LSHIFT, Keys.KEY_RSHIFT]],
         }
         self.data = {
             'version'                                      : self.version_id,
             'enabled'                                      : True,
             'buttonShow'                                   : self.buttons['buttonShow'],
+            'buttonSizeUp'                                 : self.buttons['buttonSizeUp'],
+            'buttonSizeDown'                               : self.buttons['buttonSizeDown'],
+            'buttonReset'                              : self.buttons['buttonReset'],
             'showInBattle'                                 : True,
             'showInBattleHalfPercents'                     : False,
             'showInReplay'                                 : True,
@@ -126,6 +132,7 @@ class Config(object):
             'battleMessage{c_damageToMarkInfo}'            : '%s',
             'battleMessage{damageToMarkInfoLevel}'         : '%s%%',
             'battleMessage{c_damageToMarkInfoLevel}'       : '%s',
+            'battleMessageSizeInPercent'                   : 100,
             'UI'                                           : 4
         }
         self.i18n = {
@@ -134,6 +141,12 @@ class Config(object):
             'UI_message'                                                      : 'MoE change visual %s',
             'UI_setting_buttonShow_text'                                      : 'Button: Change Style',
             'UI_setting_buttonShow_tooltip'                                   : '',
+            'UI_setting_buttonSizeUp_text'                                    : 'Button: Size +10%',
+            'UI_setting_buttonSizeUp_tooltip'                                 : '',
+            'UI_setting_buttonSizeDown_text'                                  : 'Button: Size -10%',
+            'UI_setting_buttonSizeDown_tooltip'                               : '',
+            'UI_setting_buttonReset_text'                                 : 'Button: Reset Settings',
+            'UI_setting_buttonReset_tooltip'                              : '',
             'UI_setting_showInBattle_text'                                    : 'Battle: enabled',
             'UI_setting_showInBattle_tooltip'                                 : '',
             'UI_setting_showInBattleHalfPercents_text'                        : 'Battle: show damage to +0.5%',
@@ -214,7 +227,13 @@ class Config(object):
                                                                                 'To <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> total damage\n'
                                                                                 'To <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> total damage\n'
                                                                                 'To <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> total damage\n'
-                                                                                'Used statistic after patch 0.8.8'
+                                                                                'Used statistic after patch 0.8.8',
+            'battleMessageSizeUp'                                             : 'MoE mod: Size <b>+10%</b>',
+            'battleMessageSizeDown'                                           : 'MoE mod: Size <b>-10%</b>',
+            'battleMessageSizeLimitMin'                                       : 'MoE mod: Reached <b>minimum[10%]</b>',
+            'battleMessageSizeLimitMax'                                       : 'MoE mod: Reached <b>maximum[1000%]</b>',
+            'battleMessageSizeReset'                                          : 'MoE mod: Reset Settings</b>',
+            'NaN': '[<b>play more</b>]',
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -298,6 +317,15 @@ class Config(object):
                     'width'       : 200,
                     'value'       : self.data['unknownColor'],
                     'varName'     : 'unknownColor'
+                }, {
+                    'type'        : 'Slider',
+                    'text'        : self.i18n['UI_setting_techTreeMasterySize_text'],
+                    'minimum'     : 1,
+                    'maximum'     : 48,
+                    'snapInterval': 1,
+                    'value'       : self.data['techTreeMasterySize'],
+                    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMasterySize_value'],
+                    'varName'     : 'techTreeMasterySize'
                 }
             ],
             'column2'        : [
@@ -308,6 +336,27 @@ class Config(object):
                     'value'       : self.data['buttonShow'],
                     'defaultValue': self.buttons['buttonShow'],
                     'varName'     : 'buttonShow'
+                }, {
+                    'type'        : 'HotKey',
+                    'text'        : self.i18n['UI_setting_buttonReset_text'],
+                    'tooltip'     : self.i18n['UI_setting_buttonReset_tooltip'],
+                    'value'       : self.data['buttonReset'],
+                    'defaultValue': self.buttons['buttonReset'],
+                    'varName'     : 'buttonReset'
+                }, {
+                    'type'        : 'HotKey',
+                    'text'        : self.i18n['UI_setting_buttonSizeUp_text'],
+                    'tooltip'     : self.i18n['UI_setting_buttonSizeUp_tooltip'],
+                    'value'       : self.data['buttonSizeUp'],
+                    'defaultValue': self.buttons['buttonSizeUp'],
+                    'varName'     : 'buttonSizeUp'
+                }, {
+                    'type'        : 'HotKey',
+                    'text'        : self.i18n['UI_setting_buttonSizeDown_text'],
+                    'tooltip'     : self.i18n['UI_setting_buttonSizeDown_tooltip'],
+                    'value'       : self.data['buttonSizeDown'],
+                    'defaultValue': self.buttons['buttonSizeDown'],
+                    'varName'     : 'buttonSizeDown'
                 }, {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInBattleHalfPercents_text'],
@@ -350,15 +399,6 @@ class Config(object):
                     'value'  : self.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'],
                     'tooltip': self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_tooltip'],
                     'varName': 'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'
-                }, {
-                    'type'        : 'Slider',
-                    'text'        : self.i18n['UI_setting_techTreeMasterySize_text'],
-                    'minimum'     : 1,
-                    'maximum'     : 48,
-                    'snapInterval': 1,
-                    'value'       : self.data['techTreeMasterySize'],
-                    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMasterySize_value'],
-                    'varName'     : 'techTreeMasterySize'
                 }, {
                     'type'        : 'Slider',
                     'text'        : self.i18n['UI_setting_techTreeMarkOfGunPercentSize_text'],
@@ -437,32 +477,32 @@ class Worker(object):
         self.messages = {
             'battleMessageMinimal'       : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
             'battleMessageMinimalAlt'    : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
-                                           '{c_damageCurrent} ({damageCurrentPercent})',
+                                           '<font size=\"12\">{c_damageCurrent} ({damageCurrentPercent})</font>',
 
             'battleMessageNormal'        : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
             'battleMessageNormalAlt'     : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
                                            '<font size=\"15\">{currentMarkOfGun}{damageCurrentPercent}</font>',
 
             'battleMessageMaximum'       : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
-                                           '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n'
-                                           '<font size=\"15\">{currentMarkOfGun}:{damageCurrentPercent}</font>',
+                                           '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}\n'
+                                           '{currentMarkOfGun}:{damageCurrentPercent}</font>',
 
             'battleMessageMaximumAlt'    : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
-                                           '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n'
-                                           '<font size=\"15\">{currentMarkOfGun}:{damageCurrentPercent}</font>\n'
-                                           '{c_damageToMark65}{c_damageToMark85}\n'
-                                           '{c_damageToMark95}{c_damageToMark100}',
+                                           '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}\n'
+                                           '{currentMarkOfGun}:{damageCurrentPercent}</font>\n'
+                                           '<font size=\"12\">{c_damageToMark65}{c_damageToMark85}\n'
+                                           '{c_damageToMark95}{c_damageToMark100}</font>',
             'battleMessageMaximum2'      : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                            '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
 
             'battleMessageMaximum2Alt'   : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                            '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
-                                           '{c_damageToMark65}{c_damageToMark85}\n'
-                                           '{c_damageToMark95}{c_damageToMark100}',
+                                           '<font size=\"12\">{c_damageToMark65}{c_damageToMark85}\n'
+                                           '{c_damageToMark95}{c_damageToMark100}</font>',
             'battleMessageReplay'        : '<font size=\"72\">{battleMarkOfGun}</font>',
             'battleMessageReplayAlt'     : '<font size=\"72\">{battleMarkOfGun}</font><font size=\"32\">{damageCurrent}</font>',
 
-            'battleMessageReplayColor'   : '<font size=\"72\">{c_battleMarkOfGun}',
+            'battleMessageReplayColor'   : '<font size=\"72\">{c_battleMarkOfGun}</font>',
             'battleMessageReplayColorAlt': '<font size=\"72\">{c_battleMarkOfGun}</font><font size=\"32\">{c_damageCurrent}</font>',
         }
         self.levels = []
@@ -695,7 +735,7 @@ class Worker(object):
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
-        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < 30000 else config.i18n['NaN']  # if d0 and self.initiated or self.replay else '[--]'
         self.levels.append(curPercent)
         self.damages.append(EDn)
         if halfPercent and config.data['showInBattleHalfPercents']:
@@ -804,6 +844,8 @@ class Worker(object):
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
             self.levels.append(nextPercent5_5)
             self.damages.append(EDn)
+        if EDn >= 30000:
+            self.initiated = False
         _, _, p20, p40, p55, p65, p85, p95, p100 = worker.calcStatistics(self.damageRating, self.movingAvgDamage)
         self.battleDamageRatingIndex = [0, p20, p40, p55, p65, p85, p95, p100]
 
@@ -871,6 +913,48 @@ class Worker(object):
                 self.checkBattleMessage()
                 flash.setupSize()
                 self.calc()
+            if g_gui.get_key(config.data['buttonReset']) and isKeyDownTrigger:
+                config.data['battleMessageSizeInPercent'] = 100
+                color = '#84DE40'
+                inject.message(config.i18n['battleMessageSizeReset'], color)
+                config.data = g_gui.update_data(config.ids, config.data, 'spoter')
+                config.data['panel']['x'] = 230
+                flash.data[COMPONENT_TYPE.PANEL]['x'] = 230
+                config.data['panel']['y'] = -228
+                flash.data[COMPONENT_TYPE.PANEL]['y'] = -228
+                self.altMode = True
+                self.checkBattleMessage()
+                flash.setupSize()
+                flash.screenResize()
+                self.altMode = False
+                flash.setupSize()
+                self.calc()
+            if g_gui.get_key(config.data['buttonSizeUp']) and isKeyDownTrigger:
+                config.data['battleMessageSizeInPercent'] = min(1000, config.data['battleMessageSizeInPercent'] + 10)
+                color = '#84DE40'
+                message = config.i18n['battleMessageSizeUp'] + '<b>[%s]</b>' %config.data['battleMessageSizeInPercent'] if config.data['battleMessageSizeInPercent'] < 1000 else config.i18n['battleMessageSizeLimitMax']
+                inject.message(message, color)
+                config.data = g_gui.update_data(config.ids, config.data, 'spoter')
+                self.altMode = True
+                self.checkBattleMessage()
+                flash.setupSize()
+                flash.screenResize()
+                self.altMode = False
+                flash.setupSize()
+                self.calc()
+            if g_gui.get_key(config.data['buttonSizeDown']) and isKeyDownTrigger:
+                config.data['battleMessageSizeInPercent'] = max(10, config.data['battleMessageSizeInPercent'] - 10)
+                color = '#84DE40'
+                message = config.i18n['battleMessageSizeDown'] + '<b>[%s]</b>' %config.data['battleMessageSizeInPercent'] if config.data['battleMessageSizeInPercent'] > 10 else config.i18n['battleMessageSizeLimitMin']
+                inject.message(message, color)
+                config.data = g_gui.update_data(config.ids, config.data, 'spoter')
+                self.altMode = True
+                self.checkBattleMessage()
+                flash.setupSize()
+                flash.screenResize()
+                self.altMode = False
+                flash.setupSize()
+                self.calc()
 
     def calc(self):
         if not config.data['enabled']: return
@@ -884,7 +968,7 @@ class Worker(object):
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         nextMark = round(min(100.0, result), 2) if result > 0.0 else 0.0
         unknown = t0 < self.dateTime or t1 < self.dateTime
-        if not unknown or d0 and self.initiated or self.replay:
+        if not unknown and d0 and self.initiated or self.replay:
             if nextMark >= self.damageRating:
                 self.formatStrings['color'] = '%s' % COLOR[config.data['upColor']]
                 if self.checkMark(nextMark):
@@ -908,7 +992,7 @@ class Worker(object):
         self.formatStrings['nextMarkOfGun'] = config.data['battleMessage{nextMarkOfGun}'] % nextMarkOfGun
         self.formatStrings['c_nextMarkOfGun'] = '%s%s%s' % ('<font color="%s">' % colorNextPercent if not unknown else self.formatStrings['colorOpen'], self.formatStrings['nextMarkOfGun'], self.formatStrings['colorClose'])
         self.formatStrings['damageCurrent'] = config.data['battleMessage{damageCurrent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
-        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage if damage < 30000 else config.i18n['NaN']# if d0 and self.initiated or self.replay else '[--]'
         self.formatStrings['c_damageCurrent'] = '%s%s%s' % ('<font color="%s">' % colorNowDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageCurrent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageCurrentPercent'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['damageCurrentPercent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageNextPercent'] = '%s%s%s' % ('<font color="%s">' % colorNextDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageNextPercent'], self.formatStrings['colorClose'])
@@ -1141,7 +1225,7 @@ class Flash(object):
                 config.data['panel']['y'] = y
                 self.data[COMPONENT_TYPE.PANEL]['y'] = y
             self.screenResize()
-            print '%s Flash coordinates updated : x = %i, y = %i, props: %s' % (alias, config.data['panel']['x'], config.data['panel']['y'], props)
+            print '%s Flash coordinates updated : y = %i, x = %i, props: %s' % (alias, config.data['panel']['y'], config.data['panel']['x'], props)
 
     def setup(self):
         self.name = {
@@ -1184,6 +1268,9 @@ class Flash(object):
             height = h
             width = w
 
+        height = height * config.data['battleMessageSizeInPercent'] / 100
+        width = width * config.data['battleMessageSizeInPercent'] / 100
+
         for name in self.data:
             self.data[name]['height'] = height
             self.data[name]['width'] = width
@@ -1193,8 +1280,26 @@ class Flash(object):
         if config.data['background']:
             self.updateObject(COMPONENT_TYPE.IMAGE, data)
 
+    def textRepSize(self, message):
+        mod = False
+        text = ''
+        count = 0
+        for id in message.split('\"'):
+            if count:
+                text += '"'
+            if mod:
+                text += '%s' % (int(id) * config.data['battleMessageSizeInPercent'] / 100)
+                mod = False
+            else:
+                text += '%s' % id
+            if 'size=' in id:
+                mod = True
+            count += 1
+        return text
+
     def set_text(self, text):
-        self.updateObject(COMPONENT_TYPE.LABEL, {'text': '<font face="%s" color="#FFFFFF" vspace="-3" align="baseline" >%s</font>' % (config.data['font'], text)})
+        txt = '<font face="%s" color="#FFFFFF" vspace="-3" align="baseline" >%s</font>' % (config.data['font'], text)
+        self.updateObject(COMPONENT_TYPE.LABEL, {'text': self.textRepSize(txt)})
 
     def setVisible(self, status):
         data = {'visible': status}
@@ -1208,13 +1313,13 @@ class Flash(object):
     @staticmethod
     def screenFix(screen, value, mod, align=1):
         if align == 1:  # положительное
-            if value > screen:
-                return int(screen - mod)
+            if value + mod > screen:
+                return max(0, int(screen - mod))
             if value < 0:
                 return 0
         if align == -1:  # отрицательное
-            if value < -screen:
-                return int(-screen + mod)
+            if value - mod < -screen:
+                return min(0, int(-screen + mod))
             if value > 0:
                 return 0
         if align == 0:  # центр
