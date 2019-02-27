@@ -1,7 +1,9 @@
 ﻿{
-    "activate_message": false,
+    "activateMessage": false,
+    "autoActivateWheelMode": true,
     "enabled": true,
-    "fix_accuracy_in_move": true,
-    "server_turret": true,
-    "version": 119
+    "fixAccuracyInMove": true,
+    "fixWheelCruiseControl": true,
+    "serverTurret": true,
+    "version": 200
 }
