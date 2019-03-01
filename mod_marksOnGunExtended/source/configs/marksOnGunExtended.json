@@ -1,10 +1,8 @@
 ﻿{
-    "UI": 4,
+    "UI": 1,
     "background": true,
     "backgroundData": {
-        "alpha": 1.0,
-        "width": 130,
-        "height": 100
+        "alpha": 1.0
     },
     "backgroundImage": "../maps/icons/quests/inBattleHint.png",
     "battleMessage": "<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>",
@@ -25,7 +23,7 @@
     "battleMessage{c_nextMarkOfGun}": "%s",
     "battleMessage{c_status}Down": "V",
     "battleMessage{c_status}Unknown": "~",
-    "battleMessage{c_status}Up": "?",
+    "battleMessage{c_status}Up": "Δ",
     "battleMessage{currentMarkOfGun}": "%.2f%%",
     "battleMessage{damageCurrentPercent}": "[<b>%.0f</b>]",
     "battleMessage{damageCurrent}": "[<b>%.0f</b>]",
@@ -61,15 +59,14 @@
     "enabled": true,
     "font": "$IMELanguageBar",
     "panel": {
-        "visible": true,
-        "alignY": "bottom",
-        "height": 100,
-        "width": 130,
+        "width": 163,
         "drag": true,
         "alignX": "left",
         "y": -228,
         "x": 230,
-        "border": true
+        "border": true,
+        "alignY": "bottom",
+        "height": 50
     },
     "panelSize": {
         "heightNormal": 50,
@@ -102,5 +99,5 @@
     "techTreeMasterySize": 16,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 600
+    "version": 601
 }

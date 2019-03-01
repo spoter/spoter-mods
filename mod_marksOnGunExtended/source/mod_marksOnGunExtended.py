@@ -56,14 +56,14 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.00 (2019-02-20)'
-        self.version_id = 600
+        self.version = 'v6.01 (2019-03-02)'
+        self.version_id = 601
         self.author = 'by spoter to b4it.org'
         self.buttons = {
-            'buttonShow'     : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
-            'buttonSizeUp'   : [Keys.KEY_PGUP, [Keys.KEY_LALT, Keys.KEY_RALT]],
-            'buttonSizeDown' : [Keys.KEY_PGDN, [Keys.KEY_LALT, Keys.KEY_RALT]],
-            'buttonReset': [Keys.KEY_DELETE, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL], [Keys.KEY_LSHIFT, Keys.KEY_RSHIFT]],
+            'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonSizeUp'  : [Keys.KEY_PGUP, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonSizeDown': [Keys.KEY_PGDN, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonReset'   : [Keys.KEY_DELETE, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL], [Keys.KEY_LSHIFT, Keys.KEY_RSHIFT]],
         }
         self.data = {
             'version'                                      : self.version_id,
@@ -71,7 +71,7 @@ class Config(object):
             'buttonShow'                                   : self.buttons['buttonShow'],
             'buttonSizeUp'                                 : self.buttons['buttonSizeUp'],
             'buttonSizeDown'                               : self.buttons['buttonSizeDown'],
-            'buttonReset'                              : self.buttons['buttonReset'],
+            'buttonReset'                                  : self.buttons['buttonReset'],
             'showInBattle'                                 : True,
             'showInBattleHalfPercents'                     : False,
             'showInReplay'                                 : True,
@@ -133,7 +133,7 @@ class Config(object):
             'battleMessage{damageToMarkInfoLevel}'         : '%s%%',
             'battleMessage{c_damageToMarkInfoLevel}'       : '%s',
             'battleMessageSizeInPercent'                   : 100,
-            'UI'                                           : 4
+            'UI'                                           : 1
         }
         self.i18n = {
             'version'                                                         : self.version_id,
@@ -145,9 +145,9 @@ class Config(object):
             'UI_setting_buttonSizeUp_tooltip'                                 : '',
             'UI_setting_buttonSizeDown_text'                                  : 'Button: Size -10%',
             'UI_setting_buttonSizeDown_tooltip'                               : '',
-            'UI_setting_buttonReset_text'                                 : 'Button: Reset Settings',
-            'UI_setting_buttonReset_tooltip'                              : '',
-            'UI_setting_showInBattle_text'                                    : 'Battle: enabled',
+            'UI_setting_buttonReset_text'                                     : 'Button: Reset Settings',
+            'UI_setting_buttonReset_tooltip'                                  : '',
+            'UI_setting_showInBattle_text'                                    : 'Battle: Hello message',
             'UI_setting_showInBattle_tooltip'                                 : '',
             'UI_setting_showInBattleHalfPercents_text'                        : 'Battle: show damage to +0.5%',
             'UI_setting_showInBattleHalfPercents_tooltip'                     : '',
@@ -185,14 +185,14 @@ class Config(object):
                                                                                 'Simple:<br/><img src=\"img://objects/ui_simple.png\"></img><br/>'
                                                                                 'Config:<br/>/mods/configs/marksOnGunExtended/marksOnGunExtended.json<br/>'
                                                                                 '{/BODY}',
-            'UI_menu_UIMinimal'                                               : 'Minimal',
-            'UI_menu_UINormal'                                                : 'Normal',
-            'UI_menu_UIMaximum'                                               : 'Maximum 1',
-            'UI_menu_UIMaximum2'                                              : 'Maximum 2',
-            'UI_menu_UIReplayColor'                                           : 'Colored Replay',
-            'UI_menu_UIReplayColorDamage'                                     : 'Colored Replay with damage',
-            'UI_menu_UIReplay'                                                : 'Replay',
-            'UI_menu_UIReplayDamage'                                          : 'Replay with damage',
+            'UI_menu_UIskill4ltu'                                             : '<font color=\"#60FF00\">@skill4ltu</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>',
+            'UI_menu_UIMyp'                                                   : '<font color=\"#D042F3\">@Myp</font> choice [<font color=\"#D042F3\">twitch.tv/myp_</font>]',
+            'UI_menu_UIspoter'                                                : '<font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]',
+            'UI_menu_UIcircon'                                                : '<font color=\"#02C9B3\">@Circon</font> choice [<font color=\"#02C9B3\">twitch.tv/circon</font>]',
+            'UI_menu_UIReplayColor'                                           : 'Colored for Replays',
+            'UI_menu_UIReplayColorDamage'                                     : 'Colored for Replays with damage',
+            'UI_menu_UIReplay'                                                : 'for Replays',
+            'UI_menu_UIReplayDamage'                                          : 'for Replays with damage',
             'UI_menu_UIConfig'                                                : 'Config',
             'UI_menu_blue'                                                    : 'Blue',
             'UI_menu_brown'                                                   : 'Brown',
@@ -233,7 +233,7 @@ class Config(object):
             'battleMessageSizeLimitMin'                                       : 'MoE mod: Reached <b>minimum[10%]</b>',
             'battleMessageSizeLimitMax'                                       : 'MoE mod: Reached <b>maximum[1000%]</b>',
             'battleMessageSizeReset'                                          : 'MoE mod: Reset Settings</b>',
-            'NaN': '[<b>play more</b>]',
+            'NaN'                                                             : '[<b>play more</b>]',
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -278,16 +278,16 @@ class Config(object):
                     'itemRenderer': 'DropDownListItemRendererSound',
                     'options'     : [
                         {'label': self.i18n['UI_menu_UIConfig']},
-                        {'label': self.i18n['UI_menu_UIMinimal']},
-                        {'label': self.i18n['UI_menu_UINormal']},
-                        {'label': self.i18n['UI_menu_UIMaximum']},
-                        {'label': self.i18n['UI_menu_UIMaximum2']},
+                        {'label': self.i18n['UI_menu_UIskill4ltu']},
+                        {'label': self.i18n['UI_menu_UIMyp']},
+                        {'label': self.i18n['UI_menu_UIspoter']},
+                        {'label': self.i18n['UI_menu_UIcircon']},
                         {'label': self.i18n['UI_menu_UIReplay']},
                         {'label': self.i18n['UI_menu_UIReplayDamage']},
                         {'label': self.i18n['UI_menu_UIReplayColor']},
                         {'label': self.i18n['UI_menu_UIReplayColorDamage']},
                     ],
-                    'width'       : 200,
+                    'width'       : 300,
                     'value'       : self.data['UI'],
                     'varName'     : 'UI'
                 }, {
@@ -296,7 +296,7 @@ class Config(object):
                     'tooltip'     : self.i18n['UI_setting_upColor_tooltip'],
                     'itemRenderer': 'DropDownListItemRendererSound',
                     'options'     : self.generator_menu(),
-                    'width'       : 200,
+                    'width'       : 300,
                     'value'       : self.data['upColor'],
                     'varName'     : 'upColor'
                 }, {
@@ -305,7 +305,7 @@ class Config(object):
                     'tooltip'     : self.i18n['UI_setting_downColor_tooltip'],
                     'itemRenderer': 'DropDownListItemRendererSound',
                     'options'     : self.generator_menu(),
-                    'width'       : 200,
+                    'width'       : 300,
                     'value'       : self.data['downColor'],
                     'varName'     : 'downColor'
                 }, {
@@ -314,7 +314,7 @@ class Config(object):
                     'tooltip'     : self.i18n['UI_setting_unknownColor_tooltip'],
                     'itemRenderer': 'DropDownListItemRendererSound',
                     'options'     : self.generator_menu(),
-                    'width'       : 200,
+                    'width'       : 300,
                     'value'       : self.data['unknownColor'],
                     'varName'     : 'unknownColor'
                 }, {
@@ -475,27 +475,27 @@ class Worker(object):
             'color'                  : ''
         }
         self.messages = {
-            'battleMessageMinimal'       : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
-            'battleMessageMinimalAlt'    : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
+            'battleMessageskill4ltu'       : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
+            'battleMessageskill4ltuAlt'    : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
                                            '<font size=\"12\">{c_damageCurrent} ({damageCurrentPercent})</font>',
 
-            'battleMessageNormal'        : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
-            'battleMessageNormalAlt'     : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
+            'battleMessagesMyp'        : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
+            'battleMessagesMypAlt'     : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
                                            '<font size=\"15\">{currentMarkOfGun}{damageCurrentPercent}</font>',
 
-            'battleMessageMaximum'       : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
+            'battleMessagesspoter'       : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
                                            '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}\n'
                                            '{currentMarkOfGun}:{damageCurrentPercent}</font>',
 
-            'battleMessageMaximumAlt'    : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
+            'battleMessagesspoterAlt'    : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
                                            '<font size=\"15\">{c_nextMarkOfGun}:{c_damageNextPercent}\n'
                                            '{currentMarkOfGun}:{damageCurrentPercent}</font>\n'
                                            '<font size=\"12\">{c_damageToMark65}{c_damageToMark85}\n'
                                            '{c_damageToMark95}{c_damageToMark100}</font>',
-            'battleMessageMaximum2'      : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+            'battleMessagescircon'      : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                            '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
 
-            'battleMessageMaximum2Alt'   : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+            'battleMessagescirconAlt'   : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                            '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
                                            '<font size=\"12\">{c_damageToMark65}{c_damageToMark85}\n'
                                            '{c_damageToMark95}{c_damageToMark100}</font>',
@@ -519,16 +519,16 @@ class Worker(object):
         if not config.data['UI']:
             self.battleMessage = config.data['battleMessage'] if not self.altMode else config.data['battleMessageAlt']
         if config.data['UI'] == 1:
-            self.battleMessage = self.messages['battleMessageMinimal'] if not self.altMode else self.messages['battleMessageMinimalAlt']
+            self.battleMessage = self.messages['battleMessageskill4ltu'] if not self.altMode else self.messages['battleMessageskill4ltuAlt']
 
         if config.data['UI'] == 2:
-            self.battleMessage = self.messages['battleMessageNormal'] if not self.altMode else self.messages['battleMessageNormalAlt']
+            self.battleMessage = self.messages['battleMessagesMyp'] if not self.altMode else self.messages['battleMessagesMypAlt']
 
         if config.data['UI'] == 3:
-            self.battleMessage = self.messages['battleMessageMaximum'] if not self.altMode else self.messages['battleMessageMaximumAlt']
+            self.battleMessage = self.messages['battleMessagesspoter'] if not self.altMode else self.messages['battleMessagesspoterAlt']
 
         if config.data['UI'] == 4:
-            self.battleMessage = self.messages['battleMessageMaximum2'] if not self.altMode else self.messages['battleMessageMaximum2Alt']
+            self.battleMessage = self.messages['battleMessagescircon'] if not self.altMode else self.messages['battleMessagescirconAlt']
 
         if config.data['UI'] == 5:
             self.battleMessage = self.messages['battleMessageReplay'] if not self.altMode else self.messages['battleMessageReplayAlt']
@@ -616,7 +616,6 @@ class Worker(object):
 
     def onBattleEvents(self, events):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
         player = BigWorld.player()
         guiSessionProvider = player.guiSessionProvider
         if guiSessionProvider.shared.vehicleState.getControllingVehicleID() == player.playerVehicleID:
@@ -642,7 +641,6 @@ class Worker(object):
 
     def shots(self, avatar, newHealth, attackerID):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
         if not avatar.isStarted:
             return
         if newHealth > 0 >= avatar.health:
@@ -722,7 +720,9 @@ class Worker(object):
             p0, d0, p1, d1 = self.values
         else:
             p0, d0, p1, d1, t0, t1 = self.values
+        _, _, p20, p40, p55, p65, p85, p95, p100 = worker.calcStatistics(self.damageRating, self.movingAvgDamage)
         curPercent = p1
+        limit = min(30000, p100 * 5)
         nextPercent = float(int(curPercent + 1))
         halfPercent = nextPercent - curPercent >= 0.5
         EDn = 0
@@ -731,23 +731,23 @@ class Worker(object):
         start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         self.levels.append(start)
         self.damages.append(EDn)
-        while start <= curPercent < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= curPercent < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
-        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < 30000 else config.i18n['NaN']  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < limit or self.replay else config.i18n['NaN']  # if d0 and self.initiated or self.replay else '[--]'
         self.levels.append(curPercent)
         self.damages.append(EDn)
         if halfPercent and config.data['showInBattleHalfPercents']:
             halfPercent = nextPercent - 0.5
-            while start <= halfPercent < 100 and 0 <= start <= 100 and EDn < 30000:
+            while start <= halfPercent < 100 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
             self.levels.append(halfPercent)
             self.damages.append(EDn)
 
-        while start <= nextPercent < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= nextPercent < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -756,7 +756,7 @@ class Worker(object):
 
         if config.data['showInBattleHalfPercents']:
             nextPercent_0_5 = nextPercent + 0.5
-            while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+            while start <= nextPercent_0_5 < 100.001 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -764,7 +764,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent1 = nextPercent + 1.0
-        while start <= nextPercent1 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= nextPercent1 < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -773,7 +773,7 @@ class Worker(object):
 
         if config.data['showInBattleHalfPercents']:
             nextPercent1_5 = nextPercent + 1.5
-            while start <= nextPercent1_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+            while start <= nextPercent1_5 < 100.001 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -781,7 +781,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent2 = nextPercent + 2.0
-        while start <= nextPercent2 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= nextPercent2 < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -790,7 +790,7 @@ class Worker(object):
 
         if config.data['showInBattleHalfPercents']:
             nextPercent2_5 = nextPercent + 2.5
-            while start <= nextPercent2_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+            while start <= nextPercent2_5 < 100.001 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -798,7 +798,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent3 = nextPercent + 3.0
-        while start <= nextPercent3 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= nextPercent3 < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -806,7 +806,7 @@ class Worker(object):
         self.damages.append(EDn)
         if config.data['showInBattleHalfPercents']:
             nextPercent3_5 = nextPercent + 3.5
-            while start <= nextPercent3_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+            while start <= nextPercent3_5 < 100.001 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -814,7 +814,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent4 = nextPercent + 4.0
-        while start <= nextPercent4 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= nextPercent4 < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -822,7 +822,7 @@ class Worker(object):
         self.damages.append(EDn)
         if config.data['showInBattleHalfPercents']:
             nextPercent4_5 = nextPercent + 4.5
-            while start <= nextPercent4_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+            while start <= nextPercent4_5 < 100.001 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -830,7 +830,7 @@ class Worker(object):
             self.damages.append(EDn)
 
         nextPercent5 = nextPercent + 5.0
-        while start <= nextPercent5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+        while start <= nextPercent5 < 100.001 and 0 <= start <= 100 and EDn < limit:
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
@@ -838,15 +838,15 @@ class Worker(object):
         self.damages.append(EDn)
         if config.data['showInBattleHalfPercents']:
             nextPercent5_5 = nextPercent + 5.5
-            while start <= nextPercent5_5 < 100.001 and 0 <= start <= 100 and EDn < 30000:
+            while start <= nextPercent5_5 < 100.001 and 0 <= start <= 100 and EDn < limit:
                 EDn += 1
                 EMA = k * EDn + (1 - k) * d1
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
             self.levels.append(nextPercent5_5)
             self.damages.append(EDn)
-        if EDn >= 30000:
+        if EDn >= limit:
             self.initiated = False
-        _, _, p20, p40, p55, p65, p85, p95, p100 = worker.calcStatistics(self.damageRating, self.movingAvgDamage)
+
         self.battleDamageRatingIndex = [0, p20, p40, p55, p65, p85, p95, p100]
 
         self.formatStrings['damageToMark65'] = config.data['battleMessage{damageToMark65}'] % p65
@@ -905,7 +905,7 @@ class Worker(object):
                 config.data['UI'] += 1
                 if config.data['UI'] > 8:
                     config.data['UI'] = 1
-                status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIMinimal'], config.i18n['UI_menu_UINormal'], config.i18n['UI_menu_UIMaximum'], config.i18n['UI_menu_UIMaximum2'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage']]
+                status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage']]
                 message = config.i18n['UI_message'] % status[config.data['UI']]
                 color = '#84DE40'
                 inject.message(message, color)
@@ -932,7 +932,7 @@ class Worker(object):
             if g_gui.get_key(config.data['buttonSizeUp']) and isKeyDownTrigger:
                 config.data['battleMessageSizeInPercent'] = min(1000, config.data['battleMessageSizeInPercent'] + 10)
                 color = '#84DE40'
-                message = config.i18n['battleMessageSizeUp'] + '<b>[%s]</b>' %config.data['battleMessageSizeInPercent'] if config.data['battleMessageSizeInPercent'] < 1000 else config.i18n['battleMessageSizeLimitMax']
+                message = config.i18n['battleMessageSizeUp'] + '<b>[%s]</b>' % config.data['battleMessageSizeInPercent'] if config.data['battleMessageSizeInPercent'] < 1000 else config.i18n['battleMessageSizeLimitMax']
                 inject.message(message, color)
                 config.data = g_gui.update_data(config.ids, config.data, 'spoter')
                 self.altMode = True
@@ -945,7 +945,7 @@ class Worker(object):
             if g_gui.get_key(config.data['buttonSizeDown']) and isKeyDownTrigger:
                 config.data['battleMessageSizeInPercent'] = max(10, config.data['battleMessageSizeInPercent'] - 10)
                 color = '#84DE40'
-                message = config.i18n['battleMessageSizeDown'] + '<b>[%s]</b>' %config.data['battleMessageSizeInPercent'] if config.data['battleMessageSizeInPercent'] > 10 else config.i18n['battleMessageSizeLimitMin']
+                message = config.i18n['battleMessageSizeDown'] + '<b>[%s]</b>' % config.data['battleMessageSizeInPercent'] if config.data['battleMessageSizeInPercent'] > 10 else config.i18n['battleMessageSizeLimitMin']
                 inject.message(message, color)
                 config.data = g_gui.update_data(config.ids, config.data, 'spoter')
                 self.altMode = True
@@ -958,7 +958,6 @@ class Worker(object):
 
     def calc(self):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
         if not self.level: return
         if not self.movingAvgDamage: return
         EDn = self.battleDamage + max(self.RADIO_ASSIST, self.TRACK_ASSIST, self.STUN_ASSIST)
@@ -992,7 +991,7 @@ class Worker(object):
         self.formatStrings['nextMarkOfGun'] = config.data['battleMessage{nextMarkOfGun}'] % nextMarkOfGun
         self.formatStrings['c_nextMarkOfGun'] = '%s%s%s' % ('<font color="%s">' % colorNextPercent if not unknown else self.formatStrings['colorOpen'], self.formatStrings['nextMarkOfGun'], self.formatStrings['colorClose'])
         self.formatStrings['damageCurrent'] = config.data['battleMessage{damageCurrent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
-        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage if damage < 30000 else config.i18n['NaN']# if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage if damage < 30000 or self.replay else config.i18n['NaN']  # if d0 and self.initiated or self.replay else '[--]'
         self.formatStrings['c_damageCurrent'] = '%s%s%s' % ('<font color="%s">' % colorNowDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageCurrent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageCurrentPercent'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['damageCurrentPercent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageNextPercent'] = '%s%s%s' % ('<font color="%s">' % colorNextDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageNextPercent'], self.formatStrings['colorClose'])
@@ -1013,7 +1012,14 @@ class Worker(object):
 
     def startBattle(self):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
+        if config.data['showInBattle']:
+            message = 'Mod: Marks of Excellence %.2f [by github.com/spoter]' % (config.version_id / 100)
+            color = '#6595EE'
+            inject.message(message, color)
+            status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage']]
+            message = config.i18n['UI_message'] % status[config.data['UI']]
+            color = '#84DE40'
+            inject.message(message, color)
         self.replay = BattleReplay.isPlaying()
         if self.replay and not config.data['showInReplay']: return
         self.startCount = 0
@@ -1037,16 +1043,23 @@ class Worker(object):
         if dBid not in config.values:
             config.values[dBid] = {}
         if self.replay:
+            test = None
             if self.name in config.values[dBid]:
-                values = config.values[dBid][self.name]
-
+                test = dBid
+            else:
+                for ids in config.values:
+                    if self.name in config.values[ids]:
+                        test = ids
+                        break
+            if test:
+                values = config.values[test][self.name]
                 self.damageRating = values[2]
                 self.movingAvgDamage = values[3]
             else:
-                self.damageRating = 1.0
-                self.movingAvgDamage = 100.0
-
+                self.damageRating = 94.0
+                self.movingAvgDamage = 3500.0
                 self.name = 'ReplayTest'
+
         if self.level and self.movingAvgDamage:
             InputHandler.g_instance.onKeyDown += self.keyPressed
             InputHandler.g_instance.onKeyUp += self.keyPressed
@@ -1065,7 +1078,6 @@ class Worker(object):
 
     def endBattle(self):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
         if self.replay and not config.data['showInReplay']: return
         if self.level and self.movingAvgDamage:
             InputHandler.g_instance.onKeyDown -= self.keyPressed
@@ -1176,7 +1188,6 @@ class Flash(object):
 
     def startBattle(self):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
         if BattleReplay.isPlaying() and not config.data['showInReplay']: return
         self.setup()
         COMPONENT_EVENT.UPDATED += self.update
@@ -1194,7 +1205,6 @@ class Flash(object):
 
     def stopBattle(self):
         if not config.data['enabled']: return
-        if not config.data['showInBattle']: return
         if BattleReplay.isPlaying() and not config.data['showInReplay']: return
         g_guiResetters.remove(self.screenResize)
         COMPONENT_EVENT.UPDATED -= self.update
