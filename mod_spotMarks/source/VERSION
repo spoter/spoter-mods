@@ -1,8 +1,0 @@
-{
-  "version": 1.10,
-  "source": "mod_spotMarks.py",
-  "meta": "configs/meta.xml",
-  "config": "configs/spotMarks.json",
-  "i18n": "configs/i18n",
-  "resources": []
-}
