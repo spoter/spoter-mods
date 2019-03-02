@@ -56,8 +56,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.01 (2019-03-02)'
-        self.version_id = 601
+        self.version = 'v6.02 (2019-03-02)'
+        self.version_id = 602
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -72,7 +72,7 @@ class Config(object):
             'buttonSizeUp'                                 : self.buttons['buttonSizeUp'],
             'buttonSizeDown'                               : self.buttons['buttonSizeDown'],
             'buttonReset'                                  : self.buttons['buttonReset'],
-            'showInBattle'                                 : True,
+            'showInBattle'                                 : False,
             'showInBattleHalfPercents'                     : False,
             'showInReplay'                                 : True,
             'showInStatistic'                              : True,
@@ -1013,7 +1013,7 @@ class Worker(object):
     def startBattle(self):
         if not config.data['enabled']: return
         if config.data['showInBattle']:
-            message = 'Mod: Marks of Excellence %.2f [by github.com/spoter]' % (config.version_id / 100)
+            message = 'Mod: Marks of Excellence %.2f [by github.com/spoter]' % (config.version_id / 100.0)
             color = '#6595EE'
             inject.message(message, color)
             status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage']]
