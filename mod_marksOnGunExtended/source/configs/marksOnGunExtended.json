@@ -85,7 +85,7 @@
         "alpha": 1,
         "quality": 1
     },
-    "showInBattle": true,
+    "showInBattle": false,
     "showInBattleHalfPercents": false,
     "showInReplay": true,
     "showInStatistic": true,
