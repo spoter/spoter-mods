@@ -3,20 +3,27 @@
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
+import Keys
 import BigWorld
 import CommandMapping
 import VehicleGunRotator
+
 from Avatar import PlayerAvatar
 from constants import VEHICLE_SIEGE_STATE, VEHICLE_SETTING, VEHICLE_MISC_STATUS
+from gui import InputHandler
+from gui.app_loader import g_appLoader
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 
 
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v2.00 (2019-02-27)'
-        self.version_id = 200
+        self.version = 'v2.01 (2019-03-02)'
+        self.version_id = 201
         self.author = 'by spoter, reven86'
+        self.buttons = {
+            'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
+        }
         self.data = {
             'version'              : self.version_id,
             'enabled'              : True,
@@ -24,7 +31,8 @@ class _Config(object):
             'fixAccuracyInMove'    : True,
             'serverTurret'         : True,
             'fixWheelCruiseControl': True,
-            'autoActivateWheelMode': True
+            'autoActivateWheelMode': True,
+            'buttonAutoMode': self.buttons['buttonAutoMode'],
 
         }
         self.i18n = {
@@ -41,6 +49,8 @@ class _Config(object):
             'UI_setting_fixWheelCruiseControl_tooltip': '{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}',
             'UI_setting_autoActivateWheelMode_text'   : 'Auto activate\deactivate Wheel mode',
             'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}',
+            'UI_setting_buttonAutoMode_text'   : 'Button: Auto mode',
+            'UI_setting_buttonAutoMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Button: Auto mode enable or disable{/BODY}',
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -63,13 +73,20 @@ class _Config(object):
                 'value'  : self.data['fixAccuracyInMove'],
                 'tooltip': self.i18n['UI_setting_fixAccuracyInMove_tooltip'],
                 'varName': 'fixAccuracyInMove'
-            }],
-            'column2'        : [{
+            }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_activateMessage_text'],
                 'value'  : self.data['activateMessage'],
                 'tooltip': self.i18n['UI_setting_activateMessage_tooltip'],
                 'varName': 'activateMessage'
+            }],
+            'column2'        : [{
+                    'type'        : 'HotKey',
+                    'text'        : self.i18n['UI_setting_buttonAutoMode_text'],
+                    'tooltip'     : self.i18n['UI_setting_buttonAutoMode_tooltip'],
+                    'value'       : self.data['buttonAutoMode'],
+                    'defaultValue': self.buttons['buttonAutoMode'],
+                    'varName'     : 'buttonAutoMode'
             }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_fixWheelCruiseControl_text'],
@@ -92,27 +109,32 @@ class _Config(object):
 
 class MovementControl(object):
     timer = None
-    custom = False
 
     @staticmethod
     def move_pressed(avatar, is_down, key):
         if CommandMapping.g_instance.isFiredList((CommandMapping.CMD_MOVE_FORWARD, CommandMapping.CMD_MOVE_FORWARD_SPEC, CommandMapping.CMD_MOVE_BACKWARD, CommandMapping.CMD_ROTATE_LEFT, CommandMapping.CMD_ROTATE_RIGHT), key):
             avatar.moveVehicle(0, is_down)
 
-    def keyPressedChangeMovement(self, is_down, key):
-        if CommandMapping.g_instance.isFired(CommandMapping.CMD_CM_VEHICLE_SWITCH_AUTOROTATION, key) and is_down:
+    def startBattle(self):
+        InputHandler.g_instance.onKeyDown += self.keyPressed
+        InputHandler.g_instance.onKeyUp += self.keyPressed
+        self.timer = BigWorld.time()
+
+    def endBattle(self):
+        InputHandler.g_instance.onKeyDown -= self.keyPressed
+        InputHandler.g_instance.onKeyUp -= self.keyPressed
+
+    def keyPressed(self, event):
+        if not _config.data['enabled']: return
+        if not g_appLoader.getDefBattleApp(): return
+        if g_gui.get_key(_config.data['buttonAutoMode']) and event.isKeyDown():
             vehicle = BigWorld.player().getVehicleAttached()
             if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
-                if vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
-                    self.custom = True
-                    return
-                timer = BigWorld.time()
-                if self.timer + 2.0 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
-                    self.timer = timer
-            self.custom = False
+                _config.data['autoActivateWheelMode'] = not _config.data['autoActivateWheelMode']
+                message = 'Wheel auto boost: %s' % ('ON' if _config.data['autoActivateWheelMode'] else 'OFF')
+                inject.message(message, '#8378FC')
 
     def changeMovement(self):
-        if self.custom: return
         vehicle = BigWorld.player().getVehicleAttached()
         if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
             fSpeedLimit, bSpeedLimit = vehicle.typeDescriptor.physics['speedLimits']
@@ -170,8 +192,6 @@ def hookPlayerAvatarHandleKey(func, *args):
         self, is_down, key, mods = args
         if _config.data['fixAccuracyInMove']:
             movement_control.move_pressed(self, is_down, key)
-        if _config.data['autoActivateWheelMode']:
-            movement_control.keyPressedChangeMovement(is_down, key)
     return func(*args)
 
 
@@ -192,7 +212,13 @@ def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec
 def hookStartGUI(func, *args):
     func(*args)
     support.start_battle()
-    movement_control.timer = BigWorld.time()
+    movement_control.startBattle()
+
+@inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
+@inject.log
+def hookDestroyGUI(func, *args):
+    movement_control.endBattle()
+    func(*args)
 
 
 @inject.hook(PlayerAvatar, 'updateVehicleMiscStatus')
