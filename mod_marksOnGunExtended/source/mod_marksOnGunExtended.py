@@ -56,8 +56,8 @@ LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.02 (2019-03-02)'
-        self.version_id = 602
+        self.version = 'v6.03 (2019-03-03)'
+        self.version_id = 603
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -844,7 +844,7 @@ class Worker(object):
                 start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
             self.levels.append(nextPercent5_5)
             self.damages.append(EDn)
-        if EDn >= limit:
+        if EDn >= min(30000, EDn * 5):
             self.initiated = False
 
         self.battleDamageRatingIndex = [0, p20, p40, p55, p65, p85, p95, p100]
