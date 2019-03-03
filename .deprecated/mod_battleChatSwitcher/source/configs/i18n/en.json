@@ -1,0 +1,8 @@
+﻿{
+    "UI_description": "Battle chat switcher",
+    "UI_message_chatOff": "Chat: disable",
+    "UI_message_chatOn": "Chat: enable",
+    "UI_setting_button_text": "Hot key: battle chat",
+    "UI_setting_button_tooltip": "{HEADER}<font color=\"#FFD700\">Info:</font>{/HEADER}{BODY}Fast disable or enable battle chat{/BODY}",
+    "version": 103
+}

@@ -1,0 +1,11 @@
+﻿{
+    "buttonShow": [
+        25,
+        [ 56, 184 ]
+    ],
+    "enabled": true,
+    "showBattleGreetings": true,
+    "showOnStartBattle": true,
+    "showOnlyLightTanks": false,
+    "version": 110
+}

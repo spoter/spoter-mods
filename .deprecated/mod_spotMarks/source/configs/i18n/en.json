@@ -1,0 +1,14 @@
+﻿{
+    "UI_description": "Passive Spot Marks",
+    "UI_message_off": "Passive Spot Marks: OFF",
+    "UI_message_on": "Passive Spot Marks: ON",
+    "UI_setting_buttonShow_text": "Button: Show spot marks",
+    "UI_setting_buttonShow_tooltip": "",
+    "UI_setting_showBattleGreetings_text": "Show greetings on start battle",
+    "UI_setting_showBattleGreetings_tooltip": "",
+    "UI_setting_showOnStartBattle_text": "Show on Start Battle",
+    "UI_setting_showOnStartBattle_tooltip": "",
+    "UI_setting_showOnlyLightTanks_text": "Show to Light Tank only",
+    "UI_setting_showOnlyLightTanks_tooltip": "",
+    "version": 110
+}

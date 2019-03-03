@@ -1,0 +1,14 @@
+﻿{
+    "UI_description": "Точки пассивного засвета",
+    "UI_message_off": "Точки пассивного засвета: OFF",
+    "UI_message_on": "Точки пассивного засвета: ON",
+    "UI_setting_buttonShow_text": "Кнопка: Показать точки",
+    "UI_setting_buttonShow_tooltip": "",
+    "UI_setting_showBattleGreetings_text": "Показывать приветствие в начале боя",
+    "UI_setting_showBattleGreetings_tooltip": "",
+    "UI_setting_showOnStartBattle_text": "Показывать с начала боя",
+    "UI_setting_showOnStartBattle_tooltip": "",
+    "UI_setting_showOnlyLightTanks_text": "Показывать только для лёгких танков",
+    "UI_setting_showOnlyLightTanks_tooltip": "",
+    "version": 110
+}

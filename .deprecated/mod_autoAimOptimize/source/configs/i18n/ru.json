@@ -1,0 +1,10 @@
+﻿{
+    "UI_description": "Улучшенный автозахват",
+    "UI_setting_angle_text": "Зона захвата цели (в градусах)",
+    "UI_setting_angle_value": "\u00b0",
+    "UI_setting_catchHiddenTarget_text": "Захватывать цели за препятствиями",
+    "UI_setting_catchHiddenTarget_tooltip": "",
+    "UI_setting_disableArtyMode_text": "Выключить в Арт режиме",
+    "UI_setting_disableArtyMode_tooltip": "",
+    "version": 105
+}
