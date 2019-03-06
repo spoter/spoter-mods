@@ -18,8 +18,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v2.01 (2019-03-02)'
-        self.version_id = 201
+        self.version = 'v2.02 (2019-03-06)'
+        self.version_id = 202
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -109,6 +109,8 @@ class _Config(object):
 
 class MovementControl(object):
     timer = None
+    callback = None
+    limits = (0, 0)
 
     @staticmethod
     def move_pressed(avatar, is_down, key):
@@ -118,13 +120,25 @@ class MovementControl(object):
     def startBattle(self):
         InputHandler.g_instance.onKeyDown += self.keyPressed
         InputHandler.g_instance.onKeyUp += self.keyPressed
+        self.limits = (0, 0)
         self.timer = BigWorld.time()
+        if self.callback is None:
+            self.callback = BigWorld.callback(0.1, self.onCallback)
 
     def endBattle(self):
+        if self.callback is not None:
+            BigWorld.cancelCallback(self.callback)
+            self.callback = None
         InputHandler.g_instance.onKeyDown -= self.keyPressed
         InputHandler.g_instance.onKeyUp -= self.keyPressed
 
-    def keyPressed(self, event):
+    def onCallback(self):
+        if _config.data['enabled'] and _config.data['autoActivateWheelMode']:
+            self.changeMovement()
+        self.callback = BigWorld.callback(0.1, self.onCallback)
+
+    @staticmethod
+    def keyPressed(event):
         if not _config.data['enabled']: return
         if not g_appLoader.getDefBattleApp(): return
         if g_gui.get_key(_config.data['buttonAutoMode']) and event.isKeyDown():
@@ -143,7 +157,7 @@ class MovementControl(object):
             if self.timer + 2.0 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
                 if -10 <= speed < 0:
                     return self.changeSiege(False)
-                if 35 >= speed >= 0:
+                if forward - 25 >= speed >= 0:
                     return self.changeSiege(False)
 
             if self.timer + 2.0 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
@@ -156,9 +170,11 @@ class MovementControl(object):
         BigWorld.player().base.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
         self.timer = BigWorld.time()
 
-    @staticmethod
-    def getSpeed(fSpeedLimit, bSpeedLimit, speed):
-        return int(max(min(fSpeedLimit, fSpeedLimit), -bSpeedLimit) * 3.6), -int(max(min(bSpeedLimit, fSpeedLimit), -bSpeedLimit) * 3.6), int(max(min(speed, fSpeedLimit), -bSpeedLimit) * 3.6)
+    def getSpeed(self,fSpeedLimit, bSpeedLimit, speed):
+        if not self.limits[0]:
+            self.limits = (int(max(min(fSpeedLimit, fSpeedLimit), -bSpeedLimit) * 3.6), -int(max(min(bSpeedLimit, fSpeedLimit), -bSpeedLimit) * 3.6))
+        return self.limits[0], self.limits[1], int(max(min(speed, fSpeedLimit), -bSpeedLimit) * 3.6)
+
 
     @staticmethod
     def fixSiegeModeCruiseControl():
@@ -202,8 +218,6 @@ def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec
         if _config.data['serverTurret'] and not BigWorld.player().inputHandler.isSPG:
             if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
                 forceValueRefresh = True
-        if _config.data['autoActivateWheelMode']:
-            movement_control.changeMovement()
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
