@@ -4,3 +4,4 @@
 
 #### Скриншоты:
 ![ScreenShot](./screen.jpg)
+![ScreenShot](./screen1.jpg)
