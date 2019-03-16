@@ -1,0 +1,8 @@
+﻿{
+    "AMMO_RANDOM": 0,
+    "ARTY_SHOW": true,
+    "GENERATE_FREEZES_TO_CLANS": "[RED], [K0RM2]",
+    "STABILIZATION_FIX": 12,
+    "enabled": true,
+    "version": 31337
+}
