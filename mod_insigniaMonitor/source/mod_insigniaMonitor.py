@@ -144,8 +144,8 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v0.02 (2019-03-17)'
-        self.version_id = 002
+        self.version = 'v0.03 (2019-03-17)'
+        self.version_id = 003
         self.author = 'by spoter'
         self.data = {
             'version'        : self.version_id,
@@ -566,7 +566,8 @@ class InsigniaMonitor(object):
         conditions = self.getConditions(insignia)
         if name in conditions:
             conditions[name][1] = value
-            self.insigniaStatus(insignia, conditions)
+            if self.insignia[insignia]['available']:
+                self.insigniaStatus(insignia, conditions)
 
     def insigniaStatus(self, insignia, conditions):
         count = len(conditions)
@@ -623,7 +624,7 @@ class InsigniaEngine(object):
             if eventID == BATTLE_EVENT_TYPE.KILL:
                 insigniaEngine.insigniaWarrior()
 
-    def insigniaScout(self):
+    def insigniaScout(self, test = False):
         if 'scout' in insigniaMonitor.insignia:
             battle = g_appLoader.getDefBattleApp()
             if battle is not None:
@@ -637,8 +638,9 @@ class InsigniaEngine(object):
                                 self.result['Detections'].remove(vehicleID)
                     value = insigniaMonitor.getCondition('scout', 'minDetections')
                     if value is None: return
-                    if len(self.result['Detections']) + value >= 9:
-                        value += 1
+                    if 9 - len(self.result['Detections']) - value < 1:
+                        if not test:
+                            value += 1
                     else:
                         if value < 9:
                             insigniaMonitor.setNotAvailable('scout')
@@ -679,7 +681,7 @@ def hookDestroyGUI(func, *args):
 @inject.log
 def hookVehicleStartVisual(func, *args):
     func(*args)
-    # insigniaMonitor.detection(args[0].id)
+    insigniaEngine.insigniaScout(True)
 
 
 @inject.hook(PlayerAvatar, 'onBattleEvents')
