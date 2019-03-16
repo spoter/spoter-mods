@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+import copy
 import BigWorld
 import GUI
 from Avatar import PlayerAvatar
@@ -143,8 +144,8 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v0.01 (2019-03-16)'
-        self.version_id = 001
+        self.version = 'v0.02 (2019-03-17)'
+        self.version_id = 002
         self.author = 'by spoter'
         self.data = {
             'version'        : self.version_id,
@@ -159,9 +160,13 @@ class Config(object):
         self.i18n = {
             'version'       : self.version_id,
             'UI_description': 'insignia monitor',
-            'minDetections' : '<img src=\"img://gui/maps/insignia/condition_assist.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
-            'scout'         : '<img src=\"img://gui/maps/insignia/scout.png\" width=\"32\" height=\"32\"/>',
-            'scout_success' : '<img src=\"img://gui/maps/insignia/scout.png\"/>'
+            'minDetections' : '<img src=\"img://gui/maps/mod_insigniaMonitor/conditions/condition_assist.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
+            'minFrags' : '<img src=\"img://gui/maps/mod_insigniaMonitor/conditions/condition_kill_vehicles.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
+
+            'scout'         : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/scout.png\" width=\"32\" height=\"32\"/>',
+            'scout_success' : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/scout.png\"/>',
+            'warrior' : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/warrior.png\" width=\"32\" height=\"32\"/>',
+            'warrior_success': '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/warrior.png\"/>',
 
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
@@ -379,8 +384,9 @@ class Flash(object):
     def removeOnPanelConditions(self, insignia):
         if insignia['panelConditions'] > 0:
             ids = insignia['panelConditions']
-            del self.panelConditionsSlots[self.panelConditionsSlots.index(ids)]
-            self.deleteObject('panelConditions.slot%s' % ids)
+            if ids in self.panelConditionsSlots:
+                del self.panelConditionsSlots[self.panelConditionsSlots.index(ids)]
+                self.deleteObject('panelConditions.slot%s' % ids)
 
     @inject.log
     def update(self, alias, props):
@@ -511,7 +517,7 @@ class InsigniaMonitor(object):
                 'conditions'     : {'minDetections': [9, 0, 5]},
             },
         }
-        self.insigniaTest = ['scout']
+        self.insigniaTest = ['scout', 'warrior']
 
     def checkArenaType(self):
         return BigWorld.player().arena.bonusType not in ARENA_BONUS_TYPE.RANDOM_RANGE
@@ -539,9 +545,9 @@ class InsigniaMonitor(object):
 
     def getAchievementCondition(self, arenaBonusType, medal):
         if arenaBonusType == ARENA_BONUS_TYPE.EPIC_RANDOM:
-            return ACHIEVEMENT_CONDITIONS_EXT[medal] if medal in ACHIEVEMENT_CONDITIONS_EXT else {}
+            return copy.deepcopy(ACHIEVEMENT_CONDITIONS_EXT[medal]) if medal in ACHIEVEMENT_CONDITIONS_EXT else {}
         if arenaBonusType == ARENA_BONUS_TYPE.REGULAR:
-            return ACHIEVEMENT_CONDITIONS[medal] if medal in ACHIEVEMENT_CONDITIONS else {}
+            return copy.deepcopy(ACHIEVEMENT_CONDITIONS[medal]) if medal in ACHIEVEMENT_CONDITIONS else {}
         return {}
 
     def getConditions(self, insignia):
@@ -584,6 +590,7 @@ class InsigniaMonitor(object):
         if insignia in self.insignia:
             if not self.insignia[insignia]['status']:
                 self.insignia[insignia]['available'] = False
+                return flash.removeOnPanelConditions(self.insignia[insignia])
 
 
 class InsigniaEngine(object):
@@ -613,6 +620,8 @@ class InsigniaEngine(object):
             eventID = feedbackEvent.getBattleEventType()
             if eventID == BATTLE_EVENT_TYPE.SPOTTED:
                 insigniaEngine.insigniaScout()
+            if eventID == BATTLE_EVENT_TYPE.KILL:
+                insigniaEngine.insigniaWarrior()
 
     def insigniaScout(self):
         if 'scout' in insigniaMonitor.insignia:
@@ -635,6 +644,13 @@ class InsigniaEngine(object):
                             insigniaMonitor.setNotAvailable('scout')
                             return
                     insigniaMonitor.setCondition('scout', 'minDetections', value)
+
+    def insigniaWarrior(self):
+        if 'warrior' in insigniaMonitor.insignia:
+            value = insigniaMonitor.getCondition('warrior', 'minFrags')
+            if value is None: return
+            value += 1
+            insigniaMonitor.setCondition('warrior', 'minFrags', value)
 
 
 config = Config()
