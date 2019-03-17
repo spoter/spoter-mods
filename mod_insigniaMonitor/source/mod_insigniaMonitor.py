@@ -342,8 +342,8 @@ class Flash(object):
         g_guiFlash.createComponent(name, type, self.data[name] if '.slot' not in name else self.data['slot'])
 
     def createSlot(self, name, slot):
-        y = slot * 40
-        self.data[name] = {'text': '', 'x': 0, 'y': y, 'tooltip': '', 'index': 1, 'multiline': True}
+        x = slot * 40
+        self.data[name] = {'text': '', 'x': x, 'y': 0, 'tooltip': '', 'index': 1, 'multiline': True}
         g_guiFlash.createComponent(name, COMPONENT_TYPE.LABEL, self.data[name])
 
     def updateObject(self, name, data):
