@@ -144,8 +144,8 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v0.03 (2019-03-17)'
-        self.version_id = 003
+        self.version = 'v1.00 (2019-03-17)'
+        self.version_id = 100
         self.author = 'by spoter'
         self.data = {
             'version'        : self.version_id,
@@ -354,7 +354,7 @@ class Flash(object):
             ids = insignia['panelSuccess']
         else:
             ids = self.panelSuccessSlots[-1] + 1 if self.panelSuccessSlots else 1
-            insigniaMonitor.insignia[name]['panelConditions'] = ids
+            insigniaMonitor.insignia[name]['panelSuccess'] = ids
             self.panelSuccessSlots.append(ids)
             self.createSlot('panelSuccess.slot%s' % ids, ids)
             self.updateObject('panelSuccess.slot%s' % ids, self.data['shadow'])
