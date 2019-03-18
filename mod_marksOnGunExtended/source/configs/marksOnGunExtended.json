@@ -92,12 +92,7 @@
     "showInTechTree": true,
     "showInTechTreeMarkOfGunPercent": true,
     "showInTechTreeMarkOfGunPercentFirst": false,
-    "showInTechTreeMarkOfGunTankNameColored": false,
-    "showInTechTreeMastery": false,
-    "techTreeMarkOfGunPercentSize": 12,
-    "techTreeMarkOfGunTankNameColoredOnlyMarkOfGun": true,
-    "techTreeMasterySize": 16,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 603
+    "version": 604
 }

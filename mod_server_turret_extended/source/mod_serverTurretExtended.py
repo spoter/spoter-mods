@@ -18,7 +18,7 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v2.02 (2019-03-06)'
+        self.version = 'v2.02 (2019-03-18)'
         self.version_id = 202
         self.author = 'by spoter, reven86'
         self.buttons = {

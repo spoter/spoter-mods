@@ -82,5 +82,5 @@
     "battleMessageSizeLimitMin": "MoE mod: Reached <b>minimum[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Reset Settings</b>",
     "battleMessageSizeUp": "MoE mod: Size <b>+10%</b>",
-    "version": 603
+    "version": 604
 }

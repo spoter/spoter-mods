@@ -144,7 +144,7 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v1.00 (2019-03-17)'
+        self.version = 'v1.00 (2019-03-18)'
         self.version_id = 100
         self.author = 'by spoter'
         self.data = {

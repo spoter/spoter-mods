@@ -51,13 +51,13 @@ battleDamageRating100 = RATING['unique']
 battleDamageRating = [battleDamageRating0, battleDamageRating20, battleDamageRating40, battleDamageRating55, battleDamageRating65, battleDamageRating85, battleDamageRating95, battleDamageRating100]
 
 LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
-
+MARKS = ['', '*', '**', '***']
 
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.03 (2019-03-03)'
-        self.version_id = 603
+        self.version = 'v6.04 (2019-03-19)'
+        self.version_id = 604
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -72,18 +72,18 @@ class Config(object):
             'buttonSizeUp'                                 : self.buttons['buttonSizeUp'],
             'buttonSizeDown'                               : self.buttons['buttonSizeDown'],
             'buttonReset'                                  : self.buttons['buttonReset'],
-            'showInBattle'                                 : False,
+            'showInBattle'                                 : True,
             'showInBattleHalfPercents'                     : False,
             'showInReplay'                                 : True,
             'showInStatistic'                              : True,
             'showInTechTree'                               : True,
-            'showInTechTreeMastery'                        : False,
+            #'showInTechTreeMastery'                        : False,
             'showInTechTreeMarkOfGunPercent'               : True,
-            'showInTechTreeMarkOfGunTankNameColored'       : False,
+            #'showInTechTreeMarkOfGunTankNameColored'       : False,
             'showInTechTreeMarkOfGunPercentFirst'          : False,
-            'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun': True,
-            'techTreeMasterySize'                          : 16,
-            'techTreeMarkOfGunPercentSize'                 : 12,
+            #'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun': False,
+            #'techTreeMasterySize'                          : 16,
+            #'techTreeMarkOfGunPercentSize'                 : 12,
             'upColor'                                      : 18,
             'downColor'                                    : 21,
             'unknownColor'                                 : 16,
@@ -246,7 +246,7 @@ class Config(object):
             'modDisplayName' : self.i18n['UI_description'],
             'settingsVersion': self.version_id,
             'enabled'        : self.data['enabled'],
-            'column1'        : [
+            'column1': [
                 {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInStatistic_text'],
@@ -317,18 +317,19 @@ class Config(object):
                     'width'       : 300,
                     'value'       : self.data['unknownColor'],
                     'varName'     : 'unknownColor'
-                }, {
-                    'type'        : 'Slider',
-                    'text'        : self.i18n['UI_setting_techTreeMasterySize_text'],
-                    'minimum'     : 1,
-                    'maximum'     : 48,
-                    'snapInterval': 1,
-                    'value'       : self.data['techTreeMasterySize'],
-                    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMasterySize_value'],
-                    'varName'     : 'techTreeMasterySize'
                 }
+                #, {
+                #    'type'        : 'Slider',
+                #    'text'        : self.i18n['UI_setting_techTreeMasterySize_text'],
+                #    'minimum'     : 1,
+                #    'maximum'     : 48,
+                #    'snapInterval': 1,
+                #    'value'       : self.data['techTreeMasterySize'],
+                #    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMasterySize_value'],
+                #    'varName'     : 'techTreeMasterySize'
+                #}
             ],
-            'column2'        : [
+            'column2': [
                 {
                     'type'        : 'HotKey',
                     'text'        : self.i18n['UI_setting_buttonShow_text'],
@@ -369,46 +370,53 @@ class Config(object):
                     'value'  : self.data['showInTechTree'],
                     'tooltip': self.i18n['UI_setting_showInTechTree_tooltip'],
                     'varName': 'showInTechTree'
-                }, {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_showInTechTreeMastery_text'],
-                    'value'  : self.data['showInTechTreeMastery'],
-                    'tooltip': self.i18n['UI_setting_showInTechTreeMastery_tooltip'],
-                    'varName': 'showInTechTreeMastery'
-                }, {
+                },
+                #{
+                #    'type'   : 'CheckBox',
+                #    'text'   : self.i18n['UI_setting_showInTechTreeMastery_text'],
+                #    'value'  : self.data['showInTechTreeMastery'],
+                #    'tooltip': self.i18n['UI_setting_showInTechTreeMastery_tooltip'],
+                #    'varName': 'showInTechTreeMastery'
+                #},
+                {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunPercent_text'],
                     'value'  : self.data['showInTechTreeMarkOfGunPercent'],
                     'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunPercent_tooltip'],
                     'varName': 'showInTechTreeMarkOfGunPercent'
-                }, {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunTankNameColored_text'],
-                    'value'  : self.data['showInTechTreeMarkOfGunTankNameColored'],
-                    'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunTankNameColored_tooltip'],
-                    'varName': 'showInTechTreeMarkOfGunTankNameColored'
-                }, {
+                },
+                #{
+                #    'type'   : 'CheckBox',
+                #    'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunTankNameColored_text'],
+                #    'value'  : self.data['showInTechTreeMarkOfGunTankNameColored'],
+                #    'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunTankNameColored_tooltip'],
+                #    'varName': 'showInTechTreeMarkOfGunTankNameColored'
+                #},
+                {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunPercentFirst_text'],
                     'value'  : self.data['showInTechTreeMarkOfGunPercentFirst'],
                     'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunPercentFirst_tooltip'],
                     'varName': 'showInTechTreeMarkOfGunPercentFirst'
-                }, {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_text'],
-                    'value'  : self.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'],
-                    'tooltip': self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_tooltip'],
-                    'varName': 'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'
-                }, {
-                    'type'        : 'Slider',
-                    'text'        : self.i18n['UI_setting_techTreeMarkOfGunPercentSize_text'],
-                    'minimum'     : 1,
-                    'maximum'     : 48,
-                    'snapInterval': 1,
-                    'value'       : self.data['techTreeMarkOfGunPercentSize'],
-                    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMarkOfGunPercentSize_value'],
-                    'varName'     : 'techTreeMarkOfGunPercentSize'
-                }]
+                },
+                #{
+                #    'type'   : 'CheckBox',
+                #    'text'   : self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_text'],
+                #    'value'  : self.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'],
+                #    'tooltip': self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_tooltip'],
+                #    'varName': 'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'
+                #},
+                #{
+                #    'type'        : 'Slider',
+                #    'text'        : self.i18n['UI_setting_techTreeMarkOfGunPercentSize_text'],
+                #    'minimum'     : 1,
+                #    'maximum'     : 48,
+                #    'snapInterval': 1,
+                #    'value'       : self.data['techTreeMarkOfGunPercentSize'],
+                #    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMarkOfGunPercentSize_value'],
+                #    'varName'     : 'techTreeMarkOfGunPercentSize'
+                #}
+            ]
         }
 
     def generator_menu(self):
@@ -1486,25 +1494,25 @@ def getExtraInfo(func, *args):
             except StandardError:
                 pass
         if dossier:
-            masteryStr = ''
+            #masteryStr = ''
             percentText = ''
             markOfGun = dossier.getTotalStats().getAchievement(MARK_ON_GUN_RECORD)
-            markOfGunValue = markOfGun.getValue()
-            mastery = dossier.getTotalStats().getAchievement(MARK_OF_MASTERY_RECORD)
-            masteryValue = mastery.getValue()
-            color = ['#F8F400', '#60FF00', '#02C9B3', '#D042F3']
+            markOfGunValue = MARKS[markOfGun.getValue()]
+            #mastery = dossier.getTotalStats().getAchievement(MARK_OF_MASTERY_RECORD)
+            #masteryValue = mastery.getValue()
+            #color = ['#F8F400', '#60FF00', '#02C9B3', '#D042F3']
             percent = float(dossier.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0)
-            if config.data['showInTechTreeMastery'] and masteryValue and masteryValue < 5:
-                masteryStr = '<img src="img://gui/%s" width="%s" height="%s" vspace="-%s"/>' % (mastery.getSmallIcon().replace('../', ''), config.data['techTreeMasterySize'], config.data['techTreeMasterySize'], config.data['techTreeMasterySize'])
+            #if config.data['showInTechTreeMastery'] and masteryValue and masteryValue < 5:
+            #    masteryStr = '<img src="img://gui/%s" width="%s" height="%s" vspace="-%s"/>' % (mastery.getSmallIcon().replace('../', ''), config.data['techTreeMasterySize'], config.data['techTreeMasterySize'], config.data['techTreeMasterySize'])
             if config.data['showInTechTreeMarkOfGunPercent'] and percent:
-                percentText = '<font size="%s" color="%s"> %s%%</font>' % (config.data['techTreeMarkOfGunPercentSize'], color[markOfGunValue], percent)
-            if config.data['showInTechTreeMarkOfGunTankNameColored'] and percent:
-                if config.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun']:
-                    if markOfGunValue:
-                        result['nameString'] = '<font color="%s">%s</font>' % (color[markOfGunValue], result['nameString'])
-                else:
-                    result['nameString'] = '<font color="%s">%s</font>' % (color[markOfGunValue], result['nameString'])
-            result['nameString'] = '%s%s%s' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText, masteryStr)
+                percentText = ':%s%s%%' % (markOfGunValue, percent)
+            #if config.data['showInTechTreeMarkOfGunTankNameColored'] and percent:
+            #    if config.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun']:
+            #        if markOfGunValue:
+            #            result['nameString'] = '<font color="%s">%s</font>' % (color[markOfGunValue], result['nameString'])
+            #    else:
+            #        result['nameString'] = '<font color="%s">%s</font>' % (color[markOfGunValue], result['nameString'])
+            result['nameString'] = '%s%s' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText)
 
     return result
 
