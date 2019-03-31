@@ -18,6 +18,7 @@ from gui.Scaleform.daapi.view.lobby.techtree.dumpers import NationObjDumper
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
 from gui.app_loader import g_appLoader
 from gui.battle_control.controllers import feedback_events
+# noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TYPE, g_gui, g_guiFlash, inject
 from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
 from helpers import dependency
@@ -56,7 +57,7 @@ MARKS = ['', '*', '**', '***']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.04 (2019-03-19)'
+        self.version = 'v6.04 (2019-04-01)'
         self.version_id = 604
         self.author = 'by spoter to b4it.org'
         self.buttons = {
@@ -233,7 +234,7 @@ class Config(object):
             'battleMessageSizeLimitMin'                                       : 'MoE mod: Reached <b>minimum[10%]</b>',
             'battleMessageSizeLimitMax'                                       : 'MoE mod: Reached <b>maximum[1000%]</b>',
             'battleMessageSizeReset'                                          : 'MoE mod: Reset Settings</b>',
-            'NaN'                                                             : '[<b>play more</b>]',
+            'NaN'                                                             : '[<b>NaN</b>]',
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
