@@ -2,6 +2,9 @@
 import datetime
 import math
 
+# noinspection PyUnresolvedReferences
+from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TYPE, g_gui, g_guiFlash, inject
+
 import BattleReplay
 import BigWorld
 import GUI
@@ -11,15 +14,12 @@ from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from CurrentVehicle import g_currentVehicle
 from Vehicle import Vehicle
 from constants import ARENA_BONUS_TYPE
-from dossiers2.ui.achievements import ACHIEVEMENT_BLOCK, MARK_OF_MASTERY_RECORD, MARK_ON_GUN_RECORD
+from dossiers2.ui.achievements import ACHIEVEMENT_BLOCK, MARK_ON_GUN_RECORD
 from gui import InputHandler, g_guiResetters
-from gui.Scaleform.daapi.view.lobby.profile.ProfileUtils import ProfileUtils
 from gui.Scaleform.daapi.view.lobby.techtree.dumpers import NationObjDumper
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
 from gui.app_loader import g_appLoader
 from gui.battle_control.controllers import feedback_events
-# noinspection PyUnresolvedReferences
-from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TYPE, g_gui, g_guiFlash, inject
 from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
 from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
@@ -37,8 +37,6 @@ RATING = {
     'very_good': '#02C9B3',
     'unique'   : '#D042F3'
 }
-# statisticRating = [RATING['normal'], RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique'], RATING['unique']]
-# techTreeRating = [RATING['normal'], RATING['good'], RATING['very_good'], RATING['unique']]
 
 battleDamageRating0 = RATING['very_bad']
 battleDamageRating20 = RATING['very_bad']
@@ -54,11 +52,12 @@ battleDamageRating = [battleDamageRating0, battleDamageRating20, battleDamageRat
 LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 MARKS = ['', '*', '**', '***']
 
+
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.04 (2019-04-01)'
-        self.version_id = 604
+        self.version = 'v6.05 (2019-04-05)'
+        self.version_id = 605
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -67,74 +66,69 @@ class Config(object):
             'buttonReset'   : [Keys.KEY_DELETE, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL], [Keys.KEY_LSHIFT, Keys.KEY_RSHIFT]],
         }
         self.data = {
-            'version'                                      : self.version_id,
-            'enabled'                                      : True,
-            'buttonShow'                                   : self.buttons['buttonShow'],
-            'buttonSizeUp'                                 : self.buttons['buttonSizeUp'],
-            'buttonSizeDown'                               : self.buttons['buttonSizeDown'],
-            'buttonReset'                                  : self.buttons['buttonReset'],
-            'showInBattle'                                 : True,
-            'showInBattleHalfPercents'                     : False,
-            'showInReplay'                                 : True,
-            'showInStatistic'                              : True,
-            'showInTechTree'                               : True,
-            #'showInTechTreeMastery'                        : False,
-            'showInTechTreeMarkOfGunPercent'               : True,
-            #'showInTechTreeMarkOfGunTankNameColored'       : False,
-            'showInTechTreeMarkOfGunPercentFirst'          : False,
-            #'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun': False,
-            #'techTreeMasterySize'                          : 16,
-            #'techTreeMarkOfGunPercentSize'                 : 12,
-            'upColor'                                      : 18,
-            'downColor'                                    : 21,
-            'unknownColor'                                 : 16,
-            'font'                                         : '$IMELanguageBar',
-            'background'                                   : True,
-            'backgroundImage'                              : '../maps/icons/quests/inBattleHint.png',
-            'backgroundData'                               : {'alpha': 1.0},
-            'shadow'                                       : True,
-            'panelSize'                                    : {'widthAlt': 163, 'heightAlt': 80, 'widthNormal': 163, 'heightNormal': 50},
-            'panel'                                        : {'x': 230, 'y': -228, 'width': 163, 'height': 50, 'drag': True, 'border': True, 'alignX': COMPONENT_ALIGN.LEFT, 'alignY': COMPONENT_ALIGN.BOTTOM},
-            'shadowText'                                   : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 1, 'blurX': 1, 'blurY': 1, 'strength': 1, 'quality': 1},
-            'battleMessage'                                : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
-                                                             '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
+            'version'                               : self.version_id,
+            'enabled'                               : True,
+            'buttonShow'                            : self.buttons['buttonShow'],
+            'buttonSizeUp'                          : self.buttons['buttonSizeUp'],
+            'buttonSizeDown'                        : self.buttons['buttonSizeDown'],
+            'buttonReset'                           : self.buttons['buttonReset'],
+            'showInBattle'                          : True,
+            'showInBattleHalfPercents'              : False,
+            'showInReplay'                          : True,
+            'showInStatistic'                       : True,
+            'showInTechTree'                        : True,
+            'showInTechTreeMarkOfGunPercent'        : True,
+            'showInTechTreeMarkOfGunPercentFirst'   : False,
+            'upColor'                               : 18,
+            'downColor'                             : 21,
+            'unknownColor'                          : 16,
+            'font'                                  : '$IMELanguageBar',
+            'background'                            : True,
+            'backgroundImage'                       : '../maps/icons/quests/inBattleHint.png',
+            'backgroundData'                        : {'alpha': 1.0},
+            'shadow'                                : True,
+            'panelSize'                             : {'widthAlt': 163, 'heightAlt': 80, 'widthNormal': 163, 'heightNormal': 50},
+            'panel'                                 : {'x': 230, 'y': -228, 'width': 163, 'height': 50, 'drag': True, 'border': True, 'alignX': COMPONENT_ALIGN.LEFT, 'alignY': COMPONENT_ALIGN.BOTTOM},
+            'shadowText'                            : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 1, 'blurX': 1, 'blurY': 1, 'strength': 1, 'quality': 1},
+            'battleMessage'                         : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+                                                      '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
 
-            'battleMessageAlt'                             : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
-                                                             '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
-                                                             '{c_damageToMark65}{c_damageToMark85}\n'
-                                                             '{c_damageToMark95}{c_damageToMark100}',
-            'battleMessage{status}Up'                      : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_online.png\" vspace=\"-5\"/>',
-            'battleMessage{c_status}Up'                    : 'Δ',
-            'battleMessage{status}Down'                    : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy.png\" vspace=\"-5\"/>',
-            'battleMessage{c_status}Down'                  : 'V',
-            'battleMessage{status}Unknown'                 : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy_violet.png\" vspace=\"-5\"/>',
-            'battleMessage{c_status}Unknown'               : '~',
-            'battleMessage{battleMarkOfGun}'               : '%.2f%%',
-            'battleMessage{c_battleMarkOfGun}'             : '%s',
-            'battleMessage{currentMarkOfGun}'              : '%.2f%%',
-            'battleMessage{c_currentMarkOfGun}'            : '%s',
-            'battleMessage{nextMarkOfGun}'                 : '%.1f%%',
-            'battleMessage{c_nextMarkOfGun}'               : '%s',
-            'battleMessage{damageCurrent}'                 : '[<b>%.0f</b>]',
-            'battleMessage{c_damageCurrent}'               : '%s',
-            'battleMessage{damageCurrentPercent}'          : '[<b>%.0f</b>]',
-            'battleMessage{c_damageCurrentPercent}'        : '%s',
-            'battleMessage{damageNextPercent}'             : '[<b>%.0f</b>]',
-            'battleMessage{c_damageNextPercent}'           : '%s',
-            'battleMessage{damageToMark65}'                : '<b>65%%:%.0f</b>, ',
-            'battleMessage{c_damageToMark65}'              : '%s',
-            'battleMessage{damageToMark85}'                : '<b>85%%:%.0f</b>',
-            'battleMessage{c_damageToMark85}'              : '%s',
-            'battleMessage{damageToMark95}'                : '<b>95%%:%.0f</b>, ',
-            'battleMessage{c_damageToMark95}'              : '%s',
-            'battleMessage{damageToMark100}'               : '<b>100%%:%.0f</b>',
-            'battleMessage{c_damageToMark100}'             : '%s',
-            'battleMessage{damageToMarkInfo}'              : '%s',
-            'battleMessage{c_damageToMarkInfo}'            : '%s',
-            'battleMessage{damageToMarkInfoLevel}'         : '%s%%',
-            'battleMessage{c_damageToMarkInfoLevel}'       : '%s',
-            'battleMessageSizeInPercent'                   : 100,
-            'UI'                                           : 1
+            'battleMessageAlt'                      : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+                                                      '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
+                                                      '{c_damageToMark65}{c_damageToMark85}\n'
+                                                      '{c_damageToMark95}{c_damageToMark100}',
+            'battleMessage{status}Up'               : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_online.png\" vspace=\"-5\"/>',
+            'battleMessage{c_status}Up'             : 'Δ',
+            'battleMessage{status}Down'             : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy.png\" vspace=\"-5\"/>',
+            'battleMessage{c_status}Down'           : 'V',
+            'battleMessage{status}Unknown'          : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy_violet.png\" vspace=\"-5\"/>',
+            'battleMessage{c_status}Unknown'        : '~',
+            'battleMessage{battleMarkOfGun}'        : '%.2f%%',
+            'battleMessage{c_battleMarkOfGun}'      : '%s',
+            'battleMessage{currentMarkOfGun}'       : '%.2f%%',
+            'battleMessage{c_currentMarkOfGun}'     : '%s',
+            'battleMessage{nextMarkOfGun}'          : '%.1f%%',
+            'battleMessage{c_nextMarkOfGun}'        : '%s',
+            'battleMessage{damageCurrent}'          : '[<b>%.0f</b>]',
+            'battleMessage{c_damageCurrent}'        : '%s',
+            'battleMessage{damageCurrentPercent}'   : '[<b>%.0f</b>]',
+            'battleMessage{c_damageCurrentPercent}' : '%s',
+            'battleMessage{damageNextPercent}'      : '[<b>%.0f</b>]',
+            'battleMessage{c_damageNextPercent}'    : '%s',
+            'battleMessage{damageToMark65}'         : '<b>65%%:%.0f</b>, ',
+            'battleMessage{c_damageToMark65}'       : '%s',
+            'battleMessage{damageToMark85}'         : '<b>85%%:%.0f</b>',
+            'battleMessage{c_damageToMark85}'       : '%s',
+            'battleMessage{damageToMark95}'         : '<b>95%%:%.0f</b>, ',
+            'battleMessage{c_damageToMark95}'       : '%s',
+            'battleMessage{damageToMark100}'        : '<b>100%%:%.0f</b>',
+            'battleMessage{c_damageToMark100}'      : '%s',
+            'battleMessage{damageToMarkInfo}'       : '%s',
+            'battleMessage{c_damageToMarkInfo}'     : '%s',
+            'battleMessage{damageToMarkInfoLevel}'  : '%s%%',
+            'battleMessage{c_damageToMarkInfoLevel}': '%s',
+            'battleMessageSizeInPercent'            : 100,
+            'UI'                                    : 1
         }
         self.i18n = {
             'version'                                                         : self.version_id,
@@ -218,16 +212,16 @@ class Config(object):
             'UI_menu_yellow'                                                  : 'Yellow',
             'UI_menu_nice_red'                                                : 'Nice Red',
             'UI_menu_white'                                                   : 'White',
-            'UI_tooltips'                                                     : '<font color=\"#FFFFFF\" size=\"12\">{currentDamage} current total damage</font>\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> total damage\n'
+            'UI_tooltips'                                                     : '<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} current moving average damage</font>\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> moving average damage\n'
                                                                                 'This statistic available to last battle on this vehicle\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">20% </font>   need <font color=\"#F8F400\" size=\"12\">~{_20}</font> total damage\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">40% </font>   need <font color=\"#F8F400\" size=\"12\">~{_40}</font> total damage\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">55% </font>   need <font color=\"#F8F400\" size=\"12\">~{_55}</font> total damage\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">65% </font>   need <font color=\"#60FF00\" size=\"12\">~{_65}</font> total damage\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> total damage\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> total damage\n'
-                                                                                'To <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> total damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">20% </font>   need <font color=\"#F8F400\" size=\"12\">~{_20}</font> moving average damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">40% </font>   need <font color=\"#F8F400\" size=\"12\">~{_40}</font> moving average damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">55% </font>   need <font color=\"#F8F400\" size=\"12\">~{_55}</font> moving average damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">65% </font>   need <font color=\"#60FF00\" size=\"12\">~{_65}</font> moving average damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> moving average damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> moving average damage\n'
+                                                                                'To <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> moving average damage\n'
                                                                                 'Used statistic after patch 0.8.8',
             'battleMessageSizeUp'                                             : 'MoE mod: Size <b>+10%</b>',
             'battleMessageSizeDown'                                           : 'MoE mod: Size <b>-10%</b>',
@@ -247,7 +241,7 @@ class Config(object):
             'modDisplayName' : self.i18n['UI_description'],
             'settingsVersion': self.version_id,
             'enabled'        : self.data['enabled'],
-            'column1': [
+            'column1'        : [
                 {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInStatistic_text'],
@@ -319,18 +313,8 @@ class Config(object):
                     'value'       : self.data['unknownColor'],
                     'varName'     : 'unknownColor'
                 }
-                #, {
-                #    'type'        : 'Slider',
-                #    'text'        : self.i18n['UI_setting_techTreeMasterySize_text'],
-                #    'minimum'     : 1,
-                #    'maximum'     : 48,
-                #    'snapInterval': 1,
-                #    'value'       : self.data['techTreeMasterySize'],
-                #    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMasterySize_value'],
-                #    'varName'     : 'techTreeMasterySize'
-                #}
             ],
-            'column2': [
+            'column2'        : [
                 {
                     'type'        : 'HotKey',
                     'text'        : self.i18n['UI_setting_buttonShow_text'],
@@ -372,13 +356,6 @@ class Config(object):
                     'tooltip': self.i18n['UI_setting_showInTechTree_tooltip'],
                     'varName': 'showInTechTree'
                 },
-                #{
-                #    'type'   : 'CheckBox',
-                #    'text'   : self.i18n['UI_setting_showInTechTreeMastery_text'],
-                #    'value'  : self.data['showInTechTreeMastery'],
-                #    'tooltip': self.i18n['UI_setting_showInTechTreeMastery_tooltip'],
-                #    'varName': 'showInTechTreeMastery'
-                #},
                 {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunPercent_text'],
@@ -386,13 +363,6 @@ class Config(object):
                     'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunPercent_tooltip'],
                     'varName': 'showInTechTreeMarkOfGunPercent'
                 },
-                #{
-                #    'type'   : 'CheckBox',
-                #    'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunTankNameColored_text'],
-                #    'value'  : self.data['showInTechTreeMarkOfGunTankNameColored'],
-                #    'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunTankNameColored_tooltip'],
-                #    'varName': 'showInTechTreeMarkOfGunTankNameColored'
-                #},
                 {
                     'type'   : 'CheckBox',
                     'text'   : self.i18n['UI_setting_showInTechTreeMarkOfGunPercentFirst_text'],
@@ -400,23 +370,6 @@ class Config(object):
                     'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunPercentFirst_tooltip'],
                     'varName': 'showInTechTreeMarkOfGunPercentFirst'
                 },
-                #{
-                #    'type'   : 'CheckBox',
-                #    'text'   : self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_text'],
-                #    'value'  : self.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'],
-                #    'tooltip': self.i18n['UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_tooltip'],
-                #    'varName': 'techTreeMarkOfGunTankNameColoredOnlyMarkOfGun'
-                #},
-                #{
-                #    'type'        : 'Slider',
-                #    'text'        : self.i18n['UI_setting_techTreeMarkOfGunPercentSize_text'],
-                #    'minimum'     : 1,
-                #    'maximum'     : 48,
-                #    'snapInterval': 1,
-                #    'value'       : self.data['techTreeMarkOfGunPercentSize'],
-                #    'format'      : '{{value}}%s' % self.i18n['UI_setting_techTreeMarkOfGunPercentSize_value'],
-                #    'varName'     : 'techTreeMarkOfGunPercentSize'
-                #}
             ]
         }
 
@@ -484,12 +437,12 @@ class Worker(object):
             'color'                  : ''
         }
         self.messages = {
-            'battleMessageskill4ltu'       : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
-            'battleMessageskill4ltuAlt'    : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
+            'battleMessageskill4ltu'     : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n',
+            'battleMessageskill4ltuAlt'  : '<font size=\"20\">{c_battleMarkOfGun} ({currentMarkOfGun}){status}</font>\n'
                                            '<font size=\"12\">{c_damageCurrent} ({damageCurrentPercent})</font>',
 
-            'battleMessagesMyp'        : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
-            'battleMessagesMypAlt'     : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
+            'battleMessagesMyp'          : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n',
+            'battleMessagesMypAlt'       : '<font size=\"20\">{c_battleMarkOfGun}{c_damageCurrent}{status}</font>\n'
                                            '<font size=\"15\">{currentMarkOfGun}{damageCurrentPercent}</font>',
 
             'battleMessagesspoter'       : '<font size=\"20\">{c_battleMarkOfGun}:{c_damageCurrent}{status}</font>\n'
@@ -501,10 +454,10 @@ class Worker(object):
                                            '{currentMarkOfGun}:{damageCurrentPercent}</font>\n'
                                            '<font size=\"12\">{c_damageToMark65}{c_damageToMark85}\n'
                                            '{c_damageToMark95}{c_damageToMark100}</font>',
-            'battleMessagescircon'      : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+            'battleMessagescircon'       : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                            '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
 
-            'battleMessagescirconAlt'   : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
+            'battleMessagescirconAlt'    : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                            '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n'
                                            '<font size=\"12\">{c_damageToMark65}{c_damageToMark85}\n'
                                            '{c_damageToMark95}{c_damageToMark100}</font>',
@@ -744,7 +697,7 @@ class Worker(object):
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
-        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < limit or self.replay else config.i18n['NaN']  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < limit or self.replay else config.i18n['NaN']
         self.levels.append(curPercent)
         self.damages.append(EDn)
         if halfPercent and config.data['showInBattleHalfPercents']:
@@ -994,13 +947,13 @@ class Worker(object):
             self.formatStrings['status'] = config.data['battleMessage{status}Unknown']
             self.formatStrings['c_status'] = '%s%s%s' % (self.formatStrings['colorOpen'], config.data['battleMessage{c_status}Unknown'], self.formatStrings['colorClose'])
             unknown = True
-        self.formatStrings['battleMarkOfGun'] = config.data['battleMessage{battleMarkOfGun}'] % nextMark  # if d0 and self.initiated or self.replay else '--.--%'
-        self.formatStrings['c_battleMarkOfGun'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['battleMarkOfGun'], self.formatStrings['colorClose'])  # if d0 and self.initiated or self.replay else '--.--%'
+        self.formatStrings['battleMarkOfGun'] = config.data['battleMessage{battleMarkOfGun}'] % nextMark
+        self.formatStrings['c_battleMarkOfGun'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['battleMarkOfGun'], self.formatStrings['colorClose'])
         nextMarkOfGun, damage, colorNowDamage, colorNextDamage, colorNextPercent = self.getColor(nextMark, EDn)
         self.formatStrings['nextMarkOfGun'] = config.data['battleMessage{nextMarkOfGun}'] % nextMarkOfGun
         self.formatStrings['c_nextMarkOfGun'] = '%s%s%s' % ('<font color="%s">' % colorNextPercent if not unknown else self.formatStrings['colorOpen'], self.formatStrings['nextMarkOfGun'], self.formatStrings['colorClose'])
-        self.formatStrings['damageCurrent'] = config.data['battleMessage{damageCurrent}'] % EDn  # if d0 and self.initiated or self.replay else '[--]'
-        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage if damage < 30000 or self.replay else config.i18n['NaN']  # if d0 and self.initiated or self.replay else '[--]'
+        self.formatStrings['damageCurrent'] = config.data['battleMessage{damageCurrent}'] % EDn
+        self.formatStrings['damageNextPercent'] = config.data['battleMessage{damageNextPercent}'] % damage if damage < 30000 or self.replay else config.i18n['NaN']
         self.formatStrings['c_damageCurrent'] = '%s%s%s' % ('<font color="%s">' % colorNowDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageCurrent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageCurrentPercent'] = '%s%s%s' % (self.formatStrings['colorOpen'], self.formatStrings['damageCurrentPercent'], self.formatStrings['colorClose'])
         self.formatStrings['c_damageNextPercent'] = '%s%s%s' % ('<font color="%s">' % colorNextDamage if not unknown else self.formatStrings['colorOpen'], self.formatStrings['damageNextPercent'], self.formatStrings['colorClose'])
@@ -1013,8 +966,8 @@ class Worker(object):
         if vehicle is None: return
         return vehicle.id == BigWorld.player().playerVehicleID
 
+    # noinspection PyUnusedLocal
     def onVehicleKilled(self, target_id, attacker_id, equipment_id, reason):
-        # _, _, _ = attacker_id, reason, equipment_id
         if target_id == BigWorld.player().playerVehicleID:
             self.killed = True
             self.calc()
@@ -1233,7 +1186,6 @@ class Flash(object):
 
     @inject.log
     def update(self, alias, props):
-        # Component "testSprite" updated : {'y': 32.0, 'x': 256.0}
         if str(alias) == str(config.ids):
             x = int(props.get('x', config.data['panel']['x']))
             if x and x != int(config.data['panel']['x']):
@@ -1259,9 +1211,6 @@ class Flash(object):
             COMPONENT_TYPE.LABEL: {'text': '', 'index': 1, 'multiline': True},
             'shadow'            : {'shadow': config.data.get('shadowText')}
         }
-        # for name in self.data:
-        #    self.data[name]['width'] = config.data['panel'].get('width')
-        #    self.data[name]['height'] = config.data['panel'].get('height')
 
     def setupSize(self, h=None, w=None):
         height = int(config.data['panelSize'].get('heightNormal', 50)) if not worker.altMode else int(config.data['panelSize'].get('heightAlt', 80))
@@ -1299,19 +1248,20 @@ class Flash(object):
         if config.data['background']:
             self.updateObject(COMPONENT_TYPE.IMAGE, data)
 
-    def textRepSize(self, message):
+    @staticmethod
+    def textRepSize(message):
         mod = False
         text = ''
         count = 0
-        for id in message.split('\"'):
+        for ids in message.split('\"'):
             if count:
                 text += '"'
             if mod:
-                text += '%s' % (int(id) * config.data['battleMessageSizeInPercent'] / 100)
+                text += '%s' % (int(ids) * config.data['battleMessageSizeInPercent'] / 100)
                 mod = False
             else:
-                text += '%s' % id
-            if 'size=' in id:
+                text += '%s' % ids
+            if 'size=' in ids:
                 mod = True
             count += 1
         return text
@@ -1444,27 +1394,20 @@ def getUserCondition(func, *args):
             targetData = worker.dossier
             damageRating = targetData.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0
             movingAvgDamage = targetData.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'movingAvgDamage')
-            damage = ProfileUtils.getValueOrUnavailable(ProfileUtils.getValueOrUnavailable(targetData.getRandomStats().getAvgDamage()))
-            # noinspection PyProtectedMember
-            track = ProfileUtils.getValueOrUnavailable(targetData.getRandomStats()._getAvgValue(targetData.getRandomStats().getBattlesCountVer2, targetData.getRandomStats().getDamageAssistedTrack))
-            # noinspection PyProtectedMember
-            radio = ProfileUtils.getValueOrUnavailable(targetData.getRandomStats()._getAvgValue(targetData.getRandomStats().getBattlesCountVer2, targetData.getRandomStats().getDamageAssistedRadio))
-            stun = ProfileUtils.getValueOrUnavailable(targetData.getRandomStats().getAvgDamageAssistedStun())
-            currentDamage = int(damage + max(track, radio, stun))
             if damageRating:
                 pC, dC, p20, p40, p55, p65, p85, p95, p100 = worker.calcStatistics(damageRating, movingAvgDamage)
                 color = ['#F8F400', '#F8F400', '#60FF00', '#02C9B3', '#D042F3', '#D042F3']
                 levels = [p55, p65, p85, p95, p100, 10000000]
-                data = {'nextPercent'  : '%.0f' % pC,
-                        'needDamage'   : '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= int(dC), levels)[0])], int(dC)),
-                        'currentDamage': '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= currentDamage, levels)[0])], currentDamage),
-                        '_20'          : worker.getNormalizeDigits(p20),
-                        '_40'          : worker.getNormalizeDigits(p40),
-                        '_55'          : worker.getNormalizeDigits(p55),
-                        '_65'          : worker.getNormalizeDigits(p65),
-                        '_85'          : worker.getNormalizeDigits(p85),
-                        '_95'          : worker.getNormalizeDigits(p95),
-                        '_100'         : worker.getNormalizeDigits(p100)
+                data = {'nextPercent'           : '%.0f' % pC,
+                        'needDamage'            : '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= int(dC), levels)[0])], int(dC)),
+                        'currentMovingAvgDamage': '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= movingAvgDamage, levels)[0])], movingAvgDamage),
+                        '_20'                   : worker.getNormalizeDigits(p20),
+                        '_40'                   : worker.getNormalizeDigits(p40),
+                        '_55'                   : worker.getNormalizeDigits(p55),
+                        '_65'                   : worker.getNormalizeDigits(p65),
+                        '_85'                   : worker.getNormalizeDigits(p85),
+                        '_95'                   : worker.getNormalizeDigits(p95),
+                        '_100'                  : worker.getNormalizeDigits(p100)
                         }
                 temp = config.i18n['UI_tooltips'].format(**data)
                 return temp
@@ -1495,24 +1438,12 @@ def getExtraInfo(func, *args):
             except StandardError:
                 pass
         if dossier:
-            #masteryStr = ''
             percentText = ''
             markOfGun = dossier.getTotalStats().getAchievement(MARK_ON_GUN_RECORD)
             markOfGunValue = MARKS[markOfGun.getValue()]
-            #mastery = dossier.getTotalStats().getAchievement(MARK_OF_MASTERY_RECORD)
-            #masteryValue = mastery.getValue()
-            #color = ['#F8F400', '#60FF00', '#02C9B3', '#D042F3']
             percent = float(dossier.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0)
-            #if config.data['showInTechTreeMastery'] and masteryValue and masteryValue < 5:
-            #    masteryStr = '<img src="img://gui/%s" width="%s" height="%s" vspace="-%s"/>' % (mastery.getSmallIcon().replace('../', ''), config.data['techTreeMasterySize'], config.data['techTreeMasterySize'], config.data['techTreeMasterySize'])
             if config.data['showInTechTreeMarkOfGunPercent'] and percent:
                 percentText = ':%s%s%%' % (markOfGunValue, percent)
-            #if config.data['showInTechTreeMarkOfGunTankNameColored'] and percent:
-            #    if config.data['techTreeMarkOfGunTankNameColoredOnlyMarkOfGun']:
-            #        if markOfGunValue:
-            #            result['nameString'] = '<font color="%s">%s</font>' % (color[markOfGunValue], result['nameString'])
-            #    else:
-            #        result['nameString'] = '<font color="%s">%s</font>' % (color[markOfGunValue], result['nameString'])
             result['nameString'] = '%s%s' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText)
 
     return result
