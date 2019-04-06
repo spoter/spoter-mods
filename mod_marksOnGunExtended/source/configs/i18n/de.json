@@ -1,4 +1,6 @@
 ﻿{
+    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font> </b>",
     "NaN": "[<b>NaN</b>]",
     "UI_description": "Marks of Excellence Extended",
     "UI_menu_UIConfig": "Config",
@@ -53,6 +55,8 @@
     "UI_setting_showInBattleHalfPercents_tooltip": "",
     "UI_setting_showInBattle_text": "Gefecht: Willkommensnachricht",
     "UI_setting_showInBattle_tooltip": "",
+    "UI_setting_showInHangar_text": "Hangar: MoE Mod anzeigen",
+    "UI_setting_showInHangar_tooltip": "",
     "UI_setting_showInReplay_text": "Demo[test]: aktiviert",
     "UI_setting_showInReplay_tooltip": "{HEADER}In Demos anzeigen{/HEADER}{BODY}Nicht gut, aber nützlich für Tests{/BODY}",
     "UI_setting_showInStatistic_text": "Statistik: aktiviert",
@@ -83,5 +87,5 @@
     "battleMessageSizeLimitMin": "MoE mod: <b>minimum[10%]</b> erreicht",
     "battleMessageSizeReset": "MoE mod: Einstellungen zurücksetzen</b>",
     "battleMessageSizeUp": "MoE mod: Größe <b>+10%</b>",
-    "version": 605
+    "version": 700
 }

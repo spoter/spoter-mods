@@ -1,4 +1,6 @@
 ﻿{
+    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font> </b>",
     "NaN": "[<b>NaN</b>]",
     "UI_description": "Отметки на Орудии Extended",
     "UI_menu_UIConfig": "Из конфига",
@@ -52,6 +54,8 @@
     "UI_setting_showInBattle_tooltip": "",
     "UI_setting_showInBattleHalfPercents_text": "Бой: показывать урон для +0.5%",
     "UI_setting_showInBattleHalfPercents_tooltip": "",
+    "UI_setting_showInHangar_text": "Ангар: Показывать мод отметок",
+    "UI_setting_showInHangar_tooltip": "",
     "UI_setting_showInReplay_text": "Реплей[тест]: доступность мода",
     "UI_setting_showInReplay_tooltip": "{HEADER}Показывать в реплеях{/HEADER}{BODY}Данные НЕ ТОЧНЫЕ! Только для тестирования.{/BODY}",
     "UI_setting_showInStatistic_text": "Достижения на технике: доступность мода",
@@ -82,5 +86,5 @@
     "battleMessageSizeLimitMin": "MoE mod: Достигнут <b>минимум[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Сброс настроек</b>",
     "battleMessageSizeUp": "MoE mod: Размер <b>+10%</b>",
-    "version": 605
+    "version": 700
 }

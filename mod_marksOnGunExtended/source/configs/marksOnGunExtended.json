@@ -87,6 +87,7 @@
     },
     "showInBattle": true,
     "showInBattleHalfPercents": false,
+    "showInHangar": true,
     "showInReplay": true,
     "showInStatistic": true,
     "showInTechTree": true,
@@ -94,5 +95,5 @@
     "showInTechTreeMarkOfGunPercentFirst": false,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 605
+    "version": 700
 }

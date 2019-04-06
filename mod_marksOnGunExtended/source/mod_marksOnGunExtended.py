@@ -16,10 +16,13 @@ from Vehicle import Vehicle
 from constants import ARENA_BONUS_TYPE
 from dossiers2.ui.achievements import ACHIEVEMENT_BLOCK, MARK_ON_GUN_RECORD
 from gui import InputHandler, g_guiResetters
+from gui.Scaleform.daapi.view.lobby.hangar.hangar_header import HangarHeader
 from gui.Scaleform.daapi.view.lobby.techtree.dumpers import NationObjDumper
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
+from gui.Scaleform.locale.MENU import MENU as MU
 from gui.app_loader import g_appLoader
 from gui.battle_control.controllers import feedback_events
+from gui.shared.formatters import text_styles
 from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
 from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
@@ -56,8 +59,8 @@ MARKS = ['', '*', '**', '***']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v6.05 (2019-04-05)'
-        self.version_id = 605
+        self.version = 'v7.00 (2019-04-06)'
+        self.version_id = 700
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -79,6 +82,7 @@ class Config(object):
             'showInTechTree'                        : True,
             'showInTechTreeMarkOfGunPercent'        : True,
             'showInTechTreeMarkOfGunPercentFirst'   : False,
+            'showInHangar'                          : True,
             'upColor'                               : 18,
             'downColor'                             : 21,
             'unknownColor'                          : 16,
@@ -174,6 +178,8 @@ class Config(object):
             'UI_setting_techTreeMasterySize_value'                            : '',
             'UI_setting_techTreeMarkOfGunPercentSize_text'                    : 'TechTree: MoE % font size',
             'UI_setting_techTreeMarkOfGunPercentSize_value'                   : '',
+            'UI_setting_showInHangar_text'                                    : 'Hangar: Show MoE mod',
+            'UI_setting_showInHangar_tooltip'                                 : '',
             'UI_setting_UI_text'                                              : 'UI in battle',
             'UI_setting_UI_tooltip'                                           : '{HEADER}UI in battle{/HEADER}{BODY}'
                                                                                 'Extended:<br/><img src=\"img://objects/ui_extended.png\"></img><br/>'
@@ -229,6 +235,8 @@ class Config(object):
             'battleMessageSizeLimitMax'                                       : 'MoE mod: Reached <b>maximum[1000%]</b>',
             'battleMessageSizeReset'                                          : 'MoE mod: Reset Settings</b>',
             'NaN'                                                             : '[<b>NaN</b>]',
+            'UI_HangarStatsStart'                                             : '<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font></b>',
+            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -370,6 +378,14 @@ class Config(object):
                     'tooltip': self.i18n['UI_setting_showInTechTreeMarkOfGunPercentFirst_tooltip'],
                     'varName': 'showInTechTreeMarkOfGunPercentFirst'
                 },
+                {
+                    'type'   : 'CheckBox',
+                    'text'   : self.i18n['UI_setting_showInHangar_text'],
+                    'value'  : self.data['showInHangar'],
+                    'tooltip': self.i18n['UI_setting_showInHangar_tooltip'],
+                    'varName': 'showInHangar'
+                },
+
             ]
         }
 
@@ -1446,6 +1462,41 @@ def getExtraInfo(func, *args):
                 percentText = ':%s%s%%' % (markOfGunValue, percent)
             result['nameString'] = '%s%s' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText)
 
+    return result
+
+
+@inject.hook(HangarHeader, '_makeHeaderVO')
+@inject.log
+def makeHeaderVO(func, *args):
+    result = func(*args)
+    if config.data['showInHangar'] and 'tankInfo' in result:
+        self = args[0]
+        vehicle = self._currentVehicle.item
+        damageRating = g_currentVehicle.getDossier().getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0
+        moeStart = ''
+        moeEnd = ''
+        if damageRating:
+            movingAvgDamage = g_currentVehicle.getDossier().getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'movingAvgDamage')
+            pC, dC, p20, p40, p55, p65, p85, p95, p100 = worker.calcStatistics(damageRating, movingAvgDamage)
+            color = ['#F8F400', '#F8F400', '#60FF00', '#02C9B3', '#D042F3', '#D042F3']
+            levels = [p55, p65, p85, p95, p100, 10000000]
+            data = {
+                'currentPercent'        : '%s%%' % damageRating,
+                'currentMovingAvgDamage': '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= movingAvgDamage, levels)[0])], movingAvgDamage),
+                'nextPercent'           : '<font color="%s">%s%%</font>' % (battleDamageRating[LEVELS.index(filter(lambda x: x >= pC, LEVELS)[0])], pC),
+                'needDamage'            : '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= int(dC), levels)[0])], int(dC)),
+                'c_damageToMark20'      : '<font color="%s"><b>20%%:%s</b></font>' % (RATING['very_bad'], worker.getNormalizeDigits(p20)),
+                'c_damageToMark40'      : '<font color="%s"><b>40%%:%s</b></font>' % (RATING['bad'], worker.getNormalizeDigits(p40)),
+                'c_damageToMark55'      : '<font color="%s"><b>55%%:%s</b></font>' % (RATING['normal'], worker.getNormalizeDigits(p55)),
+                'c_damageToMark65'      : '<font color="%s"><b>65%%:%s</b></font>' % (RATING['good'], worker.getNormalizeDigits(p65)),
+                'c_damageToMark85'      : '<font color="%s"><b>85%%:%s</b></font>' % (RATING['very_good'], worker.getNormalizeDigits(p85)),
+                'c_damageToMark95'      : '<font color="%s"><b>95%%:%s</b></font>' % (RATING['unique'], worker.getNormalizeDigits(p95)),
+                'c_damageToMark100'     : '<font color="%s"><b>100%%:%s</b></font>' % (RATING['unique'], worker.getNormalizeDigits(p100))
+            }
+            moeStart = text_styles.promoSubTitle(config.i18n['UI_HangarStatsStart'].format(**data))
+            moeEnd = text_styles.stats(config.i18n['UI_HangarStatsEnd'].format(**data))
+        oldData = '%s%s %s' % (moeStart, text_styles.promoSubTitle(vehicle.shortUserName), text_styles.stats(MU.levels_roman(vehicle.level)))
+        result['tankInfo'] = text_styles.concatStylesToMultiLine(oldData, moeEnd)
     return result
 
 

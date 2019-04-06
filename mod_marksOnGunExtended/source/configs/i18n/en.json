@@ -1,5 +1,7 @@
 ﻿{
     "NaN": "[<b>NaN</b>]",
+    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font> </b>",
     "UI_description": "Marks of Excellence Extended",
     "UI_menu_UIConfig": "Config",
     "UI_menu_UIMyp": "<font color=\"#D042F3\">@Myp</font> choice [<font color=\"#D042F3\">twitch.tv/myp_</font>]",
@@ -52,6 +54,8 @@
     "UI_setting_showInBattleHalfPercents_tooltip": "",
     "UI_setting_showInBattle_text": "Battle: Hello message",
     "UI_setting_showInBattle_tooltip": "",
+    "UI_setting_showInHangar_text": "Hangar: Show MoE mod",
+    "UI_setting_showInHangar_tooltip": "",
     "UI_setting_showInReplay_text": "Replay[test]: enabled",
     "UI_setting_showInReplay_tooltip": "{HEADER}Show in replay{/HEADER}{BODY}Not good, but useful for tests{/BODY}",
     "UI_setting_showInStatistic_text": "Statistic: enabled",
@@ -82,5 +86,5 @@
     "battleMessageSizeLimitMin": "MoE mod: Reached <b>minimum[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Reset Settings</b>",
     "battleMessageSizeUp": "MoE mod: Size <b>+10%</b>",
-    "version": 605
+    "version": 700
 }
