@@ -21,7 +21,7 @@ MENU = ['UI_color_blue', 'UI_color_brown', 'UI_color_chocolate', 'UI_color_cornf
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v1.05 (2019-04-01)'
+        self.version = 'v1.05 (2019-04-25)'
         self.version_id = 105
         self.author = 'by spoter'
         self.data = {

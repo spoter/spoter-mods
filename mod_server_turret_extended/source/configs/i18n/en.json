@@ -13,5 +13,5 @@
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}",
     "UI_setting_serverTurret_text": "Server Turret",
     "UI_setting_serverTurret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Move Turret to Server Aim coordinates (need enabled Server Sight in game settings){/BODY}",
-    "version": 202
+    "version": 203
 }

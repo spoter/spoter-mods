@@ -4,7 +4,7 @@ import os
 import shutil
 import subprocess
 
-ZIP_MANUAL = 'mods_repair_extended.zip'
+ZIP_AUTO = 'mods_repair_extended_cheat.zip'
 
 try:
     shutil.rmtree('zip', True)
@@ -50,8 +50,8 @@ class Release(object):
             shutil.rmtree(self.data.build.OUT_PATH, True)
         except OSError:
             pass
-import _build_manual as manual
-Release(manual, ZIP_MANUAL)
+import _build_auto as auto
+Release(auto, ZIP_AUTO)
 
 try:
     shutil.rmtree('release', True)

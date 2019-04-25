@@ -20,7 +20,6 @@ from gui.Scaleform.daapi.view.lobby.hangar.hangar_header import HangarHeader
 from gui.Scaleform.daapi.view.lobby.techtree.dumpers import NationObjDumper
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
 from gui.Scaleform.locale.MENU import MENU as MU
-from gui.app_loader import g_appLoader
 from gui.battle_control.controllers import feedback_events
 from gui.shared.formatters import text_styles
 from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
@@ -59,8 +58,8 @@ MARKS = ['', '*', '**', '***']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.00 (2019-04-06)'
-        self.version_id = 700
+        self.version = 'v7.01 (2019-04-25)'
+        self.version_id = 701
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -75,7 +74,7 @@ class Config(object):
             'buttonSizeUp'                          : self.buttons['buttonSizeUp'],
             'buttonSizeDown'                        : self.buttons['buttonSizeDown'],
             'buttonReset'                           : self.buttons['buttonReset'],
-            'showInBattle'                          : True,
+            'showInBattle'                          : False,
             'showInBattleHalfPercents'              : False,
             'showInReplay'                          : True,
             'showInStatistic'                       : True,
@@ -861,7 +860,6 @@ class Worker(object):
 
     def keyPressed(self, event):
         if not config.data['enabled']: return
-        if not g_appLoader.getDefBattleApp(): return
         player = BigWorld.player()
         if not player.arena: return
         if player.arena.bonusType != ARENA_BONUS_TYPE.REGULAR: return
@@ -1170,16 +1168,19 @@ class Flash(object):
         self.setup()
         COMPONENT_EVENT.UPDATED += self.update
         self.createObject(COMPONENT_TYPE.PANEL)
-        if config.data['background']:
-            self.createObject(COMPONENT_TYPE.IMAGE)
-            self.updateObject(COMPONENT_TYPE.IMAGE, self.data['backgroundData'])
         self.createObject(COMPONENT_TYPE.LABEL)
+        if config.data['background']:
+            data = {'background': True}
+            self.updateObject(COMPONENT_TYPE.LABEL, data)
+            #self.createObject(COMPONENT_TYPE.IMAGE)
+            #self.updateObject(COMPONENT_TYPE.IMAGE, self.data['backgroundData'])
         if config.data['shadow']:
             self.updateObject(COMPONENT_TYPE.LABEL, self.data['shadow'])
         else:
             self.updateObject(COMPONENT_TYPE.LABEL, {'shadow': {"distance": 0, "angle": 0, "color": 0x000000, "alpha": 0, "blurX": 0, "blurY": 0, "strength": 0, "quality": 0}})
         g_guiResetters.add(self.screenResize)
         self.screenResize()
+        self.setupSize()
 
     def stopBattle(self):
         if not config.data['enabled']: return
@@ -1187,8 +1188,8 @@ class Flash(object):
         g_guiResetters.remove(self.screenResize)
         COMPONENT_EVENT.UPDATED -= self.update
         self.deleteObject(COMPONENT_TYPE.PANEL)
-        if config.data['background']:
-            self.deleteObject(COMPONENT_TYPE.IMAGE)
+        #if config.data['background']:
+        #    self.deleteObject(COMPONENT_TYPE.IMAGE)
         self.deleteObject(COMPONENT_TYPE.LABEL)
 
     def deleteObject(self, name):
@@ -1199,6 +1200,9 @@ class Flash(object):
 
     def updateObject(self, name, data):
         g_guiFlash.updateComponent(self.name[name], data)
+
+    def animateObject(self, name, data, time = 1.0):
+        g_guiFlash.animateComponent(self.name[name], time, data, True)
 
     @inject.log
     def update(self, alias, props):
@@ -1224,9 +1228,15 @@ class Flash(object):
             COMPONENT_TYPE.PANEL: config.data.get('panel'),
             COMPONENT_TYPE.IMAGE: {'image': config.data.get('backgroundImage')},
             'backgroundData'    : config.data.get('backgroundData'),
-            COMPONENT_TYPE.LABEL: {'text': '', 'index': 1, 'multiline': True},
+            COMPONENT_TYPE.LABEL: {'text': '', }, #'multiline': True, 'wordWrap': True, 'drag': True, 'border': True, 'limit': True},
             'shadow'            : {'shadow': config.data.get('shadowText')}
         }
+
+        self.data[COMPONENT_TYPE.PANEL]['index'] = 1
+        self.data[COMPONENT_TYPE.IMAGE]['index'] = 2
+        self.data[COMPONENT_TYPE.LABEL]['index'] = 3
+        self.data[COMPONENT_TYPE.PANEL]['limit'] = True
+        self.data[COMPONENT_TYPE.LABEL]['alpha'] = 1.0
 
     def setupSize(self, h=None, w=None):
         height = int(config.data['panelSize'].get('heightNormal', 50)) if not worker.altMode else int(config.data['panelSize'].get('heightAlt', 80))
@@ -1258,11 +1268,13 @@ class Flash(object):
         for name in self.data:
             self.data[name]['height'] = height
             self.data[name]['width'] = width
+        self.data[COMPONENT_TYPE.PANEL]['height'] = height
+        self.data[COMPONENT_TYPE.PANEL]['width'] = width
         data = {'height': height, 'width': width}
         self.updateObject(COMPONENT_TYPE.PANEL, data)
+        #if config.data['background']:
+        #    self.updateObject(COMPONENT_TYPE.IMAGE, data)
         self.updateObject(COMPONENT_TYPE.LABEL, data)
-        if config.data['background']:
-            self.updateObject(COMPONENT_TYPE.IMAGE, data)
 
     @staticmethod
     def textRepSize(message):
@@ -1284,7 +1296,9 @@ class Flash(object):
 
     def set_text(self, text):
         txt = '<font face="%s" color="#FFFFFF" vspace="-3" align="baseline" >%s</font>' % (config.data['font'], text)
-        self.updateObject(COMPONENT_TYPE.LABEL, {'text': self.textRepSize(txt)})
+        self.updateObject(COMPONENT_TYPE.LABEL, {'text': self.textRepSize(txt), 'alpha': 0.8})
+        self.animateObject(COMPONENT_TYPE.LABEL, {'alpha': 1.8}, 1)
+
 
     def setVisible(self, status):
         data = {'visible': status}
@@ -1292,8 +1306,10 @@ class Flash(object):
         self.updateObject(COMPONENT_TYPE.LABEL, data)
         if config.data['background']:
             if config.data['UI'] in (5, 6, 7, 8):
-                data = {'visible': False}
-            self.updateObject(COMPONENT_TYPE.IMAGE, data)
+                data = {'background': False}
+            else:
+                data = {'background': status}
+            self.updateObject(COMPONENT_TYPE.LABEL, data)
 
     @staticmethod
     def screenFix(screen, value, mod, align=1):
@@ -1344,6 +1360,12 @@ class Flash(object):
                 self.data[COMPONENT_TYPE.PANEL]['y'] = y
         config.apply(config.data)
         self.updateObject(COMPONENT_TYPE.PANEL, self.data[COMPONENT_TYPE.PANEL])
+
+    def getData(self):
+        return self.data
+
+    def getNames(self):
+        return self.name
 
 
 config = Config()
@@ -1505,3 +1527,7 @@ BigWorld.MoESetupSize = flash.setupSize
 
 BigWorld.MoEText = flash.set_text
 # BigWorld.MoEText('<font size=\"60\">100.00%</font>')
+
+BigWorld.MoEUpdateObject = flash.updateObject
+BigWorld.MoEData = flash.getData
+BigWorld.MoEName = flash.getNames

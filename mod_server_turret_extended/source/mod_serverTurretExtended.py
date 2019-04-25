@@ -11,15 +11,14 @@ import VehicleGunRotator
 from Avatar import PlayerAvatar
 from constants import VEHICLE_SIEGE_STATE, VEHICLE_SETTING, VEHICLE_MISC_STATUS
 from gui import InputHandler
-from gui.app_loader import g_appLoader
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 
 
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v2.02 (2019-04-01)'
-        self.version_id = 202
+        self.version = 'v2.03 (2019-04-25)'
+        self.version_id = 203
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -140,7 +139,6 @@ class MovementControl(object):
     @staticmethod
     def keyPressed(event):
         if not _config.data['enabled']: return
-        if not g_appLoader.getDefBattleApp(): return
         if g_gui.get_key(_config.data['buttonAutoMode']) and event.isKeyDown():
             vehicle = BigWorld.player().getVehicleAttached()
             if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:

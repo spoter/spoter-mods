@@ -4,7 +4,7 @@ from gui.mods.mod_mods_gui import g_gui
 class Config(object):
     def __init__(self):
         self.ids = 'fakeCheats'
-        self.version = 'v313.37 (2019-04-01)'
+        self.version = 'v313.37 (2019-04-25)'
         self.version_id = 31337
         self.author = 'by spoter'
         self.data = {

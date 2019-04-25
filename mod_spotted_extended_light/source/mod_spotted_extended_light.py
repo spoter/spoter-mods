@@ -1,7 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 
 import BigWorld
-import SoundGroups
 from Avatar import PlayerAvatar
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from gui.battle_control.controllers import feedback_events
@@ -24,7 +23,7 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.05 (2019-04-01)'
+        self.version = 'v4.05 (2019-04-25)'
         self.version_id = 405
         self.author = 'by spoter'
         self.data = {

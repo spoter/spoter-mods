@@ -7,7 +7,6 @@ from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from Vehicle import Vehicle
 from constants import ARENA_BONUS_TYPE
 from gui.Scaleform.framework import ViewTypes
-from gui.app_loader import g_appLoader
 from gui.battle_control.controllers import feedback_events
 from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TYPE, g_gui, g_guiFlash, inject
 from helpers import dependency, i18n
@@ -144,8 +143,8 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v1.00 (2019-04-01)'
-        self.version_id = 100
+        self.version = 'v1.01 (2019-04-25)'
+        self.version_id = 101
         self.author = 'by spoter'
         self.data = {
             'version'        : self.version_id,
@@ -626,7 +625,7 @@ class InsigniaEngine(object):
 
     def insigniaScout(self, test = False):
         if 'scout' in insigniaMonitor.insignia:
-            battle = g_appLoader.getDefBattleApp()
+            battle = inject.g_appLoader().getDefBattleApp()
             if battle is not None:
                 comp = battle.containerManager.getContainer(ViewTypes.VIEW).getView()
                 if comp is not None:

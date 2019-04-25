@@ -1,5 +1,5 @@
 {
-  "version": 1.00,
+  "version": 1.01,
   "source": "mod_insigniaMonitor.py",
   "meta": "configs/meta.xml",
   "config": "configs/insigniaMonitor.json",

@@ -12,7 +12,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v5.03 (2019-04-01)'
+        self.version = 'v5.03 (2019-04-25)'
         self.version_id = 503
         self.author = 'by spoter'
         self.data = {
@@ -225,7 +225,7 @@ def changeStats(data, dossier, tankman):
             isMaxRoleLevel = tankman.roleLevel == 100
             if isMaxRoleLevel:
                 silverXP = dossier._TankmanDossier__packStat('empty', 0)
-                silverXP['value'] = config.i18n['UI_setting_personalFileSilverXP_text'].format(dossier._TankmanDossier__formatValueForUI(min(0,tankman.descriptor.freeXP - 39153)))
+                silverXP['value'] = config.i18n['UI_setting_personalFileSilverXP_text'].format(dossier._TankmanDossier__formatValueForUI(min(0, tankman.descriptor.freeXP - 39153)))
                 silverXP['premiumValue'] = ''
                 index['stats'] += (totalXP, silverXP)
             else:
