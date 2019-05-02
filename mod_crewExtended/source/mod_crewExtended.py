@@ -3,6 +3,7 @@ import math
 
 from CurrentVehicle import g_currentVehicle
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
+from gui.Scaleform.daapi.view.lobby.barracks import Barracks
 from gui.shared.gui_items.dossier import TankmanDossier
 from items import tankmen
 # noinspection PyUnresolvedReferences
@@ -12,8 +13,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v5.03 (2019-04-25)'
-        self.version_id = 503
+        self.version = 'v6.00 (2019-05-02)'
+        self.version_id = 600
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -30,8 +31,15 @@ class Config(object):
             'currentCrewRoleExp'     : True,
             'currentCrewExpIcon'     : True,
             'currentColorExp'        : 5,
+            'barracksEnable'         : True,
+            'barracksBattleOrExp'    : True,
+            'barracksSkillIcons'     : True,
             'colors'                 : ['0000FF', 'A52A2B', 'D3691E', '6595EE', 'FCF5C8', '00FFFF', '28F09C', 'FFD700', '008000', 'ADFF2E', 'FF69B5', '00FF00', 'FFA500', 'FFC0CB', '800080', 'FF0000', '8378FC', 'DB0400', '80D639', 'FFE041', 'FFFF00', 'FA8072'],
-            'color_i18n'             : ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime', 'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
+            'color_i18n'             : ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime', 'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red'],
+            'premiumSkillIcon'       : '<img align=\"top\" src=\"img://gui/maps//icons/library/referralCoin-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>',
+            'battleIcon'             : '<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\"/>',
+            'expIcon'                : '<img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>'
+
         }
         self.i18n = {
             'version'                                   : self.version_id,
@@ -63,6 +71,13 @@ class Config(object):
             'UI_setting_currentCrewExpIcon_tooltip'     : '',
             'UI_setting_currentColorExp_text'           : 'Change Exp color',
             'UI_setting_currentColorExp_tooltip'        : '',
+            'UI_setting_barracks_label'                 : 'Barracks :',
+            'UI_setting_barracksEnable_text'            : 'Show in Barracks',
+            'UI_setting_barracksEnable_tooltip'         : '',
+            'UI_setting_barracksBattleOrExp_text'       : 'Show Battle or Exp',
+            'UI_setting_barracksBattleOrExp_tooltip'    : '{HEADER}Info:{/HEADER}{BODY}Enabled: Show Battles to next skill level\nDisabled: Show Experience to next skill level{/BODY}',
+            'UI_setting_barracksSkillIcons_text'        : 'Show Skill Icons',
+            'UI_setting_barracksSkillIcons_tooltip'     : '',
             'UI_menu_blue'                              : 'Blue',
             'UI_menu_brown'                             : 'Brown',
             'UI_menu_chocolate'                         : 'Chocolate',
@@ -184,6 +199,28 @@ class Config(object):
                 'width'       : 200,
                 'value'       : self.data['currentColorExp'],
                 'varName'     : 'currentColorExp'
+            }, {
+                'type'   : 'Label',
+                'text'   : self.i18n['UI_setting_barracks_label'],
+                'tooltip': '',
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_barracksEnable_text'],
+                'value'  : self.data['barracksEnable'],
+                'tooltip': self.i18n['UI_setting_barracksEnable_tooltip'],
+                'varName': 'barracksEnable'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_barracksBattleOrExp_text'],
+                'value'  : self.data['barracksBattleOrExp'],
+                'tooltip': self.i18n['UI_setting_barracksBattleOrExp_tooltip'],
+                'varName': 'barracksBattleOrExp'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_barracksSkillIcons_text'],
+                'value'  : self.data['barracksSkillIcons'],
+                'tooltip': self.i18n['UI_setting_barracksSkillIcons_tooltip'],
+                'varName': 'barracksSkillIcons'
             }]
         }
 
@@ -256,23 +293,49 @@ def changeTankman(data):
             battles = max(1, dossier.getLastSkillBattlesLeft(tankman) if not None else 0)
             if g_currentVehicle.item.isPremium:
                 battles = dossier._TankmanDossier__getBattlesLeftOnPremiumVehicle(battles)
-            textBattle = generateTextString(dossier, 'Battle', battles)
-            textExp = generateTextString(dossier, 'Exp', exp)
+            textBattle = generateTextString(dossier, 'Battle', battles, config.data['currentCrewRankOnTop'] and tankman.descriptor.freeSkillsNumber)
+            textExp = generateTextString(dossier, 'Exp', exp, not config.data['currentCrewRankOnTop'] and tankman.descriptor.freeSkillsNumber)
             tankmenData['rank'] = textBattle[0] + textExp[0] + tankmenData['rank']
             tankmenData['role'] = textBattle[1] + textExp[1] + tankmenData['role']
+
     return data
 
 
-def generateTextString(dossier, sign, value):
+def generateTextString(dossier, sign, value, premiumSkill):
     color = config.data['colors'][config.data['currentColor%s' % sign]]
+    text = ''
+    if premiumSkill:
+        text = config.data['premiumSkillIcon']
     # noinspection PyProtectedMember
-    text = '<font color="#%s">%s </font>' % (color, dossier._TankmanDossier__formatValueForUI(value))
+    text += '<font color="#%s">%s </font>' % (color, dossier._TankmanDossier__formatValueForUI(value))
     if config.data['currentCrew%sIcon' % sign]:
         if 'Battle' in sign:
-            text += '<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\"/>'
+            text += config.data['battleIcon']
         if 'Exp' in sign:
-            text += '<img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>'
+            text += config.data['expIcon']
     return text if config.data['currentCrewRank%s' % sign] else '', text if config.data['currentCrewRole%s' % sign] else ''
+
+
+def changeBarracksData(tankman, tankmenData):
+    dossier = g_currentVehicle.itemsCache.items.getTankmanDossier(tankmenData['tankmanID'])
+    if config.data['barracksBattleOrExp']:
+        battles = max(1, dossier.getLastSkillBattlesLeft(tankman) if not None else 0)
+        if g_currentVehicle.item.isPremium:
+            # noinspection PyProtectedMember
+            battles = dossier._TankmanDossier__getBattlesLeftOnPremiumVehicle(battles)
+        text, _ = generateTextString(dossier, 'Battle', battles, tankman.descriptor.freeSkillsNumber)
+    else:
+        exp = max(1, tankman.getNextSkillXpCost() if not None else 0)
+        _, text = generateTextString(dossier, 'Exp', exp, tankman.descriptor.freeSkillsNumber)
+    skills = ''
+    if config.data['barracksSkillIcons']:
+        for skill in tankman.skills:
+            if skill.isEnable and skill.isActive:
+                skills += '<img align=\"top\" src=\"img://gui/maps//icons/tankmen/skills/small/%s\" vspace=\"-3\"/>' % skill.icon
+                if skill.level < 100:
+                    skills += '%s%%' % skill.level
+    tankmenData['role'] = text + tankmenData['role'] + skills
+    return tankmenData
 
 
 config = Config()
@@ -293,3 +356,12 @@ def tankmanResponse(func, *args):
     if config.data['enabled']:
         return func(args[0], changeTankman(args[1]))
     return func(*args)
+
+
+@inject.hook(Barracks, '_packTankmanData')
+@inject.log
+def _packTankmanData(func, *args):
+    data = func(*args)
+    if config.data['enabled'] and config.data['barracksEnable']:
+        return changeBarracksData(args[0], data)
+    return data

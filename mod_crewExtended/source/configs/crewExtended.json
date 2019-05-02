@@ -1,4 +1,8 @@
 ﻿{
+    "barracksBattleOrExp": true,
+    "barracksEnable": true,
+    "barracksSkillIcons": true,
+    "battleIcon": "<img align=\"top\" src=\"img://gui/maps//icons/library/BattleResultIcon-1.png\" height=\"14\" width=\"14\" vspace=\"-3\"/>",
     "color_i18n": [ "UI_menu_blue", "UI_menu_brown", "UI_menu_chocolate", "UI_menu_cornflower_blue", "UI_menu_cream", "UI_menu_cyan", "UI_menu_emerald", "UI_menu_gold", "UI_menu_green", "UI_menu_green_yellow", "UI_menu_hot_pink", "UI_menu_lime", "UI_menu_orange", "UI_menu_pink", "UI_menu_purple", "UI_menu_red", "UI_menu_wg_blur", "UI_menu_wg_enemy", "UI_menu_wg_friend", "UI_menu_wg_squad", "UI_menu_yellow", "UI_menu_nice_red" ],
     "colors": [ "0000FF", "A52A2B", "D3691E", "6595EE", "FCF5C8", "00FFFF", "28F09C", "FFD700", "008000", "ADFF2E", "FF69B5", "00FF00", "FFA500", "FFC0CB", "800080", "FF0000", "8378FC", "DB0400", "80D639", "FFE041", "FFFF00", "FA8072" ],
     "currentColorBattle": 6,
@@ -11,8 +15,10 @@
     "currentCrewRoleBattle": false,
     "currentCrewRoleExp": true,
     "enabled": true,
+    "expIcon": "<img align=\"top\" src=\"img://gui/maps//icons/library/XpIcon-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>",
     "personalFileSkillBattle": true,
     "personalFileSkillXP": true,
     "personalFileTotalXP": true,
-    "version": 503
+    "premiumSkillIcon": "<img align=\"top\" src=\"img://gui/maps//icons/library/referralCoin-1.png\" height=\"16\" width=\"16\" vspace=\"-3\"/>",
+    "version": 600
 }

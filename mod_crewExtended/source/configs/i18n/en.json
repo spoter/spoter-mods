@@ -22,6 +22,13 @@
     "UI_menu_wg_friend": "WG Friend",
     "UI_menu_wg_squad": "WG Squad",
     "UI_menu_yellow": "Yellow",
+    "UI_setting_barracksBattleOrExp_text": "Show Battle or Exp",
+    "UI_setting_barracksBattleOrExp_tooltip": "{HEADER}Info:{/HEADER}{BODY}Enabled: Show Battles to next skill level\nDisabled: Show Experience to next skill level{/BODY}",
+    "UI_setting_barracksEnable_text": "Show in Barracks",
+    "UI_setting_barracksEnable_tooltip": "",
+    "UI_setting_barracksSkillIcons_text": "Show Skill Icons",
+    "UI_setting_barracksSkillIcons_tooltip": "",
+    "UI_setting_barracks_label": "Barracks :",
     "UI_setting_currentColorBattle_text": "Change Battles color",
     "UI_setting_currentColorBattle_tooltip": "",
     "UI_setting_currentColorExp_text": "Change Exp color",
@@ -49,5 +56,5 @@
     "UI_setting_personalFileTotalXP_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Total Experience to current tankman{/BODY}",
     "UI_setting_personalFileSilverXP_text": "To reset main skill: {} experience",
     "UI_setting_personalFile_label": "Personal File :",
-    "version": 503
+    "version": 600
 }
