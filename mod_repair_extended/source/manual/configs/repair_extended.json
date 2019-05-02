@@ -34,5 +34,5 @@
             "repairkit": [ "ammoBay", "engine", "gun", "turretRotator", "fuelTank" ]
         }
     },
-    "version": 307
+    "version": 308
 }

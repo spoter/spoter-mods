@@ -7,7 +7,6 @@ import SoundGroups
 from Avatar import PlayerAvatar as PlayerAvatar
 from gui import InputHandler
 from gui.Scaleform.daapi.view.battle.shared.consumables_panel import ConsumablesPanel
-from gui.app_loader import g_appLoader
 from gui.battle_control.battle_constants import DEVICE_STATE_DESTROYED, VEHICLE_VIEW_STATE, DEVICE_STATE_NORMAL
 from gui.mods.mod_mods_gui import g_gui, inject
 from gui.shared.gui_items import Vehicle
@@ -35,9 +34,9 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'w
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.07 (2019-04-25)'
+        self.version = 'v3.08 (2019-05-02)'
         self.author = 'by spoter'
-        self.version_id = 307
+        self.version_id = 308
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -302,7 +301,7 @@ class Repair(object):
 
     @inject.log
     def injectButton(self, event):
-        if g_appLoader.getDefBattleApp():
+        if inject.g_appLoader().getDefBattleApp():
             if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown():
                 self.repairChassis()
             if g_gui.get_key(config.data['buttonRepair']) and event.isKeyDown():
