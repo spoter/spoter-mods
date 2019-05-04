@@ -4,6 +4,7 @@ import BigWorld
 from Avatar import PlayerAvatar
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from gui.battle_control.controllers import feedback_events
+from gui.battle_control.controllers.personal_efficiency_ctrl import _AGGREGATED_DAMAGE_EFFICIENCY_TYPES
 # noinspection PyProtectedMember
 from gui.mods.mod_mods_gui import g_gui, inject
 
@@ -23,8 +24,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.05 (2019-04-25)'
-        self.version_id = 405
+        self.version = 'v4.06 (2019-05-04)'
+        self.version_id = 406
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -218,7 +219,7 @@ class Assist(object):
                 if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[%s]' % (icon, target_info[4]) if target_info[4] else icon
                 if self.check_macros('{damage}'):
                     extra = feedbackEvent.getExtra()
-                    if extra: self.format_str['damage'] += ' +%s' % extra.getDamage()
+                    if extra and feedbackEvent.getType() in _AGGREGATED_DAMAGE_EFFICIENCY_TYPES: self.format_str['damage'] += ' +%s' % extra.getDamage()
                 if self.check_macros('{full}'):
                     self.format_str['full'] += '%s[%s]' % (icon, target_info) if target_info else icon
                 if eventID == BATTLE_EVENT_TYPE.SPOTTED:

@@ -41,5 +41,5 @@
     "UI_setting_messageColorSpotted_tooltip": "",
     "UI_setting_sound_text": "Use sound in battle",
     "UI_setting_sound_tooltip": "{HEADER}<font color=\"#FFD700\">Info:</font>{/HEADER}{BODY}Configure sounds in config file: <font color=\"#FFD700\">/mods/configs/spotted_extended_light/spotted_extended_light.json</font>{/BODY}",
-    "version": 405
+    "version": 406
 }

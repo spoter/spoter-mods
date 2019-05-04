@@ -1,5 +1,5 @@
 {
-  "version": 4.05,
+  "version": 4.06,
   "source": "mod_spotted_extended_light.py",
   "meta": "configs/meta.xml",
   "config": "configs/spotted_extended_light.json",
