@@ -1,6 +1,6 @@
 ﻿{
     "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
-    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font> </b>",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentDamage})</font> </b>",
     "NaN": "[<b>NaN</b>]",
     "UI_description": "Отметки на Орудии Extended",
     "UI_menu_UIConfig": "Из конфига",
@@ -10,6 +10,7 @@
     "UI_menu_UIReplayColorDamage": "Для реплеев (с уроном), цветной",
     "UI_menu_UIReplayDamage": "Для реплеев (с уроном)",
     "UI_menu_UIcircon": "<font color=\"#02C9B3\">@Circon</font> конфиг [<font color=\"#02C9B3\">twitch.tv/circon</font>]",
+    "UI_menu_UIoldskool": "<font color=\"#FFD700\">@Oldskool</font> конфиг [<font color=\"#FFD700\">twitch.tv/oldskool</font>]",
     "UI_menu_UIskill4ltu": "<font color=\"#60FF00\">@skill4ltu</font> конфиг [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>",
     "UI_menu_UIspoter": "<font color=\"#6595EE\">@spoter</font> конфиг [<font color=\"#6595EE\">github.com/spoter</font>]",
     "UI_menu_blue": "Синий",
@@ -80,11 +81,11 @@
     "UI_setting_unknownColor_tooltip": "",
     "UI_setting_upColor_text": "Бой: цвет когда отметка растёт",
     "UI_setting_upColor_tooltip": "",
-    "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} текущий средний урон</font>\nДля <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   нужно <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> суммарного урона\nДанные на момент последнего боя этим танком\nДля <font color=\"#FFFFFF\" size=\"12\">20% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_20}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">40% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_40}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">55% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_55}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">65% </font>   нужно <font color=\"#60FF00\" size=\"12\">~{_65}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">85% </font>   нужно <font color=\"#02C9B3\" size=\"12\">~{_85}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">95% </font>   нужно <font color=\"#D042F3\" size=\"12\">~{_95}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">100% </font>  нужно <font color=\"#D042F3\" size=\"12\">~{_100}</font> суммарного урона\nИспользуется статистика после патча 0.8.8",
+    "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} текущий средний урон</font>\n<font color=\"#FFFFFF\" size=\"12\">{currentDamage} текущий суммарный урон</font>\nДля <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   нужно <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> суммарного урона\nДанные на момент последнего боя этим танком\nДля <font color=\"#FFFFFF\" size=\"12\">20% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_20}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">40% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_40}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">55% </font>   нужно <font color=\"#F8F400\" size=\"12\">~{_55}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">65% </font>   нужно <font color=\"#60FF00\" size=\"12\">~{_65}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">85% </font>   нужно <font color=\"#02C9B3\" size=\"12\">~{_85}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">95% </font>   нужно <font color=\"#D042F3\" size=\"12\">~{_95}</font> суммарного урона\nДля <font color=\"#FFFFFF\" size=\"12\">100% </font>  нужно <font color=\"#D042F3\" size=\"12\">~{_100}</font> суммарного урона",
     "battleMessageSizeDown": "MoE mod: Размер <b>-10%</b>",
     "battleMessageSizeLimitMax": "MoE mod: Достигнут <b>максимум[1000%]</b>",
     "battleMessageSizeLimitMin": "MoE mod: Достигнут <b>минимум[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Сброс настроек</b>",
     "battleMessageSizeUp": "MoE mod: Размер <b>+10%</b>",
-    "version": 701
+    "version": 702
 }

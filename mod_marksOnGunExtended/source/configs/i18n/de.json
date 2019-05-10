@@ -1,6 +1,6 @@
 ﻿{
     "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
-    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font> </b>",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentDamage})</font> </b>",
     "NaN": "[<b>NaN</b>]",
     "UI_description": "Marks of Excellence Extended",
     "UI_menu_UIConfig": "Config",
@@ -10,6 +10,7 @@
     "UI_menu_UIReplayColorDamage": "Farbiger Schaden für Demos",
     "UI_menu_UIReplayDamage": "for Replays with damage",
     "UI_menu_UIcircon": "<font color=\"#02C9B3\">@Circon</font> Auswahl [<font color=\"#02C9B3\">twitch.tv/circon</font>]",
+    "UI_menu_UIoldskool": "<font color=\"#FFD700\">@Oldskool</font> Auswahl [<font color=\"#FFD700\">twitch.tv/oldskool</font>]",
     "UI_menu_UIskill4ltu": "<font color=\"#60FF00\">@skill4ltu</font> Auswahl [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>",
     "UI_menu_UIspoter": "<font color=\"#6595EE\">@spoter</font> Auswahl [<font color=\"#6595EE\">github.com/spoter</font>]",
     "UI_menu_blue": "Blau",
@@ -81,11 +82,11 @@
     "UI_setting_unknownColor_tooltip": "",
     "UI_setting_upColor_text": "Gefecht: Farbe wenn % Marke steigt",
     "UI_setting_upColor_tooltip": "",
-    "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} aktueller durchschnittlicher Gesamtschaden</font>\nZu <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>werden <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> Gesamtschaden benötigt.\nDiese Statistik bezieht sicht auf das letzte Gefecht mit diesem Fahrzeug.\nZu <font color=\"#FFFFFF\" size=\"12\"> 20% </font>werden <font color=\"#F8F400\" size=\"12\">~{_20}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 40% </font>werden <font color=\"#F8F400\" size=\"12\">~{_40}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 55% </font>werden <font color=\"#F8F400\" size=\"12\">~{_55}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 65% </font>werden <font color=\"#60FF00\" size=\"12\">~{_65}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 85% </font>werden <font color=\"#02C9B3\" size=\"12\">~{_85}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 95% </font>werden <font color=\"#D042F3\" size=\"12\">~{_95}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\">100% </font>werden <font color=\"#D042F3\" size=\"12\">~{_100}</font> Gesamtschaden benötigt\nStatistik nach dem Patch 0.8.8",
+    "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} aktueller durchschnittlicher Gesamtschaden</font>\n<font color=\"#FFFFFF\" size=\"12\">{currentDamage} aktueller Gesamtschaden</font>\nZu <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>werden <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> Gesamtschaden benötigt.\nDiese Statistik bezieht sicht auf das letzte Gefecht mit diesem Fahrzeug.\nZu <font color=\"#FFFFFF\" size=\"12\"> 20% </font>werden <font color=\"#F8F400\" size=\"12\">~{_20}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 40% </font>werden <font color=\"#F8F400\" size=\"12\">~{_40}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 55% </font>werden <font color=\"#F8F400\" size=\"12\">~{_55}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 65% </font>werden <font color=\"#60FF00\" size=\"12\">~{_65}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 85% </font>werden <font color=\"#02C9B3\" size=\"12\">~{_85}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\"> 95% </font>werden <font color=\"#D042F3\" size=\"12\">~{_95}</font> Gesamtschaden benötigt\nZu <font color=\"#FFFFFF\" size=\"12\">100% </font>werden <font color=\"#D042F3\" size=\"12\">~{_100}</font> Gesamtschaden benötigt",
     "battleMessageSizeDown": "MoE mod: Größe <b>-10%</b>",
     "battleMessageSizeLimitMax": "MoE mod: <b>maximum[100%]</b> erreicht",
     "battleMessageSizeLimitMin": "MoE mod: <b>minimum[10%]</b> erreicht",
     "battleMessageSizeReset": "MoE mod: Einstellungen zurücksetzen</b>",
     "battleMessageSizeUp": "MoE mod: Größe <b>+10%</b>",
-    "version": 701
+    "version": 702
 }

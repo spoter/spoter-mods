@@ -1,7 +1,7 @@
 ﻿{
     "NaN": "[<b>NaN</b>]",
     "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
-    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentMovingAvgDamage})</font> </b>",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentDamage})</font> </b>",
     "UI_description": "Marks of Excellence Extended",
     "UI_menu_UIConfig": "Config",
     "UI_menu_UIMyp": "<font color=\"#D042F3\">@Myp</font> choice [<font color=\"#D042F3\">twitch.tv/myp_</font>]",
@@ -10,6 +10,7 @@
     "UI_menu_UIReplayColorDamage": "Colored for Replays with damage",
     "UI_menu_UIReplayDamage": "for Replays with damage",
     "UI_menu_UIcircon": "<font color=\"#02C9B3\">@Circon</font> choice [<font color=\"#02C9B3\">twitch.tv/circon</font>]",
+    "UI_menu_UIoldskool": "<font color=\"#FFD700\">@Oldskool</font> choice [<font color=\"#FFD700\">twitch.tv/oldskool</font>]",
     "UI_menu_UIskill4ltu": "<font color=\"#60FF00\">@skill4ltu</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>",
     "UI_menu_UIspoter": "<font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]",
     "UI_menu_blue": "Blue",
@@ -80,11 +81,11 @@
     "UI_setting_unknownColor_tooltip": "",
     "UI_setting_upColor_text": "Battle: color when % mark up",
     "UI_setting_upColor_tooltip": "",
-    "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} current moving average damage</font>\nTo <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> moving average damage\nThis statistic available to last battle on this vehicle\nTo <font color=\"#FFFFFF\" size=\"12\">20% </font>   need <font color=\"#F8F400\" size=\"12\">~{_20}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">40% </font>   need <font color=\"#F8F400\" size=\"12\">~{_40}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">55% </font>   need <font color=\"#F8F400\" size=\"12\">~{_55}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">65% </font>   need <font color=\"#60FF00\" size=\"12\">~{_65}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> moving average damage\nUsed statistic after patch 0.8.8",
+    "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} current moving average damage</font>\n<font color=\"#FFFFFF\" size=\"12\">{currentDamage} current summary damage</font>\nTo <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> moving average damage\nThis statistic available to last battle on this vehicle\nTo <font color=\"#FFFFFF\" size=\"12\">20% </font>   need <font color=\"#F8F400\" size=\"12\">~{_20}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">40% </font>   need <font color=\"#F8F400\" size=\"12\">~{_40}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">55% </font>   need <font color=\"#F8F400\" size=\"12\">~{_55}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">65% </font>   need <font color=\"#60FF00\" size=\"12\">~{_65}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">85% </font>   need <font color=\"#02C9B3\" size=\"12\">~{_85}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">95% </font>   need <font color=\"#D042F3\" size=\"12\">~{_95}</font> moving average damage\nTo <font color=\"#FFFFFF\" size=\"12\">100% </font>  need <font color=\"#D042F3\" size=\"12\">~{_100}</font> moving average damage",
     "battleMessageSizeDown": "MoE mod: Size <b>-10%</b>",
     "battleMessageSizeLimitMax": "MoE mod: Reached <b>maximum[1000%]</b>",
     "battleMessageSizeLimitMin": "MoE mod: Reached <b>minimum[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Reset Settings</b>",
     "battleMessageSizeUp": "MoE mod: Size <b>+10%</b>",
-    "version": 701
+    "version": 702
 }

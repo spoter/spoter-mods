@@ -1,13 +1,18 @@
 ﻿{
-    "UI": 1,
+    "UI": 9,
     "background": true,
     "backgroundData": {
-        "alpha": 1.0
+        "alpha": 1.0,
+        "width": 115,
+        "height": 42
     },
     "backgroundImage": "../maps/icons/quests/inBattleHint.png",
     "battleMessage": "<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>",
     "battleMessageAlt": "<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n{c_damageToMark65}{c_damageToMark85}\n{c_damageToMark95}{c_damageToMark100}",
     "battleMessageSizeInPercent": 100,
+    "battleMessage{assistSpam}": "<img src=\"img://gui/maps/icons/library/efficiency/48x48/stun.png\" width=\"16\" height=\"16\" vspace=\"-5\"/>",
+    "battleMessage{assistSpot}": "<img src=\"img://gui/maps/icons/library/efficiency/48x48/detection.png\" width=\"16\" height=\"16\" vspace=\"-5\"/>",
+    "battleMessage{assistTrack}": "<img src=\"img://gui/maps/icons/library/efficiency/48x48/immobilized.png\" width=\"16\" height=\"16\" vspace=\"-5\"/>",
     "battleMessage{battleMarkOfGun}": "%.2f%%",
     "battleMessage{c_battleMarkOfGun}": "%s",
     "battleMessage{c_currentMarkOfGun}": "%s",
@@ -37,7 +42,7 @@
     "battleMessage{nextMarkOfGun}": "%.1f%%",
     "battleMessage{status}Down": "<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy.png\" vspace=\"-5\"/>",
     "battleMessage{status}Unknown": "<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy_violet.png\" vspace=\"-5\"/>",
-    "battleMessage{status}Up": "<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_online.png\" vspace=\"-5\"/>",
+    "battleMessage{status}Up": "<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_online.png\" vspace=\"-5\"/> ",
     "buttonReset": [
         211,
         [ 29, 157 ],
@@ -59,14 +64,17 @@
     "enabled": true,
     "font": "$IMELanguageBar",
     "panel": {
-        "width": 163,
+        "index": 1,
+        "visible": true,
         "drag": true,
+        "height": 42,
+        "width": 115,
+        "alignY": "bottom",
         "alignX": "left",
+        "limit": true,
         "y": -228,
         "x": 230,
-        "border": true,
-        "alignY": "bottom",
-        "height": 50
+        "border": true
     },
     "panelSize": {
         "heightNormal": 50,
@@ -77,12 +85,12 @@
     "shadow": true,
     "shadowText": {
         "distance": 0,
-        "blurX": 1,
         "strength": 1,
-        "angle": 0,
+        "blurX": 1,
         "blurY": 1,
         "color": 0,
         "alpha": 1,
+        "angle": 0,
         "quality": 1
     },
     "showInBattle": true,
@@ -95,5 +103,5 @@
     "showInTechTreeMarkOfGunPercentFirst": false,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 701
+    "version": 702
 }
