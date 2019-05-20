@@ -1,5 +1,5 @@
 {
-  "version": 7.02,
+  "version": 7.03,
   "source": "mod_marksOnGunExtended.py",
   "meta": "configs/meta.xml",
   "config": "configs/marksOnGunExtended.json",

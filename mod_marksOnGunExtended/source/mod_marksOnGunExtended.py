@@ -27,6 +27,7 @@ from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
 from gui.Scaleform.daapi.view.lobby.profile.ProfileUtils import ProfileUtils
 
+
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
 COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FF6347', '#FFFFFF']
 MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
@@ -61,8 +62,8 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.02 (2019-05-10)'
-        self.version_id = 702
+        self.version = 'v7.03 (2019-05-21)'
+        self.version_id = 703
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -241,8 +242,8 @@ class Config(object):
             'battleMessageSizeLimitMax'                                       : 'MoE mod: Reached <b>maximum[1000%]</b>',
             'battleMessageSizeReset'                                          : 'MoE mod: Reset Settings</b>',
             'NaN'                                                             : '[<b>NaN</b>]',
-            'UI_HangarStatsStart'                                             : '<b>{currentPercent}<font size=\"14\">({currentDamage})</font></b>',
-            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}'
+            'UI_HangarStatsStart'                                             : '<b>{currentPercent}<font size=\"14\">[{currentDamage}]</font> </b>',
+            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}, {c_damageToMark95}, {c_damageToMark100}'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -1453,12 +1454,18 @@ def getExtraInfo(func, *args):
             result['nameString'] = '%s%s' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText)
     return result
 
+def htmlHangarBuilder():
+    self = BigWorld.MoEHangarHTML
+    if self.flashObject:
+        self.flashObject.txtTankInfoName.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="24" COLOR="#FEFEEC" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeStart
+        self.flashObject.txtTankInfoLevel.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="14" COLOR="#E9E2BF" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeEnd
+
 
 @inject.hook(HangarHeader, '_makeHeaderVO')
 @inject.log
 def makeHeaderVO(func, *args):
     result = func(*args)
-    if config.data['showInHangar'] and 'tankInfo' in result:
+    if config.data['showInHangar'] and 'tankInfoName' in result:
         self = args[0]
         vehicle = self._currentVehicle.item
         targetData = g_currentVehicle.getDossier()
@@ -1496,8 +1503,11 @@ def makeHeaderVO(func, *args):
             }
             moeStart = text_styles.promoSubTitle(config.i18n['UI_HangarStatsStart'].format(**data))
             moeEnd = text_styles.stats(config.i18n['UI_HangarStatsEnd'].format(**data))
-        oldData = '%s%s %s' % (moeStart, text_styles.promoSubTitle(vehicle.shortUserName), text_styles.stats(MU.levels_roman(vehicle.level)))
-        result['tankInfo'] = text_styles.concatStylesToMultiLine(oldData, moeEnd)
+        oldData = '<b>%s%s %s</b>' % (moeStart, text_styles.promoSubTitle(vehicle.shortUserName), text_styles.stats(MU.levels_roman(vehicle.level)))
+        self.moeStart = text_styles.concatStylesToMultiLine(oldData, moeEnd)
+        self.moeEnd = moeEnd
+        BigWorld.MoEHangarHTML = self
+        BigWorld.callback(0.1, htmlHangarBuilder)
     return result
 
 

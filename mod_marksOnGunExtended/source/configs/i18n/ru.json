@@ -1,6 +1,6 @@
 ﻿{
-    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
-    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentDamage})</font> </b>",
+    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}, {c_damageToMark95}, {c_damageToMark100}",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">[{currentDamage}]</font> </b>",
     "NaN": "[<b>NaN</b>]",
     "UI_description": "Отметки на Орудии Extended",
     "UI_menu_UIConfig": "Из конфига",
@@ -87,5 +87,5 @@
     "battleMessageSizeLimitMin": "MoE mod: Достигнут <b>минимум[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Сброс настроек</b>",
     "battleMessageSizeUp": "MoE mod: Размер <b>+10%</b>",
-    "version": 702
+    "version": 703
 }

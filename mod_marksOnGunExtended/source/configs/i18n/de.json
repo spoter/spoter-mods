@@ -1,6 +1,6 @@
 ﻿{
-    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}",
-    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">({currentDamage})</font> </b>",
+    "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}, {c_damageToMark95}, {c_damageToMark100}",
+    "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">[{currentDamage}]</font> </b>",
     "NaN": "[<b>NaN</b>]",
     "UI_description": "Marks of Excellence Extended",
     "UI_menu_UIConfig": "Config",
@@ -88,5 +88,5 @@
     "battleMessageSizeLimitMin": "MoE mod: <b>minimum[10%]</b> erreicht",
     "battleMessageSizeReset": "MoE mod: Einstellungen zurücksetzen</b>",
     "battleMessageSizeUp": "MoE mod: Größe <b>+10%</b>",
-    "version": 702
+    "version": 703
 }
