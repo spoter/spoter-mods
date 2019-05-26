@@ -47,6 +47,10 @@
     "UI_setting_currentCrewRoleBattle_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Битв до 100% текущего умения в поле Звание{/BODY}",
     "UI_setting_currentCrewRoleExp_text": "Опыта до 100% в поле Звание",
     "UI_setting_currentCrewRoleExp_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Опыта до 100% текущего умения в поле Звание{/BODY}",
+    "UI_setting_currentCrewShowNewSkillPercent_text": "Проценты для новых умений",
+    "UI_setting_currentCrewShowNewSkillPercent_tooltip": "",
+    "UI_setting_currentCrewShowSkillResetStatus_text": "Статус переобучения без золота",
+    "UI_setting_currentCrewShowSkillResetStatus_tooltip": "",
     "UI_setting_currentCrew_label": "Экипаж в ангаре:",
     "UI_setting_personalFileSkillBattle_text": "Битвы до 100%",
     "UI_setting_personalFileSkillBattle_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Битв до 100% текущего умения в формате: 1 битва до 1% (100 битв до 100%){/BODY}",
@@ -56,5 +60,5 @@
     "UI_setting_personalFileTotalXP_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Всего опыта, заработанного текущим танкистом{/BODY}",
     "UI_setting_personalFileSilverXP_text": "Для сброса за серебро: {} опыта",
     "UI_setting_personalFile_label": "Личное дело:",
-    "version": 600
+    "version": 601
 }

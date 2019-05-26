@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import math
-
+import BigWorld
 from CurrentVehicle import g_currentVehicle
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
 from gui.Scaleform.daapi.view.lobby.barracks import Barracks
@@ -13,8 +13,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v6.00 (2019-05-02)'
-        self.version_id = 600
+        self.version = 'v6.01 (2019-05-26)'
+        self.version_id = 601
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -30,6 +30,8 @@ class Config(object):
             'currentCrewRankExp'     : False,
             'currentCrewRoleExp'     : True,
             'currentCrewExpIcon'     : True,
+            'currentCrewShowNewSkillPercent': True,
+            'currentCrewShowSkillResetStatus': True,
             'currentColorExp'        : 5,
             'barracksEnable'         : True,
             'barracksBattleOrExp'    : True,
@@ -69,6 +71,10 @@ class Config(object):
             'UI_setting_currentCrewRoleExp_tooltip'     : '{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Role field{/BODY}',
             'UI_setting_currentCrewExpIcon_text'        : 'Show Exp Icon',
             'UI_setting_currentCrewExpIcon_tooltip'     : '',
+            'UI_setting_currentCrewShowNewSkillPercent_text'   : 'Show percentage new skills',
+            'UI_setting_currentCrewShowNewSkillPercent_tooltip': '',
+            'UI_setting_currentCrewShowSkillResetStatus_text'   : 'Show skill reset without gold',
+            'UI_setting_currentCrewShowSkillResetStatus_tooltip': '',
             'UI_setting_currentColorExp_text'           : 'Change Exp color',
             'UI_setting_currentColorExp_tooltip'        : '',
             'UI_setting_barracks_label'                 : 'Barracks :',
@@ -135,6 +141,12 @@ class Config(object):
                 'tooltip': self.i18n['UI_setting_currentCrewRoleBattle_tooltip'],
                 'varName': 'currentCrewRoleBattle'
             }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_currentCrewShowNewSkillPercent_text'],
+                'value'  : self.data['currentCrewShowNewSkillPercent'],
+                'tooltip': self.i18n['UI_setting_currentCrewShowNewSkillPercent_tooltip'],
+                'varName': 'currentCrewShowNewSkillPercent'
+            }, {
                 'type'        : 'Dropdown',
                 'text'        : self.i18n['UI_setting_currentColorBattle_text'],
                 'tooltip'     : self.i18n['UI_setting_currentColorBattle_tooltip'],
@@ -190,6 +202,12 @@ class Config(object):
                 'value'  : self.data['currentCrewRoleExp'],
                 'tooltip': self.i18n['UI_setting_currentCrewRoleExp_tooltip'],
                 'varName': 'currentCrewRoleExp'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_currentCrewShowSkillResetStatus_text'],
+                'value'  : self.data['currentCrewShowSkillResetStatus'],
+                'tooltip': self.i18n['UI_setting_currentCrewShowSkillResetStatus_tooltip'],
+                'varName': 'currentCrewShowSkillResetStatus'
             }, {
                 'type'        : 'Dropdown',
                 'text'        : self.i18n['UI_setting_currentColorExp_text'],
@@ -297,7 +315,16 @@ def changeTankman(data):
             textExp = generateTextString(dossier, 'Exp', exp, not config.data['currentCrewRankOnTop'] and tankman.descriptor.freeSkillsNumber)
             tankmenData['rank'] = textBattle[0] + textExp[0] + tankmenData['rank']
             tankmenData['role'] = textBattle[1] + textExp[1] + tankmenData['role']
-
+            if config.data['currentCrewShowNewSkillPercent'] or config.data['currentCrewShowSkillResetStatus']:
+                for skill in tankmenData['skills']:
+                    if 'buyCount' in skill:
+                        newSkillsCount, lastNewSkillLvl = tankman.newSkillCount
+                        level = (newSkillsCount - 1) * 100 + lastNewSkillLvl
+                        if level > 0 and level != 100:
+                            skill['active'] = tankman.descriptor.freeXP > 39153 if config.data['currentCrewShowSkillResetStatus'] else True
+                            skill['icon'] = u'new_skill.png'
+                            skill['buy'] = False
+                            tankmenData['lastSkillLevel'] = level if config.data['currentCrewShowNewSkillPercent'] else 100
     return data
 
 
@@ -316,6 +343,18 @@ def generateTextString(dossier, sign, value, premiumSkill):
     return text if config.data['currentCrewRank%s' % sign] else '', text if config.data['currentCrewRole%s' % sign] else ''
 
 
+def checkXVM():
+    try:
+        return BigWorld.XVMLoaded
+    except StandardError:
+        try:
+            from xvm_main.python import PATH
+            BigWorld.XVMLoaded = True
+        except StandardError:
+            BigWorld.XVMLoaded = False
+    return BigWorld.XVMLoaded
+
+
 def changeBarracksData(tankman, tankmenData):
     dossier = g_currentVehicle.itemsCache.items.getTankmanDossier(tankmenData['tankmanID'])
     if config.data['barracksBattleOrExp']:
@@ -329,12 +368,16 @@ def changeBarracksData(tankman, tankmenData):
         _, text = generateTextString(dossier, 'Exp', exp, tankman.descriptor.freeSkillsNumber)
     skills = ''
     if config.data['barracksSkillIcons']:
+        newSkillsCount, lastNewSkillLvl = tankman.newSkillCount
+        level = (newSkillsCount - 1) * 100 + lastNewSkillLvl
         for skill in tankman.skills:
-            if skill.isEnable and skill.isActive:
+            if skill.isEnable:
                 skills += '<img align=\"top\" src=\"img://gui/maps//icons/tankmen/skills/small/%s\" vspace=\"-3\"/>' % skill.icon
-                if skill.level < 100:
+                if skill.level < 100 and not newSkillsCount:
                     skills += '%s%%' % skill.level
-    tankmenData['role'] = text + tankmenData['role'] + skills
+        if level > -1:
+            skills += '<img align=\"top\" src=\"img://gui/maps//icons/tankmen/skills/small/new_skill.png\" vspace=\"-3\"/>%s%%' % level
+    tankmenData['role'] = text + ' ' + tankmenData['role'] + skills
     return tankmenData
 
 
@@ -353,6 +396,8 @@ def getStats(func, *args):
 @inject.hook(CrewMeta, 'as_tankmenResponseS')
 @inject.log
 def tankmanResponse(func, *args):
+    import BigWorld
+    BigWorld.tankmanResponse = args[0]
     if config.data['enabled']:
         return func(args[0], changeTankman(args[1]))
     return func(*args)
@@ -362,6 +407,6 @@ def tankmanResponse(func, *args):
 @inject.log
 def _packTankmanData(func, *args):
     data = func(*args)
-    if config.data['enabled'] and config.data['barracksEnable']:
+    if config.data['enabled'] and config.data['barracksEnable'] and not checkXVM():
         return changeBarracksData(args[0], data)
     return data

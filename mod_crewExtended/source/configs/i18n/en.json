@@ -47,6 +47,10 @@
     "UI_setting_currentCrewRoleBattle_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill in Role field{/BODY}",
     "UI_setting_currentCrewRoleExp_text": "Show Exp in Role",
     "UI_setting_currentCrewRoleExp_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Exp to current skill in Role field{/BODY}",
+    "UI_setting_currentCrewShowNewSkillPercent_text": "Show percentage new skills",
+    "UI_setting_currentCrewShowNewSkillPercent_tooltip": "",
+    "UI_setting_currentCrewShowSkillResetStatus_text": "Show skill reset without gold",
+    "UI_setting_currentCrewShowSkillResetStatus_tooltip": "",
     "UI_setting_currentCrew_label": "Current Crew :",
     "UI_setting_personalFileSkillBattle_text": "Show battles to 100%",
     "UI_setting_personalFileSkillBattle_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Battles to current skill with format: 1 battle to 1% (100 battle to 100%){/BODY}",
@@ -56,5 +60,5 @@
     "UI_setting_personalFileTotalXP_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Total Experience to current tankman{/BODY}",
     "UI_setting_personalFileSilverXP_text": "To reset main skill: {} experience",
     "UI_setting_personalFile_label": "Personal File :",
-    "version": 600
+    "version": 601
 }
