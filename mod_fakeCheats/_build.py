@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.5.0.0'
+CLIENT_VERSION = '1.5.0.4'
 NAME = 'spoter.mod_fakeCheats'
 ADD_LICENSE = True
 

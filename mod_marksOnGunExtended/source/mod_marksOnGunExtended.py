@@ -62,8 +62,8 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.03 (2019-05-21)'
-        self.version_id = 703
+        self.version = 'v7.04 (2019-06-01)'
+        self.version_id = 704
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -1258,8 +1258,8 @@ class Flash(object):
 
     def set_text(self, text):
         txt = '<font face="%s" color="#FFFFFF" vspace="-3" align="baseline" >%s</font>' % (config.data['font'], text)
-        self.updateObject(COMPONENT_TYPE.LABEL, {'text': self.textRepSize(txt), 'alpha': 0.8})
-        self.animateObject(COMPONENT_TYPE.LABEL, {'alpha': 1.8}, 1)
+        self.updateObject(COMPONENT_TYPE.LABEL, {'text': self.textRepSize(txt)})
+        #self.animateObject(COMPONENT_TYPE.LABEL, {'alpha': 1.8}, 1)
 
     def setVisible(self, status):
         data = {'visible': status}
@@ -1459,6 +1459,7 @@ def htmlHangarBuilder():
     if self.flashObject:
         self.flashObject.txtTankInfoName.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="24" COLOR="#FEFEEC" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeStart
         self.flashObject.txtTankInfoLevel.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="14" COLOR="#E9E2BF" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeEnd
+
 
 
 @inject.hook(HangarHeader, '_makeHeaderVO')
