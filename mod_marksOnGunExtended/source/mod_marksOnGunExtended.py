@@ -62,7 +62,7 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.04 (2019-06-01)'
+        self.version = 'v7.04 (2019-06-03)'
         self.version_id = 704
         self.author = 'by spoter to b4it.org'
         self.buttons = {
@@ -1457,7 +1457,7 @@ def getExtraInfo(func, *args):
 def htmlHangarBuilder():
     self = BigWorld.MoEHangarHTML
     if self.flashObject:
-        self.flashObject.txtTankInfoName.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="24" COLOR="#FEFEEC" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeStart
+        self.flashObject.txtTankInfoName.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="16" COLOR="#FEFEEC" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeStart
         self.flashObject.txtTankInfoLevel.htmlText = '<TEXTFORMAT INDENT="0" LEFTMARGIN="0" RIGHTMARGIN="0" LEADING="1"><P ALIGN="LEFT"><FONT FACE="$FieldFont" SIZE="14" COLOR="#E9E2BF" KERNING="0">%s</FONT></P></TEXTFORMAT>' %self.moeEnd
 
 
