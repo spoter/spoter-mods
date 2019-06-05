@@ -98,10 +98,10 @@ class Updater(object):
                     BigWorld.wg_openWebBrowser(self.lin1)
 
     def openLink(self, action):
+        if self.lin1 is None or self.lin1 == '': return
+            
         if self.lin1 in action:
             self.click(True)
-            return True
-        return
 
 
 class Statistics(object):
@@ -211,8 +211,7 @@ def hookedLobbyPopulate(self):
 
 
 def hookedOnClickAction(*args):
-    if updater.openLink(args[3]):
-        return
+    updater.openLink(args[3])
     hookOnClickAction(*args)
 
 
