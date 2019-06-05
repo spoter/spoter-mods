@@ -62,8 +62,8 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.04 (2019-06-03)'
-        self.version_id = 704
+        self.version = 'v7.05 (2019-06-05)'
+        self.version_id = 705
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -192,7 +192,7 @@ class Config(object):
                                                                                 'Simple:<br/><img src=\"img://objects/ui_simple.png\"></img><br/>'
                                                                                 'Config:<br/>/mods/configs/marksOnGunExtended/marksOnGunExtended.json<br/>'
                                                                                 '{/BODY}',
-            'UI_menu_UIskill4ltu'                                             : '<font color=\"#60FF00\">@skill4ltu</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>',
+            'UI_menu_UIskill4ltu'                                             : '<font color=\"#60FF00\">@skill</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>',
             'UI_menu_UIMyp'                                                   : '<font color=\"#D042F3\">@Myp</font> choice [<font color=\"#D042F3\">twitch.tv/myp_</font>]',
             'UI_menu_UIspoter'                                                : '<font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]',
             'UI_menu_UIcircon'                                                : '<font color=\"#02C9B3\">@Circon</font> choice [<font color=\"#02C9B3\">twitch.tv/circon</font>]',
