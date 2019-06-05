@@ -192,7 +192,7 @@ class Config(object):
                                                                                 'Simple:<br/><img src=\"img://objects/ui_simple.png\"></img><br/>'
                                                                                 'Config:<br/>/mods/configs/marksOnGunExtended/marksOnGunExtended.json<br/>'
                                                                                 '{/BODY}',
-            'UI_menu_UIskill4ltu'                                             : '<font color=\"#60FF00\">@skill</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu]</font>',
+            'UI_menu_UIskill4ltu'                                             : '<font color=\"#60FF00\">@skill</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu</font>]',
             'UI_menu_UIMyp'                                                   : '<font color=\"#D042F3\">@Myp</font> choice [<font color=\"#D042F3\">twitch.tv/myp_</font>]',
             'UI_menu_UIspoter'                                                : '<font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]',
             'UI_menu_UIcircon'                                                : '<font color=\"#02C9B3\">@Circon</font> choice [<font color=\"#02C9B3\">twitch.tv/circon</font>]',
