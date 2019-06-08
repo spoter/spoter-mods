@@ -4,7 +4,7 @@ import BigWorld
 from Avatar import PlayerAvatar
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from gui.battle_control.controllers import feedback_events
-from gui.battle_control.controllers.personal_efficiency_ctrl import _AGGREGATED_DAMAGE_EFFICIENCY_TYPES
+from gui.battle_control.controllers.personal_efficiency_ctrl import _AGGREGATED_DAMAGE_EFFICIENCY_TYPES, _createEfficiencyInfoFromFeedbackEvent
 # noinspection PyProtectedMember
 from gui.mods.mod_mods_gui import g_gui, inject
 
@@ -24,8 +24,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.06 (2019-06-03)'
-        self.version_id = 406
+        self.version = 'v4.07 (2019-06-08)'
+        self.version_id = 407
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -213,15 +213,15 @@ class Assist(object):
                 icon = '<img src="img://%s" width="%s" height="%s" />' % (g_sessionProvider.getArenaDP().getVehicleInfo(vehicleID).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
                 target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vID=vehicleID)
                 if self.check_macros('{icons}'): self.format_str['icons'] += icon
-                if self.check_macros('{names}'): self.format_str['names'] += '[%s]' % target_info[1] if target_info[1] else icon
-                if self.check_macros('{vehicles}'): self.format_str['vehicles'] += '[%s]' % target_info[4] if target_info[4] else icon
-                if self.check_macros('{icons_names}'): self.format_str['icons_names'] += '%s[%s]' % (icon, target_info[1]) if target_info[1] else icon
-                if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[%s]' % (icon, target_info[4]) if target_info[4] else icon
+                if self.check_macros('{names}'): self.format_str['names'] += '[<b>%s</b>]' % target_info[1] if target_info[1] else icon
+                if self.check_macros('{vehicles}'): self.format_str['vehicles'] += '[<b>%s</b>]' % target_info[4] if target_info[4] else icon
+                if self.check_macros('{icons_names}'): self.format_str['icons_names'] += '%s[<b>%s</b>]' % (icon, target_info[1]) if target_info[1] else icon
+                if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[<b>%s</b>]' % (icon, target_info[4]) if target_info[4] else icon
                 if self.check_macros('{damage}'):
-                    extra = feedbackEvent.getExtra()
-                    if extra and feedbackEvent.getType() in _AGGREGATED_DAMAGE_EFFICIENCY_TYPES: self.format_str['damage'] += ' +%s' % extra.getDamage()
+                    extra = _createEfficiencyInfoFromFeedbackEvent(feedbackEvent)
+                    if extra and extra.getType() in _AGGREGATED_DAMAGE_EFFICIENCY_TYPES: self.format_str['damage'] += '<b> +%s</b>' % extra.getDamage()
                 if self.check_macros('{full}'):
-                    self.format_str['full'] += '%s[%s]' % (icon, target_info) if target_info else icon
+                    self.format_str['full'] += '%s[<b>%s</b>]' % (icon, target_info) if target_info else icon
                 if eventID == BATTLE_EVENT_TYPE.SPOTTED:
                     if config.data['sound']: assist.sound(0)
                 else:
