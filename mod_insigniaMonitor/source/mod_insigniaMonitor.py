@@ -143,7 +143,7 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v1.01 (2019-06-03)'
+        self.version = 'v1.01 (2019-06-10)'
         self.version_id = 101
         self.author = 'by spoter'
         self.data = {
@@ -404,42 +404,6 @@ class Flash(object):
             self.screenResize()
             print '%s Flash coordinates updated : y = %i, x = %i, props: %s' % (alias, config.data['panel']['y'], config.data['panel']['x'], props)
         '''
-
-    def setupSize(self, h=None, w=None):
-        height = int(config.data['panelSize'].get('heightNormal', 50)) if not worker.altMode else int(config.data['panelSize'].get('heightAlt', 80))
-        width = int(config.data['panelSize'].get('widthNormal', 163)) if not worker.altMode else int(config.data['panelSize'].get('widthAlt', 163))
-        if config.data['UI'] == 1:
-            height = 30 if not worker.altMode else 45
-            width = 152 if not worker.altMode else 152
-        if config.data['UI'] == 2:
-            height = 30 if not worker.altMode else 50
-            width = 130 if not worker.altMode else 130
-        if config.data['UI'] == 3:
-            height = 70 if not worker.altMode else 100
-            width = 130 if not worker.altMode else 130
-        if config.data['UI'] == 4:
-            height = 50 if not worker.altMode else 80
-            width = 163 if not worker.altMode else 163
-
-        if config.data['UI'] in (5, 6, 7, 8):
-            height = 82 if not worker.altMode else 82
-            width = 343 if not worker.altMode else 343
-
-        if h is not None and w is not None:
-            height = h
-            width = w
-
-        height = height * config.data['battleMessageSizeInPercent'] / 100
-        width = width * config.data['battleMessageSizeInPercent'] / 100
-
-        for name in self.data:
-            self.data[name]['height'] = height
-            self.data[name]['width'] = width
-        data = {'height': height, 'width': width}
-        self.updateObject(COMPONENT_TYPE.PANEL, data)
-        self.updateObject(COMPONENT_TYPE.LABEL, data)
-        if config.data['background']:
-            self.updateObject(COMPONENT_TYPE.IMAGE, data)
 
     def setText(self, text, tooltip, panel='panelSuccess', slot=1):
         name = '%s.slot%s' % (panel, slot)

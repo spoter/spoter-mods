@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.5.0.4'
+CLIENT_VERSION = '1.5.1.0'
 NAME = 'spoter.mod_spotMarks'
 ADD_LICENSE = True
 
