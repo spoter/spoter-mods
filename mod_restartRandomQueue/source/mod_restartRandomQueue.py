@@ -25,14 +25,14 @@ class Mod:
             return
         if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
             self.prbEntity.exitFromQueue()
-            self._exitCallback = BigWorld.callback(0.1, self.restartEnqueueRandom)
+            self.restartEnqueueRandom()
         self._count += 1
 
     def restartEnqueueRandom(self):
         if not self.prbEntity.isInQueue():
             self.prbEntity.exitFromQueue()
             return
-        self._exitCallback = BigWorld.callback(0.2, self.restartEnqueueRandom)
+        self._exitCallback = BigWorld.callback(0.1, self.restartEnqueueRandom)
 
     def start(self):
         self._count = 0
@@ -50,4 +50,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.04 (16-06-2019), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.05 (16-06-2019), by spoter]'
