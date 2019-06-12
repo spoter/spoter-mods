@@ -5,9 +5,12 @@ from PlayerEvents import g_playerEvents
 # noinspection PyProtectedMember
 from gui.Scaleform.daapi.view.lobby.battle_queue import _QueueProvider
 from gui.prb_control import prbEntityProperty
+from helpers import dependency
+from skeletons.gui.lobby_context import ILobbyContext
 
 
 class Mod:
+    lobbyContext = dependency.descriptor(ILobbyContext)
     def __init__(self):
         g_playerEvents.onQueueInfoReceived += self.processQueueInfo
         self._count = 0
@@ -20,7 +23,7 @@ class Mod:
     def processQueueInfo(self, _):
         if self.prbEntity is None:
             return
-        if self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
+        if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
             self.prbEntity.exitFromQueue()
             self._exitCallback = BigWorld.callback(0.1, self.restartEnqueueRandom)
         self._count += 1
@@ -29,7 +32,7 @@ class Mod:
         if not self.prbEntity.isInQueue():
             self.prbEntity.exitFromQueue()
             return
-        self._exitCallback = BigWorld.callback(0.1, self.restartEnqueueRandom)
+        self._exitCallback = BigWorld.callback(0.2, self.restartEnqueueRandom)
 
     def start(self):
         self._count = 0
@@ -47,4 +50,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.03 (28-05-2018), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.04 (16-06-2019), by spoter]'
