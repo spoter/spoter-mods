@@ -62,8 +62,8 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.06 (2019-06-14)'
-        self.version_id = 706
+        self.version = 'v7.07 (2019-06-14)'
+        self.version_id = 707
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -243,7 +243,7 @@ class Config(object):
             'battleMessageSizeReset'                                          : 'MoE mod: Reset Settings</b>',
             'NaN'                                                             : '[<b>NaN</b>]',
             'UI_HangarStatsStart'                                             : '<b>{currentPercent}<font size=\"14\">[{currentDamage}]</font> </b>',
-            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}, {c_damageToMark95}, {c_damageToMark100}'
+            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}\n{c_damageToMark95}, {c_damageToMark100}'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
