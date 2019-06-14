@@ -62,8 +62,8 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.05 (2019-06-10)'
-        self.version_id = 705
+        self.version = 'v7.06 (2019-06-14)'
+        self.version_id = 706
         self.author = 'by spoter to b4it.org'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -1509,6 +1509,46 @@ def makeHeaderVO(func, *args):
         self.moeEnd = moeEnd
         BigWorld.MoEHangarHTML = self
         BigWorld.callback(0.1, htmlHangarBuilder)
+    if config.data['showInHangar'] and 'tankInfo' in result:
+        self = args[0]
+        vehicle = self._currentVehicle.item
+        targetData = g_currentVehicle.getDossier()
+        damageRating = targetData.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0
+        moeStart = ''
+        moeEnd = ''
+        if damageRating:
+            damage = ProfileUtils.getValueOrUnavailable(ProfileUtils.getValueOrUnavailable(targetData.getRandomStats().getAvgDamage()))
+            # noinspection PyProtectedMember
+            track = ProfileUtils.getValueOrUnavailable(targetData.getRandomStats()._getAvgValue(targetData.getRandomStats().getBattlesCountVer2, targetData.getRandomStats().getDamageAssistedTrack))
+            # noinspection PyProtectedMember
+            radio = ProfileUtils.getValueOrUnavailable(targetData.getRandomStats()._getAvgValue(targetData.getRandomStats().getBattlesCountVer2, targetData.getRandomStats().getDamageAssistedRadio))
+            stun = ProfileUtils.getValueOrUnavailable(targetData.getRandomStats().getAvgDamageAssistedStun())
+            currentDamage = int(damage + max(track, radio, stun))
+            movingAvgDamage = targetData.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'movingAvgDamage')
+            pC, dC, p20, p40, p55, p65, p85, p95, p100 = worker.calcStatistics(damageRating, movingAvgDamage)
+            color = ['#F8F400', '#F8F400', '#60FF00', '#02C9B3', '#D042F3', '#D042F3']
+            levels = [p55, p65, p85, p95, p100, 10000000]
+
+            currentDamaged = '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= currentDamage, levels)[0])], currentDamage)
+            currentMovingAvgDamage = '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= movingAvgDamage, levels)[0])], movingAvgDamage)
+            data = {
+                'currentPercent'        : '%s%%' % damageRating,
+                'currentMovingAvgDamage': currentMovingAvgDamage,
+                'currentDamage'         : currentDamaged if currentDamage > movingAvgDamage else currentMovingAvgDamage,
+                'nextPercent'           : '<font color="%s">%s%%</font>' % (battleDamageRating[LEVELS.index(filter(lambda x: x >= pC, LEVELS)[0])], pC),
+                'needDamage'            : '<font color="%s">%s</font>' % (color[levels.index(filter(lambda x: x >= int(dC), levels)[0])], int(dC)),
+                'c_damageToMark20'      : '<font color="%s"><b>20%%:%s</b></font>' % (RATING['very_bad'], worker.getNormalizeDigits(p20)),
+                'c_damageToMark40'      : '<font color="%s"><b>40%%:%s</b></font>' % (RATING['bad'], worker.getNormalizeDigits(p40)),
+                'c_damageToMark55'      : '<font color="%s"><b>55%%:%s</b></font>' % (RATING['normal'], worker.getNormalizeDigits(p55)),
+                'c_damageToMark65'      : '<font color="%s"><b>65%%:%s</b></font>' % (RATING['good'], worker.getNormalizeDigits(p65)),
+                'c_damageToMark85'      : '<font color="%s"><b>85%%:%s</b></font>' % (RATING['very_good'], worker.getNormalizeDigits(p85)),
+                'c_damageToMark95'      : '<font color="%s"><b>95%%:%s</b></font>' % (RATING['unique'], worker.getNormalizeDigits(p95)),
+                'c_damageToMark100'     : '<font color="%s"><b>100%%:%s</b></font>' % (RATING['unique'], worker.getNormalizeDigits(p100))
+            }
+            moeStart = text_styles.promoSubTitle(config.i18n['UI_HangarStatsStart'].format(**data))
+            moeEnd = text_styles.stats(config.i18n['UI_HangarStatsEnd'].format(**data))
+        oldData = '%s%s %s' % (moeStart, text_styles.promoSubTitle(vehicle.shortUserName), text_styles.stats(MU.levels_roman(vehicle.level)))
+        result['tankInfo'] = text_styles.concatStylesToMultiLine(oldData, moeEnd)
     return result
 
 
