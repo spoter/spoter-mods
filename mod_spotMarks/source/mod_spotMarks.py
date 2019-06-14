@@ -18,7 +18,7 @@ class Config(object):
     def __init__(self):
         self.ids = 'spotMarks'
         self.author = 'by spoter'
-        self.version = 'v1.11 (2019-06-10)'
+        self.version = 'v1.11 (2019-06-14)'
         self.version_id = 111
         self.buttons = {
             'buttonShow': [Keys.KEY_P, [Keys.KEY_LALT, Keys.KEY_RALT]],
