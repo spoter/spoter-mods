@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import BattleReplay
 import BigWorld
-from AvatarInputHandler.aih_constants import CTRL_MODE_NAME, GUN_MARKER_TYPE
+try:
+    from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME, GUN_MARKER_TYPE
+except:
+    #TODO: 1.5.1 совместимость.
+    from AvatarInputHandler.aih_constants import CTRL_MODE_NAME, GUN_MARKER_TYPE
 from AvatarInputHandler.control_modes import ArcadeControlMode
 from gui.Scaleform.daapi.view.battle.shared.crosshair import gm_components as _components
 # noinspection PyProtectedMember
@@ -54,4 +58,4 @@ hookActivateAlternateMode = ArcadeControlMode._ArcadeControlMode__activateAltern
 ArcadeControlMode._ArcadeControlMode__activateAlternateMode = hookedActivateAlternateMode
 _OptionalMarkersFactory.create = create
 
-print '[LOAD_MOD]:  [sniperByScroll 2.03 (18-12-2017), by Kainenger, spoter, angelsoft]'
+print '[LOAD_MOD]:  [sniperByScroll 2.04 (04-08-2019), by Kainenger, spoter, angelsoft]'
