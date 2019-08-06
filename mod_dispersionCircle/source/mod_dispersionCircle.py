@@ -8,7 +8,8 @@ import BattleReplay
 import BigWorld
 import GUI
 from Avatar import PlayerAvatar
-from AvatarInputHandler import gun_marker_ctrl, mathUtils
+from AvatarInputHandler import gun_marker_ctrl
+import math_utils
 from AvatarInputHandler.AimingSystems.SniperAimingSystem import SniperAimingSystem
 from AvatarInputHandler.DynamicCameras.ArcadeCamera import ArcadeCamera, _InputInertia
 from AvatarInputHandler.DynamicCameras.SniperCamera import SniperCamera
@@ -24,8 +25,8 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.07 (2019-08-04)'
-        self.version_id = 307
+        self.version = 'v3.08 (2019-08-06)'
+        self.version_id = 308
         self.author = 'by StranikS_Scan'
         self.data = {
             'enabled'              : True,
@@ -289,7 +290,7 @@ class DispersionCircle(object):
     @staticmethod
     def glideFov(func, newRelativeFocusDist):
         minMulti, maxMulti = func._InputInertia__minMaxZoomMultiplier
-        endMulti = mathUtils.lerp(minMulti, maxMulti, newRelativeFocusDist)
+        endMulti = math_utils.lerp(minMulti, maxMulti, newRelativeFocusDist)
         func._InputInertia__zoomMultiplierEasing.reset(func._InputInertia__zoomMultiplierEasing.value, endMulti, 0.001)
 
 
