@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from gui.shared.tooltips.module import ModuleTooltipBlockConstructor
+from gui.shared.tooltips import battle_booster
 from gui.Scaleform.daapi.view.lobby.storage import storage_helpers
+
 
 def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, contextMenuId=''):
     b = []
@@ -20,5 +22,6 @@ def createStorageDefVO(itemID, title, description, count, price, image, imageAlt
      'contextMenuId': contextMenuId}
 storage_helpers.createStorageDefVO = createStorageDefVO
 ModuleTooltipBlockConstructor.MAX_INSTALLED_LIST_LEN = 1000
+battle_booster._MAX_INSTALLED_LIST_LEN = 1000
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.01 (10-03-2019), by spoter, gox]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.02 (18-08-2019), by spoter, gox]'
