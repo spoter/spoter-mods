@@ -143,7 +143,7 @@ ACHIEVEMENT_CONDITIONS_EXT = {'warrior'           : {'minFrags': [8, 0, 6]},
 class Config(object):
     def __init__(self):
         self.ids = 'insigniaMonitor'
-        self.version = 'v1.01 (2019-08-04)'
+        self.version = 'v1.01 (2019-08-23)'
         self.version_id = 101
         self.author = 'by spoter'
         self.data = {
@@ -157,14 +157,14 @@ class Config(object):
             'fontColor'      : '#FFFFFF',
         }
         self.i18n = {
-            'version'       : self.version_id,
-            'UI_description': 'insignia monitor',
-            'minDetections' : '<img src=\"img://gui/maps/mod_insigniaMonitor/conditions/condition_assist.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
-            'minFrags' : '<img src=\"img://gui/maps/mod_insigniaMonitor/conditions/condition_kill_vehicles.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
+            'version'        : self.version_id,
+            'UI_description' : 'insignia monitor',
+            'minDetections'  : '<img src=\"img://gui/maps/mod_insigniaMonitor/conditions/condition_assist.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
+            'minFrags'       : '<img src=\"img://gui/maps/mod_insigniaMonitor/conditions/condition_kill_vehicles.png\" vspace=\"-6\" width=\"10\" height=\"10\" />',
 
-            'scout'         : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/scout.png\" width=\"32\" height=\"32\"/>',
-            'scout_success' : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/scout.png\"/>',
-            'warrior' : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/warrior.png\" width=\"32\" height=\"32\"/>',
+            'scout'          : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/scout.png\" width=\"32\" height=\"32\"/>',
+            'scout_success'  : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/scout.png\"/>',
+            'warrior'        : '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/warrior.png\" width=\"32\" height=\"32\"/>',
             'warrior_success': '<img src=\"img://gui/maps/mod_insigniaMonitor/insignia/warrior.png\"/>',
 
         }
@@ -587,7 +587,7 @@ class InsigniaEngine(object):
             if eventID == BATTLE_EVENT_TYPE.KILL:
                 insigniaEngine.insigniaWarrior()
 
-    def insigniaScout(self, test = False):
+    def insigniaScout(self, test=False):
         if 'scout' in insigniaMonitor.insignia:
             battle = inject.g_appLoader().getDefBattleApp()
             if battle is not None:

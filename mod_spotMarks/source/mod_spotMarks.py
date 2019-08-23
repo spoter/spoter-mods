@@ -18,8 +18,8 @@ class Config(object):
     def __init__(self):
         self.ids = 'spotMarks'
         self.author = 'by spoter'
-        self.version = 'v1.11 (2019-08-04)'
-        self.version_id = 111
+        self.version = 'v1.12 (2019-08-23)'
+        self.version_id = 112
         self.buttons = {
             'buttonShow': [Keys.KEY_P, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonMark': [Keys.KEY_SLASH, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -619,7 +619,7 @@ class spotMarks(object):
         if self.mapSelected and self.mapSelected in mapsData.data and len(mapsData.data[self.mapSelected]) > 2:
             teamBase = self.player.guiSessionProvider.getArenaDP().getNumberOfTeam()
             teamBase -= 1
-            if len(mapsData.data[self.mapSelected][gameplayID]) > 1:
+            if gameplayID < len(mapsData.data[self.mapSelected]) and len(mapsData.data[self.mapSelected][gameplayID]) > 1:
                 for position in mapsData.data[self.mapSelected][gameplayID][teamBase]:
                     self.points.append(self.createModel(Math.Vector3(position)))
         if len(self.points):

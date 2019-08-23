@@ -34,9 +34,9 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'w
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.08 (2019-08-04)'
+        self.version = 'v3.09 (2019-08-23)'
         self.author = 'by spoter'
-        self.version_id = 308
+        self.version_id = 309
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -326,7 +326,7 @@ def hookDestroyGUI(func, *args):
     repair.stopBattle()
 
 
-@inject.hook(ConsumablesPanel, '_ConsumablesPanel__onEquipmentAdded')
+@inject.hook(ConsumablesPanel, '_onEquipmentAdded')
 @inject.log
 def onEquipmentAdded(func, *args):
     func(*args)

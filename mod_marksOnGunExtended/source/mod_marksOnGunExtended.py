@@ -62,7 +62,7 @@ ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v7.07 (2019-08-04)'
+        self.version = 'v7.07 (2019-08-23)'
         self.version_id = 707
         self.author = 'by spoter to b4it.org'
         self.buttons = {

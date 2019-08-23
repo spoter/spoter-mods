@@ -1,5 +1,5 @@
 {
-  "version": 1.11,
+  "version": 1.12,
   "source": "mod_spotMarks.py",
   "meta": "configs/meta.xml",
   "config": "configs/spotMarks.json",

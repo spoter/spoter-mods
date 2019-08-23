@@ -6,11 +6,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 import VehicleGunRotator
 from gui import InputHandler
 from Avatar import PlayerAvatar
-try:
-    from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME
-except:
-    #TODO: 1.5.1 совместимость.
-    from AvatarInputHandler.aih_constants import CTRL_MODE_NAME
+from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME
 # noinspection PyProtectedMember
 from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticObjectMarker3D
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
@@ -20,7 +16,7 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.10 (2019-08-04)'
+        self.version = 'v2.10 (2019-08-23)'
         self.author = 'by spoter'
         self.version_id = 210
         self.buttons = {

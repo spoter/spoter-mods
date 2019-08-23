@@ -1,8 +1,0 @@
-{
-  "version": 313.37,
-  "source": "mod_fakeCheats.py",
-  "meta": "configs/meta.xml",
-  "config": "configs/fakeCheats.json",
-  "i18n": "configs/i18n",
-  "resources": []
-}
