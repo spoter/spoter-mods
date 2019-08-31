@@ -17,9 +17,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.11 (2019-08-31)'
+        self.version = 'v2.12 (2019-08-31)'
         self.author = 'by spoter'
-        self.version_id = 211
+        self.version_id = 212
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -154,9 +154,9 @@ class ArtyBall(object):
             self.modelSplash._StaticObjectMarker3D__model.visible = False
             self.modelDot._StaticObjectMarker3D__model.visible = False
             self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
-            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(0.5, 0.5), 0.5, 4294967295L)
+            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(2.0, 2.0), 0.5, 4294967295L)
             self.modelSplash._StaticObjectMarker3D__model.root.attach(self.modelSplashCircle)
-            self.modelSplashCircle.enableAccurateCollision(True)
+            self.modelSplashCircle.enableAccurateCollision(False)
 
     def stopBattle(self):
         InputHandler.g_instance.onKeyDown -= self.injectButton
@@ -201,13 +201,10 @@ class ArtyBall(object):
             if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
                 self.scaleSplash = shell.type.explosionRadius
                 self.modelSplash._StaticObjectMarker3D__model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
-                self.modelSplashCircle.setSize(Math.Vector2(self.scaleSplash * 0.16345, self.scaleSplash * 0.16345))
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelSplash._StaticObjectMarker3D__model.position = self.player.gunRotator.markerInfo[0]
             self.modelSplashCircle.updateHeights()
-            self.modelSplashCircle.enableAccurateCollision(True)
-
         if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model:
             if not self.modelDotKeyPressed:
                 self.modelDotVisible = config.data['showDotOnDefault']
