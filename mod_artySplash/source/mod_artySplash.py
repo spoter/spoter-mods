@@ -2,6 +2,7 @@
 
 import BigWorld
 import Keys
+import Math
 from gui.mods.mod_mods_gui import g_gui, inject
 import VehicleGunRotator
 from gui import InputHandler
@@ -16,9 +17,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.10 (2019-08-23)'
+        self.version = 'v2.11 (2019-08-31)'
         self.author = 'by spoter'
-        self.version_id = 210
+        self.version_id = 211
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -125,6 +126,7 @@ class ArtyBall(object):
     def __init__(self):
         self.modelSplash = None
         self.modelDot = None
+        self.modelSplashCircle = None
         self.modelSplashVisible = False
         self.modelDotVisible = False
         self.modelSplashKeyPressed = False
@@ -151,6 +153,10 @@ class ArtyBall(object):
                 self.modelDot._StaticObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
             self.modelSplash._StaticObjectMarker3D__model.visible = False
             self.modelDot._StaticObjectMarker3D__model.visible = False
+            self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
+            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(0.5, 0.5), 0.5, 4294967295L)
+            self.modelSplash._StaticObjectMarker3D__model.root.attach(self.modelSplashCircle)
+            self.modelSplashCircle.enableAccurateCollision(True)
 
     def stopBattle(self):
         InputHandler.g_instance.onKeyDown -= self.injectButton
@@ -160,12 +166,15 @@ class ArtyBall(object):
         self.modelSplashKeyPressed = False
         self.modelDotKeyPressed = False
         if self.modelSplash is not None:
+            if self.modelSplashCircle.attached:
+                self.modelSplash._StaticObjectMarker3D__model.root.detach(self.modelSplashCircle)
             self.modelSplash.clear()
         if self.modelDot is not None:
             self.modelDot.clear()
         self.modelSplash = None
         self.modelDot = None
         self.scaleSplash = None
+        self.modelSplashCircle = None
 
     def working(self):
         if not config.data['enabled'] or self.player is None:
@@ -192,9 +201,12 @@ class ArtyBall(object):
             if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
                 self.scaleSplash = shell.type.explosionRadius
                 self.modelSplash._StaticObjectMarker3D__model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
+                self.modelSplashCircle.setSize(Math.Vector2(self.scaleSplash * 0.16345, self.scaleSplash * 0.16345))
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelSplash._StaticObjectMarker3D__model.position = self.player.gunRotator.markerInfo[0]
+            self.modelSplashCircle.updateHeights()
+            self.modelSplashCircle.enableAccurateCollision(True)
 
         if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model:
             if not self.modelDotKeyPressed:
