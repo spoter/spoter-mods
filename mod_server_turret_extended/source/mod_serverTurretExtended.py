@@ -17,8 +17,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v2.03 (2019-08-23)'
-        self.version_id = 203
+        self.version = 'v2.04 (2019-09-09)'
+        self.version_id = 204
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -152,16 +152,16 @@ class MovementControl(object):
             fSpeedLimit, bSpeedLimit = vehicle.typeDescriptor.physics['speedLimits']
             forward, backward, speed = self.getSpeed(fSpeedLimit, bSpeedLimit, vehicle.speedInfo.value[0])
             timer = BigWorld.time()
-            if self.timer + 2.0 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
-                if -10 <= speed < 0:
+            if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
+                if backward <= speed < 0:
                     return self.changeSiege(False)
-                if forward - 25 >= speed >= 0:
+                if forward >= speed >= 0:
                     return self.changeSiege(False)
 
-            if self.timer + 2.0 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
-                if backward + 10 >= speed:
+            if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
+                if backward >= speed:
                     return self.changeSiege(True)
-                if forward - 20 <= speed:
+                if forward <= speed:
                     return self.changeSiege(True)
 
     def changeSiege(self, status):
