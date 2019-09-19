@@ -34,9 +34,9 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'w
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.09 (2019-08-23)'
+        self.version = 'v3.10 (2019-09-19)'
         self.author = 'by spoter'
-        self.version_id = 309
+        self.version_id = 310
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -189,11 +189,16 @@ class Repair(object):
         for equipmentTag in self.items:
             self.items[equipmentTag][2] = None
             self.items[equipmentTag][3] = None
+        self.items['repairkit'][1] = 1531
 
     def checkBattleStarted(self):
         if hasattr(BigWorld.player(), 'arena') and BigWorld.player().arena.period is 3:
             for equipmentTag in self.items:
                 self.items[equipmentTag][2] = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
+                self.items[equipmentTag][3] = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
+            equipmentTag = 'repairkit'
+            if self.ctrl.equipments.hasEquipment(46331):
+                self.items[equipmentTag][1] = 46331
                 self.items[equipmentTag][3] = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
         else:
             BigWorld.callback(0.1, self.checkBattleStarted)

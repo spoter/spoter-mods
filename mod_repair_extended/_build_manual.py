@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.6.0.2'
+CLIENT_VERSION = '1.6.0.7'
 BUILD = 'manual'
 NAME = 'spoter.repair_extended'
 ADD_LICENSE = True
