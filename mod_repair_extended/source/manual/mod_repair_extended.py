@@ -34,7 +34,7 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'w
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.10 (2019-09-19)'
+        self.version = 'v3.10 (2019-09-20)'
         self.author = 'by spoter'
         self.version_id = 310
         self.buttons = {
@@ -330,8 +330,10 @@ def hookDestroyGUI(func, *args):
     func(*args)
     repair.stopBattle()
 
-
-@inject.hook(ConsumablesPanel, '_onEquipmentAdded')
+injName = '_ConsumablesPanel__onEquipmentAdded'
+if hasattr(ConsumablesPanel, '_onEquipmentAdded'):
+    injName = '_onEquipmentAdded'
+@inject.hook(ConsumablesPanel, injName)
 @inject.log
 def onEquipmentAdded(func, *args):
     func(*args)
