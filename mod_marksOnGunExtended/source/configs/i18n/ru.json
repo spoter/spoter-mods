@@ -77,7 +77,7 @@
     "UI_setting_techTreeMarkOfGunTankNameColoredOnlyMarkOfGun_tooltip": "",
     "UI_setting_techTreeMasterySize_text": "Исследования: размер иконки Мастерства",
     "UI_setting_techTreeMasterySize_value": "",
-    "UI_setting_unknownColor_text": "Бой: цвет когда отметка неизестна",
+    "UI_setting_unknownColor_text": "Бой: цвет когда отметка неизвестна",
     "UI_setting_unknownColor_tooltip": "",
     "UI_setting_upColor_text": "Бой: цвет когда отметка растёт",
     "UI_setting_upColor_tooltip": "",
