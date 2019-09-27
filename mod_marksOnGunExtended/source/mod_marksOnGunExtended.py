@@ -55,20 +55,24 @@ battleDamageRating = [battleDamageRating0, battleDamageRating20, battleDamageRat
 
 LEVELS = [0.0, 20.0, 40.0, 55.0, 65.0, 85.0, 95.0, 100.0]
 MARKS = [
-    '',
-    '<font face="Arial" color="%s"><b>&#11361; </b></font>' % RATING['good'],
-    '<font face="Arial" color="%s"><b>&#11361;&#11361; </b></font>' % RATING['very_good'],
-    '<font face="Arial" color="%s"><b>&#11361;&#11361;&#11361; </b></font>' % RATING['unique']
+    '   ',
+    '<font face="Arial" color="%s"><b>  &#11361;</b></font>' % RATING['good'],
+    '<font face="Arial" color="%s"><b> &#11361;&#11361;</b></font>' % RATING['very_good'],
+    '<font face="Arial" color="%s"><b>&#11361;&#11361;&#11361;</b></font>' % RATING['unique']
 ]
 ASSISTS = ['assistSpot', 'assistTrack', 'assistSpam']
 ASSISTS_COLOR = ['#28F09C', '#8378FC', '#00FFFF']
 
+techTreeX = 75
+techTreeY = -10
+techTreeHeight = 16
+techTreeWidth = 54
 
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v8.00 (2019-09-27)'
-        self.version_id = 800
+        self.version = 'v8.01 (2019-09-27)'
+        self.version_id = 801
         self.author = 'by spoter to b4it.org & pfmods.net'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -1457,9 +1461,9 @@ def getExtraInfo(func, *args):
             color = ['#F8F400', '#60FF00', '#02C9B3', '#D042F3']
             percent = float(dossier.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0)
             if config.data['showInTechTreeMarkOfGunPercent'] and percent:
-                percentText = '%s' % markOfGunStars
-                percentText += '<font color="%s">%s%%</font>' % (color[markOfGunValue], percent)
-            result['nameString'] = '<font size="10">%s %s</font>' % (percentText if config.data['showInTechTreeMarkOfGunPercentFirst'] else result['nameString'], result['nameString'] if config.data['showInTechTreeMarkOfGunPercentFirst'] else percentText)
+                percent = '%.2f' %percent if percent < 100 else '100.0'
+                percentText = '||%s <font color="%s">%s%%</font>||%s||%s||%s||%s'% (markOfGunStars, color[markOfGunValue], percent.rjust(5), techTreeX, techTreeY, techTreeHeight, techTreeWidth)
+            result['nameString'] += percentText
     return result
 
 
