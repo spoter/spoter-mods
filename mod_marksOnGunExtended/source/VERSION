@@ -1,8 +1,8 @@
 {
-  "version": 7.07,
+  "version": 8.00,
   "source": "mod_marksOnGunExtended.py",
   "meta": "configs/meta.xml",
   "config": "configs/marksOnGunExtended.json",
   "i18n": "configs/i18n",
-  "resources": ["objects"]
+  "resources": ["objects", "gui"]
 }
