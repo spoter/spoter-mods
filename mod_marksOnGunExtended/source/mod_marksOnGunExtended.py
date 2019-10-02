@@ -71,8 +71,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v8.02 (2019-09-27)'
-        self.version_id = 802
+        self.version = 'v8.03 (2019-10-02)'
+        self.version_id = 803
         self.author = 'by spoter to b4it.org & pfmods.net'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -1141,8 +1141,8 @@ class Flash(object):
         if config.data['background']:
             data = {'background': True}
             self.updateObject(COMPONENT_TYPE.LABEL, data)
-            self.createObject(COMPONENT_TYPE.IMAGE)
-            self.updateObject(COMPONENT_TYPE.IMAGE, self.data['backgroundData'])
+            # self.createObject(COMPONENT_TYPE.IMAGE)
+            # self.updateObject(COMPONENT_TYPE.IMAGE, self.data['backgroundData'])
         if config.data['shadow']:
             self.updateObject(COMPONENT_TYPE.LABEL, self.data['shadow'])
         else:
@@ -1157,8 +1157,8 @@ class Flash(object):
         g_guiResetters.remove(self.screenResize)
         COMPONENT_EVENT.UPDATED -= self.update
         self.deleteObject(COMPONENT_TYPE.PANEL)
-        if config.data['background']:
-           self.deleteObject(COMPONENT_TYPE.IMAGE)
+        #if config.data['background']:
+        #   self.deleteObject(COMPONENT_TYPE.IMAGE)
         self.deleteObject(COMPONENT_TYPE.LABEL)
 
     def deleteObject(self, name):
@@ -1243,8 +1243,8 @@ class Flash(object):
         self.data[COMPONENT_TYPE.PANEL]['width'] = width
         data = {'height': height, 'width': width}
         self.updateObject(COMPONENT_TYPE.PANEL, data)
-        if config.data['background']:
-           self.updateObject(COMPONENT_TYPE.IMAGE, data)
+        # if config.data['background']:
+        #    self.updateObject(COMPONENT_TYPE.IMAGE, data)
         self.updateObject(COMPONENT_TYPE.LABEL, data)
 
     @staticmethod
