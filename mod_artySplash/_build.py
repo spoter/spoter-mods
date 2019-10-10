@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.6.0.8'
+CLIENT_VERSION = '1.6.1.0'
 NAME = 'spoter.artySplash'
 ADD_LICENSE = True
 

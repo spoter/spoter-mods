@@ -3,13 +3,12 @@ import BattleReplay
 import BigWorld
 from aih_constants import GUN_MARKER_TYPE
 from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME
-from AvatarInputHandler.control_modes import ArcadeControlMode
-from gui.Scaleform.daapi.view.battle.shared.crosshair import gm_components as _components
-# noinspection PyProtectedMember
+from AvatarInputHandler.control_modes import ArcadeControlMode, getShotTargetInfo
+from gui.battle_control.battle_constants import CROSSHAIR_VIEW_ID as _VIEW_ID
+from gui.Scaleform.daapi.view.battle.shared.crosshair.gm_components import DefaultGunMarkerComponent
 from gui.Scaleform.daapi.view.battle.shared.crosshair.gm_factory import _OptionalMarkersFactory
 from gui.Scaleform.genConsts.GUN_MARKER_VIEW_CONSTANTS import GUN_MARKER_VIEW_CONSTANTS as _CONSTANTS
 from gui.battle_control import avatar_getter
-from gui.battle_control.battle_constants import CROSSHAIR_VIEW_ID as _VIEW_ID
 
 
 def hookedActivateAlternateMode(self, pos=None, bByScroll=False):
@@ -29,6 +28,10 @@ def hookedActivateAlternateMode(self, pos=None, bByScroll=False):
                 pos = self.camera.aimingSystem.getDesiredShotPoint()
                 if pos is None:
                     pos = self._gunMarker.getPosition()
+                vehicle = BigWorld.player().getVehicleAttached()
+                hitPoint, _ = getShotTargetInfo(vehicle, pos, BigWorld.player().gunRotator)
+                if vehicle.position.distTo(hitPoint) < vehicle.position.distTo(pos):
+                    pos = hitPoint
         self._aih.onControlModeChanged(mode, preferredPos=pos, aimingMode=self._aimingMode, saveZoom=not bByScroll, equipmentID=equipmentID)
         return
     else:
@@ -36,18 +39,11 @@ def hookedActivateAlternateMode(self, pos=None, bByScroll=False):
 
 
 # noinspection PyUnusedLocal
-def create(self, markersInfo, vehicleInfo, components=None):
-    if vehicleInfo.isSPG():
-        dataProvider = markersInfo.serverMarkerDataProvider if markersInfo.isServerMarkerActivated else markersInfo.clientMarkerDataProvider
-        markerType = GUN_MARKER_TYPE.SERVER if markersInfo.isServerMarkerActivated else GUN_MARKER_TYPE.CLIENT
-        component = self._findComponent(markerType, dataProvider, components, _CONSTANTS.SNIPER_GUN_MARKER_NAME)
-        if component is None:
-            component = _components.DefaultGunMarkerComponent(markerType, _VIEW_ID.SNIPER, _CONSTANTS.SNIPER_GUN_MARKER_NAME, _CONSTANTS.GUN_MARKER_LINKAGE, dataProvider)
-        return component,
-    elif markersInfo.isEnabledInVideoMode:
-        return self._createVideoMarker(GUN_MARKER_TYPE.CLIENT, markersInfo.clientMarkerDataProvider, components),
-    else:
-        return tuple()
+def create(self):
+    if self._vehicleInfo.isSPG():
+        return (self._createMarker(DefaultGunMarkerComponent, _VIEW_ID.SNIPER, GUN_MARKER_TYPE.CLIENT, self._getMarkerDataProvider(GUN_MARKER_TYPE.CLIENT), _CONSTANTS.SNIPER_GUN_MARKER_NAME),)
+    return (self._createVideoMarker(),) if self._markersInfo.isEnabledInVideoMode else ()
+
 
 
 # noinspection PyProtectedMember
@@ -55,4 +51,4 @@ hookActivateAlternateMode = ArcadeControlMode._ArcadeControlMode__activateAltern
 ArcadeControlMode._ArcadeControlMode__activateAlternateMode = hookedActivateAlternateMode
 _OptionalMarkersFactory.create = create
 
-print '[LOAD_MOD]:  [sniperByScroll 2.05 (06-08-2019), by Kainenger, spoter, angelsoft]'
+print '[LOAD_MOD]:  [sniperByScroll 2.06 (11-10-2019), by Kainenger, spoter, angelsoft]'
