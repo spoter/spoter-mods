@@ -24,8 +24,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.07 (2019-10-11)'
-        self.version_id = 407
+        self.version = 'v4.08 (2020-01-08)'
+        self.version_id = 408
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -213,10 +213,10 @@ class Assist(object):
                 icon = '<img src="img://%s" width="%s" height="%s" />' % (g_sessionProvider.getArenaDP().getVehicleInfo(vehicleID).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
                 target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vID=vehicleID)
                 if self.check_macros('{icons}'): self.format_str['icons'] += icon
-                if self.check_macros('{names}'): self.format_str['names'] += '[<b>%s</b>]' % target_info[1] if target_info[1] else icon
-                if self.check_macros('{vehicles}'): self.format_str['vehicles'] += '[<b>%s</b>]' % target_info[4] if target_info[4] else icon
-                if self.check_macros('{icons_names}'): self.format_str['icons_names'] += '%s[<b>%s</b>]' % (icon, target_info[1]) if target_info[1] else icon
-                if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[<b>%s</b>]' % (icon, target_info[4]) if target_info[4] else icon
+                if self.check_macros('{names}'): self.format_str['names'] += '[<b>%s</b>]' % target_info.playerName if target_info.playerName else icon
+                if self.check_macros('{vehicles}'): self.format_str['vehicles'] += '[<b>%s</b>]' % target_info.vehicleName if target_info.vehicleName else icon
+                if self.check_macros('{icons_names}'): self.format_str['icons_names'] += '%s[<b>%s</b>]' % (icon, target_info.playerName) if target_info.playerName else icon
+                if self.check_macros('{icons_vehicles}'): self.format_str['icons_vehicles'] += '%s[<b>%s</b>]' % (icon, target_info.vehicleName) if target_info.vehicleName else icon
                 if self.check_macros('{damage}'):
                     extra = _createEfficiencyInfoFromFeedbackEvent(feedbackEvent)
                     if extra and extra.getType() in _AGGREGATED_DAMAGE_EFFICIENCY_TYPES: self.format_str['damage'] += '<b> +%s</b>' % extra.getDamage()
