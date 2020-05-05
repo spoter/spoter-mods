@@ -24,8 +24,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.08 (2020-01-08)'
-        self.version_id = 408
+        self.version = 'v4.09 (2020-05-05)'
+        self.version_id = 409
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -203,6 +203,8 @@ class Assist(object):
         return config.i18n[text].format(**self.format_str), COLOR[config.data[color]]
 
     def post_message(self, events):
+        if not config.data['enabled']:
+            return
         g_sessionProvider = BigWorld.player().guiSessionProvider
         self.format_recreate()
         for data in events:
