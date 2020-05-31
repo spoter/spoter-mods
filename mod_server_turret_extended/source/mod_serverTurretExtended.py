@@ -2,13 +2,14 @@
 
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
-
+import gun_rotation_shared
+import math
 import Keys
 import BigWorld
 import CommandMapping
 import VehicleGunRotator
 
-from Avatar import PlayerAvatar
+from Avatar import PlayerAvatar, _MOVEMENT_FLAGS as MOVEMENT_FLAGS
 from constants import VEHICLE_SIEGE_STATE, VEHICLE_SETTING, VEHICLE_MISC_STATUS
 from gui import InputHandler
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
@@ -17,8 +18,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v2.05 (2019-10-11)'
-        self.version_id = 205
+        self.version = 'v3.00 (2020-05-31)'
+        self.version_id = 300
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -147,22 +148,42 @@ class MovementControl(object):
                 inject.message(message, '#8378FC')
 
     def changeMovement(self):
-        vehicle = BigWorld.player().getVehicleAttached()
+        player = BigWorld.player()
+        vehicle = player.getVehicleAttached()
         if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
-            fSpeedLimit, bSpeedLimit = vehicle.typeDescriptor.physics['speedLimits']
-            forward, backward, speed = self.getSpeed(fSpeedLimit, bSpeedLimit, vehicle.speedInfo.value[0])
-            timer = BigWorld.time()
-            if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
-                if backward + 3 <= speed < 0:
-                    return self.changeSiege(False)
-                if forward - 3 >= speed >= 0:
-                    return self.changeSiege(False)
+            #fSpeedLimit, bSpeedLimit = vehicle.typeDescriptor.physics['speedLimits']
+            #forward, backward, speed = self.getSpeed(fSpeedLimit, bSpeedLimit, vehicle.speedInfo.value[0])
+            flags = player.makeVehicleMovementCommandByKeys()
+            if vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
+                if player._PlayerAvatar__cruiseControlMode:
+                    return self.changeSiege(True)
+                if flags & MOVEMENT_FLAGS.ROTATE_RIGHT or flags & MOVEMENT_FLAGS.ROTATE_LEFT or flags & MOVEMENT_FLAGS.BLOCK_TRACKS:
+                    return
+                if flags & MOVEMENT_FLAGS.FORWARD:
+                    return self.changeSiege(True)
+                if flags & MOVEMENT_FLAGS.BACKWARD:
+                    return self.changeSiege(True)
+            if vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
+                if not player._PlayerAvatar__cruiseControlMode:
+                    if flags & MOVEMENT_FLAGS.ROTATE_RIGHT:
+                        return self.changeSiege(False)
+                    if flags & MOVEMENT_FLAGS.ROTATE_LEFT:
+                        return self.changeSiege(False)
+                    if flags & MOVEMENT_FLAGS.BLOCK_TRACKS:
+                        return self.changeSiege(False)
 
-            if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
-                if backward + 3 >= speed:
-                    return self.changeSiege(True)
-                if forward - 3 <= speed:
-                    return self.changeSiege(True)
+            #timer = BigWorld.time()
+            #if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
+            #    if backward + 3 <= speed < 0:
+            #        return self.changeSiege(False)
+            #    if forward - 3 >= speed >= 0:
+            #        return self.changeSiege(False)
+
+            #if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
+            #    if backward + 3 >= speed:
+            #        return self.changeSiege(True)
+            #    if forward - 3 <= speed:
+            #        return self.changeSiege(True)
 
     def changeSiege(self, status):
         BigWorld.player().base.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
@@ -246,3 +267,16 @@ def updateVehicleMiscStatus(func, *args):
                 self._PlayerAvatar__onSiegeStateUpdated(vehicleID, intArg, floatArgs[0])
                 return
     return func(*args)
+
+def decodeRestrictedValueFromUint(code, bits, minBound, maxBound):
+    code -= 0.5
+    t = float(code) / ((1 << bits) - 1)
+    return minBound + t * (maxBound - minBound)
+
+def decodeAngleFromUint(code, bits):
+    code -= 0.5
+    return math.pi * 2.0 * code / (1 << bits) - math.pi
+
+
+gun_rotation_shared.decodeRestrictedValueFromUint = decodeRestrictedValueFromUint
+gun_rotation_shared.decodeAngleFromUint = decodeAngleFromUint
