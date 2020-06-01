@@ -1,0 +1,19 @@
+﻿{
+    "UI_battle_activateMessage": "\"Muzzle chaos\": Aktywowany",
+    "UI_description": "Celownik serwerowy i poprawienie dokładności",
+    "UI_setting_activateMessage_text": "Pokaż powiadomienie o aktywacji",
+    "UI_setting_activateMessage_tooltip": "{HEADER}Info:{/HEADER}{BODY}Pokaż powiadomienie o aktywacji w bitwie{/BODY}",
+    "UI_setting_autoActivateWheelMode_text": "Auto activate\\deactivate Wheel mode",
+    "UI_setting_autoActivateWheelMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}",
+    "UI_setting_maxWheelMode_text": "Activate\\deactivate Max Wheel mode",
+    "UI_setting_maxWheelMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}",
+    "UI_setting_buttonAutoMode_text": "Button: Max Wheel mode",
+    "UI_setting_buttonAutoMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Button: Max Wheel mode enable or disable{/BODY}",
+    "UI_setting_fixAccuracyInMove_text": "Poprawa dokładności",
+    "UI_setting_fixAccuracyInMove_tooltip": "{HEADER}Info:{/HEADER}{BODY}Poprawa dokładności zapobiega utracie namierzania celu gdy pojazd nagle się zatrzyma{/BODY}",
+    "UI_setting_fixWheelCruiseControl_text": "Tempomat na pojazdach kołowych",
+    "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Info:{/HEADER}{BODY}Wyłącza tempomat automatycznie po zatrzymaniu pojazdu{/BODY}",
+    "UI_setting_serverTurret_text": "Celownik serwerowy",
+    "UI_setting_serverTurret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Celownik serwerowy jako standardowy(wymagane włączenie tej opcji w ustawieniach gry){/BODY}",
+    "version": 301
+}

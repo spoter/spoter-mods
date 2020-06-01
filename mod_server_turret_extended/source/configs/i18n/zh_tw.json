@@ -1,0 +1,19 @@
+﻿{
+    "UI_battle_activateMessage": "\"Muzzle chaos\": 激活",
+    "UI_description": "修正服务器炮塔瞄准延时的精度",
+    "UI_setting_activateMessage_text": "显示激活消息",
+    "UI_setting_activateMessage_tooltip": "{HEADER}信息:{/HEADER}{BODY}在战斗中显示激活消息{/BODY}",
+    "UI_setting_autoActivateWheelMode_text": "Auto activate\\deactivate Wheel mode",
+    "UI_setting_autoActivateWheelMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}",
+    "UI_setting_maxWheelMode_text": "Activate\\deactivate Max Wheel mode",
+    "UI_setting_maxWheelMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}",
+    "UI_setting_buttonAutoMode_text": "Button: Max Wheel mode",
+    "UI_setting_buttonAutoMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Button: Max Wheel mode enable or disable{/BODY}",
+    "UI_setting_fixAccuracyInMove_text": "精度修复",
+    "UI_setting_fixAccuracyInMove_tooltip": "{HEADER}信息:{/HEADER}{BODY}当你坦克移动然后停止时,使用修复精度，不丢失瞄准{/BODY}",
+    "UI_setting_fixWheelCruiseControl_text": "在车轮上安装巡航控制",
+    "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}信息:{/HEADER}{BODY}当使用巡航控制启动车轮模式时, 车辆停止，此设置禁用{/BODY}",
+    "UI_setting_serverTurret_text": "服务器炮塔",
+    "UI_setting_serverTurret_tooltip": "{HEADER}信息:{/HEADER}{BODY}将炮塔移动到服务器目标坐标 (在游戏设置中启用服务器准心){/BODY}",
+    "version": 301
+}
