@@ -8,6 +8,7 @@
     "enabled": true,
     "fixAccuracyInMove": true,
     "fixWheelCruiseControl": true,
+    "maxWheelMode": true,
     "serverTurret": true,
     "version": 301
 }

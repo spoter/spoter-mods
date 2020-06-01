@@ -31,7 +31,8 @@ class _Config(object):
             'fixAccuracyInMove'    : True,
             'serverTurret'         : True,
             'fixWheelCruiseControl': True,
-            'autoActivateWheelMode': False,
+            'autoActivateWheelMode': True,
+            'maxWheelMode': False,
             'buttonAutoMode'       : self.buttons['buttonAutoMode'],
 
         }
@@ -47,8 +48,10 @@ class _Config(object):
             'UI_battle_activateMessage'               : '"Muzzle chaos": Activated',
             'UI_setting_fixWheelCruiseControl_text'   : 'Fix Cruise Control on Wheels',
             'UI_setting_fixWheelCruiseControl_tooltip': '{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}',
-            'UI_setting_autoActivateWheelMode_text'   : 'Activate\\deactivate Max Wheel mode',
-            'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}',
+            'UI_setting_maxWheelMode_text'   : 'Activate\\deactivate Max Wheel mode',
+            'UI_setting_maxWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}',
+            'UI_setting_autoActivateWheelMode_text'   : 'Auto activate\deactivate Wheel mode',
+            'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}',
             'UI_setting_buttonAutoMode_text'          : 'Button: Max Wheel mode',
             'UI_setting_buttonAutoMode_tooltip'       : '{HEADER}Info:{/HEADER}{BODY}Button: Max Wheel mode enable or disable{/BODY}',
         }
@@ -87,6 +90,12 @@ class _Config(object):
                 'value'       : self.data['buttonAutoMode'],
                 'defaultValue': self.buttons['buttonAutoMode'],
                 'varName'     : 'buttonAutoMode'
+            }, {
+                'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_maxWheelMode_text'],
+                'value'  : self.data['maxWheelMode'],
+                'tooltip': self.i18n['UI_setting_maxWheelMode_tooltip'],
+                'varName': 'maxWheelMode'
             }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_fixWheelCruiseControl_text'],
@@ -131,7 +140,7 @@ class MovementControl(object):
         InputHandler.g_instance.onKeyUp -= self.keyPressed
 
     def onCallback(self):
-        if _config.data['enabled']:
+        if _config.data['enabled'] and _config.data['autoActivateWheelMode']:
             self.changeMovement()
         self.callback = BigWorld.callback(0.1, self.onCallback)
 
@@ -141,8 +150,8 @@ class MovementControl(object):
         if g_gui.get_key(_config.data['buttonAutoMode']) and event.isKeyDown():
             vehicle = BigWorld.player().getVehicleAttached()
             if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
-                _config.data['autoActivateWheelMode'] = not _config.data['autoActivateWheelMode']
-                message = 'Wheel Max Mode: %s' % ('ON' if _config.data['autoActivateWheelMode'] else 'OFF')
+                _config.data['maxWheelMode'] = not _config.data['maxWheelMode']
+                message = 'Wheel Max Mode: %s' % ('ON' if _config.data['maxWheelMode'] else 'OFF')
                 inject.message(message, '#8378FC')
 
     def changeMovement(self):
@@ -183,7 +192,7 @@ class MovementControl(object):
 
     @staticmethod
     def checkSpeedLimits(vehicle, speed):
-        if not _config.data['autoActivateWheelMode']:
+        if not _config.data['maxWheelMode']:
             return True
         speedLimits = vehicle.typeDescriptor.defaultVehicleDescr.physics['speedLimits']
         return  int(speedLimits[0] * 3.6) > speed > -int(speedLimits[1] * 3.6)
