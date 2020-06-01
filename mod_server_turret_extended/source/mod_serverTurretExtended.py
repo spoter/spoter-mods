@@ -1,25 +1,25 @@
 ﻿# -*- coding: utf-8 -*-
 
-# noinspection PyUnresolvedReferences
-from gui.mods.mod_mods_gui import g_gui, inject
-import gun_rotation_shared
 import math
-import Keys
+
 import BigWorld
 import CommandMapping
+import Keys
 import VehicleGunRotator
-
+import gun_rotation_shared
 from Avatar import PlayerAvatar, _MOVEMENT_FLAGS as MOVEMENT_FLAGS
-from constants import VEHICLE_SIEGE_STATE, VEHICLE_SETTING, VEHICLE_MISC_STATUS
+from constants import VEHICLE_MISC_STATUS, VEHICLE_SETTING, VEHICLE_SIEGE_STATE
 from gui import InputHandler
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
+# noinspection PyUnresolvedReferences
+from gui.mods.mod_mods_gui import g_gui, inject
 
 
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.00 (2020-05-31)'
-        self.version_id = 300
+        self.version = 'v3.01 (2020-06-01)'
+        self.version_id = 301
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -31,8 +31,8 @@ class _Config(object):
             'fixAccuracyInMove'    : True,
             'serverTurret'         : True,
             'fixWheelCruiseControl': True,
-            'autoActivateWheelMode': True,
-            'buttonAutoMode': self.buttons['buttonAutoMode'],
+            'autoActivateWheelMode': False,
+            'buttonAutoMode'       : self.buttons['buttonAutoMode'],
 
         }
         self.i18n = {
@@ -47,10 +47,10 @@ class _Config(object):
             'UI_battle_activateMessage'               : '"Muzzle chaos": Activated',
             'UI_setting_fixWheelCruiseControl_text'   : 'Fix Cruise Control on Wheels',
             'UI_setting_fixWheelCruiseControl_tooltip': '{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}',
-            'UI_setting_autoActivateWheelMode_text'   : 'Auto activate\deactivate Wheel mode',
-            'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}',
-            'UI_setting_buttonAutoMode_text'   : 'Button: Auto mode',
-            'UI_setting_buttonAutoMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Button: Auto mode enable or disable{/BODY}',
+            'UI_setting_autoActivateWheelMode_text'   : 'Activate\\deactivate Max Wheel mode',
+            'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}',
+            'UI_setting_buttonAutoMode_text'          : 'Button: Max Wheel mode',
+            'UI_setting_buttonAutoMode_tooltip'       : '{HEADER}Info:{/HEADER}{BODY}Button: Max Wheel mode enable or disable{/BODY}',
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -81,12 +81,12 @@ class _Config(object):
                 'varName': 'activateMessage'
             }],
             'column2'        : [{
-                    'type'        : 'HotKey',
-                    'text'        : self.i18n['UI_setting_buttonAutoMode_text'],
-                    'tooltip'     : self.i18n['UI_setting_buttonAutoMode_tooltip'],
-                    'value'       : self.data['buttonAutoMode'],
-                    'defaultValue': self.buttons['buttonAutoMode'],
-                    'varName'     : 'buttonAutoMode'
+                'type'        : 'HotKey',
+                'text'        : self.i18n['UI_setting_buttonAutoMode_text'],
+                'tooltip'     : self.i18n['UI_setting_buttonAutoMode_tooltip'],
+                'value'       : self.data['buttonAutoMode'],
+                'defaultValue': self.buttons['buttonAutoMode'],
+                'varName'     : 'buttonAutoMode'
             }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_fixWheelCruiseControl_text'],
@@ -110,7 +110,6 @@ class _Config(object):
 class MovementControl(object):
     timer = None
     callback = None
-    limits = (0, 0)
 
     @staticmethod
     def move_pressed(avatar, is_down, key):
@@ -120,7 +119,6 @@ class MovementControl(object):
     def startBattle(self):
         InputHandler.g_instance.onKeyDown += self.keyPressed
         InputHandler.g_instance.onKeyUp += self.keyPressed
-        self.limits = (0, 0)
         self.timer = BigWorld.time()
         if self.callback is None:
             self.callback = BigWorld.callback(0.1, self.onCallback)
@@ -133,7 +131,7 @@ class MovementControl(object):
         InputHandler.g_instance.onKeyUp -= self.keyPressed
 
     def onCallback(self):
-        if _config.data['enabled'] and _config.data['autoActivateWheelMode']:
+        if _config.data['enabled']:
             self.changeMovement()
         self.callback = BigWorld.callback(0.1, self.onCallback)
 
@@ -144,15 +142,13 @@ class MovementControl(object):
             vehicle = BigWorld.player().getVehicleAttached()
             if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
                 _config.data['autoActivateWheelMode'] = not _config.data['autoActivateWheelMode']
-                message = 'Wheel auto boost: %s' % ('ON' if _config.data['autoActivateWheelMode'] else 'OFF')
+                message = 'Wheel Max Mode: %s' % ('ON' if _config.data['autoActivateWheelMode'] else 'OFF')
                 inject.message(message, '#8378FC')
 
     def changeMovement(self):
         player = BigWorld.player()
         vehicle = player.getVehicleAttached()
         if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
-            #fSpeedLimit, bSpeedLimit = vehicle.typeDescriptor.physics['speedLimits']
-            #forward, backward, speed = self.getSpeed(fSpeedLimit, bSpeedLimit, vehicle.speedInfo.value[0])
             flags = player.makeVehicleMovementCommandByKeys()
             if vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
                 if player._PlayerAvatar__cruiseControlMode:
@@ -165,35 +161,32 @@ class MovementControl(object):
                     return self.changeSiege(True)
             if vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
                 if not player._PlayerAvatar__cruiseControlMode:
-                    if flags & MOVEMENT_FLAGS.ROTATE_RIGHT:
+                    realSpeed = int(vehicle.speedInfo.value[0] * 3.6)
+                    checkSpeedLimits = self.checkSpeedLimits(vehicle, realSpeed)
+                    if flags & MOVEMENT_FLAGS.ROTATE_RIGHT and checkSpeedLimits:
                         return self.changeSiege(False)
-                    if flags & MOVEMENT_FLAGS.ROTATE_LEFT:
+                    if flags & MOVEMENT_FLAGS.ROTATE_LEFT and checkSpeedLimits:
                         return self.changeSiege(False)
                     if flags & MOVEMENT_FLAGS.BLOCK_TRACKS:
                         return self.changeSiege(False)
-
-            #timer = BigWorld.time()
-            #if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.ENABLED:
-            #    if backward + 3 <= speed < 0:
-            #        return self.changeSiege(False)
-            #    if forward - 3 >= speed >= 0:
-            #        return self.changeSiege(False)
-
-            #if self.timer + 0.5 < timer and vehicle.siegeState == VEHICLE_SIEGE_STATE.DISABLED:
-            #    if backward + 3 >= speed:
-            #        return self.changeSiege(True)
-            #    if forward - 3 <= speed:
-            #        return self.changeSiege(True)
+                    if 20 > realSpeed > -20:
+                        if not CommandMapping.g_instance.isActiveList((CommandMapping.CMD_MOVE_FORWARD, CommandMapping.CMD_MOVE_FORWARD_SPEC, CommandMapping.CMD_MOVE_BACKWARD)):
+                            return self.changeSiege(False)
+                        if realSpeed < 0 and flags & MOVEMENT_FLAGS.FORWARD:
+                            return self.changeSiege(False)
+                        if realSpeed > 0 and flags & MOVEMENT_FLAGS.BACKWARD:
+                            return self.changeSiege(False)
 
     def changeSiege(self, status):
         BigWorld.player().base.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
         self.timer = BigWorld.time()
 
-    def getSpeed(self,fSpeedLimit, bSpeedLimit, speed):
-        if not self.limits[0]:
-            self.limits = (int(max(min(fSpeedLimit, fSpeedLimit), -bSpeedLimit) * 3.6), -int(max(min(bSpeedLimit, fSpeedLimit), -bSpeedLimit) * 3.6))
-        return self.limits[0], self.limits[1], int(max(min(speed, fSpeedLimit), -bSpeedLimit) * 3.6)
-
+    @staticmethod
+    def checkSpeedLimits(vehicle, speed):
+        if not _config.data['autoActivateWheelMode']:
+            return True
+        speedLimits = vehicle.typeDescriptor.defaultVehicleDescr.physics['speedLimits']
+        return  int(speedLimits[0] * 3.6) > speed > -int(speedLimits[1] * 3.6)
 
     @staticmethod
     def fixSiegeModeCruiseControl():
@@ -247,6 +240,7 @@ def hookStartGUI(func, *args):
     support.start_battle()
     movement_control.startBattle()
 
+
 @inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI')
 @inject.log
 def hookDestroyGUI(func, *args):
@@ -268,10 +262,12 @@ def updateVehicleMiscStatus(func, *args):
                 return
     return func(*args)
 
+
 def decodeRestrictedValueFromUint(code, bits, minBound, maxBound):
     code -= 0.5
     t = float(code) / ((1 << bits) - 1)
     return minBound + t * (maxBound - minBound)
+
 
 def decodeAngleFromUint(code, bits):
     code -= 0.5

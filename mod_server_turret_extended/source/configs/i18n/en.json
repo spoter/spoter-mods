@@ -3,15 +3,15 @@
     "UI_description": "Server Turret and Fix Accuracy",
     "UI_setting_activateMessage_text": "Show Activation Message",
     "UI_setting_activateMessage_tooltip": "{HEADER}Info:{/HEADER}{BODY}Show Activation Message in battle{/BODY}",
-    "UI_setting_autoActivateWheelMode_text": "Auto activate\\deactivate Wheel mode",
-    "UI_setting_autoActivateWheelMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}",
-    "UI_setting_buttonAutoMode_text": "Button: Auto mode",
-    "UI_setting_buttonAutoMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Button: Auto mode enable or disable{/BODY}",
+    "UI_setting_autoActivateWheelMode_text": "Activate\\deactivate Max Wheel mode",
+    "UI_setting_autoActivateWheelMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}",
+    "UI_setting_buttonAutoMode_text": "Button: Max Wheel mode",
+    "UI_setting_buttonAutoMode_tooltip": "{HEADER}Info:{/HEADER}{BODY}Button: Max Wheel mode enable or disable{/BODY}",
     "UI_setting_fixAccuracyInMove_text": "Fix Accuracy",
     "UI_setting_fixAccuracyInMove_tooltip": "{HEADER}Info:{/HEADER}{BODY}When you tank move and then stop, used fix accuracy to not lost aiming{/BODY}",
     "UI_setting_fixWheelCruiseControl_text": "Fix Cruise Control on Wheels",
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}",
     "UI_setting_serverTurret_text": "Server Turret",
     "UI_setting_serverTurret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Move Turret to Server Aim coordinates (need enabled Server Sight in game settings){/BODY}",
-    "version": 300
+    "version": 301
 }
