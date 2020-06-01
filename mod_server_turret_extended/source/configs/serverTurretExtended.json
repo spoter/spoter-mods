@@ -1,6 +1,6 @@
 ﻿{
     "activateMessage": false,
-    "autoActivateWheelMode": false,
+    "autoActivateWheelMode": true,
     "buttonAutoMode": [
         19,
         [ 56, 184 ]
@@ -8,7 +8,7 @@
     "enabled": true,
     "fixAccuracyInMove": true,
     "fixWheelCruiseControl": true,
-    "maxWheelMode": true,
+    "maxWheelMode": false,
     "serverTurret": true,
     "version": 301
 }
