@@ -238,7 +238,7 @@ def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec
     if _config.data['enabled']:
         if _config.data['serverTurret'] and not BigWorld.player().inputHandler.isSPG:
             if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
-                forceValueRefresh = True
+                forceValueRefresh = True and not self._avatar.getVehicleDescriptor().isWheeledTech
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
