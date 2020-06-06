@@ -18,8 +18,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.01 (2020-06-01)'
-        self.version_id = 301
+        self.version = 'v3.02 (2020-06-07)'
+        self.version_id = 302
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
