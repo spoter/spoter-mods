@@ -15,5 +15,5 @@
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Bilgi:{/HEADER}{BODY}tekerlek modunu seyir kontrolü ile aktif ettiğinizde araç durur, bu ayar bunu engeller{/BODY}",
     "UI_setting_serverTurret_text": "Sunucu tareti",
     "UI_setting_serverTurret_tooltip": "{HEADER}Bilgi:{/HEADER}{BODY}Tareti sunucu nişangahındaki konuma getirir (ayarlardan sunucu nişangahını aktifleştirmeniz gerekir){/BODY}",
-    "version": 302
+    "version": 303
 }

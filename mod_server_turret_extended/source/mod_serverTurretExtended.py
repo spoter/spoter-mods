@@ -18,8 +18,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.02 (2020-06-07)'
-        self.version_id = 302
+        self.version = 'v3.03 (2020-06-07)'
+        self.version_id = 303
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -238,7 +238,7 @@ def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec
     if _config.data['enabled']:
         if _config.data['serverTurret'] and not BigWorld.player().inputHandler.isSPG:
             if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
-                forceValueRefresh = True and not self._avatar.getVehicleDescriptor().isWheeledTech
+                forceValueRefresh = True and not self._avatar.getVehicleAttached().isWheeledTech
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
