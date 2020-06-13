@@ -22,10 +22,14 @@ class Mod:
 
     def processQueueInfo(self, _):
         if self.prbEntity is None:
+            self._count = 0
+            self._exitCallback = None
             return
-        if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
-            self.prbEntity.exitFromQueue()
-            self.restartEnqueueRandom()
+        currPlayer = BigWorld.player()
+        if currPlayer is not None and hasattr(currPlayer, 'requestQueueInfo'):
+            if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
+                self.prbEntity.exitFromQueue()
+                self.restartEnqueueRandom()
         self._count += 1
 
     def restartEnqueueRandom(self):
@@ -50,4 +54,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.05 (16-06-2019), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.06 (13-06-2020), by spoter]'
