@@ -36,7 +36,7 @@ class Mod:
         if not self.prbEntity.isInQueue():
             self.prbEntity.exitFromQueue()
             return
-        self._exitCallback = BigWorld.callback(0.1, self.restartEnqueueRandom)
+        self._exitCallback = BigWorld.callback(0.7, self.restartEnqueueRandom)
 
     def start(self):
         self._count = 0
