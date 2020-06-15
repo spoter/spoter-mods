@@ -33,6 +33,8 @@ class Mod:
         self._count += 1
 
     def restartEnqueueRandom(self):
+        if not self.prbEntity:
+            return
         if not self.prbEntity.isInQueue():
             self.prbEntity.exitFromQueue()
             return
@@ -54,4 +56,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.06 (13-06-2020), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.07 (16-06-2020), by spoter]'
