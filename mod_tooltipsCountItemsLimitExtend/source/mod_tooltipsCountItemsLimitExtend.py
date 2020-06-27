@@ -15,7 +15,9 @@ isRU = 'ru' in getLanguageCode().lower()
 modulesText = "[По модулям] <font color='#FFA500'>{}</font>" if isRU else "[To modules] <font color='#FFA500'>{}</font>"
 modulesTextTooltip = " [По модулям]" if isRU else " [To modules]"
 modulesTextTooltipBattle = "%s, <font color='#FFA500'>[По модулям] %s</font>" if isRU else "%s, <font color='#FFA500'>[To modules] %s</font>"
-
+tracerSpeedText = '[Трассер]'  if isRU else '[Tracer]'
+shellSpeedText = '[Снаряд]' if isRU else '[Shell]'
+speedMsec = 'м/сек.' if isRU else 'm/sec.'
 
 def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonTooltip=''):
     result = oldCreateStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType, nationFlagIcon, enabled, available, contextMenuId, additionalInfo, active, upgradable, upgradeButtonTooltip)
@@ -31,11 +33,14 @@ def makeShellTooltip(self, descriptor, piercingPower):
     result = oldMakeShellTooltip(self, descriptor, piercingPower)
     damage = str(int(descriptor.damage[0]))
     damageModule = modulesTextTooltipBattle % (damage, int(descriptor.damage[1]))
-    shellSpeed = ''
+    speed = ''
     for shot in player.vehicleTypeDescriptor.gun.shots:
         if descriptor.id == shot.shell.id:
-            shellSpeed = "\n%s<font color='#1CC6D9'>%s</font>" % (_ms('#menu:moduleInfo/params/flyDelayRange'), int(shot.speed))
-    return result.replace(damage, damageModule + shellSpeed)
+            tracerSpeed = "\n%s %s <font color='#1CC6D9'>%s</font> %s" % (_ms('#menu:moduleInfo/params/flyDelayRange'), tracerSpeedText, int(shot.speed), speedMsec)
+            shellSpeed = "\n%s %s <font color='#28F09C'>%s</font> %s" % (_ms('#menu:moduleInfo/params/flyDelayRange'), shellSpeedText, int(shot.speed / 0.8), speedMsec)
+            speed = tracerSpeed + shellSpeed
+            break
+    return result.replace(damage, damageModule + speed)
 
 
 def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
@@ -45,7 +50,9 @@ def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
         if 'damage' in param and 'flyDelayRange' not in param:
             for shot in g_currentVehicle.item.descriptor.gun.shots:
                 if descriptor.id == shot.shell.id:
-                    result.append(('flyDelayRange', "<font color='#1CC6D9'>%s</font>" % int(shot.speed)))
+                    result.append(('flyDelayRange', "%s <font color='#1CC6D9'>%s</font> %s" % (tracerSpeedText, int(shot.speed), speedMsec)))
+                    result.append(('flyDelayRange', "%s <font color='#28F09C'>%s</font> %s" % (shellSpeedText, int(shot.speed / 0.8), speedMsec)))
+                    break
             result.append(param)
             result.append(('avgDamage', modulesText.format(int(descriptor.damage[1]))))
         else:
@@ -62,7 +69,9 @@ def construct(self):
             shell = self.shell
             for shot in g_currentVehicle.item.descriptor.gun.shots:
                 if shell.descriptor.id == shot.shell.id:
-                    block.append(self._packParameterBlock(_ms('#menu:moduleInfo/params/flyDelayRange'), "<font color='#1CC6D9'>%s</font>" % int(shot.speed), _ms(formatters.measureUnitsForParameter('flyDelayRange'))))
+                    block.append(self._packParameterBlock(_ms('#menu:moduleInfo/params/flyDelayRange'), "<font color='#1CC6D9'>%s</font>" % int(shot.speed), '%s %s' %(tracerSpeedText, speedMsec)))
+                    block.append(self._packParameterBlock(_ms('#menu:moduleInfo/params/flyDelayRange'), "<font color='#28F09C'>%s</font>" % int(shot.speed / 0.8), '%s %s' %(shellSpeedText, speedMsec)))
+                    break
             block.append(pack)
             block.append(self._packParameterBlock(_ms('#menu:moduleInfo/params/avgDamage'), "<font color='#FFA500'>%s</font>" % int(shell.descriptor.damage[1]), _ms(formatters.measureUnitsForParameter('avgDamage')) + modulesTextTooltip))
         else:
@@ -82,4 +91,4 @@ ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
 formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.05 (22-06-2020), by spoter, gox]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.06 (27-06-2020), by spoter, gox]'
