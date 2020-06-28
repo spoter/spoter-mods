@@ -18,8 +18,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.03 (2020-06-07)'
-        self.version_id = 303
+        self.version = 'v3.04 (2020-06-28)'
+        self.version_id = 304
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -225,20 +225,19 @@ support = Support()
 @inject.hook(PlayerAvatar, 'handleKey')
 @inject.log
 def hookPlayerAvatarHandleKey(func, *args):
-    if _config.data['enabled']:
+    if _config.data['enabled'] and _config.data['fixAccuracyInMove']:
         self, is_down, key, mods = args
-        if _config.data['fixAccuracyInMove']:
-            movement_control.move_pressed(self, is_down, key)
+        movement_control.move_pressed(self, is_down, key)
     return func(*args)
 
 
 @inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
 @inject.log
-def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
-    if _config.data['enabled']:
-        if _config.data['serverTurret'] and not BigWorld.player().inputHandler.isSPG:
-            if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
-                forceValueRefresh = True and not self._avatar.getVehicleAttached().isWheeledTech
+def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=_config.data['enabled'] and _config.data['serverTurret']):
+    #if _config.data['enabled']:
+    #    if _config.data['serverTurret'] and not BigWorld.player().inputHandler.isSPG:
+    #        if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
+    #            forceValueRefresh = True and not self._avatar.getVehicleAttached().isWheeledTech
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
@@ -260,15 +259,14 @@ def hookDestroyGUI(func, *args):
 @inject.hook(PlayerAvatar, 'updateVehicleMiscStatus')
 @inject.log
 def updateVehicleMiscStatus(func, *args):
-    if _config.data['enabled']:
-        if _config.data['fixWheelCruiseControl']:
-            self, vehicleID, code, intArg, floatArgs = args
-            if vehicleID != self.playerVehicleID and vehicleID != self.observedVehicleID and vehicleID != self.inputHandler.ctrl.curVehicleID:
-                return
-            if code == VEHICLE_MISC_STATUS.SIEGE_MODE_STATE_CHANGED and movement_control.fixSiegeModeCruiseControl():
-                self.guiSessionProvider.invalidateVehicleState(VEHICLE_VIEW_STATE.SIEGE_MODE, (intArg, floatArgs[0]))
-                self._PlayerAvatar__onSiegeStateUpdated(vehicleID, intArg, floatArgs[0])
-                return
+    if _config.data['enabled'] and _config.data['fixWheelCruiseControl']:
+        self, vehicleID, code, intArg, floatArgs = args
+        if vehicleID != self.playerVehicleID and vehicleID != self.observedVehicleID and vehicleID != self.inputHandler.ctrl.curVehicleID:
+            return
+        if code == VEHICLE_MISC_STATUS.SIEGE_MODE_STATE_CHANGED and movement_control.fixSiegeModeCruiseControl():
+            self.guiSessionProvider.invalidateVehicleState(VEHICLE_VIEW_STATE.SIEGE_MODE, (intArg, floatArgs[0]))
+            self._PlayerAvatar__onSiegeStateUpdated(vehicleID, intArg, floatArgs[0])
+            return
     return func(*args)
 
 
