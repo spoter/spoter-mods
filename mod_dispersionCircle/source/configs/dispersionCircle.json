@@ -4,7 +4,7 @@
     "Remove_DamageEffects": true,
     "Remove_DynamicEffects": true,
     "ReplaceOriginalCircle": true,
-    "UseServerDispersion": true,
+    "UseServerDispersion": false,
     "enabled": true,
     "version": 308
 }

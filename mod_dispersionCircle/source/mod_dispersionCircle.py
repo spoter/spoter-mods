@@ -31,11 +31,11 @@ class _Config(object):
         self.data = {
             'enabled'              : True,
             'ReplaceOriginalCircle': True,
-            'UseServerDispersion'  : True,
+            'UseServerDispersion'  : False,
             'DispersionCircleScale': 1.0,
-            'HorizontalStabilizer' : False,
-            'Remove_DynamicEffects': False,
-            'Remove_DamageEffects' : False,
+            'HorizontalStabilizer' : True,
+            'Remove_DynamicEffects': True,
+            'Remove_DamageEffects' : True,
             'version'              : self.version_id
         }
         self.i18n = {
