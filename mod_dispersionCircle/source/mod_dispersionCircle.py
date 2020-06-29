@@ -25,7 +25,7 @@ from skeletons.account_helpers.settings_core import ISettingsCore
 class _Config(object):
     def __init__(self):
         self.ids = 'dispersionCircle'
-        self.version = 'v3.08 (2019-10-11)'
+        self.version = 'v3.08 (2020-06-29)'
         self.version_id = 308
         self.author = 'by StranikS_Scan'
         self.data = {
@@ -430,15 +430,18 @@ def shockWaveEffectDescCreate(func, *args):
 
 @inject.hook(VehicleGunRotator, 'setShotPosition')
 @inject.log
-def setShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
+def setShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=True):
+    result = None
     if config.data['enabled'] and config.data['UseServerDispersion']:
         if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker:
             return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
         # dispersionAngles = {0: dispersionAngle, 1: dispersionAngle}
+        result = func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
         markerPos, markerDir, markerSize, idealMarkerSize, collData = self._VehicleGunRotator__getGunMarkerPosition(shotPos, shotVec, self._VehicleGunRotator__dispersionAngles)
-        self._VehicleGunRotator__avatar.inputHandler.updateGunMarker2(markerPos, markerDir, (markerSize, idealMarkerSize), SERVER_TICK_LENGTH, collData)
-        return
-    func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
+        self._avatar.inputHandler.updateGunMarker2(markerPos, markerDir, (markerSize, idealMarkerSize), SERVER_TICK_LENGTH, collData)
+    if not result:
+        return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
+    return result
 
 
 @inject.hook(PlayerAvatar, 'enableServerAim')
