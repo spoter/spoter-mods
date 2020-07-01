@@ -15,5 +15,5 @@
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Info:{/HEADER}{BODY}Wyłącza tempomat automatycznie po zatrzymaniu pojazdu{/BODY}",
     "UI_setting_serverTurret_text": "Celownik serwerowy",
     "UI_setting_serverTurret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Celownik serwerowy jako standardowy(wymagane włączenie tej opcji w ustawieniach gry){/BODY}",
-    "version": 304
+    "version": 305
 }

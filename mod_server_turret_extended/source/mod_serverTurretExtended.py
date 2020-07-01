@@ -2,13 +2,15 @@
 
 import math
 
+import Math
+
 import BigWorld
 import CommandMapping
 import Keys
 import VehicleGunRotator
 import gun_rotation_shared
 from Avatar import PlayerAvatar, _MOVEMENT_FLAGS as MOVEMENT_FLAGS
-from constants import VEHICLE_MISC_STATUS, VEHICLE_SETTING, VEHICLE_SIEGE_STATE
+from constants import SERVER_TICK_LENGTH, VEHICLE_MISC_STATUS, VEHICLE_SETTING, VEHICLE_SIEGE_STATE
 from gui import InputHandler
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 # noinspection PyUnresolvedReferences
@@ -18,8 +20,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.04 (2020-06-28)'
-        self.version_id = 304
+        self.version = 'v3.05 (2020-07-01)'
+        self.version_id = 305
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -32,7 +34,7 @@ class _Config(object):
             'serverTurret'         : True,
             'fixWheelCruiseControl': True,
             'autoActivateWheelMode': True,
-            'maxWheelMode': False,
+            'maxWheelMode'         : True,
             'buttonAutoMode'       : self.buttons['buttonAutoMode'],
 
         }
@@ -48,8 +50,8 @@ class _Config(object):
             'UI_battle_activateMessage'               : '"Muzzle chaos": Activated',
             'UI_setting_fixWheelCruiseControl_text'   : 'Fix Cruise Control on Wheels',
             'UI_setting_fixWheelCruiseControl_tooltip': '{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}',
-            'UI_setting_maxWheelMode_text'   : 'Activate\\deactivate Max Wheel mode',
-            'UI_setting_maxWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}',
+            'UI_setting_maxWheelMode_text'            : 'Activate\\deactivate Max Wheel mode',
+            'UI_setting_maxWheelMode_tooltip'         : '{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}',
             'UI_setting_autoActivateWheelMode_text'   : 'Auto activate\deactivate Wheel mode',
             'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}',
             'UI_setting_buttonAutoMode_text'          : 'Button: Max Wheel mode',
@@ -195,7 +197,7 @@ class MovementControl(object):
         if not _config.data['maxWheelMode']:
             return True
         speedLimits = vehicle.typeDescriptor.defaultVehicleDescr.physics['speedLimits']
-        return  int(speedLimits[0] * 3.6) > speed > -int(speedLimits[1] * 3.6)
+        return int(speedLimits[0] * 3.6) > speed > -int(speedLimits[1] * 3.6)
 
     @staticmethod
     def fixSiegeModeCruiseControl():
@@ -233,11 +235,10 @@ def hookPlayerAvatarHandleKey(func, *args):
 
 @inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
 @inject.log
-def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=_config.data['enabled'] and _config.data['serverTurret']):
-    #if _config.data['enabled']:
-    #    if _config.data['serverTurret'] and not BigWorld.player().inputHandler.isSPG:
-    #        if self._VehicleGunRotator__clientMode and self._VehicleGunRotator__showServerMarker and not forceValueRefresh:
-    #            forceValueRefresh = True and not self._avatar.getVehicleAttached().isWheeledTech
+def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
+    if self._avatar.vehicle:
+        self._VehicleGunRotator__turretYaw, self._VehicleGunRotator__gunPitch = self._avatar.vehicle.getServerGunAngles()
+    forceValueRefresh = _config.data['enabled'] and _config.data['serverTurret']
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
