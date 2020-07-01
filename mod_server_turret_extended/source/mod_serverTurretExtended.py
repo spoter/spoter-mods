@@ -236,9 +236,10 @@ def hookPlayerAvatarHandleKey(func, *args):
 @inject.hook(VehicleGunRotator.VehicleGunRotator, 'setShotPosition')
 @inject.log
 def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
-    if self._avatar.vehicle:
-        self._VehicleGunRotator__turretYaw, self._VehicleGunRotator__gunPitch = self._avatar.vehicle.getServerGunAngles()
-    forceValueRefresh = _config.data['enabled'] and _config.data['serverTurret']
+    if _config.data['enabled']:
+        if self._avatar.vehicle:
+            self._VehicleGunRotator__turretYaw, self._VehicleGunRotator__gunPitch = self._avatar.vehicle.getServerGunAngles()
+        forceValueRefresh = _config.data['serverTurret']
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 
