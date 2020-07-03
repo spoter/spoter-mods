@@ -20,8 +20,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.05 (2020-07-01)'
-        self.version_id = 305
+        self.version = 'v3.06 (2020-07-03)'
+        self.version_id = 306
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -237,9 +237,9 @@ def hookPlayerAvatarHandleKey(func, *args):
 @inject.log
 def hookVehicleGunRotatorSetShotPosition(func, self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh=False):
     if _config.data['enabled']:
-        if self._avatar.vehicle:
+        if self._avatar.vehicle and _config.data['serverTurret']:
             self._VehicleGunRotator__turretYaw, self._VehicleGunRotator__gunPitch = self._avatar.vehicle.getServerGunAngles()
-        forceValueRefresh = _config.data['serverTurret']
+            forceValueRefresh = True
     return func(self, vehicleID, shotPos, shotVec, dispersionAngle, forceValueRefresh)
 
 

@@ -15,5 +15,5 @@
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}信息:{/HEADER}{BODY}当使用巡航控制启动车轮模式时, 车辆停止，此设置禁用{/BODY}",
     "UI_setting_serverTurret_text": "服务器炮塔",
     "UI_setting_serverTurret_tooltip": "{HEADER}信息:{/HEADER}{BODY}将炮塔移动到服务器目标坐标 (在游戏设置中启用服务器准心){/BODY}",
-    "version": 305
+    "version": 306
 }
