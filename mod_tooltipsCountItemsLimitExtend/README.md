@@ -6,3 +6,7 @@
 #### Скриншоты:
 ![ScreenShot](./screen.jpg)
 ![ScreenShot](./screen1.jpg)
+![ScreenShot](./screen2.jpg)
+![ScreenShot](./screen3.jpg)
+![ScreenShot](./screen4.jpg)
+![ScreenShot](./screen5.jpg)
