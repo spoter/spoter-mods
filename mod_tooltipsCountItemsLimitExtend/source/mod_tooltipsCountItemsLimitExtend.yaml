@@ -1,0 +1,12 @@
+ignore:
+- itemType
+- nationFlagIcon 
+- enabled 
+- available 
+- contextMenuId 
+- additionalInfo 
+- active 
+- upgradable 
+- upgradeButtonTooltip
+- excludeRelative
+- inSettings

@@ -1,6 +1,6 @@
 <root>
     <id>mod_tooltipsCountItemsLimitExtend</id>
-    <version>1.08</version>
+    <version>1.09</version>
     <name>tooltipsCountItemsLimitExtend</name>
     <description>Extend items limit in tooltips</description>
 </root>

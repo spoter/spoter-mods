@@ -61,17 +61,17 @@ if 'de' in getLanguageCode().lower():
     'UI_TOOLTIPS_MovementSpeed_Color'          : '#8378FC',
     'UI_TOOLTIPS_RotatingVehicle_Color'        : '#1CC6D9',
     'UI_TOOLTIPS_RotatingTurret_Color'         : '#F200DA',
-    'UI_TOOLTIPS_StabBonus_Text'               : 'Stabilisierungsbonus',
+    'UI_TOOLTIPS_StabBonus_Text'               : 'Stabilierungs Bonus',
     'UI_TOOLTIPS_Stabilization_Text'           : 'Totale Stabilisierung',
-    'UI_TOOLTIPS_MovementSpeed_Text'           : 'Beim max Geschwindigkeit',
-    'UI_TOOLTIPS_RotatingVehicle_Text'         : 'Beim Wenden des Panzers',
-    'UI_TOOLTIPS_RotatingTurret_Text'          : 'Beim Drehen des Panzers',
+    'UI_TOOLTIPS_MovementSpeed_Text'           : 'bei max. Geschwindigkeit',
+    'UI_TOOLTIPS_RotatingVehicle_Text'         : 'bei Wannendrehung',
+    'UI_TOOLTIPS_RotatingTurret_Text'          : 'bei Turmdrehung',
     'UI_TOOLTIPS_modulesText_Text'             : "[Zu Modulen] <font color='#FFA500'>{}</font>",
     'UI_TOOLTIPS_modulesTextTooltip_Text'      : " [Zu Modulen]",
     'UI_TOOLTIPS_modulesTextTooltipBattle_Text': "%s, <font color='#FFA500'>[Zu Modulen] %s</font>",
-    'UI_TOOLTIPS_tracerSpeedText_Text'         : '[Leuchtspur]',
-    'UI_TOOLTIPS_shellSpeedText_Text'          : '[Geschoss]',
-    'UI_TOOLTIPS_speedMsec_Text'               : 'm/sec.',
+    'UI_TOOLTIPS_tracerSpeedText_Text'         : '[Flugbahn]',
+    'UI_TOOLTIPS_shellSpeedText_Text'          : '[Shell]',
+    'UI_TOOLTIPS_speedMsec_Text'               : 'm/sek.',
 }
 if 'es' in getLanguageCode().lower():
     i18n = {
@@ -121,16 +121,16 @@ if 'hu' in getLanguageCode().lower():
     'UI_TOOLTIPS_MovementSpeed_Color'          : '#8378FC',
     'UI_TOOLTIPS_RotatingVehicle_Color'        : '#1CC6D9',
     'UI_TOOLTIPS_RotatingTurret_Color'         : '#F200DA',
-    'UI_TOOLTIPS_StabBonus_Text'               : 'Stabilization bonus',
-    'UI_TOOLTIPS_Stabilization_Text'           : 'Total stabilization',
-    'UI_TOOLTIPS_MovementSpeed_Text'           : 'When maximum speed',
-    'UI_TOOLTIPS_RotatingVehicle_Text'         : 'When turning vehicle',
-    'UI_TOOLTIPS_RotatingTurret_Text'          : 'When turning turret',
-    'UI_TOOLTIPS_modulesText_Text'             : "[To modules] <font color='#FFA500'>{}</font>",
-    'UI_TOOLTIPS_modulesTextTooltip_Text'      : " [To modules]",
-    'UI_TOOLTIPS_modulesTextTooltipBattle_Text': "%s, <font color='#FFA500'>[To modules] %s</font>",
-    'UI_TOOLTIPS_tracerSpeedText_Text'         : '[Tracer]',
-    'UI_TOOLTIPS_shellSpeedText_Text'          : '[Shell]',
+    'UI_TOOLTIPS_StabBonus_Text'               : 'Stabilizacios bonusz',
+    'UI_TOOLTIPS_Stabilization_Text'           : 'Teljes stabilizacio',
+    'UI_TOOLTIPS_MovementSpeed_Text'           : 'Amikor a max. sebesseg',
+    'UI_TOOLTIPS_RotatingVehicle_Text'         : 'A tank megforditasakor',
+    'UI_TOOLTIPS_RotatingTurret_Text'          : 'A torony forgatasakor',
+    'UI_TOOLTIPS_modulesText_Text'             : "[A modulokhoz] <font color='#FFA500'>{}</font>",
+    'UI_TOOLTIPS_modulesTextTooltip_Text'      : " [A modulokhoz]",
+    'UI_TOOLTIPS_modulesTextTooltipBattle_Text': "%s, <font color='#FFA500'>[A modulokhoz] %s</font>",
+    'UI_TOOLTIPS_tracerSpeedText_Text'         : '[Nyomjelzo]',
+    'UI_TOOLTIPS_shellSpeedText_Text'          : '[Hej]',
     'UI_TOOLTIPS_speedMsec_Text'               : 'm/sec.',
 }
 if 'cn' in getLanguageCode().lower() or 'zh' in getLanguageCode().lower() :
@@ -177,10 +177,13 @@ if 'tr' in getLanguageCode().lower():
 
 def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonTooltip=''):
     result = oldCreateStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType, nationFlagIcon, enabled, available, contextMenuId, additionalInfo, active, upgradable, upgradeButtonTooltip)
-    b = []
-    for priced in result['price']['price']:
-        b.append((priced[0], priced[1] * result['count']))
-    result['price']['price'] = tuple(b)
+    try:
+        b = []
+        for priced in result['price']['price']:
+            b.append((priced[0], priced[1] * result['count']))
+        result['price']['price'] = tuple(b)
+    except StandardError:
+        pass
     return result
 
 
@@ -203,13 +206,13 @@ def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
     params = oldGetFormattedParamsList(descriptor, parameters, excludeRelative)
     result = []
     for param in params:
-        if 'damage' in param and 'flyDelayRange' not in param:
+        if 'caliber' in param:
+            result.append(param)
             for shot in g_currentVehicle.item.descriptor.gun.shots:
                 if descriptor.id == shot.shell.id:
                     result.append(('flyDelayRange', "%s <font color='#1CC6D9'>%s</font> %s" % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])))
                     result.append(('flyDelayRange', "%s <font color='#28F09C'>%s</font> %s" % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])))
                     break
-            result.append(param)
             result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(int(descriptor.damage[1]))))
         else:
             result.append(param)
@@ -221,14 +224,14 @@ def construct(self):
     block = []
 
     for pack in result:
-        if 'name' in pack['data'] and p__makeString('#menu:moduleInfo/params/' + 'damage') in pack['data']['name']:
+        if 'name' in pack['data'] and p__makeString('#menu:moduleInfo/params/' + 'caliber') in pack['data']['name']:
             shell = self.shell
+            block.append(pack)
             for shot in g_currentVehicle.item.descriptor.gun.shots:
                 if shell.descriptor.id == shot.shell.id:
                     block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#1CC6D9'>%s</font>" % int(shot.speed), '%s %s' % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
                     block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#28F09C'>%s</font>" % int(shot.speed / 0.8), '%s %s' % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
                     break
-            block.append(pack)
             block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/avgDamage'), "<font color='#FFA500'>%s</font>" % int(shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
         else:
             block.append(pack)
@@ -341,4 +344,4 @@ formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.08 (04-07-2020), by spoter, gox, b4it]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.09 (04-07-2020), by spoter, gox, b4it]'
