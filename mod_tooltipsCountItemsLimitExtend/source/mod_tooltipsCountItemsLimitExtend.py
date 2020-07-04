@@ -190,15 +190,18 @@ def createStorageDefVO(itemID, title, description, count, price, image, imageAlt
 def makeShellTooltip(self, descriptor, piercingPower):
     player = BigWorld.player()
     result = oldMakeShellTooltip(self, descriptor, piercingPower)
-    damage = str(int(descriptor.damage[0]))
-    damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, int(descriptor.damage[1]))
-    speed = ''
-    for shot in player.vehicleTypeDescriptor.gun.shots:
-        if descriptor.id == shot.shell.id:
-            tracerSpeed = "\n%s %s <font color='#1CC6D9'>%s</font> %s" % (p__makeString('#menu:moduleInfo/params/flyDelayRange'), i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])
-            shellSpeed = "\n%s %s <font color='#28F09C'>%s</font> %s" % (p__makeString('#menu:moduleInfo/params/flyDelayRange'), i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])
-            speed = tracerSpeed + shellSpeed
-            break
+    try:
+        damage = str(int(descriptor.damage[0]))
+        damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, int(descriptor.damage[1]))
+        speed = ''
+        for shot in player.vehicleTypeDescriptor.gun.shots:
+            if descriptor.id == shot.shell.id:
+                tracerSpeed = "\n%s %s <font color='#1CC6D9'>%s</font> %s" % (p__makeString('#menu:moduleInfo/params/flyDelayRange'), i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])
+                shellSpeed = "\n%s %s <font color='#28F09C'>%s</font> %s" % (p__makeString('#menu:moduleInfo/params/flyDelayRange'), i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])
+                speed = tracerSpeed + shellSpeed
+                break
+    except StandardError:
+        return result
     return result.replace(damage, damageModule + speed)
 
 
@@ -208,12 +211,15 @@ def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
     for param in params:
         if 'caliber' in param:
             result.append(param)
-            for shot in g_currentVehicle.item.descriptor.gun.shots:
-                if descriptor.id == shot.shell.id:
-                    result.append(('flyDelayRange', "%s <font color='#1CC6D9'>%s</font> %s" % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                    result.append(('flyDelayRange', "%s <font color='#28F09C'>%s</font> %s" % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                    break
-            result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(int(descriptor.damage[1]))))
+            try:
+                for shot in g_currentVehicle.item.descriptor.gun.shots:
+                    if descriptor.id == shot.shell.id:
+                        result.append(('flyDelayRange', "%s <font color='#1CC6D9'>%s</font> %s" % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])))
+                        result.append(('flyDelayRange', "%s <font color='#28F09C'>%s</font> %s" % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])))
+                        break
+                result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(int(descriptor.damage[1]))))
+            except StandardError:
+                pass
         else:
             result.append(param)
     return result
@@ -225,14 +231,17 @@ def construct(self):
 
     for pack in result:
         if 'name' in pack['data'] and p__makeString('#menu:moduleInfo/params/' + 'caliber') in pack['data']['name']:
-            shell = self.shell
             block.append(pack)
-            for shot in g_currentVehicle.item.descriptor.gun.shots:
-                if shell.descriptor.id == shot.shell.id:
-                    block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#1CC6D9'>%s</font>" % int(shot.speed), '%s %s' % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                    block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#28F09C'>%s</font>" % int(shot.speed / 0.8), '%s %s' % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                    break
-            block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/avgDamage'), "<font color='#FFA500'>%s</font>" % int(shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
+            try:
+                shell = self.shell
+                for shot in g_currentVehicle.item.descriptor.gun.shots:
+                    if shell.descriptor.id == shot.shell.id:
+                        block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#1CC6D9'>%s</font>" % int(shot.speed), '%s %s' % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
+                        block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#28F09C'>%s</font>" % int(shot.speed / 0.8), '%s %s' % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
+                        break
+                block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/avgDamage'), "<font color='#FFA500'>%s</font>" % int(shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
+            except StandardError:
+                pass
         else:
             block.append(pack)
     return block
@@ -321,12 +330,15 @@ def p__getStabFactors(vehicle, module, inSettings=False):
 
 def construct1(self):
     result = list(old1_construct(self))
-    module = self.module
-    vehicle = self.configuration.vehicle
-    if module.itemTypeID == GUI_ITEM_TYPE.GUN:
-        bonuses = p__getStabFactors(vehicle, module)
-        for bonus in bonuses:
-            result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
+    try:
+        module = self.module
+        vehicle = self.configuration.vehicle
+        if module.itemTypeID == GUI_ITEM_TYPE.GUN:
+            bonuses = p__getStabFactors(vehicle, module)
+            for bonus in bonuses:
+                result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
+    except StandardError:
+        pass
     return result
 
 
