@@ -7,7 +7,8 @@ from gui.Scaleform.daapi.view.lobby.battle_queue import _QueueProvider
 from gui.prb_control import prbEntityProperty
 from helpers import dependency
 from skeletons.gui.lobby_context import ILobbyContext
-
+from CurrentVehicle import g_currentVehicle
+from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 
 class Mod:
     lobbyContext = dependency.descriptor(ILobbyContext)
@@ -27,9 +28,11 @@ class Mod:
             return
         currPlayer = BigWorld.player()
         if currPlayer is not None and hasattr(currPlayer, 'requestQueueInfo'):
-            if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
-                self.prbEntity.exitFromQueue()
-                self.restartEnqueueRandom()
+            if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count and self.prbEntity.isCommander():
+                vehicle = g_currentVehicle.item
+                if vehicle is not None and vehicle.type != VEHICLE_CLASS_NAME.SPG:
+                    self.prbEntity.exitFromQueue()
+                    self.restartEnqueueRandom()
         self._count += 1
 
     def restartEnqueueRandom(self):
@@ -56,4 +59,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.07 (16-06-2020), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.08 (09-07-2020), by spoter]'
