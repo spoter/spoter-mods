@@ -1,0 +1,60 @@
+﻿{
+    "Arlequin": [
+        [ "UI_Arlequin_Machine_Gun_Dynamics", 1, 2, 2, 1, 1, 1 ],
+        [ "UI_Arlequin_Machine_Gun_Speed_Mobility", 1, 1, 2, 1, 1, 1 ],
+        [ "UI_Arlequin_Machine_Gun_HP", 1, 2, 2, 2, 2, 1 ],
+        [ "UI_Arlequin_Double_Gun_Dynamics", 1, 2, 1, 1, 1, 2 ],
+        [ "UI_Arlequin_Double_Gun_Speed_Mobility", 1, 1, 1, 1, 1, 2 ],
+        [ "UI_Arlequin_Double_Gun_HP", 1, 2, 1, 2, 2, 2 ],
+        [ "UI_Arlequin_HE_Dynamics", 1, 2, 2, 1, 2, 3 ],
+        [ "UI_Arlequin_HE_Speed_Mobility", 1, 1, 2, 1, 2, 3 ],
+        [ "UI_Arlequin_HE_HP", 1, 2, 2, 2, 2, 3 ]
+    ],
+    "Harbinger_Mk_IV": [
+        [ "UI_Harbinger_Mk_IV_DPM_Rotation", 1, 2, 1, 2, 1, 1 ],
+        [ "UI_Harbinger_Mk_IV_DPM_Mobility", 1, 2, 1, 1, 1, 1 ],
+        [ "UI_Harbinger_Mk_IV_DPM_Armor", 1, 2, 1, 2, 2, 1 ],
+        [ "UI_Harbinger_Mk_IV_Autoreloader_Rotation", 1, 2, 1, 2, 1, 2 ],
+        [ "UI_Harbinger_Mk_IV_Autoreloader_Mobility", 1, 2, 1, 1, 1, 2 ],
+        [ "UI_Harbinger_Mk_IV_Autoreloader_Speed_Mobility", 1, 1, 1, 1, 1, 2 ],
+        [ "UI_Harbinger_Mk_IV_Autoreloader_Armor", 1, 2, 1, 2, 2, 2 ],
+        [ "UI_Harbinger_Mk_IV_DPS_Mobility", 1, 2, 1, 1, 2, 3 ],
+        [ "UI_Harbinger_Mk_IV_DPS_Speed_Mobility", 1, 1, 1, 1, 2, 3 ],
+        [ "UI_Harbinger_Mk_IV_DPS_Armor", 1, 2, 1, 2, 2, 3 ]
+    ],
+    "Raven": [
+        [ "UI_Raven_DPM_Rotation", 1, 2, 2, 2, 1, 1 ],
+        [ "UI_Raven_DPM_Mobility", 1, 2, 2, 1, 1, 1 ],
+        [ "UI_Raven_DPM_Armor", 1, 2, 2, 2, 2, 1 ],
+        [ "UI_Raven_Magazine_Rotation", 1, 2, 1, 2, 1, 2 ],
+        [ "UI_Raven_Magazine_Mobility", 1, 2, 1, 1, 1, 2 ],
+        [ "UI_Raven_Magazine_Speed_Mobility", 1, 1, 1, 1, 1, 2 ],
+        [ "UI_Raven_Magazine_Armor", 1, 2, 1, 2, 2, 2 ],
+        [ "UI_Raven_DPS_Mobility", 1, 2, 1, 1, 2, 3 ],
+        [ "UI_Raven_DPS_Speed_Mobility", 1, 1, 1, 1, 2, 3 ],
+        [ "UI_Raven_DPS_Armor", 1, 2, 1, 2, 2, 3 ]
+    ],
+    "Varyag": [
+        [ "UI_Varyag_DPM_HP", 1, 1, 2, 2, 2, 1 ],
+        [ "UI_Varyag_DPM_Armor", 1, 1, 2, 1, 1, 1 ],
+        [ "UI_Varyag_Double_Gun_HP", 1, 1, 1, 2, 2, 2 ],
+        [ "UI_Varyag_Double_Gun_Armor", 1, 1, 1, 1, 1, 2 ],
+        [ "UI_Varyag_DPS_HP", 1, 1, 2, 2, 2, 3 ],
+        [ "UI_Varyag_DPS_Armor", 1, 1, 2, 1, 2, 3 ]
+    ],
+    "Walkure": [
+        [ "UI_Walkure_Machine_Gun_HP", 1, 1, 1, 2, 2, 1 ],
+        [ "UI_Walkure_Machine_Gun_Armor", 1, 1, 1, 1, 1, 1 ],
+        [ "UI_Walkure_DPM_HP", 1, 1, 1, 2, 2, 2 ],
+        [ "UI_Walkure_DPM_Armor", 1, 1, 1, 1, 1, 2 ],
+        [ "UI_Walkure_DPS_HP", 1, 1, 1, 2, 2, 3 ],
+        [ "UI_Walkure_DPS_Armor", 1, 1, 1, 1, 2, 3 ]
+    ],
+    "enabled": true,
+    "selected_Arlequin": 0,
+    "selected_Harbinger_Mk_IV": 0,
+    "selected_Raven": 0,
+    "selected_Varyag": 1,
+    "selected_Walkure": 0,
+    "version": 102
+}
