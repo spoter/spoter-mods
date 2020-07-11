@@ -13,9 +13,9 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.03 (2020-07-11)'
-        self.version_id = 103
-        self.versionI18n = 103
+        self.version = 'v1.04 (2020-07-12)'
+        self.version_id = 104
+        self.versionI18n = 104
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
@@ -239,14 +239,14 @@ if BattleUpgradePanel:
     p__config = Config()
 
 
-    @inject.hook(BattleUpgradePanel, '_BattleUpgradePanel__updateVisibility')
+    @inject.hook(BattleUpgradePanel, '_BattleUpgradePanel__onVehicleStateUpdated')
     @inject.log
     def onVehicleStateUpdated(func, *args):
         result = func(*args)
         if not p__config.data['enabled']:
             return result
         self = args[0]
-        if self._BattleUpgradePanel__localVisible and self._BattleUpgradePanel__upgrades:
+        if self._BattleUpgradePanel__vehicleIsAlive and self._BattleUpgradePanel__localVisible and self._BattleUpgradePanel__isEnabled and self._BattleUpgradePanel__upgrades:
             vehicle = self._getVehicle()
             name = VEHICLES[vehicle.intCD]
             ids = p__config.data['selected_' + name]
@@ -254,5 +254,5 @@ if BattleUpgradePanel:
             level = self._BattleUpgradePanel__getCurrentLvl()
             selectedItem = config[level]
             self.selectVehicleModule(config[selectedItem])
-            inject.message(p__config.i18n['UI_battleMessage'] % (selectedItem, level))
+            #inject.message(p__config.i18n['UI_battleMessage'] % (selectedItem, level))
         return result

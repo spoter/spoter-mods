@@ -1,5 +1,5 @@
 {
-  "version": 1.03,
+  "version": 1.04,
   "source": "mod_steelHunterAutoUpgrades2020.py",
   "meta": "configs/meta.xml",
   "config": "configs/steelHunterAutoUpgrades2020.json",
