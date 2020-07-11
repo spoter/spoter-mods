@@ -13,9 +13,9 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.02 (2020-07-11)'
-        self.version_id = 102
-        self.versionI18n = 102
+        self.version = 'v1.03 (2020-07-11)'
+        self.version_id = 103
+        self.versionI18n = 103
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
@@ -243,6 +243,8 @@ if BattleUpgradePanel:
     @inject.log
     def onVehicleStateUpdated(func, *args):
         result = func(*args)
+        if not p__config.data['enabled']:
+            return result
         self = args[0]
         if self._BattleUpgradePanel__localVisible and self._BattleUpgradePanel__upgrades:
             vehicle = self._getVehicle()
