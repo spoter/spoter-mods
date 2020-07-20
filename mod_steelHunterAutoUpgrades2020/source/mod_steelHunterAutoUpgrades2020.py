@@ -1,9 +1,16 @@
 ﻿# -*- coding: utf-8 -*-
+import BigWorld
+import Math
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
-
+from tutorial.control.battle.functional import _StaticObjectMarker3D as p__StaticObjectMarker3D
 try:
     from gui.Scaleform.daapi.view.battle.battle_royale.battle_upgrade_panel import BattleUpgradePanel
+    from gui.Scaleform.daapi.view.battle.battle_royale.minimap import plugins
+    from gui.Scaleform.daapi.view.battle.battle_royale.minimap.settings import MarkersAs3Descr
+    from shared_utils import findFirst
+
+    from battleground.loot_object import LootObject
 except StandardError:
     BattleUpgradePanel = False
 from helpers import getLanguageCode
@@ -13,9 +20,9 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.04 (2020-07-12)'
-        self.version_id = 104
-        self.versionI18n = 104
+        self.version = 'v1.05 (2020-07-20)'
+        self.version_id = 105
+        self.versionI18n = 105
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
@@ -253,6 +260,54 @@ if BattleUpgradePanel:
             config = p__config.data[name][ids]
             level = self._BattleUpgradePanel__getCurrentLvl()
             selectedItem = config[level]
-            self.selectVehicleModule(config[selectedItem])
+            self.selectVehicleModule(config[selectedItem] - 1)
             #inject.message(p__config.i18n['UI_battleMessage'] % (selectedItem, level))
+        return result
+
+
+    @inject.hook(plugins.BattleRoyaleRadarPlugin, '_addLootEntry')
+    @inject.log
+    def addLootEntry(func, *args):
+        entryId = func(*args)
+        if not p__config.data['enabled']:
+            return entryId
+
+        self, typeId, xzPosition = args
+        try:
+            found = entryId in self._lootEntriesModels
+        except:
+            self._lootEntriesModels = {}
+            found = False
+
+        vEntry = findFirst(lambda entry: entry.entryId == entryId, self._lootEntries)
+        if vEntry is not None:
+            matrix = self._RadarPlugin__getMatrixByXZ(xzPosition)
+            position = matrix.translation
+            testResTerrain = BigWorld.wg_collideSegment(BigWorld.player().spaceID, Math.Vector3(position.x, 1000.0, position.z), Math.Vector3(position.x, -1000, position.z), 128)
+            if testResTerrain is not None:
+                position.y = testResTerrain.closestPoint[1]
+            if not found:
+                lootTypeParam = self._BattleRoyaleRadarPlugin__getLootMarkerByTypeId(typeId)
+                modelPath = 'objects/lootYellow.model'
+                if 'improved' in lootTypeParam:
+                    modelPath = 'objects/lootGreen.model'
+                if 'airdrop' in lootTypeParam:
+                    modelPath = 'objects/lootBlue.model'
+                self._lootEntriesModels[entryId] = p__StaticObjectMarker3D({
+                    'path': modelPath
+                }, position)
+                self._lootEntriesModels[entryId]._StaticObjectMarker3D__model.scale = Math.Vector3(1.0, 400, 1.0) * 0.1
+            self._lootEntriesModels[entryId]._StaticObjectMarker3D__model.position = position
+        return entryId
+
+
+    @inject.hook(plugins.BattleRoyaleRadarPlugin, 'timeOutDone')
+    @inject.log
+    def timeOutDone(func, *args):
+        result = func(*args)
+        if p__config.data['enabled']:
+            self = args[0]
+            for entryId in self._lootEntriesModels:
+                self._lootEntriesModels[entryId].clear()
+            self._lootEntriesModels = {}
         return result
