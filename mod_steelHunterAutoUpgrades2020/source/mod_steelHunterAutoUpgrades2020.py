@@ -20,13 +20,15 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.05 (2020-07-20)'
-        self.version_id = 105
-        self.versionI18n = 105
+        self.version = 'v1.06 (2020-07-29)'
+        self.version_id = 106
+        self.versionI18n = 106
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
             'enabled'                 : True,
+            'autoUpgrade': False,
+            'showLoot3D': True,
             'selected_Varyag'         : 1,
             'selected_Walkure'        : 0,
             'selected_Raven'          : 0,
@@ -250,7 +252,7 @@ if BattleUpgradePanel:
     @inject.log
     def onVehicleStateUpdated(func, *args):
         result = func(*args)
-        if not p__config.data['enabled']:
+        if not p__config.data['enabled'] or not p__config.data['autoUpgrade']:
             return result
         self = args[0]
         if self._BattleUpgradePanel__vehicleIsAlive and self._BattleUpgradePanel__localVisible and self._BattleUpgradePanel__isEnabled and self._BattleUpgradePanel__upgrades:
@@ -269,7 +271,7 @@ if BattleUpgradePanel:
     @inject.log
     def addLootEntry(func, *args):
         entryId = func(*args)
-        if not p__config.data['enabled']:
+        if not p__config.data['enabled'] or not p__config.data['showLoot3D']:
             return entryId
 
         self, typeId, xzPosition = args
@@ -305,7 +307,7 @@ if BattleUpgradePanel:
     @inject.log
     def timeOutDone(func, *args):
         result = func(*args)
-        if p__config.data['enabled']:
+        if p__config.data['enabled'] and p__config.data['autoUpgrade']:
             self = args[0]
             for entryId in self._lootEntriesModels:
                 self._lootEntriesModels[entryId].clear()
