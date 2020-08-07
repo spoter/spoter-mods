@@ -9,6 +9,8 @@ from helpers import dependency
 from skeletons.gui.lobby_context import ILobbyContext
 from CurrentVehicle import g_currentVehicle
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
+from gui.prb_control.dispatcher import g_prbLoader
+from gui.Scaleform.daapi.view.lobby.header import battle_selector_items
 
 class Mod:
     lobbyContext = dependency.descriptor(ILobbyContext)
@@ -28,7 +30,11 @@ class Mod:
             return
         currPlayer = BigWorld.player()
         if currPlayer is not None and hasattr(currPlayer, 'requestQueueInfo'):
-            if self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count and self.prbEntity.isCommander():
+            prbDispatcher = g_prbLoader.getDispatcher()
+            if prbDispatcher is not None and self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
+                state = prbDispatcher.getFunctionalState()
+                if battle_selector_items.getItems().update(state).isInSquad(state):
+                    return
                 vehicle = g_currentVehicle.item
                 if vehicle is not None and vehicle.type != VEHICLE_CLASS_NAME.SPG:
                     self.prbEntity.exitFromQueue()
@@ -59,4 +65,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.08 (09-07-2020), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.09 (07-08-2020), by spoter]'
