@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import math
 
-import BigWorld
 from CurrentVehicle import g_currentVehicle
 from goodies.goodie_constants import GOODIE_STATE
 from gui.Scaleform.daapi.view.battle.shared.consumables_panel import ConsumablesPanel
@@ -13,6 +12,8 @@ from gui.shared.tooltips.shell import CommonStatsBlockConstructor
 from helpers import getLanguageCode
 from helpers.i18n import makeString as p__makeString
 from gui.shared.gui_items import GUI_ITEM_TYPE
+from gui.impl import backport
+from gui.impl.gen import R
 
 i18n = {
     'UI_TOOLTIPS_StabBonus_ColorPositive'      : '#28F09C',
@@ -175,8 +176,8 @@ if 'tr' in getLanguageCode().lower():
 }
 
 
-def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonTooltip=''):
-    result = oldCreateStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType, nationFlagIcon, enabled, available, contextMenuId, additionalInfo, active, upgradable, upgradeButtonTooltip)
+def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonTooltip='', extraParams=(), specializations=()):
+    result = oldCreateStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType, nationFlagIcon, enabled, available, contextMenuId, additionalInfo, active, upgradable, upgradeButtonTooltip, extraParams, specializations)
     try:
         b = []
         for priced in result['price']['price']:
@@ -187,22 +188,14 @@ def createStorageDefVO(itemID, title, description, count, price, image, imageAlt
     return result
 
 
-def makeShellTooltip(self, descriptor, piercingPower):
-    player = BigWorld.player()
-    result = oldMakeShellTooltip(self, descriptor, piercingPower)
+def makeShellTooltip(self, descriptor, piercingPower, shotSpeed):
+    result = oldMakeShellTooltip(self, descriptor, piercingPower, shotSpeed)
+    damage = backport.getNiceNumberFormat(descriptor.damage[0])
     try:
-        damage = str(int(descriptor.damage[0]))
-        damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, int(descriptor.damage[1]))
-        speed = ''
-        for shot in player.vehicleTypeDescriptor.gun.shots:
-            if descriptor.id == shot.shell.id:
-                tracerSpeed = "\n%s %s <font color='#1CC6D9'>%s</font> %s" % (p__makeString('#menu:moduleInfo/params/flyDelayRange'), i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])
-                shellSpeed = "\n%s %s <font color='#28F09C'>%s</font> %s" % (p__makeString('#menu:moduleInfo/params/flyDelayRange'), i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])
-                speed = tracerSpeed + shellSpeed
-                break
+        damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, backport.getNiceNumberFormat(descriptor.damage[1]))
     except StandardError:
         return result
-    return result.replace(damage, damageModule + speed)
+    return result.replace(damage, damageModule)
 
 
 def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
@@ -211,15 +204,7 @@ def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
     for param in params:
         if 'caliber' in param:
             result.append(param)
-            try:
-                for shot in g_currentVehicle.item.descriptor.gun.shots:
-                    if descriptor.id == shot.shell.id:
-                        result.append(('flyDelayRange', "%s <font color='#1CC6D9'>%s</font> %s" % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], int(shot.speed), i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                        result.append(('flyDelayRange', "%s <font color='#28F09C'>%s</font> %s" % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], int(shot.speed / 0.8), i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                        break
-                result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(int(descriptor.damage[1]))))
-            except StandardError:
-                pass
+            result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(backport.getNiceNumberFormat(descriptor.damage[1]))))
         else:
             result.append(param)
     return result
@@ -228,43 +213,40 @@ def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
 def construct(self):
     result = old_construct(self)
     block = []
-
+    avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
     for pack in result:
-        if 'name' in pack['data'] and p__makeString('#menu:moduleInfo/params/' + 'caliber') in pack['data']['name']:
+        if 'name' in pack['data'] and avgDamage in pack['data']['name']:
             block.append(pack)
-            try:
-                shell = self.shell
-                for shot in g_currentVehicle.item.descriptor.gun.shots:
-                    if shell.descriptor.id == shot.shell.id:
-                        block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#1CC6D9'>%s</font>" % int(shot.speed), '%s %s' % (i18n['UI_TOOLTIPS_tracerSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                        block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/flyDelayRange'), "<font color='#28F09C'>%s</font>" % int(shot.speed / 0.8), '%s %s' % (i18n['UI_TOOLTIPS_shellSpeedText_Text'], i18n['UI_TOOLTIPS_speedMsec_Text'])))
-                        break
-                block.append(self._packParameterBlock(p__makeString('#menu:moduleInfo/params/avgDamage'), "<font color='#FFA500'>%s</font>" % int(shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
-            except StandardError:
-                pass
+            block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
         else:
             block.append(pack)
+    vehicle = g_currentVehicle.item
+    module = vehicle.gun
+    bonuses = p__getStabFactors(vehicle, module)
+    for bonus in bonuses:
+        block.append(self._packParameterBlock(bonus[0], bonus[1], ''))
     return block
 
 
 def p__getAdditiveShotDispersionFactor(vehicle):
-    additiveShotDispersionFactor = 1.0
-    try:
-        for crewman in vehicle.crew:
-            if 'gunner_smoothTurret' in crewman[1].skillsMap:
-                additiveShotDispersionFactor += crewman[1].skillsMap['gunner_smoothTurret'].level * 0.00075
-            if 'driver_smoothDriving' in crewman[1].skillsMap:
-                additiveShotDispersionFactor += crewman[1].skillsMap['driver_smoothDriving'].level * 0.0004
-    except StandardError:
-        pass
+    additiveShotDispersionFactor = vehicle.descriptor.miscAttrs['additiveShotDispersionFactor']
+    for crewman in vehicle.crew:
+        if crewman[1] is None:
+            continue
+        if 'gunner_smoothTurret' in crewman[1].skillsMap:
+            additiveShotDispersionFactor += crewman[1].skillsMap['gunner_smoothTurret'].level * 0.00075
+        if 'driver_smoothDriving' in crewman[1].skillsMap:
+            additiveShotDispersionFactor += crewman[1].skillsMap['driver_smoothDriving'].level * 0.0004
     # return additiveShotDispersionFactor
-    for item in vehicle.equipment.battleBoosterConsumables:
+    for item in vehicle.battleBoosters.installed.getItems():
         if item and 'imingStabilizer' in item.name:
             additiveShotDispersionFactor += 0.05
-    for item in vehicle.optDevices:
+    for item in vehicle.optDevices.installed.getItems():
         if item and 'imingStabilizer' in item.name:
-            if 'pgraded' in item.name or 'mproved' in item.name:
+            if 'pgraded' in item.name:
                 additiveShotDispersionFactor += 0.25
+            elif 'mproved' in item.name:
+                additiveShotDispersionFactor += 0.275
             else:
                 additiveShotDispersionFactor += 0.2
     return additiveShotDispersionFactor
@@ -330,15 +312,12 @@ def p__getStabFactors(vehicle, module, inSettings=False):
 
 def construct1(self):
     result = list(old1_construct(self))
-    try:
-        module = self.module
-        vehicle = self.configuration.vehicle
-        if module.itemTypeID == GUI_ITEM_TYPE.GUN:
-            bonuses = p__getStabFactors(vehicle, module)
-            for bonus in bonuses:
-                result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
-    except StandardError:
-        pass
+    module = self.module
+    vehicle = self.configuration.vehicle
+    if module.itemTypeID == GUI_ITEM_TYPE.GUN:
+        bonuses = p__getStabFactors(vehicle, module)
+        for bonus in bonuses:
+            result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
     return result
 
 
@@ -356,4 +335,4 @@ formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 1.09 (04-07-2020), by spoter, gox, b4it]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.00 (07-08-2020), by spoter, gox, b4it]'
