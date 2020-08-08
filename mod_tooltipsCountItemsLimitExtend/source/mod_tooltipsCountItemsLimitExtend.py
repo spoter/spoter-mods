@@ -7,6 +7,7 @@ from gui.Scaleform.daapi.view.battle.shared.consumables_panel import Consumables
 from gui.Scaleform.daapi.view.lobby.storage import storage_helpers
 from gui.shared.items_parameters import formatters, functions
 from gui.shared.tooltips import battle_booster, formatters as formatters1
+from gui.shared.tooltips.vehicle import VehicleAdvancedParametersTooltipData
 from gui.shared.tooltips.module import CommonStatsBlockConstructor as CommonStatsBlockConstructor1, ModuleTooltipBlockConstructor
 from gui.shared.tooltips.shell import CommonStatsBlockConstructor
 from helpers import getLanguageCode
@@ -234,21 +235,21 @@ def p__getAdditiveShotDispersionFactor(vehicle):
         if crewman[1] is None:
             continue
         if 'gunner_smoothTurret' in crewman[1].skillsMap:
-            additiveShotDispersionFactor += crewman[1].skillsMap['gunner_smoothTurret'].level * 0.00075
+            additiveShotDispersionFactor -= crewman[1].skillsMap['gunner_smoothTurret'].level * 0.00075
         if 'driver_smoothDriving' in crewman[1].skillsMap:
-            additiveShotDispersionFactor += crewman[1].skillsMap['driver_smoothDriving'].level * 0.0004
+            additiveShotDispersionFactor -= crewman[1].skillsMap['driver_smoothDriving'].level * 0.0004
     # return additiveShotDispersionFactor
     for item in vehicle.battleBoosters.installed.getItems():
         if item and 'imingStabilizer' in item.name:
-            additiveShotDispersionFactor += 0.05
+            additiveShotDispersionFactor -= 0.05
     for item in vehicle.optDevices.installed.getItems():
         if item and 'imingStabilizer' in item.name:
             if 'pgraded' in item.name:
-                additiveShotDispersionFactor += 0.25
+                additiveShotDispersionFactor -= 0.25
             elif 'mproved' in item.name:
-                additiveShotDispersionFactor += 0.275
+                additiveShotDispersionFactor -= 0.275
             else:
-                additiveShotDispersionFactor += 0.2
+                additiveShotDispersionFactor -= 0.2
     return additiveShotDispersionFactor
 
 
@@ -292,12 +293,12 @@ def p__getStabFactors(vehicle, module, inSettings=False):
     resultMovementSpeed = round(math.sqrt(vehicleMovementFactorMax * (additiveFactor ** 2)), 2)
     resultRotatingVehicle = round(math.sqrt(vehicleRotationFactorMax * (additiveFactor ** 2)), 2)
     resultRotatingTurret = round(math.sqrt(turretRotationFactorMax * (additiveFactor ** 2)), 2)
-    bonuses = (i18n['UI_TOOLTIPS_StabBonus_Text'], '<font color="%s">+%.2f%%</font>' % (i18n['UI_TOOLTIPS_StabBonus_ColorPositive'] if additiveFactor > 1 else i18n['UI_TOOLTIPS_StabBonus_ColorNeutral'], additiveFactor / 0.01 - 100))
-    if resultMax - baseMax > 0:
-        bonuses1 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_Stabilization_Text'], 100 - resultMax, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], resultMax - baseMax), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_Stabilization_Color'], 100 - baseMax))
-        bonuses2 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_MovementSpeed_Text'], baseMovementSpeed, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], resultMovementSpeed - baseMovementSpeed), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_MovementSpeed_Color'], resultMovementSpeed))
-        bonuses3 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_RotatingVehicle_Text'], baseRotatingVehicle, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], resultRotatingVehicle - baseRotatingVehicle), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_RotatingVehicle_Color'], resultRotatingVehicle))
-        bonuses4 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_RotatingTurret_Text'], baseRotatingTurret, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], resultRotatingTurret - baseRotatingTurret), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_RotatingTurret_Color'], resultRotatingTurret))
+    bonuses = (i18n['UI_TOOLTIPS_StabBonus_Text'], '<font color="%s">+%.2f%%</font>' % (i18n['UI_TOOLTIPS_StabBonus_ColorPositive'] if additiveFactor < 1 else i18n['UI_TOOLTIPS_StabBonus_ColorNeutral'], 100 - additiveFactor / 0.01))
+    if baseMax - resultMax > 0:
+        bonuses1 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_Stabilization_Text'], 100 - baseMax, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], baseMax - resultMax), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_Stabilization_Color'], 100 - resultMax))
+        bonuses2 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_MovementSpeed_Text'], resultMovementSpeed, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], baseMovementSpeed - resultMovementSpeed), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_MovementSpeed_Color'], baseMovementSpeed))
+        bonuses3 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_RotatingVehicle_Text'], resultRotatingVehicle, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], baseRotatingVehicle - resultRotatingVehicle), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_RotatingVehicle_Color'], baseRotatingVehicle))
+        bonuses4 = ('%s %.2f%% (<font color="%s">+%.2f%%</font>)' % (i18n['UI_TOOLTIPS_RotatingTurret_Text'], resultRotatingTurret, i18n['UI_TOOLTIPS_StabBonus_ColorPositive'], baseRotatingTurret - resultRotatingTurret), '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_RotatingTurret_Color'], baseRotatingTurret))
     else:
         bonuses1 = (i18n['UI_TOOLTIPS_Stabilization_Text'], '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_Stabilization_Color'], 100 - resultMax))
         bonuses2 = (i18n['UI_TOOLTIPS_MovementSpeed_Text'], '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_MovementSpeed_Color'], resultMovementSpeed))
@@ -305,7 +306,7 @@ def p__getStabFactors(vehicle, module, inSettings=False):
         bonuses4 = (i18n['UI_TOOLTIPS_RotatingTurret_Text'], '<font color="%s">%.2f%%</font>' % (i18n['UI_TOOLTIPS_RotatingTurret_Color'], resultRotatingTurret))
     if inSettings:
         return resultMax
-    if additiveFactor > 1:
+    if additiveFactor < 1:
         return bonuses1, bonuses4, bonuses3, bonuses2, bonuses
     return bonuses1, bonuses4, bonuses3, bonuses2
 
@@ -320,12 +321,35 @@ def construct1(self):
             result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
     return result
 
+def _packBlocks(self, paramName):
+    blocks = old_packBlocks(self, paramName)
+    if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
+        vehicle = g_currentVehicle.item
+        module = vehicle.gun
+        bonuses = p__getStabFactors(vehicle, module)
+        result = []
+        found = False
+        for block in blocks:
+            result.append(block)
+            if 'blocksData' in block['data']:
+                if found:
+                    continue
+                for linkage in block['data']['blocksData']:
+                    if 'TooltipTextBlockUI' in linkage['linkage']:
+                        found = True
+                        for bonus in bonuses:
+                            result.append(formatters1.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters1.packPadding(left=59, right=20)))
+                        break
+        return result
+    return blocks
+
 
 oldCreateStorageDefVO = storage_helpers.createStorageDefVO
 oldMakeShellTooltip = ConsumablesPanel._ConsumablesPanel__makeShellTooltip
 oldGetFormattedParamsList = formatters.getFormattedParamsList
 old_construct = CommonStatsBlockConstructor.construct
 old1_construct = CommonStatsBlockConstructor1.construct
+old_packBlocks = VehicleAdvancedParametersTooltipData._packBlocks
 
 ModuleTooltipBlockConstructor.MAX_INSTALLED_LIST_LEN = 1000
 battle_booster._MAX_INSTALLED_LIST_LEN = 1000
@@ -334,5 +358,6 @@ ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
 formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
+VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.00 (07-08-2020), by spoter, gox, b4it]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.01 (08-08-2020), by spoter, gox, b4it]'

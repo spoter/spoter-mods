@@ -12,3 +12,5 @@ ignore:
 - inSettings
 - extraParams
 - specializations
+- padding
+- bottom
