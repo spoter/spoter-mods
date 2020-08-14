@@ -100,7 +100,7 @@ class Config(object):
             'upColor'                               : 18,
             'downColor'                             : 21,
             'unknownColor'                          : 16,
-            'font'                                  : '$IMELanguageBar',
+            'font'                                  : '$FieldFont',
             'background'                            : True,
             'backgroundImage'                       : '../maps/icons/quests/inBattleHint.png',
             'backgroundData'                        : {'alpha': 1.0},

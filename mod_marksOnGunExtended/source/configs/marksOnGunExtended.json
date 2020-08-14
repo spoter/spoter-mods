@@ -62,7 +62,7 @@
     ],
     "downColor": 21,
     "enabled": true,
-    "font": "$IMELanguageBar",
+    "font": "$FieldFont",
     "panel": {
         "index": 1,
         "visible": true,
@@ -101,6 +101,7 @@
     "showInTechTree": true,
     "showInTechTreeMarkOfGunPercent": true,
     "showInTechTreeMarkOfGunPercentFirst": false,
+    "showInTechTreeMastery": true,
     "unknownColor": 16,
     "upColor": 18,
     "version": 809
