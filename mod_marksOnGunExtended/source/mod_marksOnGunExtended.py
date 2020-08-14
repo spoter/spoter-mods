@@ -22,11 +22,12 @@ from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
 from gui.Scaleform.locale.MENU import MENU as MU
 from gui.battle_control.controllers import feedback_events
 from gui.shared.formatters import text_styles
-from gui.shared.gui_items.dossier.achievements.MarkOnGunAchievement import MarkOnGunAchievement
+from gui.shared.gui_items.dossier.achievements.mark_on_gun import MarkOnGunAchievement
 from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
 from gui.Scaleform.daapi.view.lobby.profile.ProfileUtils import ProfileUtils
 from gui.Scaleform.lobby_entry import LobbyEntry
+from dossiers2.ui.achievements import MARK_OF_MASTERY_RECORD
 
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
 COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FF6347', '#FFFFFF']
@@ -71,9 +72,9 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v8.05 (2019-10-11)'
-        self.version_id = 805
-        self.author = 'by spoter to b4it.org & pfmods.net'
+        self.version = 'v8.09 (2020-08-14)'
+        self.version_id = 809
+        self.author = 'by spoter & oldskool to b4it.org & pfmods.net'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonSizeUp'  : [Keys.KEY_PGUP, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -94,6 +95,7 @@ class Config(object):
             'showInTechTree'                        : True,
             'showInTechTreeMarkOfGunPercent'        : True,
             'showInTechTreeMarkOfGunPercentFirst'   : False,
+            'showInTechTreeMastery': True,
             'showInHangar'                          : True,
             'upColor'                               : 18,
             'downColor'                             : 21,
@@ -1454,15 +1456,20 @@ def getExtraInfo(func, *args):
             except StandardError:
                 pass
         if dossier:
-            percentText = ''
+            percent = ''
             markOfGun = dossier.getTotalStats().getAchievement(MARK_ON_GUN_RECORD)
             markOfGunValue = markOfGun.getValue()
-            markOfGunStars = MARKS[markOfGun.getValue()]
+            markOfGunStars = '%s ' %MARKS[markOfGun.getValue()]
             color = ['#F8F400', '#60FF00', '#02C9B3', '#D042F3']
-            percent = float(dossier.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0)
-            if config.data['showInTechTreeMarkOfGunPercent'] and percent:
-                percent = '%.2f' %percent if percent < 100 else '100.0'
-                percentText = '||%s <font color="%s">%s%%</font>||%s||%s||%s||%s'% (markOfGunStars, color[markOfGunValue], percent.rjust(5), techTreeX, techTreeY, techTreeHeight, techTreeWidth)
+            percents = float(dossier.getRecordValue(ACHIEVEMENT_BLOCK.TOTAL, 'damageRating') / 100.0)
+            if config.data['showInTechTreeMarkOfGunPercent'] and percents:
+                percent = '%.2f' %percents if percents < 100 else '100.0'
+                percent = '%s%%' %percent.rjust(5)
+            mastery = dossier.getTotalStats().getAchievement(MARK_OF_MASTERY_RECORD)
+            masteryValue = mastery.getValue()
+            if config.data['showInTechTreeMastery'] and masteryValue and masteryValue < 5:
+                markOfGunStars = '<img src="img://gui/%s" width="16" height="16" vspace="-16"/></img>' % mastery.getSmallIcon().replace('../', '')
+            percentText = '||%s<font color="%s">%s</font>||%s||%s||%s||%s'% (markOfGunStars, color[markOfGunValue], percent, techTreeX, techTreeY, techTreeHeight, techTreeWidth)
             result['nameString'] += percentText
     return result
 
