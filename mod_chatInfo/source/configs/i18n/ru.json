@@ -30,6 +30,8 @@
     "UI_color_very_good": "Очень хороший рейтинг",
     "UI_color_unique": "Уникальный рейтинг",
     "UI_description": "Chat Info",
+    "UI_messageF5": "Так точно!",
+    "UI_messageF6": "Никак нет!",
     "UI_setting_colorNewbieSpammer_text": "Цвет новичка (спамера) в чате",
     "UI_setting_colorNewbieSpammer_tooltip": "{HEADER}<font color=\"#FFD700\">Инфо:</font>{/HEADER}{BODY}Статус (спамер):\n<font color=\"#FFD700\">0% процент побед</font>{/BODY}",
     "UI_setting_colorNewbie_text": "Цвет новичка в чате",
@@ -52,5 +54,5 @@
     "UI_setting_showWinRate_tooltip": "",
     "UI_setting_twinkBattles_text": "Количество боёв для твинков",
     "UI_setting_twinkBattles_value": "k",
-    "version": 105
+    "version": 106
 }

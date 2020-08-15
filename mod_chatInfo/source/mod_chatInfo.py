@@ -7,8 +7,13 @@ import urllib2
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
+import Keys
+from gui import InputHandler
+from messenger import MessengerEntry
 # noinspection PyProtectedMember
 from messenger.gui.Scaleform.channels.bw.lobby_controllers import _ChannelController
+from messenger.proto.bw_chat2.battle_chat_cmd import _OutCmdDecorator
+from messenger_common_chat2 import messageArgs
 
 COLORS = ['#FE0E00', '#FE7903', '#F8F400', '#60FF00', '#02C9B3', '#D042F3']
 WIN = [0.0, 46.5, 48.5, 52.5, 57.5, 64.5]
@@ -21,8 +26,8 @@ MENU = ['UI_color_blue', 'UI_color_brown', 'UI_color_chocolate', 'UI_color_cornf
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v1.05 (2019-10-11)'
-        self.version_id = 105
+        self.version = 'v1.06 (2020-08-15)'
+        self.version_id = 106
         self.author = 'by spoter'
         self.data = {
             'version'           : self.version_id,
@@ -93,7 +98,9 @@ class Config(object):
             'UI_color_normal'                      : 'Normal rating',
             'UI_color_good'                        : 'Good rating',
             'UI_color_very_good'                   : 'Very good rating',
-            'UI_color_unique'                      : 'Unique rating'
+            'UI_color_unique'                      : 'Unique rating',
+            'UI_messageF5'                         : 'Affirmative!',
+            'UI_messageF6'                         : 'Negative!',
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -217,6 +224,15 @@ class ChatInfo(object):
     def __init__(self):
         self.dossiers = {}
         self.threadArray = []
+        InputHandler.g_instance.onKeyDown += self.pushButton
+        InputHandler.g_instance.onKeyUp += self.pushButton
+
+    def pushButton(self, event):
+        if inject.g_appLoader().getDefBattleApp():
+            if event.key in (Keys.KEY_F5, Keys.KEY_F6) and event.isKeyDown():
+                controller = MessengerEntry.g_instance.gui.channelsCtrl.getController(_OutCmdDecorator(44, messageArgs(strArg1='')).getClientID())
+                if controller:
+                    controller.sendMessage(config.i18n['UI_messageF5'] if event.key == Keys.KEY_F5 else config.i18n['UI_messageF6'])
 
     @staticmethod
     def getColor(rating, value):
@@ -231,9 +247,10 @@ class ChatInfo(object):
             if (datetime.datetime.utcnow() - self.dossiers[databaseID]['time']).total_seconds() < 3600:
                 return self.dossiers[databaseID]
         try:
-            url = 'https://api.worldoftanks.{region}/wot/account/info/?application_id=demo&fields=created_at%2Cglobal_rating%2Cstatistics.all.wins%2C+statistics.all.battles&account_id={id}'.format(region=self.region(databaseID), id=databaseID)
+            url = 'https://api.worldoftanks.{region}/wot/account/info/?application_id=7c185c71df3e4d3190f0733df31b9f5f&fields=created_at%2Cglobal_rating%2Cstatistics.all.wins%2C+statistics.all.battles&account_id={id}'.format(region=self.region(databaseID), id=databaseID)
             request = json.loads(urllib2.urlopen(url, timeout=1).read()).get('data', None)
-        except IOError:
+        except IOError as e:
+            print 'LOG ERROR[chatInfo] IOError: %s' % str(e)
             request = None
         if request:
             dossier = request['%s' % databaseID]
@@ -248,8 +265,8 @@ class ChatInfo(object):
         try:
             self.threadArray.append(threading.Thread(target=self.loadStats, args=(databaseID,)))
             self.threadArray[-1].start()
-        except StandardError:
-            pass
+        except StandardError as e:
+            print 'LOG ERROR[chatInfo] StandardError: %s' %str(e)
 
     def generateText(self, message, result):
         try:
@@ -277,8 +294,8 @@ class ChatInfo(object):
                 if winRate or battles:
                     result = result.replace('&nbsp;', '%s%s' % (config.i18n['UI_chat_battles'].format(battles=battles), config.i18n['UI_chat_winRate'].format(winRate=winRate)))
 
-        except StandardError:
-            pass
+        except StandardError as e:
+            print 'LOG ERROR[chatInfo] StandardError: %s' %str(e)
         return result
 
     @staticmethod

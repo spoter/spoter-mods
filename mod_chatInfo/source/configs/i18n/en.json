@@ -30,6 +30,8 @@
     "UI_color_wg_squad": "WG Squad",
     "UI_color_yellow": "Yellow",
     "UI_description": "Chat Info",
+    "UI_messageF5": "Affirmative!",
+    "UI_messageF6": "Negative!",
     "UI_setting_colorNewbieSpammer_text": "Newbie Spammer Color in chat",
     "UI_setting_colorNewbieSpammer_tooltip": "{HEADER}<font color=\"#FFD700\">Info:</font>{/HEADER}{BODY}Spammer status:\n<font color=\"#FFD700\">0% WinRate</font>{/BODY}",
     "UI_setting_colorNewbie_text": "Newbie Color in chat",
@@ -52,5 +54,5 @@
     "UI_setting_showWinRate_tooltip": "",
     "UI_setting_twinkBattles_text": "Twink battles status",
     "UI_setting_twinkBattles_value": "k",
-    "version": 105
+    "version": 106
 }
