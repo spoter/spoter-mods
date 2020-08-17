@@ -9,7 +9,6 @@ try:
     from gui.Scaleform.daapi.view.battle.battle_royale.minimap import plugins
     from gui.Scaleform.daapi.view.battle.battle_royale.minimap.settings import MarkersAs3Descr
     from shared_utils import findFirst
-    from gui.Scaleform.daapi.view.battle.battle_royale.radar import RadarButton
 
     from battleground.loot_object import LootObject
 except StandardError:
@@ -21,9 +20,9 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.07 (2020-08-17)'
-        self.version_id = 107
-        self.versionI18n = 107
+        self.version = 'v1.08 (2020-08-17)'
+        self.version_id = 108
+        self.versionI18n = 108
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
@@ -323,7 +322,7 @@ if BattleUpgradePanel:
         return entryId
 
 
-    @inject.hook(RadarButton, 'timeOutDone')
+    @inject.hook(plugins.BattleRoyaleRadarPlugin, 'timeOutDone')
     @inject.log
     def timeOutDone(func, *args):
         result = func(*args)
