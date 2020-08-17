@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.10.0.0'
+CLIENT_VERSION = '1.10.0.1'
 NAME = 'spoter.mod_steelHunterAutoUpgrades2020'
 ADD_LICENSE = True
 

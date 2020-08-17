@@ -9,6 +9,7 @@ try:
     from gui.Scaleform.daapi.view.battle.battle_royale.minimap import plugins
     from gui.Scaleform.daapi.view.battle.battle_royale.minimap.settings import MarkersAs3Descr
     from shared_utils import findFirst
+    from gui.Scaleform.daapi.view.battle.battle_royale.radar import RadarButton
 
     from battleground.loot_object import LootObject
 except StandardError:
@@ -20,20 +21,20 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.06 (2020-07-29)'
-        self.version_id = 106
-        self.versionI18n = 106
+        self.version = 'v1.07 (2020-08-17)'
+        self.version_id = 107
+        self.versionI18n = 107
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
             'enabled'                 : True,
-            'autoUpgrade': False,
+            'autoUpgrade': True,
             'showLoot3D': True,
-            'selected_Varyag'         : 1,
-            'selected_Walkure'        : 0,
-            'selected_Raven'          : 0,
-            'selected_Arlequin'       : 0,
-            'selected_Harbinger_Mk_IV': 0,
+            'selected_Varyag'         : 4,
+            'selected_Walkure'        : 4,
+            'selected_Raven'          : 9,
+            'selected_Arlequin'       : 8,
+            'selected_Harbinger_Mk_IV': 7,
             'Varyag'                  : [
                 ['UI_Varyag_DPM_HP', 1, 1, 2, 2, 2, 1],  # DPM HP
                 ['UI_Varyag_DPM_Armor', 1, 1, 2, 1, 1, 1],  # DPM Armor
@@ -141,6 +142,10 @@ class Config(object):
             'UI_Harbinger_Mk_IV_DPS_Mobility'               : 'DPS Mobility [1, 2, 1, 1, 2, 3]',
             'UI_Harbinger_Mk_IV_DPS_Speed_Mobility'         : 'DPS Speed Mobility [1, 1, 1, 1, 2, 3]',
             'UI_Harbinger_Mk_IV_DPS_Armor'                  : 'DPS Armor [1, 2, 1, 2, 2, 3]',
+            'UI_autoUpgrade_text' : 'Auto-upgrades vehicle in Steel Hunter battle',
+            'UI_autoUpgrade_tooltip': '',
+            'UI_showLoot3D_text'   : 'Show 3D loot marker, after press Radar button',
+            'UI_showLoot3D_tooltip': '',
 
         }
         if 'ru' in lang:
@@ -193,6 +198,10 @@ class Config(object):
                 'UI_Harbinger_Mk_IV_DPS_Mobility'               : 'Скорострелка в подвижность [1, 2, 1, 1, 2, 3]',
                 'UI_Harbinger_Mk_IV_DPS_Speed_Mobility'         : 'Скорострелка в скорость [1, 1, 1, 1, 2, 3]',
                 'UI_Harbinger_Mk_IV_DPS_Armor'                  : 'Скорострелка в броню [1, 2, 1, 2, 2, 3]',
+                'UI_autoUpgrade_text'   : 'Авто улучшение танка в бою, режим Стальной Охотник',
+                'UI_autoUpgrade_tooltip': '',
+                'UI_showLoot3D_text'    : 'Показывать 3d маркер лута, после нажатия кнопки Радар',
+                'UI_showLoot3D_tooltip' : '',
             })
 
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
@@ -205,6 +214,8 @@ class Config(object):
             'settingsVersion': self.version_id,
             'enabled'        : self.data['enabled'],
             'column1'        : [
+                self.setCheckBox('autoUpgrade'),
+                self.setCheckBox('showLoot3D'),
                 self.setDropdown('Varyag'),
                 self.setDropdown('Walkure'),
                 self.setDropdown('Raven'),
@@ -212,6 +223,15 @@ class Config(object):
                 self.setDropdown('Harbinger_Mk_IV'),
             ],
             'column2'        : []
+        }
+
+    def setCheckBox(self, name):
+        return {
+            'type'   : 'CheckBox',
+            'varName': name,
+            'value'  : self.data[name],
+            'text'   : self.i18n['UI_%s_text' % name],
+            'tooltip': self.i18n['UI_%s_tooltip' % name],
         }
 
     def setDropdown(self, name):
@@ -303,11 +323,11 @@ if BattleUpgradePanel:
         return entryId
 
 
-    @inject.hook(plugins.BattleRoyaleRadarPlugin, 'timeOutDone')
+    @inject.hook(RadarButton, 'timeOutDone')
     @inject.log
     def timeOutDone(func, *args):
         result = func(*args)
-        if p__config.data['enabled'] and p__config.data['autoUpgrade']:
+        if p__config.data['enabled'] and p__config.data['showLoot3D']:
             self = args[0]
             for entryId in self._lootEntriesModels:
                 self._lootEntriesModels[entryId].clear()

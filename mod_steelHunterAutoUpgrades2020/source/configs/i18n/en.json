@@ -45,7 +45,11 @@
     "UI_Walkure_Machine_Gun_Armor": "Machine Gun Armor [1, 1, 1, 1, 1, 1]",
     "UI_Walkure_Machine_Gun_HP": "Machine Gun HP [1, 1, 1, 2, 2, 1]",
     "UI_Walkure_description": "Walkure",
+    "UI_autoUpgrade_text": "Auto-upgrades vehicle in Steel Hunter battle",
+    "UI_autoUpgrade_tooltip": "",
     "UI_battleMessage": "Auto select %s Upgrade to level %s",
     "UI_name": "Steel Hunter Auto Upgrades 2020",
-    "version": 106
+    "UI_showLoot3D_text": "Show 3D loot marker, after press Radar button",
+    "UI_showLoot3D_tooltip": "",
+    "version": 107
 }
