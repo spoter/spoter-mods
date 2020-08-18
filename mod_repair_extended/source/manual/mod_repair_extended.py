@@ -21,24 +21,25 @@ COMPLEX_ITEM = {
     'radioman2' : 'radioman',
     'loader1'   : 'loader',
     'loader2'   : 'loader',
-    'wheel0': 'wheel',
-    'wheel1': 'wheel',
-    'wheel2': 'wheel',
-    'wheel3': 'wheel',
-    'wheel4': 'wheel',
-    'wheel5': 'wheel',
-    'wheel6': 'wheel',
-    'wheel7': 'wheel'
+    'wheel0'    : 'wheel',
+    'wheel1'    : 'wheel',
+    'wheel2'    : 'wheel',
+    'wheel3'    : 'wheel',
+    'wheel4'    : 'wheel',
+    'wheel5'    : 'wheel',
+    'wheel6'    : 'wheel',
+    'wheel7'    : 'wheel'
 }
 
 CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'wheel2', 'wheel3', 'wheel4', 'wheel5', 'wheel6', 'wheel7']
 
+
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.11 (2019-10-11)'
+        self.version = 'v3.12 (2020-08-18)'
         self.author = 'by spoter'
-        self.version_id = 311
+        self.version_id = 312
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -50,8 +51,8 @@ class Config(object):
             'buttonRepair'  : self.buttons['buttonRepair'],
             'removeStun'    : True,
             'extinguishFire': True,
-            'healCrew': True,
-            'repairDevices': True,
+            'healCrew'      : True,
+            'repairDevices' : True,
             'restoreChassis': False,
             'useGoldKits'   : True,
             'repairPriority': {
@@ -82,24 +83,24 @@ class Config(object):
             }
         }
         self.i18n = {
-            'version'                        : self.version_id,
-            'UI_repair_name'                 : 'Repair extended',
-            'UI_repair_buttonChassis_text'   : 'Button: Restore Chassis',
-            'UI_repair_buttonChassis_tooltip': '',
-            'UI_repair_buttonRepair_text'    : 'Button: Smart Repair',
-            'UI_repair_buttonRepair_tooltip' : '',
-            'UI_repair_removeStun_text'      : 'Remove stun',
-            'UI_repair_removeStun_tooltip'   : '',
-            'UI_repair_useGoldKits_text'     : 'Use Gold Kits',
-            'UI_repair_useGoldKits_tooltip'  : '',
+            'version'                         : self.version_id,
+            'UI_repair_name'                  : 'Repair extended',
+            'UI_repair_buttonChassis_text'    : 'Button: Restore Chassis',
+            'UI_repair_buttonChassis_tooltip' : '',
+            'UI_repair_buttonRepair_text'     : 'Button: Smart Repair',
+            'UI_repair_buttonRepair_tooltip'  : '',
+            'UI_repair_removeStun_text'       : 'Remove stun',
+            'UI_repair_removeStun_tooltip'    : '',
+            'UI_repair_useGoldKits_text'      : 'Use Gold Kits',
+            'UI_repair_useGoldKits_tooltip'   : '',
             'UI_repair_extinguishFire_text'   : 'Extinguish fire',
             'UI_repair_extinguishFire_tooltip': '',
-            'UI_repair_healCrew_text'   : 'Heal crew',
-            'UI_repair_healCrew_tooltip': '',
+            'UI_repair_healCrew_text'         : 'Heal crew',
+            'UI_repair_healCrew_tooltip'      : '',
             'UI_repair_restoreChassis_text'   : 'Restore chassis',
             'UI_repair_restoreChassis_tooltip': '',
-            'UI_repair_repairDevices_text'   : 'Repair devices',
-            'UI_repair_repairDevices_tooltip': ''
+            'UI_repair_repairDevices_text'    : 'Repair devices',
+            'UI_repair_repairDevices_tooltip' : ''
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -253,12 +254,12 @@ class Repair(object):
                 # noinspection PyUnresolvedReferences
                 devices = [name for name, state in equipment.getEntitiesIterator() if state and state != DEVICE_STATE_NORMAL]
                 result = []
-                for device in specific:
+                for device in devices:
                     if device in COMPLEX_ITEM:
                         itemName = COMPLEX_ITEM[device]
                     else:
                         itemName = device
-                    if itemName in devices:
+                    if itemName in specific:
                         result.append(device)
                 if len(result) > 1:
                     self.useItemGold(equipmentTag)
@@ -270,12 +271,12 @@ class Repair(object):
                 # noinspection PyUnresolvedReferences
                 devices = [name for name, state in equipment.getEntitiesIterator() if state and state != DEVICE_STATE_NORMAL]
                 result = []
-                for device in specific:
+                for device in devices:
                     if device in COMPLEX_ITEM:
                         itemName = COMPLEX_ITEM[device]
                     else:
                         itemName = device
-                    if itemName in devices:
+                    if itemName in specific:
                         result.append(device)
                 if len(result) > 1:
                     self.useItemGold(equipmentTag)
