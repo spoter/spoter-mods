@@ -261,11 +261,12 @@ def p__getStabFactors(vehicle, module, inSettings=False):
     gunShotDispersionFactorsTurretRotation = module.descriptor.shotDispersionFactors['turretRotation']
     chassisShotDispersionFactorsMovement /= factors['vehicle/rotationSpeed']
     gunShotDispersionFactorsTurretRotation /= factors['turret/rotationSpeed']
-    vehicleSpeed = vehicleRSpeed = turretRotationSpeed = 0
+    vehicleRSpeed = turretRotationSpeed = 0
     maxTurretRotationSpeed = typeDescriptor.turret.rotationSpeed
     vehicleRSpeedMax = typeDescriptor.physics['rotationSpeedLimit']
-    vehicleSpeedMax = typeDescriptor.siegeVehicleDescr.physics['speedLimits'][0] if typeDescriptor.isWheeledVehicle and hasattr(typeDescriptor, 'siegeVehicleDescr') else typeDescriptor.physics['speedLimits'][0]
-    vehicleSpeedMax *= 3.6
+    vehicleSpeed = typeDescriptor.siegeVehicleDescr.physics['speedLimits'][0] if typeDescriptor.isWheeledVehicle and hasattr(typeDescriptor, 'siegeVehicleDescr') else typeDescriptor.physics['speedLimits'][0]
+    vehicleSpeed *= 3.6
+    vehicleSpeedMax = 99.0 if typeDescriptor.isWheeledVehicle and hasattr(typeDescriptor, 'siegeVehicleDescr') else 70.0
 
     vehicleMovementFactor = vehicleSpeed * chassisShotDispersionFactorsMovement
     vehicleMovementFactor *= vehicleMovementFactor
@@ -285,12 +286,12 @@ def p__getStabFactors(vehicle, module, inSettings=False):
     idealFactorMax = vehicleMovementFactorMax + vehicleRotationFactorMax + turretRotationFactorMax
 
     baseMax = round(math.sqrt(idealFactorMax), 1)
-    baseMovementSpeed = round(math.sqrt(vehicleMovementFactorMax), 2)
+    baseMovementSpeed = round(math.sqrt(vehicleMovementFactor), 2)
     baseRotatingVehicle = round(math.sqrt(vehicleRotationFactorMax), 2)
     baseRotatingTurret = round(math.sqrt(turretRotationFactorMax), 2)
 
     resultMax = round(math.sqrt(idealFactorMax * (additiveFactor ** 2)), 1)
-    resultMovementSpeed = round(math.sqrt(vehicleMovementFactorMax * (additiveFactor ** 2)), 2)
+    resultMovementSpeed = round(math.sqrt(vehicleMovementFactor * (additiveFactor ** 2)), 2)
     resultRotatingVehicle = round(math.sqrt(vehicleRotationFactorMax * (additiveFactor ** 2)), 2)
     resultRotatingTurret = round(math.sqrt(turretRotationFactorMax * (additiveFactor ** 2)), 2)
     bonuses = (i18n['UI_TOOLTIPS_StabBonus_Text'], '<font color="%s">+%.2f%%</font>' % (i18n['UI_TOOLTIPS_StabBonus_ColorPositive'] if additiveFactor < 1 else i18n['UI_TOOLTIPS_StabBonus_ColorNeutral'], 100 - additiveFactor / 0.01))
@@ -360,4 +361,4 @@ CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
 VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.01 (08-08-2020), by spoter, gox, b4it]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.02 (18-08-2020), by spoter, gox, b4it]'
