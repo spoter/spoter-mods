@@ -191,8 +191,8 @@ def createStorageDefVO(itemID, title, description, count, price, image, imageAlt
 
 def makeShellTooltip(self, descriptor, piercingPower, shotSpeed):
     result = oldMakeShellTooltip(self, descriptor, piercingPower, shotSpeed)
-    damage = backport.getNiceNumberFormat(descriptor.damage[0])
     try:
+        damage = backport.getNiceNumberFormat(descriptor.damage[0])
         damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, backport.getNiceNumberFormat(descriptor.damage[1]))
     except StandardError:
         return result
@@ -202,30 +202,36 @@ def makeShellTooltip(self, descriptor, piercingPower, shotSpeed):
 def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
     params = oldGetFormattedParamsList(descriptor, parameters, excludeRelative)
     result = []
-    for param in params:
-        if 'caliber' in param:
-            result.append(param)
-            result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(backport.getNiceNumberFormat(descriptor.damage[1]))))
-        else:
-            result.append(param)
+    try:
+        for param in params:
+            if 'caliber' in param:
+                result.append(param)
+                result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(backport.getNiceNumberFormat(descriptor.damage[1]))))
+            else:
+                result.append(param)
+    except StandardError:
+        return params
     return result
 
 
 def construct(self):
     result = old_construct(self)
-    block = []
-    avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
-    for pack in result:
-        if 'name' in pack['data'] and avgDamage in pack['data']['name']:
-            block.append(pack)
-            block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
-        else:
-            block.append(pack)
-    vehicle = g_currentVehicle.item
-    module = vehicle.gun
-    bonuses = p__getStabFactors(vehicle, module)
-    for bonus in bonuses:
-        block.append(self._packParameterBlock(bonus[0], bonus[1], ''))
+    try:
+        block = []
+        avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
+        for pack in result:
+            if 'name' in pack['data'] and avgDamage in pack['data']['name']:
+                block.append(pack)
+                block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
+            else:
+                block.append(pack)
+        vehicle = g_currentVehicle.item
+        module = vehicle.gun
+        bonuses = p__getStabFactors(vehicle, module)
+        for bonus in bonuses:
+            block.append(self._packParameterBlock(bonus[0], bonus[1], ''))
+    except StandardError:
+        return result
     return block
 
 
@@ -314,34 +320,40 @@ def p__getStabFactors(vehicle, module, inSettings=False):
 
 def construct1(self):
     result = list(old1_construct(self))
-    module = self.module
-    vehicle = self.configuration.vehicle
-    if module.itemTypeID == GUI_ITEM_TYPE.GUN:
-        bonuses = p__getStabFactors(vehicle, module)
-        for bonus in bonuses:
-            result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
+    try:
+        module = self.module
+        vehicle = self.configuration.vehicle
+        if module.itemTypeID == GUI_ITEM_TYPE.GUN:
+            bonuses = p__getStabFactors(vehicle, module)
+            for bonus in bonuses:
+                result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
+    except StandardError:
+        pass
     return result
 
 def _packBlocks(self, paramName):
     blocks = old_packBlocks(self, paramName)
-    if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
-        vehicle = g_currentVehicle.item
-        module = vehicle.gun
-        bonuses = p__getStabFactors(vehicle, module)
-        result = []
-        found = False
-        for block in blocks:
-            result.append(block)
-            if 'blocksData' in block['data']:
-                if found:
-                    continue
-                for linkage in block['data']['blocksData']:
-                    if 'TooltipTextBlockUI' in linkage['linkage']:
-                        found = True
-                        for bonus in bonuses:
-                            result.append(formatters1.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters1.packPadding(left=59, right=20)))
-                        break
-        return result
+    try:
+        if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
+            vehicle = g_currentVehicle.item
+            module = vehicle.gun
+            bonuses = p__getStabFactors(vehicle, module)
+            result = []
+            found = False
+            for block in blocks:
+                result.append(block)
+                if 'blocksData' in block['data']:
+                    if found:
+                        continue
+                    for linkage in block['data']['blocksData']:
+                        if 'TooltipTextBlockUI' in linkage['linkage']:
+                            found = True
+                            for bonus in bonuses:
+                                result.append(formatters1.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters1.packPadding(left=59, right=20)))
+                            break
+            return result
+    except StandardError:
+        pass
     return blocks
 
 
@@ -361,4 +373,4 @@ CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
 VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.02 (18-08-2020), by spoter, gox, b4it]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.03 (22-08-2020), by spoter, gox, b4it]'
