@@ -20,9 +20,9 @@ class Config(object):
     def __init__(self):
         self.ids = 'steelHunterAutoUpgrades2020'
         self.author = 'by spoter'
-        self.version = 'v1.08 (2020-08-17)'
-        self.version_id = 108
-        self.versionI18n = 108
+        self.version = 'v1.10 (2020-09-22)'
+        self.version_id = 110
+        self.versionI18n = 110
         lang = getLanguageCode().lower()
         self.data = {
             'version'                 : self.version_id,
@@ -281,7 +281,10 @@ if BattleUpgradePanel:
             config = p__config.data[name][ids]
             level = self._BattleUpgradePanel__getCurrentLvl()
             selectedItem = config[level]
-            self.selectVehicleModule(config[selectedItem] - 1)
+            selectedLevel = config[selectedItem] - 1
+            if level == 6 and config[5] == 2:
+                selectedLevel = config[selectedItem] - 2
+            self.selectVehicleModule(selectedLevel)
             #inject.message(p__config.i18n['UI_battleMessage'] % (selectedItem, level))
         return result
 
