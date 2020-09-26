@@ -358,7 +358,10 @@ def _packBlocks(self, paramName):
 
 
 oldCreateStorageDefVO = storage_helpers.createStorageDefVO
-oldMakeShellTooltip = ConsumablesPanel._ConsumablesPanel__makeShellTooltip
+if hasattr(ConsumablesPanel, '_makeShellTooltip'):
+    oldMakeShellTooltip = ConsumablesPanel._makeShellTooltip
+else:
+    oldMakeShellTooltip = ConsumablesPanel._ConsumablesPanel__makeShellTooltip
 oldGetFormattedParamsList = formatters.getFormattedParamsList
 old_construct = CommonStatsBlockConstructor.construct
 old1_construct = CommonStatsBlockConstructor1.construct
@@ -367,10 +370,13 @@ old_packBlocks = VehicleAdvancedParametersTooltipData._packBlocks
 ModuleTooltipBlockConstructor.MAX_INSTALLED_LIST_LEN = 1000
 battle_booster._MAX_INSTALLED_LIST_LEN = 1000
 storage_helpers.createStorageDefVO = createStorageDefVO
-ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
+if hasattr(ConsumablesPanel, '_makeShellTooltip'):
+    ConsumablesPanel._makeShellTooltip = makeShellTooltip
+else:
+    ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
 formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
 VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.03 (22-08-2020), by spoter, gox, b4it]'
+print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.03 (26-09-2020), by spoter, gox, b4it]'
