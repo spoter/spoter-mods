@@ -1,0 +1,19 @@
+﻿{
+    "UI_battle_activateMessage": "Célzás és pontosság javítása aktív",
+    "UI_description": "Szerver Torony és Pontosság javítása",
+    "UI_setting_activateMessage_text": "Aktivációs üzenet",
+    "UI_setting_activateMessage_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Minitérkép felett szövegesen kiírja a mód, hogy aktiválva van ha ez a funkciója is engedélyezve van. Nem muszáj ezt a funkciót engedélyezni, anélkül is működik a mód.{/BODY}",
+    "UI_setting_autoActivateWheelMode_text": "Kerekes Mód automatikus be/ki kapcsolása",
+    "UI_setting_autoActivateWheelMode_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Próbáld ki  az automatikus Kerekes Módot{/BODY}",
+    "UI_setting_buttonAutoMode_text": "Gyorsgomb: Kerekes Mód",
+    "UI_setting_buttonAutoMode_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Kerekes Mód be/ki kapcsolása csata közben{/BODY}",
+    "UI_setting_fixAccuracyInMove_text": "Pontosság Javítása",
+    "UI_setting_fixAccuracyInMove_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Amikor mozog a tankod, majd megállsz, nem veszíti el a célpontot a célkereszt{/BODY}",
+    "UI_setting_fixWheelCruiseControl_text": "Javítsa a sebességtartó automatikát a kerekes tankon",
+    "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Amikor aktiválja a sebességtartó automatikát a kerekes tankon akkor a jármű leáll, ez a beállítás letiltja ezt{/BODY}",
+    "UI_setting_maxWheelMode_text": "Kerekes Mód be/ki kapcsolása",
+    "UI_setting_maxWheelMode_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Próbáld ki az automata kerekes módot{/BODY}",
+    "UI_setting_serverTurret_text": "Szerver Torony",
+    "UI_setting_serverTurret_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Torony áthelyezése a Szerver Célzó koordinátákra (Engedélyezni kell a játék beállításaiban a szerver oldali célkeresztet){/BODY}",
+    "version": 306
+}
