@@ -60,5 +60,5 @@
     "UI_setting_personalFileTotalXP_tooltip": "{HEADER}Инфо:{/HEADER}{BODY}Всего опыта, заработанного текущим танкистом{/BODY}",
     "UI_setting_personalFileSilverXP_text": "Для сброса за серебро: {} опыта",
     "UI_setting_personalFile_label": "Личное дело:",
-    "version": 601
+    "version": 602
 }

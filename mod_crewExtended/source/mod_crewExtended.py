@@ -3,7 +3,8 @@ import math
 import BigWorld
 from CurrentVehicle import g_currentVehicle
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
-from gui.Scaleform.daapi.view.lobby.barracks import Barracks
+from gui.Scaleform.daapi.view.lobby.barracks import barracks_data_provider
+
 from gui.shared.gui_items.dossier import TankmanDossier
 from items import tankmen
 # noinspection PyUnresolvedReferences
@@ -13,8 +14,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v6.01 (2019-10-11)'
-        self.version_id = 601
+        self.version = 'v6.02 (2020-10-22)'
+        self.version_id = 602
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -403,7 +404,7 @@ def tankmanResponse(func, *args):
     return func(*args)
 
 
-@inject.hook(Barracks, '_packTankmanData')
+@inject.hook(barracks_data_provider, '_packTankmanData')
 @inject.log
 def _packTankmanData(func, *args):
     data = func(*args)
