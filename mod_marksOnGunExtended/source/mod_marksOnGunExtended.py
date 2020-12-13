@@ -1574,7 +1574,7 @@ def makeHeaderVO(func, *args):
 @inject.hook(LobbyEntry, '_getRequiredLibraries')
 @inject.log
 def getRequiredLibraries(func, *args):
-    return func(*args) + ('marksOnGun.swf',)
+    return func(*args) + ['marksOnGun.swf',]  # non truple but list
 
 
 BigWorld.MoESetupSize = flash.setupSize
