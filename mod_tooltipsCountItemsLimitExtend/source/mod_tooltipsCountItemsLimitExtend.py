@@ -175,6 +175,26 @@ if 'tr' in getLanguageCode().lower():
     'UI_TOOLTIPS_shellSpeedText_Text'          : '[Mermi]',
     'UI_TOOLTIPS_speedMsec_Text'               : 'm/sn.',
 }
+if 'pt' in getLanguageCode().lower():
+    i18n = {
+    'UI_TOOLTIPS_StabBonus_ColorPositive'      : '#28F09C',
+    'UI_TOOLTIPS_StabBonus_ColorNeutral'       : '#7CD606',
+    'UI_TOOLTIPS_Stabilization_Color'          : '#FFD700',
+    'UI_TOOLTIPS_MovementSpeed_Color'          : '#8378FC',
+    'UI_TOOLTIPS_RotatingVehicle_Color'        : '#1CC6D9',
+    'UI_TOOLTIPS_RotatingTurret_Color'         : '#F200DA',
+    'UI_TOOLTIPS_StabBonus_Text'               : 'Bфnus de estabilizaзгo',
+    'UI_TOOLTIPS_Stabilization_Text'           : 'Estabilizaзгo total',
+    'UI_TOOLTIPS_MovementSpeed_Text'           : 'Quando em velocidade máxima',
+    'UI_TOOLTIPS_RotatingVehicle_Text'         : 'Ao virar o veículo',
+    'UI_TOOLTIPS_RotatingTurret_Text'          : 'Ao virar a torre',
+    'UI_TOOLTIPS_modulesText_Text'             : "[Para módulos] <font color='#FFA500'>{}</font>",
+    'UI_TOOLTIPS_modulesTextTooltip_Text'      : " [Para módulos]",
+    'UI_TOOLTIPS_modulesTextTooltipBattle_Text': "%s, <font color='#FFA500'>[Para módulos] %s</font>",
+    'UI_TOOLTIPS_tracerSpeedText_Text'         : '[Marcador]',
+    'UI_TOOLTIPS_shellSpeedText_Text'          : '[Munição]',
+    'UI_TOOLTIPS_speedMsec_Text'               : 'm/seg.',
+}
 
 
 def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonTooltip='', extraParams=(), specializations=()):
