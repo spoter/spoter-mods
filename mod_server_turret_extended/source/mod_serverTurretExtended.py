@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
-
+import SoundGroups
 import math
-
+from AvatarInputHandler.siege_mode_player_notifications import SOUND_NOTIFICATIONS
 import Math
 
 import BigWorld
@@ -20,8 +20,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.06 (2020-07-03)'
-        self.version_id = 306
+        self.version = 'v3.07 (2020-12-18)'
+        self.version_id = 307
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -131,6 +131,7 @@ class MovementControl(object):
         InputHandler.g_instance.onKeyDown += self.keyPressed
         InputHandler.g_instance.onKeyUp += self.keyPressed
         self.timer = BigWorld.time()
+        SOUND_NOTIFICATIONS.TRANSITION_TIMER = 'siege_mode_transition_timer'
         if self.callback is None:
             self.callback = BigWorld.callback(0.1, self.onCallback)
 
@@ -189,7 +190,9 @@ class MovementControl(object):
                             return self.changeSiege(False)
 
     def changeSiege(self, status):
-        BigWorld.player().base.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
+        player = BigWorld.player()
+        SOUND_NOTIFICATIONS.TRANSITION_TIMER = ''
+        player.base.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
         self.timer = BigWorld.time()
 
     @staticmethod
@@ -203,7 +206,11 @@ class MovementControl(object):
     def fixSiegeModeCruiseControl():
         player = BigWorld.player()
         vehicle = player.getVehicleAttached()
-        return vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode
+        result = vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode
+        if result:
+            soundStateChange = vehicle.typeDescriptor.type.siegeModeParams['soundStateChange']
+            vehicle.appearance.engineAudition.setSiegeSoundEvents(soundStateChange.isEngine, soundStateChange.npcOn, soundStateChange.npcOff)
+        return result
 
 
 class Support(object):
