@@ -12,6 +12,7 @@ from gui import InputHandler
 from messenger import MessengerEntry
 # noinspection PyProtectedMember
 from messenger.gui.Scaleform.channels.bw.lobby_controllers import _ChannelController
+# noinspection PyProtectedMember
 from messenger.proto.bw_chat2.battle_chat_cmd import _OutCmdDecorator
 from messenger_common_chat2 import messageArgs
 
@@ -26,7 +27,7 @@ MENU = ['UI_color_blue', 'UI_color_brown', 'UI_color_chocolate', 'UI_color_cornf
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v1.06 (2020-08-15)'
+        self.version = 'v1.06 (2020-12-20)'
         self.version_id = 106
         self.author = 'by spoter'
         self.data = {
@@ -227,7 +228,8 @@ class ChatInfo(object):
         InputHandler.g_instance.onKeyDown += self.pushButton
         InputHandler.g_instance.onKeyUp += self.pushButton
 
-    def pushButton(self, event):
+    @staticmethod
+    def pushButton(event):
         if inject.g_appLoader().getDefBattleApp():
             if event.key in (Keys.KEY_F5, Keys.KEY_F6) and event.isKeyDown():
                 controller = MessengerEntry.g_instance.gui.channelsCtrl.getController(_OutCmdDecorator(44, messageArgs(strArg1='')).getClientID())
@@ -266,7 +268,7 @@ class ChatInfo(object):
             self.threadArray.append(threading.Thread(target=self.loadStats, args=(databaseID,)))
             self.threadArray[-1].start()
         except StandardError as e:
-            print 'LOG ERROR[chatInfo] StandardError: %s' %str(e)
+            print 'LOG ERROR[chatInfo] StandardError: %s' % str(e)
 
     def generateText(self, message, result):
         try:
@@ -295,7 +297,7 @@ class ChatInfo(object):
                     result = result.replace('&nbsp;', '%s%s' % (config.i18n['UI_chat_battles'].format(battles=battles), config.i18n['UI_chat_winRate'].format(winRate=winRate)))
 
         except StandardError as e:
-            print 'LOG ERROR[chatInfo] StandardError: %s' %str(e)
+            print 'LOG ERROR[chatInfo] StandardError: %s' % str(e)
         return result
 
     @staticmethod

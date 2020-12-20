@@ -20,7 +20,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.07 (2020-12-18)'
+        self.version = 'v3.07 (2020-12-20)'
         self.version_id = 307
         self.author = 'by spoter, reven86'
         self.buttons = {
