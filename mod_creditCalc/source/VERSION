@@ -1,0 +1,8 @@
+{
+  "version": 2.05,
+  "source": "mod_creditCalc.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/creditCalc.json",
+  "i18n": "configs/i18n",
+  "resources": ["gui"]
+}

@@ -1,0 +1,12 @@
+﻿{
+    "UI_description": "creditCalc",
+    "UI_setting_background_text": "Background in battle",
+    "UI_setting_background_tooltip": "",
+    "UI_setting_label1_text": "Wait until the battle is complete without escape into the hangar. Income: Green Victory, Red Defeat, Outcome: ammo and consumables.",
+    "UI_setting_label1_tooltip": "",
+    "UI_setting_label2_text": "Additional info in battle: Press Alt and Control buttons",
+    "UI_setting_label2_tooltip": "",
+    "UI_setting_label_text": "Calc Credits in Battle, +1000 or -1000 silver difference: that's normal dispersion, if greater: Play one battle without damage.",
+    "UI_setting_label_tooltip": "",
+    "version": 205
+}

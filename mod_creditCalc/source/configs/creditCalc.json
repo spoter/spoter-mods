@@ -1,0 +1,12 @@
+﻿{
+    "battle_background": true,
+    "battle_show": true,
+    "battle_x": 60,
+    "battle_y": -252,
+    "enabled": true,
+    "hangar_background": true,
+    "hangar_show": true,
+    "hangar_x": 325,
+    "hangar_y": 505,
+    "version": 205
+}
