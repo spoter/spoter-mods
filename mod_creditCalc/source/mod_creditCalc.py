@@ -42,6 +42,7 @@ try:
     oldskoolCore = p__BigWorld.oldskoolCore
 except:
     oldskoolCore = False
+oldskoolCore = False
 
 class flashInHangar():
 
@@ -113,8 +114,8 @@ class p__Config(object):
     def __init__(self):
         self.p__ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.05 (2021-01-04)'
-        self.version_id = 205
+        self.version = 'v2.06 (2021-01-05)'
+        self.version_id = 206
         self.p__versionI18n = 3400
         lang = p__getLanguageCode().lower()
         self.p__data = {
