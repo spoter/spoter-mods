@@ -5,5 +5,5 @@
     "gui_enableButtonTooltip": "{HEADER}Mods settings{/HEADER}{BODY}Aktiviere|Deaktiviere Mod und Einstellungen{/BODY}",
     "gui_name": "MODS - Einstellungen",
     "gui_windowTitle": "Mods Einstellungen",
-    "version": 227
+    "version": 228
 }

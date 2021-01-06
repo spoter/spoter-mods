@@ -5,5 +5,5 @@
     "gui_enableButtonTooltip": "{HEADER}插件的偏好{/HEADER}{BODY}启用|禁用插件和配置设置{/BODY}",
     "gui_name": "插件-首选项",
     "gui_windowTitle": "插件 首选项",
-    "version": 227
+    "version": 228
 }
