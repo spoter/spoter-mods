@@ -114,8 +114,8 @@ class p__Config(object):
     def __init__(self):
         self.p__ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.06 (2021-01-05)'
-        self.version_id = 206
+        self.version = 'v2.07 (2021-01-09)'
+        self.version_id = 207
         self.p__versionI18n = 3400
         lang = p__getLanguageCode().lower()
         self.p__data = {
@@ -1883,7 +1883,11 @@ def p__hook_CrewMeta_as_tankmenResponseS(self, p__data):
             status = p__g_currentVehicle.itemsCache.items.stats.activePremiumExpiryTime > 0
         except Exception as e:
             status = False
-        p__calc.p__getHangarData(status)
+        try:
+            p__calc.p__getHangarData(status)
+        except Exception as e:
+            print 'ERROR: creditCalc crew:', e
+
     return p__hooked_CrewMeta_as_tankmenResponseS(self, p__data)
 
 
