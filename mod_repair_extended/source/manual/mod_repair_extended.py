@@ -6,6 +6,7 @@ import Keys
 import SoundGroups
 from gui import InputHandler
 from gui.battle_control.battle_constants import DEVICE_STATE_DESTROYED, VEHICLE_VIEW_STATE, DEVICE_STATE_NORMAL
+# noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 from gui.shared.gui_items import Vehicle
 
@@ -37,7 +38,7 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'w
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.12 (2020-12-20)'
+        self.version = 'v3.12 (2021-01-23)'
         self.author = 'by spoter'
         self.version_id = 312
         self.buttons = {

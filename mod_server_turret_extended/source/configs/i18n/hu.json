@@ -15,5 +15,5 @@
     "UI_setting_maxWheelMode_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Próbáld ki az automata kerekes módot{/BODY}",
     "UI_setting_serverTurret_text": "Szerver Torony",
     "UI_setting_serverTurret_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Torony áthelyezése a Szerver Célzó koordinátákra (Engedélyezni kell a játék beállításaiban a szerver oldali célkeresztet){/BODY}",
-    "version": 307
+    "version": 308
 }

@@ -28,7 +28,7 @@
 [mod_crewExtended]:./mod_crewExtended/
 [mod_dispersionCircle]:./mod_dispersionCircle/
 [mod_marksOnGunExtended]:./mod_marksOnGunExtended/
-[mod_modPackInformer]:./mod_modPackInformer/
+[mod_modPackInformer]:.deprecated/mod_modPackInformer/
 [mod_personalMissionColored]:./mod_personalMissionColored/
 [mod_repair_extended]:./mod_repair_extended/
 [mod_server_turret_extended]:./mod_server_turret_extended/

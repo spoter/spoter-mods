@@ -1,27 +1,26 @@
 ﻿# -*- coding: utf-8 -*-
-import SoundGroups
 import math
-from AvatarInputHandler.siege_mode_player_notifications import SOUND_NOTIFICATIONS
-import Math
+
+# noinspection PyUnresolvedReferences
+from gui.mods.mod_mods_gui import g_gui, inject
 
 import BigWorld
 import CommandMapping
 import Keys
 import VehicleGunRotator
 import gun_rotation_shared
-from Avatar import PlayerAvatar, _MOVEMENT_FLAGS as MOVEMENT_FLAGS
-from constants import SERVER_TICK_LENGTH, VEHICLE_MISC_STATUS, VEHICLE_SETTING, VEHICLE_SIEGE_STATE
+from Avatar import MOVEMENT_FLAGS, PlayerAvatar
+from AvatarInputHandler.siege_mode_player_notifications import SOUND_NOTIFICATIONS
+from constants import VEHICLE_MISC_STATUS, VEHICLE_SETTING, VEHICLE_SIEGE_STATE
 from gui import InputHandler
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
-# noinspection PyUnresolvedReferences
-from gui.mods.mod_mods_gui import g_gui, inject
 
 
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.07 (2020-12-20)'
-        self.version_id = 307
+        self.version = 'v3.08 (2021-01-23)'
+        self.version_id = 308
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]

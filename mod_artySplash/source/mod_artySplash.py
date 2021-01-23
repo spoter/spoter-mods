@@ -3,6 +3,7 @@
 import BigWorld
 import Keys
 import Math
+# noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 import VehicleGunRotator
 from gui import InputHandler
@@ -17,9 +18,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.12 (2020-12-20)'
+        self.version = 'v2.13 (2021-01-23)'
         self.author = 'by spoter'
-        self.version_id = 212
+        self.version_id = 213
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -40,9 +41,9 @@ class Config(object):
         self.i18n = {
             'version'                                  : self.version_id,
             'UI_artySplash_name'                       : 'HE Splash',
-            'UI_artySplash_buttonShowDot_text'         : 'Button: show\hide Dot',
+            'UI_artySplash_buttonShowDot_text'         : 'Button: show/hide Dot',
             'UI_artySplash_buttonShowDot_tooltip'      : '',
-            'UI_artySplash_buttonShowSplash_text'      : 'Button: show\hide Splash',
+            'UI_artySplash_buttonShowSplash_text'      : 'Button: show/hide Splash',
             'UI_artySplash_buttonShowSplash_tooltip'   : '',
             'UI_artySplash_showSplashOnDefault_text'   : 'Show Splash on default',
             'UI_artySplash_showSplashOnDefault_tooltip': '',
@@ -153,6 +154,7 @@ class ArtyBall(object):
                 self.modelDot._StaticObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
             self.modelSplash._StaticObjectMarker3D__model.visible = False
             self.modelDot._StaticObjectMarker3D__model.visible = False
+            # noinspection PyUnresolvedReferences
             self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
             self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(2.0, 2.0), 0.5, 4294967295L)
             self.modelSplash._StaticObjectMarker3D__model.root.attach(self.modelSplashCircle)

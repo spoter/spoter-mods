@@ -5,7 +5,7 @@ from Avatar import PlayerAvatar
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from gui.battle_control.controllers import feedback_events
 from gui.battle_control.controllers.personal_efficiency_ctrl import _AGGREGATED_DAMAGE_EFFICIENCY_TYPES, _createEfficiencyInfoFromFeedbackEvent
-# noinspection PyProtectedMember
+# noinspection PyProtectedMember,PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
 SOUND_LIST = ['soundSpotted', 'soundAssist']
@@ -24,7 +24,7 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.09 (2020-12-20)'
+        self.version = 'v4.09 (2021-01-23)'
         self.version_id = 409
         self.author = 'by spoter'
         self.data = {

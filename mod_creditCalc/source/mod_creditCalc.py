@@ -7,6 +7,9 @@ import threading as p__threading
 from Queue import Queue as p__Queue
 from functools import partial as p__partial
 
+# noinspection PyUnresolvedReferences
+from gui.mods.mod_mods_gui import COMPONENT_ALIGN as p__COMPONENT_ALIGN, COMPONENT_EVENT as p__COMPONENT_EVENT, COMPONENT_TYPE as p__COMPONENT_TYPE, g_gui as p__g_gui, g_guiFlash as p__g_flash
+
 import BattleReplay as p__BattleReplay
 import BigWorld as p__BigWorld
 import Event
@@ -17,11 +20,11 @@ from BattleFeedbackCommon import BATTLE_EVENT_TYPE as p__BATTLE_EVENT_TYPE
 from CurrentVehicle import g_currentVehicle as p__g_currentVehicle
 from PlayerEvents import g_playerEvents as p__g_playerEvents
 from constants import ARENA_BONUS_TYPE as p__ARENA_BONUS_TYPE
+from frameworks.wulf import WindowLayer as ViewTypes
 from gui import InputHandler as p__InputHandler
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView as p__LobbyView
 from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta as p__CrewMeta
 from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
-from frameworks.wulf import WindowLayer as ViewTypes
 from gui.Scaleform.framework.entities.View import View
 from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
 from gui.Scaleform.genConsts.HANGAR_ALIASES import HANGAR_ALIASES
@@ -29,7 +32,6 @@ from gui.app_loader.settings import APP_NAME_SPACE
 from gui.battle_control.arena_info import vos_collections as p__vos_collections
 from gui.battle_control.battle_constants import VEHICLE_DEVICE_IN_COMPLEX_ITEM, VEHICLE_VIEW_STATE
 from gui.battle_control.controllers import feedback_events as p__feedback_events
-from gui.mods.mod_mods_gui import COMPONENT_ALIGN as p__COMPONENT_ALIGN, COMPONENT_EVENT as p__COMPONENT_EVENT, COMPONENT_TYPE as p__COMPONENT_TYPE, g_gui as p__g_gui, g_guiFlash as p__g_flash
 from gui.shared import EVENT_BUS_SCOPE, events, g_eventBus
 from gui.shared.formatters import icons
 from gui.shared.gui_items import Vehicle
@@ -38,11 +40,15 @@ from helpers import getLanguageCode as p__getLanguageCode
 from messenger.formatters.service_channel import BattleResultsFormatter as p__BattleResultsFormatter
 
 try:
+    # noinspection PyUnresolvedReferences
     from gui import oldskool
+
+    # noinspection PyUnresolvedReferences
     oldskoolCore = p__BigWorld.oldskoolCore
-except:
+except Exception:
     oldskoolCore = False
 oldskoolCore = False
+
 
 class flashInHangar():
 
@@ -114,56 +120,56 @@ class p__Config(object):
     def __init__(self):
         self.p__ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.07 (2021-01-09)'
+        self.version = 'v2.07 (2021-01-23)'
         self.version_id = 207
         self.p__versionI18n = 3400
         lang = p__getLanguageCode().lower()
         self.p__data = {
-            'version'   : self.version_id,
-            'enabled'   : True,
-            'battle_x'  : 60,
-            'battle_y'  : -252,
-            'hangar_x'  : 325.0,
-            'hangar_y'  : 505.0,
+            'version'          : self.version_id,
+            'enabled'          : True,
+            'battle_x'         : 60,
+            'battle_y'         : -252,
+            'hangar_x'         : 325.0,
+            'hangar_y'         : 505.0,
             'battle_background': True,
-            'battle_show': True,
+            'battle_show'      : True,
             'hangar_background': True,
-            'hangar_show': True,
+            'hangar_show'      : True,
         }
         self.p__i18n = {
-            'version'                      : self.p__versionI18n,
-            'UI_description'               : 'creditCalc',
-            'UI_setting_label_text'        : 'Calc Credits in Battle, +1000 or -1000 silver difference: that\'s normal dispersion, if greater: Play one battle without damage.',
-            'UI_setting_label_tooltip'     : '',
-            'UI_setting_label1_text'       : 'Wait until the battle is complete without escape into the hangar. Income: Green Victory, Red Defeat, Outcome: ammo and consumables.',
-            'UI_setting_label1_tooltip'    : '',
-            'UI_setting_label2_text'       : 'Additional info in battle: Press Alt and Control buttons',
-            'UI_setting_label2_tooltip'    : '',
+            'version'                            : self.p__versionI18n,
+            'UI_description'                     : 'creditCalc',
+            'UI_setting_label_text'              : 'Calc Credits in Battle, +1000 or -1000 silver difference: that\'s normal dispersion, if greater: Play one battle without damage.',
+            'UI_setting_label_tooltip'           : '',
+            'UI_setting_label1_text'             : 'Wait until the battle is complete without escape into the hangar. Income: Green Victory, Red Defeat, Outcome: ammo and consumables.',
+            'UI_setting_label1_tooltip'          : '',
+            'UI_setting_label2_text'             : 'Additional info in battle: Press Alt and Control buttons',
+            'UI_setting_label2_tooltip'          : '',
             'UI_setting_battleBackground_text'   : 'Background in battle',
             'UI_setting_battleBackground_tooltip': '',
             'UI_setting_hangarBackground_text'   : 'Background in hangar',
             'UI_setting_hangarBackground_tooltip': '',
-            'UI_setting_battleShow_text'   : 'Show in hangar',
-            'UI_setting_battleShow_tooltip': '',
-            'UI_setting_hangarShow_text'   : 'Show in battle',
-            'UI_setting_hangarShow_tooltip': '',
+            'UI_setting_battleShow_text'         : 'Show in hangar',
+            'UI_setting_battleShow_tooltip'      : '',
+            'UI_setting_hangarShow_text'         : 'Show in battle',
+            'UI_setting_hangarShow_tooltip'      : '',
         }
         if 'ru' in lang:
             self.p__i18n.update({
-                'UI_setting_label_text'        : 'Калькуляция серебра в бою, +1000 или -1000 разницы: Нормальный разброс, если разброс больше, проведите один бой без урона',
-                'UI_setting_label_tooltip'     : '',
-                'UI_setting_label1_text'       : 'Дождитесь завершения боя без выхода в ангар. Доход: Зеленый победа, Красный поражение, Расходы: цена снарядов и расходников',
-                'UI_setting_label1_tooltip'    : '',
-                'UI_setting_label2_text'       : 'Дополнительная информация в бою: Нажмите кнопки АЛЬТ и КОНТРОЛ',
-                'UI_setting_label2_tooltip'    : '',
+                'UI_setting_label_text'              : 'Калькуляция серебра в бою, +1000 или -1000 разницы: Нормальный разброс, если разброс больше, проведите один бой без урона',
+                'UI_setting_label_tooltip'           : '',
+                'UI_setting_label1_text'             : 'Дождитесь завершения боя без выхода в ангар. Доход: Зеленый победа, Красный поражение, Расходы: цена снарядов и расходников',
+                'UI_setting_label1_tooltip'          : '',
+                'UI_setting_label2_text'             : 'Дополнительная информация в бою: Нажмите кнопки АЛЬТ и КОНТРОЛ',
+                'UI_setting_label2_tooltip'          : '',
                 'UI_setting_battleBackground_text'   : 'Задний фон в бою',
                 'UI_setting_battleBackground_tooltip': '',
                 'UI_setting_hangarBackground_text'   : 'Задний фон в ангаре',
                 'UI_setting_hangarBackground_tooltip': '',
-                'UI_setting_battleShow_text'   : 'Показывать в ангаре',
-                'UI_setting_battleShow_tooltip': '',
-                'UI_setting_hangarShow_text'   : 'Показывать в бою',
-                'UI_setting_hangarShow_tooltip': '',
+                'UI_setting_battleShow_text'         : 'Показывать в ангаре',
+                'UI_setting_battleShow_tooltip'      : '',
+                'UI_setting_hangarShow_text'         : 'Показывать в бою',
+                'UI_setting_hangarShow_tooltip'      : '',
             })
         if 'cn' in lang or 'zh' in lang:
             self.p__i18n.update({
@@ -181,7 +187,7 @@ class p__Config(object):
                 "UI_setting_label2_text"             : "战斗中的详细情报:按Alt和Control按钮",
                 "UI_setting_label2_tooltip"          : "",
                 "UI_setting_label_text"              : "在战斗中的得分, +1000或-1000银币差额: 这是正常的分数, 如果更好的: 发挥战斗造成损伤.",
-                "UI_setting_label_tooltip": "",
+                "UI_setting_label_tooltip"           : "",
             })
         if p__g_gui:
             self.p__data, self.p__i18n = p__g_gui.register_data(self.p__ids, self.p__data, self.p__i18n, 'www.b4it.org')
@@ -1399,7 +1405,7 @@ class p__CreditsCalculator(object):
             '21440580486': 4675477103,  # 61729 usa_A125_AEP_1 lvl:9 coeff:0.7799 !!!!PREMIUM
             '3745997190' : 4406302950,  # 10785 usa_A69_T110E5 lvl:10 coeff:0.735
             '5168677254' : 4376328100,  # 14881 usa_A67_T57_58 lvl:10 coeff:0.73
-            '21529497990': 8992455000, #61985 usa_A124_T54E2 lvl:8 coeff:1.5 !!!!PREMIUM https://premomer.org/tank.php?id=61985 #M54 Renegade
+            '21529497990': 8992455000,  # 61985 usa_A124_T54E2 lvl:8 coeff:1.5 !!!!PREMIUM https://premomer.org/tank.php?id=61985 #M54 Renegade
             # AT-SPG
             '2145482118' : 6294718500,  # 6177 usa_A46_T3 lvl:2 coeff:1.05
             '2234399622' : 5695221500,  # 6433 usa_A109_T56_GMC lvl:3 coeff:0.95
@@ -1613,7 +1619,7 @@ class p__CreditsCalculator(object):
             '18139518150': 7793461000,  # 52225 ussr_R34_BT-SV lvl:3 coeff:1.3 !!!!PREMIUM
             # '19651115718': None, #56577 ussr_R86_LTP lvl:3 coeff:0.0 !!!!PREMIUM
             # '15560910534': None, #44801 ussr_R161_T_116 lvl:3 coeff:0.0 !!!!PREMIUM
-            #'711687366'  : 5917035390,  # 2049 ussr_R12_A-20 lvl:5 coeff:0.987 #changed in 1.9 #fixed
+            # '711687366'  : 5917035390,  # 2049 ussr_R12_A-20 lvl:5 coeff:0.987 #changed in 1.9 #fixed
             '18228435654': 9442077750,  # 52481 ussr_R31_Valentine_LL lvl:4 coeff:1.575 !!!!PREMIUM
             '5513232582' : 6114869400,  # 15873 ussr_R44_T80 lvl:4 coeff:1.02 #changed in 1.9 #fixed
             '3379212486' : 8392958000,  # 9729 ussr_R70_T_50_2 lvl:5 coeff:1.4
@@ -2004,5 +2010,6 @@ def p__jsonGenerator(nations):
             getData(nation, role, False)
 
     print '!!!!!!!!!!!!!!!!!!!!!!!!!!! DONE !!!!!!!!!!!!!!!!!!!!!!!!!!!'
+
 
 p__BigWorld.flashInHangar = p__flashInHangar
