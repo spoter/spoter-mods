@@ -32,10 +32,11 @@ class Release(object):
         for path in glob.glob(os.path.join(self.data.build.BUILD_PATH, self.data.build.VERSION["i18n"], "*.json")):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.join(self.data.build.BUILD_PATH, self.data.build.VERSION["i18n"]), os.path.realpath(self.i18n), os.path.basename(path)))
         # copy mod_mods_gui core
-        if os.path.exists('../../spoter-mods/mod_mods_gui/release'):
-            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../../spoter-mods/mod_mods_gui/release'), os.path.join(self.modsPath, self.data.CLIENT_VERSION), '*.wotmod'))
-        if os.path.exists('../../spoter-mods/mod_mods_gui//release/i18n'):
-            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../../spoter-mods/mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.json'))
+        if os.path.exists('../mod_mods_gui/release'):
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, self.data.CLIENT_VERSION), '*.wotmod'))
+        if os.path.exists('../mod_mods_gui/release/i18n'):
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.json'))
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.html'))
         ps = '%s\%s' % (os.path.realpath(self.data.build.OUT_PATH), 'create-7zip.ps1')
         with open(ps, 'w') as xfile:
             xfile.write('function create-7zip([String] $aDirectory, [String] $aZipfile){ [string]$pathToZipExe = "C:\Program Files\\7-zip\\7z.exe"; [Array]$arguments = "a", "-tzip", "-ssw", "-mx9", "$aZipfile", "$aDirectory"; & $pathToZipExe $arguments; }\n'
