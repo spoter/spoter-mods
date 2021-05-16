@@ -1,0 +1,20 @@
+{
+    "background": {
+        "alpha": 0.1,
+        "color": "0x000000",
+        "enabled": false
+    },
+    "color": {
+        "bad": "#FE7903",
+        "good": "#60FF00",
+        "neutral": "#FFFFFF",
+        "normal": "#F8F400",
+        "unique": "#D042F3",
+        "very_bad": "#FF6347",
+        "very_good": "#02C9B3"
+    },
+    "configVersion": 1,
+    "hideTankName": true,
+    "x": 0,
+    "y": 0
+}

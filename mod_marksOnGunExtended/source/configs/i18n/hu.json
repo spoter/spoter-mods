@@ -13,6 +13,7 @@
     "UI_menu_UIoldskool": "<font color=\"#FFD700\">@Oldskool</font> választás [<font color=\"#FFD700\">twitch.tv/oldskool</font>]",
     "UI_menu_UIskill4ltu": "<font color=\"#60FF00\">@skill</font> választás [<font color=\"#60FF00\">twitch.tv/skill4ltu</font>]",
     "UI_menu_UIspoter": "<font color=\"#6595EE\">@spoter</font> választás [<font color=\"#6595EE\">github.com/spoter</font>]",
+    "UI_menu_UIspoterNew": "Új <font color=\"#6595EE\">@spoter</font> választás [<font color=\"#6595EE\">github.com/spoter</font>]",
     "UI_menu_blue": "Kék",
     "UI_menu_brown": "Barna",
     "UI_menu_chocolate": "Csokoládé",
@@ -87,5 +88,5 @@
     "battleMessageSizeLimitMin": "Kiválóságjel mód: Elérte <b>minimum[10%]</b>",
     "battleMessageSizeReset": "Kiválóságjel mód: Beállítások alaphelyzetbe állítása</b>",
     "battleMessageSizeUp": "Kiválóságjel mód: Méret <b>+10%</b>",
-    "version": 809
+    "version": 901
 }

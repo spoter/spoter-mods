@@ -1,10 +1,10 @@
 ﻿{
-    "UI": 9,
+    "UI": 10,
     "background": true,
     "backgroundData": {
         "alpha": 1.0,
-        "width": 115,
-        "height": 42
+        "height": 50,
+        "width": 163
     },
     "backgroundImage": "../maps/icons/quests/inBattleHint.png",
     "battleMessage": "<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>",
@@ -64,17 +64,17 @@
     "enabled": true,
     "font": "$FieldFont",
     "panel": {
-        "index": 1,
+        "height": 50,
         "visible": true,
         "drag": true,
-        "height": 42,
-        "width": 115,
-        "alignY": "bottom",
         "alignX": "left",
+        "border": true,
+        "index": 1,
+        "alignY": "bottom",
+        "width": 163,
         "limit": true,
         "y": -228,
-        "x": 230,
-        "border": true
+        "x": 230
     },
     "panelSize": {
         "heightNormal": 50,
@@ -85,15 +85,15 @@
     "shadow": true,
     "shadowText": {
         "distance": 0,
-        "strength": 1,
         "blurX": 1,
+        "strength": 1,
+        "angle": 0,
         "blurY": 1,
         "color": 0,
         "alpha": 1,
-        "angle": 0,
         "quality": 1
     },
-    "showInBattle": true,
+    "showInBattle": false,
     "showInBattleHalfPercents": false,
     "showInHangar": true,
     "showInReplay": true,
@@ -104,5 +104,5 @@
     "showInTechTreeMastery": true,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 809
+    "version": 901
 }

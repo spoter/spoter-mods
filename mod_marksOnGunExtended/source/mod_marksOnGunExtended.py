@@ -72,8 +72,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v8.09 (2021-01-23)'
-        self.version_id = 809
+        self.version = 'v9.01 (2021-05-16)'
+        self.version_id = 901
         self.author = 'by spoter & oldskool to b4it.org & pfmods.net'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -103,10 +103,10 @@ class Config(object):
             'font'                                  : '$FieldFont',
             'background'                            : True,
             'backgroundImage'                       : '../maps/icons/quests/inBattleHint.png',
-            'backgroundData'                        : {'alpha': 1.0},
+            'backgroundData'                        : {'alpha': 1.0, 'width': 163, 'height': 50},
             'shadow'                                : True,
             'panelSize'                             : {'widthAlt': 163, 'heightAlt': 80, 'widthNormal': 163, 'heightNormal': 50},
-            'panel'                                 : {'x': 230, 'y': -228, 'width': 163, 'height': 50, 'drag': True, 'border': True, 'alignX': COMPONENT_ALIGN.LEFT, 'alignY': COMPONENT_ALIGN.BOTTOM},
+            'panel'                                 : {'index': 1, 'x': 230, 'y': -228, 'width': 163, 'height': 50, 'drag': True, 'border': True, 'alignX': COMPONENT_ALIGN.LEFT, 'alignY': COMPONENT_ALIGN.BOTTOM, 'visible': True, 'limit': True, },
             'shadowText'                            : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 1, 'blurX': 1, 'blurY': 1, 'strength': 1, 'quality': 1},
             'battleMessage'                         : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                                       '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
@@ -149,7 +149,7 @@ class Config(object):
             'battleMessage{assistSpot}'             : '<img src=\"img://gui/maps/icons/library/efficiency/48x48/detection.png\" width=\"16\" height=\"16\" vspace=\"-5\"/>',
             'battleMessage{assistTrack}'            : '<img src=\"img://gui/maps/icons/library/efficiency/48x48/immobilized.png\" width=\"16\" height=\"16\" vspace=\"-5\"/>',
             'battleMessage{assistSpam}'             : '<img src=\"img://gui/maps/icons/library/efficiency/48x48/stun.png\" width=\"16\" height=\"16\" vspace=\"-5\"/>',
-            'UI'                                    : 9
+            'UI'                                    : 10
         }
         self.i18n = {
             'version'                                                         : self.version_id,
@@ -206,6 +206,7 @@ class Config(object):
             'UI_menu_UIskill4ltu'                                             : '<font color=\"#60FF00\">@skill</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu</font>]',
             'UI_menu_UIMyp'                                                   : '<font color=\"#D042F3\">@Myp</font> choice [<font color=\"#D042F3\">twitch.tv/myp_</font>]',
             'UI_menu_UIspoter'                                                : '<font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]',
+            'UI_menu_UIspoterNew': 'new <font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]',
             'UI_menu_UIcircon'                                                : '<font color=\"#02C9B3\">@Circon</font> choice [<font color=\"#02C9B3\">twitch.tv/circon</font>]',
             'UI_menu_UIoldskool'                                              : '<font color=\"#FFD700\">@Oldskool</font> choice [<font color=\"#FFD700\">twitch.tv/oldskool</font>]',
             'UI_menu_UIReplayColor'                                           : 'Colored for Replays',
@@ -308,6 +309,7 @@ class Config(object):
                         {'label': self.i18n['UI_menu_UIReplayColor']},
                         {'label': self.i18n['UI_menu_UIReplayColorDamage']},
                         {'label': self.i18n['UI_menu_UIoldskool']},
+                        {'label': self.i18n['UI_menu_UIspoterNew']},
                     ],
                     'width'       : 300,
                     'value'       : self.data['UI'],
@@ -475,6 +477,9 @@ class Worker(object):
             'battleMessageoldskool'      : '<font size=\"15\">{c_battleMarkOfGun}\n{c_damageCurrent}{assistCurrent}</font>',
             'battleMessageoldskoolAlt'   : '<font size=\"15\">{c_battleMarkOfGun}<tab>{c_nextMarkOfGun}\n{c_damageCurrent}{assistCurrent}<tab>{c_damageNextPercent}</font>',
 
+            'battleMessagesspoterNew'   : '<font size=\"32\">{c_battleMarkOfGun}{c_damageCurrent}</font>',
+            'battleMessagesspoterNewAlt': '<font size=\"32\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n<font size=\"32\">{c_damageToMark100}</font>',
+
         }
         self.levels = []
         self.damages = []
@@ -515,6 +520,9 @@ class Worker(object):
 
         if config.data['UI'] == 9:
             self.battleMessage = self.messages['battleMessageoldskool'] if not self.altMode else self.messages['battleMessageoldskoolAlt']
+
+        if config.data['UI'] == 10:
+            self.battleMessage = self.messages['battleMessagesspoterNew'] if not self.altMode else self.messages['battleMessagesspoterNewAlt']
 
     def clearData(self):
         self.altMode = False
@@ -846,9 +854,9 @@ class Worker(object):
                     self.calc()
             if g_gui.get_key(config.data['buttonShow']) and isKeyDownTrigger:
                 config.data['UI'] += 1
-                if config.data['UI'] > 9:
+                if config.data['UI'] > 10:
                     config.data['UI'] = 1
-                status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage'], config.i18n['UI_menu_UIoldskool']]
+                status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage'], config.i18n['UI_menu_UIoldskool'], config.i18n['UI_menu_UIspoterNew']]
                 message = config.i18n['UI_message'] % status[config.data['UI']]
                 color = '#84DE40'
                 if config.data['showInBattle']:
@@ -963,7 +971,7 @@ class Worker(object):
             message = 'Mod: Marks of Excellence %.2f [by github.com/spoter]' % (config.version_id / 100.0)
             color = '#6595EE'
             inject.message(message, color)
-            status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage'], config.i18n['UI_menu_UIoldskool']]
+            status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage'], config.i18n['UI_menu_UIoldskool'], config.i18n['UI_menu_UIspoterNew']]
             message = config.i18n['UI_message'] % status[config.data['UI']]
             color = '#84DE40'
             inject.message(message, color)
@@ -1231,6 +1239,9 @@ class Flash(object):
         if config.data['UI'] == 9:
             height = 42 if not worker.altMode else 42
             width = 54 if not worker.altMode else 115
+        if config.data['UI'] == 10:
+            height = 50 if not worker.altMode else 90
+            width = 173 if not worker.altMode else 173
         if h is not None and w is not None:
             height = h
             width = w

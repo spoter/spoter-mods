@@ -13,6 +13,7 @@
     "UI_menu_UIoldskool": "<font color=\"#FFD700\">@Oldskool</font> choice [<font color=\"#FFD700\">twitch.tv/oldskool</font>]",
     "UI_menu_UIskill4ltu": "<font color=\"#60FF00\">@skill</font> choice [<font color=\"#60FF00\">twitch.tv/skill4ltu</font>]",
     "UI_menu_UIspoter": "<font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]",
+    "UI_menu_UIspoterNew": "New <font color=\"#6595EE\">@spoter</font> choice [<font color=\"#6595EE\">github.com/spoter</font>]",
     "UI_menu_blue": "Blue",
     "UI_menu_brown": "Brown",
     "UI_menu_chocolate": "Chocolate",
@@ -87,5 +88,5 @@
     "battleMessageSizeLimitMin": "MoE mod: Reached <b>minimum[10%]</b>",
     "battleMessageSizeReset": "MoE mod: Reset Settings</b>",
     "battleMessageSizeUp": "MoE mod: Size <b>+10%</b>",
-    "version": 809
+    "version": 901
 }
