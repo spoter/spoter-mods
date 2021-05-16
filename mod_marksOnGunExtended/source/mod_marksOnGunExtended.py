@@ -1241,7 +1241,7 @@ class Flash(object):
             width = 54 if not worker.altMode else 115
         if config.data['UI'] == 10:
             height = 50 if not worker.altMode else 90
-            width = 173 if not worker.altMode else 173
+            width = 183 if not worker.altMode else 183
         if h is not None and w is not None:
             height = h
             width = w
