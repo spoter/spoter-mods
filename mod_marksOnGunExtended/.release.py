@@ -36,6 +36,7 @@ class Release(object):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../../spoter-mods/mod_mods_gui/release'), os.path.join(self.modsPath, self.data.CLIENT_VERSION), '*.wotmod') )
         if os.path.exists('../../spoter-mods/mod_mods_gui//release/i18n'):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../../spoter-mods/mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.json') )
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../../spoter-mods/mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.html'))
         if os.path.exists('addons/mods/oldskool'):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('addons/mods/oldskool'), os.path.join(self.modsPath, self.data.CLIENT_VERSION, 'oldskool'), '*.wotmod') )
         if os.path.exists('addons/configs/oldskool'):
