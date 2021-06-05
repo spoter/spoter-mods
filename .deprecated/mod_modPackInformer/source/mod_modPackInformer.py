@@ -12,10 +12,6 @@ from gui import DialogsInterface, SystemMessages, makeHtmlString
 from notification.NotificationListView import NotificationListView
 from constants import AUTH_REALM
 from helpers import getLanguageCode
-from adisp import process
-from gui.Scaleform.daapi.view.common.BaseTicker import BaseTicker
-from helpers import dependency
-from skeletons.gui.game_control import IBrowserController, IExternalLinksController
 
 
 class Config(object):
@@ -27,7 +23,6 @@ class Config(object):
             'serverBackup'         : '',
             'statistic'            : False,
             'statisticTid'         : '',
-            'openLinkInGameBrowser': False
         }
         xml = ResMgr.openSection('scripts/client/gui/mods/mod_modPackInformer.xml')
         if xml is not None:
@@ -37,7 +32,6 @@ class Config(object):
             self.data['serverBackup'] = '%s' % xml.readString('serverBackup', '')
             self.data['statistic'] = xml.readBool('statistic', False)
             self.data['statisticTid'] = '%s' % xml.readString('statisticTid', '')
-            self.data['openLinkInGameBrowser'] = xml.readBool('openLinkInGameBrowser', False)
 
 
 class Updater(object):
@@ -92,10 +86,7 @@ class Updater(object):
     def click(self, isConfirmed):
         if isConfirmed and self.lin1:
             if self.lin1.lower().startswith('http:') or self.lin1.lower().startswith('https:'):
-                if config.data['openLinkInGameBrowser']:
-                    browser.open(self.lin1)
-                else:
-                    BigWorld.wg_openWebBrowser(self.lin1)
+                BigWorld.wg_openWebBrowser(self.lin1)
 
     def openLink(self, action):
         if self.lin1 is None or self.lin1 == '': return
@@ -157,39 +148,6 @@ class Statistics(object):
             self.analytics_started = False
 
 
-class p__Browser(BaseTicker):
-    externalBrowser = dependency.descriptor(IExternalLinksController)
-    internalBrowser = dependency.descriptor(IBrowserController)
-
-    def __init__(self):
-        super(p__Browser, self).__init__()
-        self.__browserID = 'modPackInformer'
-        return
-
-    def _dispose(self):
-        self.__browserID = 'modPackInformer'
-        super(p__Browser, self)._dispose()
-        return
-
-    def open(self, link, internal=True):
-        if internal:
-            if self.internalBrowser is not None:
-                self.__showInternalBrowser(link)
-            else:
-                self.__showExternalBrowser(link)
-        else:
-            self.__showExternalBrowser(link)
-        return
-
-    @process
-    def __showInternalBrowser(self, link):
-        self.__browserID = yield self.internalBrowser.load(url=link, browserID=self.__browserID)
-
-    def __showExternalBrowser(self, link):
-        if self.externalBrowser is not None:
-            self.externalBrowser.open(link)
-
-
 def hookedGetLabels(self):
     return [{
         'id'     : DIALOG_BUTTON_ID.SUBMIT,
@@ -224,7 +182,6 @@ def fini():
 
 
 config = Config()
-browser = p__Browser()
 updater = Updater()
 stat = Statistics()
 

@@ -1,9 +1,8 @@
 <mod_modPackInformer.xml>
-	<version>	0.9.20.0 #01	</version>
+	<version>	1.12.1.2 #01	</version>
 	<name>	Test ModPack	</name>
 	<serverMain>	http://pastebin.com/raw/88fuWNRi	</serverMain>
 	<serverBackup>	http://localhost/versions.json	</serverBackup>
 	<statistic>	true	</statistic>
 	<statisticTid>	UA-57975916-2	</statisticTid>
-    <openLinkInGameBrowser>	false	</openLinkInGameBrowser>
 </mod_modPackInformer.xml>

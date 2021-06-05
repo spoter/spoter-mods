@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.6.1.0'
+CLIENT_VERSION = '1.12.1.2'
 NAME = 'spoter.modPackInformer'
 ADD_LICENSE = True
 
@@ -53,8 +53,8 @@ class Build(object):
             files.append((os.path.join(self.BUILD_PATH, self.VERSION["source"]), 'self.version_id = ', re.sub('[.\s]', '', '%s' % version)))
         if self.VERSION["meta"]:
             files.append((os.path.join(self.BUILD_PATH, self.VERSION["meta"]), '<version>', '%s</version>' % version))
-        if self.VERSION["config"]:
-            files.append((os.path.join(self.BUILD_PATH, self.VERSION["config"]), '"version": ', re.sub('[.\s]', '', '%s' % version)))
+        #if self.VERSION["config"]:
+        #    files.append((os.path.join(self.BUILD_PATH, self.VERSION["config"]), '', ''))
         if self.VERSION["i18n"]:
             for path in glob.glob(os.path.join(self.BUILD_PATH, self.VERSION["i18n"], "*.json")):
                 files.append((path, '"version": ', re.sub('[.\s]', '', '%s' % version)))
