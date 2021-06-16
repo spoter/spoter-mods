@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.6.1.0'
+CLIENT_VERSION = '1.12.1.2'
 NAME = 'spoter.mod_insigniaMonitor'
 ADD_LICENSE = True
 
