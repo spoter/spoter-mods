@@ -6,8 +6,10 @@ from Avatar import PlayerAvatar
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from Vehicle import Vehicle
 from constants import ARENA_BONUS_TYPE
-from gui.Scaleform.framework import ViewTypes
+#from gui.Scaleform.framework import ViewTypes
+from frameworks.wulf import WindowLayer as ViewTypes
 from gui.battle_control.controllers import feedback_events
+# noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import COMPONENT_ALIGN, COMPONENT_EVENT, COMPONENT_TYPE, g_gui, g_guiFlash, inject
 from helpers import dependency, i18n
 from skeletons.account_helpers.settings_core import ISettingsCore
