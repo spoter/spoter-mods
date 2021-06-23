@@ -18,9 +18,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.13 (2021-05-16)'
+        self.version = 'v2.14 (2021-06-23)'
         self.author = 'by spoter'
-        self.version_id = 213
+        self.version_id = 214
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -183,6 +183,9 @@ class ArtyBall(object):
             self.hideVisible()
             return
         if not hasattr(self.player, 'vehicleTypeDescriptor') or not hasattr(self.player, 'gunRotator'):
+            self.hideVisible()
+            return
+        if Vehicle.getVehicleClassTag(self.player.getVehicleDescriptor().type.tags) != VEHICLE_CLASS_NAME.SPG:
             self.hideVisible()
             return
         shell = self.player.getVehicleDescriptor().shot.shell
