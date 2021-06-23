@@ -19,11 +19,12 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.08 (2021-05-16)'
-        self.version_id = 308
+        self.version = 'v3.09 (2021-06-23)'
+        self.version_id = 309
         self.author = 'by spoter, reven86'
         self.buttons = {
-            'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]]
+            'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]],
+            'buttonMaxMode': [Keys.KEY_R, [Keys.KEY_LCONTROL, Keys.KEY_RCONTROL]]
         }
         self.data = {
             'version'              : self.version_id,
@@ -35,26 +36,32 @@ class _Config(object):
             'autoActivateWheelMode': True,
             'maxWheelMode'         : True,
             'buttonAutoMode'       : self.buttons['buttonAutoMode'],
+            'buttonMaxMode'        : self.buttons['buttonMaxMode'],
 
         }
         self.i18n = {
             'version'                                 : self.version_id,
-            'UI_description'                          : 'Server Turret and Fix Accuracy',
+            'UI_description'                          : 'Improved accuracy and auto wheels mode',
             'UI_setting_activateMessage_text'         : 'Show Activation Message',
             'UI_setting_activateMessage_tooltip'      : '{HEADER}Info:{/HEADER}{BODY}Show Activation Message in battle{/BODY}',
-            'UI_setting_fixAccuracyInMove_text'       : 'Fix Accuracy',
+            'UI_setting_fixAccuracyInMove_text'       : 'Fixed to Accuracy',
             'UI_setting_fixAccuracyInMove_tooltip'    : '{HEADER}Info:{/HEADER}{BODY}When you tank move and then stop, used fix accuracy to not lost aiming{/BODY}',
-            'UI_setting_serverTurret_text'            : 'Server Turret',
+            'UI_setting_serverTurret_text'            : 'Fixed to Turret (server sync)',
             'UI_setting_serverTurret_tooltip'         : '{HEADER}Info:{/HEADER}{BODY}Move Turret to Server Aim coordinates (need enabled Server Sight in game settings){/BODY}',
-            'UI_battle_activateMessage'               : '"Muzzle chaos": Activated',
-            'UI_setting_fixWheelCruiseControl_text'   : 'Fix Cruise Control on Wheels',
+            'UI_battle_activateMessage'               : 'Improved accuracy and auto wheels mode: Activated',
+            'UI_setting_fixWheelCruiseControl_text'   : 'Wheels: Fixed to Cruise Control',
             'UI_setting_fixWheelCruiseControl_tooltip': '{HEADER}Info:{/HEADER}{BODY}When you activate Wheel mode with Cruise Control, vehicle stopped, this setting disable that{/BODY}',
-            'UI_setting_maxWheelMode_text'            : 'Activate\\deactivate Max Wheel mode',
-            'UI_setting_maxWheelMode_tooltip'         : '{HEADER}Info:{/HEADER}{BODY}Try automate Max wheel mode{/BODY}',
-            'UI_setting_autoActivateWheelMode_text'   : 'Auto activate\deactivate Wheel mode',
-            'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Try automate wheel mode{/BODY}',
-            'UI_setting_buttonAutoMode_text'          : 'Button: Max Wheel mode',
-            'UI_setting_buttonAutoMode_tooltip'       : '{HEADER}Info:{/HEADER}{BODY}Button: Max Wheel mode enable or disable{/BODY}',
+            'UI_setting_maxWheelMode_text'            : 'Wheels: Keep maximum speed',
+            'UI_setting_maxWheelMode_tooltip'         : '{HEADER}Info:{/HEADER}{BODY}When reaching maximum speed, does not disable speed mode when maneuvering{/BODY}',
+            'UI_setting_buttonMaxMode_text'           : 'Button: Wheels keep maximum speed',
+            'UI_setting_buttonMaxMode_tooltip'        : '',
+            'UI_setting_autoActivateWheelMode_text'   : 'Wheels: Auto speed mode',
+            'UI_setting_autoActivateWheelMode_tooltip': '{HEADER}Info:{/HEADER}{BODY}Automatically turns on speed or maneuvering mode{/BODY}',
+            'UI_setting_buttonAutoMode_text'          : 'Button: Wheels auto speed mode',
+            'UI_setting_buttonAutoMode_tooltip'       : '',
+            'UI_battle_ON' : 'ON',
+            'UI_battle_OFF': 'OFF',
+
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
@@ -79,6 +86,12 @@ class _Config(object):
                 'varName': 'fixAccuracyInMove'
             }, {
                 'type'   : 'CheckBox',
+                'text'   : self.i18n['UI_setting_fixWheelCruiseControl_text'],
+                'value'  : self.data['fixWheelCruiseControl'],
+                'tooltip': self.i18n['UI_setting_fixWheelCruiseControl_tooltip'],
+                'varName': 'fixWheelCruiseControl'
+            }, {
+                'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_activateMessage_text'],
                 'value'  : self.data['activateMessage'],
                 'tooltip': self.i18n['UI_setting_activateMessage_tooltip'],
@@ -92,17 +105,18 @@ class _Config(object):
                 'defaultValue': self.buttons['buttonAutoMode'],
                 'varName'     : 'buttonAutoMode'
             }, {
+                'type'        : 'HotKey',
+                'text'        : self.i18n['UI_setting_buttonMaxMode_text'],
+                'tooltip'     : self.i18n['UI_setting_buttonMaxMode_tooltip'],
+                'value'       : self.data['buttonMaxMode'],
+                'defaultValue': self.buttons['buttonMaxMode'],
+                'varName'     : 'buttonMaxMode'
+            }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_maxWheelMode_text'],
                 'value'  : self.data['maxWheelMode'],
                 'tooltip': self.i18n['UI_setting_maxWheelMode_tooltip'],
                 'varName': 'maxWheelMode'
-            }, {
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_setting_fixWheelCruiseControl_text'],
-                'value'  : self.data['fixWheelCruiseControl'],
-                'tooltip': self.i18n['UI_setting_fixWheelCruiseControl_tooltip'],
-                'varName': 'fixWheelCruiseControl'
             }, {
                 'type'   : 'CheckBox',
                 'text'   : self.i18n['UI_setting_autoActivateWheelMode_text'],
@@ -149,11 +163,17 @@ class MovementControl(object):
     @staticmethod
     def keyPressed(event):
         if not _config.data['enabled']: return
-        if g_gui.get_key(_config.data['buttonAutoMode']) and event.isKeyDown():
+        if g_gui.get_key(_config.data['buttonMaxMode']) and event.isKeyDown():
             vehicle = BigWorld.player().getVehicleAttached()
             if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
                 _config.data['maxWheelMode'] = not _config.data['maxWheelMode']
-                message = 'Wheel Max Mode: %s' % ('ON' if _config.data['maxWheelMode'] else 'OFF')
+                message = '%s: %s' % (_config.i18n['UI_setting_maxWheelMode_text'], _config.i18n['UI_battle_ON'] if _config.data['maxWheelMode'] else _config.i18n['UI_battle_OFF'])
+                inject.message(message, '#8378FC')
+        if g_gui.get_key(_config.data['buttonAutoMode']) and event.isKeyDown():
+            vehicle = BigWorld.player().getVehicleAttached()
+            if vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode:
+                _config.data['autoActivateWheelMode'] = not _config.data['autoActivateWheelMode']
+                message = '%s: %s' % (_config.i18n['UI_setting_autoActivateWheelMode_text'], _config.i18n['UI_battle_ON'] if _config.data['autoActivateWheelMode'] else _config.i18n['UI_battle_OFF'])
                 inject.message(message, '#8378FC')
 
     def changeMovement(self):
