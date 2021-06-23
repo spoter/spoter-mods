@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 import datetime
 import math
 
@@ -67,9 +67,9 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.02 (2021-06-23)'
-        self.version_id = 902
-        self.author = 'by spoter & oldskool to b4it.org & pfmods.net'
+        self.version = 'v9.03 (2021-06-23)'
+        self.version_id = 903
+        self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonSizeUp'  : [Keys.KEY_PGUP, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -111,7 +111,7 @@ class Config(object):
                                                       '{c_damageToMark65}{c_damageToMark85}\n'
                                                       '{c_damageToMark95}{c_damageToMark100}',
             'battleMessage{status}Up'               : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_online.png\" vspace=\"-5\"/> ',
-            'battleMessage{c_status}Up'             : 'Δ',
+            'battleMessage{c_status}Up'             : '?',
             'battleMessage{status}Down'             : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy.png\" vspace=\"-5\"/>',
             'battleMessage{c_status}Down'           : 'V',
             'battleMessage{status}Unknown'          : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy_violet.png\" vspace=\"-5\"/>',
@@ -1291,17 +1291,17 @@ class Flash(object):
 
     @staticmethod
     def screenFix(screen, value, mod, align=1):
-        if align == 1:  # положительное
+        if align == 1:  # ?????????????
             if value + mod > screen:
                 return max(0, int(screen - mod))
             if value < 0:
                 return 0
-        if align == -1:  # отрицательное
+        if align == -1:  # ?????????????
             if value - mod < -screen:
                 return min(0, int(-screen + mod))
             if value > 0:
                 return 0
-        if align == 0:  # центр
+        if align == 0:  # ?????
             scr = screen / 2
             if value < scr:
                 return int(scr - mod)

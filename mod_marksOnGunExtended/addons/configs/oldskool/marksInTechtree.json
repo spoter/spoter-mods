@@ -8,7 +8,12 @@
         "very_bad": "#FF6347",
         "very_good": "#02C9B3"
     },
-    "configVersion": 1,
+    "showMasteryBadge": {
+        "enabled": true,
+        "height": 16,
+        "width": 16
+    },
+    "configVersion": 2,
     "showInTechTree": true,
     "showPercents": true,
     "techTreeX": 75,
