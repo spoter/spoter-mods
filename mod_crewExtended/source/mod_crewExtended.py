@@ -14,7 +14,7 @@ from gui.mods.mod_mods_gui import g_gui, inject
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v6.02 (2021-06-23)'
+        self.version = 'v6.02 (2021-07-10)'
         self.version_id = 602
         self.author = 'by spoter'
         self.data = {
