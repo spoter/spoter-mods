@@ -19,5 +19,5 @@
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Info:{/HEADER}{BODY}Cuando se activa el modo de rueda con el control de crucero, el vehículo se detiene, este ajuste deshabilita que{/BODY}",
     "UI_setting_serverTurret_text": "Fijando a Torreta (sincronización con el servidor)",
     "UI_setting_serverTurret_tooltip": "{HEADER}Info:{/HEADER}{BODY}Mueve la torreta a las coordenadas de la mira del servidor (necesitas habilitar la mira del servidor en la configuración del juego){/BODY}",
-    "version": 309
+    "version": 310
 }

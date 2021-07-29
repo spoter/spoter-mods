@@ -19,8 +19,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.09 (2021-07-10)'
-        self.version_id = 309
+        self.version = 'v3.10 (2021-07-29)'
+        self.version_id = 310
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -284,18 +284,16 @@ def hookDestroyGUI(func, *args):
     func(*args)
 
 
-@inject.hook(PlayerAvatar, 'updateVehicleMiscStatus')
+@inject.hook(PlayerAvatar, 'updateSiegeStateStatus')
 @inject.log
-def updateVehicleMiscStatus(func, *args):
-    if _config.data['enabled'] and _config.data['fixWheelCruiseControl']:
-        self, vehicleID, code, intArg, floatArgs = args
-        if vehicleID != self.playerVehicleID and vehicleID != self.observedVehicleID and vehicleID != self.inputHandler.ctrl.curVehicleID:
-            return
-        if code == VEHICLE_MISC_STATUS.SIEGE_MODE_STATE_CHANGED and movement_control.fixSiegeModeCruiseControl():
-            self.guiSessionProvider.invalidateVehicleState(VEHICLE_VIEW_STATE.SIEGE_MODE, (intArg, floatArgs[0]))
-            self._PlayerAvatar__onSiegeStateUpdated(vehicleID, intArg, floatArgs[0])
-            return
-    return func(*args)
+def updateSiegeStateStatus(func, self, vehicleID, status, timeLeft):
+    if not movement_control.fixSiegeModeCruiseControl():
+        return func(self, vehicleID, status, timeLeft)
+    typeDescr = self._PlayerAvatar__updateVehicleStatus(vehicleID)
+    if not typeDescr:
+        return
+    self.guiSessionProvider.invalidateVehicleState(VEHICLE_VIEW_STATE.SIEGE_MODE, (status, timeLeft))
+    self._PlayerAvatar__onSiegeStateUpdated(vehicleID, status, timeLeft)
 
 
 def decodeRestrictedValueFromUint(code, bits, minBound, maxBound):
