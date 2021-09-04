@@ -11,7 +11,7 @@ import VehicleGunRotator
 import gun_rotation_shared
 from Avatar import MOVEMENT_FLAGS, PlayerAvatar
 from AvatarInputHandler.siege_mode_player_notifications import SOUND_NOTIFICATIONS
-from constants import VEHICLE_MISC_STATUS, VEHICLE_SETTING, VEHICLE_SIEGE_STATE
+from constants import VEHICLE_SETTING, VEHICLE_SIEGE_STATE
 from gui import InputHandler
 from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 
@@ -19,8 +19,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.10 (2021-07-29)'
-        self.version_id = 310
+        self.version = 'v3.11 (2021-09-04)'
+        self.version_id = 311
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -31,7 +31,7 @@ class _Config(object):
             'enabled'              : True,
             'activateMessage'      : False,
             'fixAccuracyInMove'    : True,
-            'serverTurret'         : True,
+            'serverTurret'         : False,
             'fixWheelCruiseControl': True,
             'autoActivateWheelMode': True,
             'maxWheelMode'         : True,
@@ -211,7 +211,7 @@ class MovementControl(object):
     def changeSiege(self, status):
         player = BigWorld.player()
         SOUND_NOTIFICATIONS.TRANSITION_TIMER = ''
-        player.base.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
+        player.cell.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
         self.timer = BigWorld.time()
 
     @staticmethod
