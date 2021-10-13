@@ -14,8 +14,10 @@ from gui.Scaleform.genConsts.BATTLE_VIEW_ALIASES import BATTLE_VIEW_ALIASES
 from gui.shared import g_eventBus, events, EVENT_BUS_SCOPE
 
 COMPLEX_ITEM = {
-    'leftTrack' : 'chassis',
-    'rightTrack': 'chassis',
+    'leftTrack0' : 'chassis',
+    'rightTrack0': 'chassis',
+    'leftTrack1' : 'chassis',
+    'rightTrack1': 'chassis',
     'gunner1'   : 'gunner',
     'gunner2'   : 'gunner',
     'radioman1' : 'radioman',
@@ -32,15 +34,15 @@ COMPLEX_ITEM = {
     'wheel7'    : 'wheel'
 }
 
-CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'wheel', 'wheel0', 'wheel1', 'wheel2', 'wheel3', 'wheel4', 'wheel5', 'wheel6', 'wheel7']
+CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'leftTrack0', 'rightTrack0', 'leftTrack1', 'rightTrack1', 'wheel', 'wheel0', 'wheel1', 'wheel2', 'wheel3', 'wheel4', 'wheel5', 'wheel6', 'wheel7']
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.12 (2021-07-10)'
+        self.version = 'v3.13 (2021-10-13)'
         self.author = 'by spoter'
-        self.version_id = 312
+        self.version_id = 313
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
