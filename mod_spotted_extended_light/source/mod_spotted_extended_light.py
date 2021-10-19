@@ -4,28 +4,27 @@ import BigWorld
 from Avatar import PlayerAvatar
 from BattleFeedbackCommon import BATTLE_EVENT_TYPE
 from gui.battle_control.controllers import feedback_events
+# noinspection PyProtectedMember
 from gui.battle_control.controllers.personal_efficiency_ctrl import _AGGREGATED_DAMAGE_EFFICIENCY_TYPES, _createEfficiencyInfoFromFeedbackEvent
 # noinspection PyProtectedMember,PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
 SOUND_LIST = ['soundSpotted', 'soundAssist']
-TEXT_LIST = ['UI_message_Spotted_text', 'UI_message_AssistRadio_text', 'UI_message_AssistTrack_text', 'UI_message_AssistStun_text']
-COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FA8072']
-MENU = ['UI_menu_blue', 'UI_menu_brown', 'UI_menu_chocolate', 'UI_menu_cornflower_blue', 'UI_menu_cream', 'UI_menu_cyan', 'UI_menu_emerald', 'UI_menu_gold', 'UI_menu_green', 'UI_menu_green_yellow', 'UI_menu_hot_pink', 'UI_menu_lime',
-        'UI_menu_orange', 'UI_menu_pink', 'UI_menu_purple', 'UI_menu_red', 'UI_menu_wg_blur', 'UI_menu_wg_enemy', 'UI_menu_wg_friend', 'UI_menu_wg_squad', 'UI_menu_yellow', 'UI_menu_nice_red']
+TEXT_LIST = ['macros_Spotted', 'macros_AssistRadio', 'macros_AssistTrack', 'macros_AssistStun']
+
 GENERATOR = {
-    BATTLE_EVENT_TYPE.SPOTTED     : ['UI_message_Spotted_text', 'messageColorSpotted'],
-    BATTLE_EVENT_TYPE.RADIO_ASSIST: ['UI_message_AssistRadio_text', 'messageColorAssistRadio'],
-    BATTLE_EVENT_TYPE.TRACK_ASSIST: ['UI_message_AssistTrack_text', 'messageColorAssistTrack'],
-    BATTLE_EVENT_TYPE.STUN_ASSIST : ['UI_message_AssistStun_text', 'messageColorAssistStun']
+    BATTLE_EVENT_TYPE.SPOTTED     : ['UI_message_Spotted_text', 'messageColorSpotted', 'macros_Spotted'],
+    BATTLE_EVENT_TYPE.RADIO_ASSIST: ['UI_message_AssistRadio_text', 'messageColorAssistRadio', 'macros_AssistRadio'],
+    BATTLE_EVENT_TYPE.TRACK_ASSIST: ['UI_message_AssistTrack_text', 'messageColorAssistTrack', 'macros_AssistTrack'],
+    BATTLE_EVENT_TYPE.STUN_ASSIST : ['UI_message_AssistStun_text', 'messageColorAssistStun', 'macros_AssistStun']
 }
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.09 (2021-07-10)'
-        self.version_id = 409
+        self.version = 'v4.11 (2021-10-19)'
+        self.version_id = 411
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -35,55 +34,59 @@ class Config(object):
             'iconSizeY'              : 16,
             'soundSpotted'           : 'enemy_sighted_for_team',
             'soundAssist'            : 'gun_intuition',
-            'messageColorSpotted'    : 10,
-            'messageColorAssistRadio': 6,
-            'messageColorAssistTrack': 11,
-            'messageColorAssistStun' : 5
+            'messageColorSpotted'    : '#FF69B5',
+            'messageColorAssistRadio': '#28F09C',
+            'messageColorAssistTrack': '#00FF00',
+            'messageColorAssistStun' : '#00FFFF',
+            'macros_Spotted': '{vehicles}',
+            'macros_AssistRadio': '{vehicles}{damage}',
+            'macros_AssistTrack': '{vehicles}{damage}',
+            'macros_AssistStun': '{vehicles}{damage}',
         }
         self.i18n = {
             'version'                                   : self.version_id,
             'UI_description'                            : 'Spotted extended Light',
             'UI_setting_sound_text'                     : 'Use sound in battle',
-            'UI_setting_sound_tooltip'                  : '{HEADER}<font color="#FFD700">Info:</font>{/HEADER}{BODY}Configure sounds in config file: <font color="#FFD700">/mods/configs/spotted_extended_light/spotted_extended_light.json</font>'
-                                                          '{/BODY}',
+            'UI_setting_sound_tooltip'                  : '',
+            'UI_setting_sound_default'                  : 'Default: %s' % ('On' if self.data['sound'] else 'Off'),
+            'UI_setting_soundSpotted_text'              : 'ID sound to Spotted',
+            'UI_setting_soundSpotted_tooltip'           : '',
+            'UI_setting_soundSpotted_default'           : 'Default: %s' % self.data['soundSpotted'],
+            'UI_setting_soundAssist_text'               : 'ID sound to Assist',
+            'UI_setting_soundAssist_tooltip'            : '',
+            'UI_setting_soundAssist_default'            : 'Default: %s' % self.data['soundAssist'],
             'UI_setting_iconSizeX_text'                 : 'Icon size X-coordinate',
             'UI_setting_iconSizeX_value'                : ' px.',
+            'UI_setting_iconSizeX_tooltip'              : '',
+            'UI_setting_iconSizeX_default'              : 'Default: %s' % self.data['iconSizeX'],
             'UI_setting_iconSizeY_text'                 : 'Icon size Y-coordinate',
             'UI_setting_iconSizeY_value'                : ' px.',
+            'UI_setting_iconSizeY_tooltip'              : '',
+            'UI_setting_iconSizeY_default'              : 'Default: %s' % self.data['iconSizeY'],
             'UI_setting_messageColorSpotted_text'       : 'Color to message "Spotted',
             'UI_setting_messageColorSpotted_tooltip'    : '',
+            'UI_setting_messageColorSpotted_default'    : 'Default: %s' % self.data['messageColorSpotted'],
             'UI_setting_messageColorAssistRadio_text'   : 'Color to message "Radio Hit Assist"',
             'UI_setting_messageColorAssistRadio_tooltip': '',
+            'UI_setting_messageColorAssistRadio_default': 'Default: %s' % self.data['messageColorAssistRadio'],
             'UI_setting_messageColorAssistTrack_text'   : 'Color to message "Track Hit Assist"',
             'UI_setting_messageColorAssistTrack_tooltip': '',
+            'UI_setting_messageColorAssistTrack_default': 'Default: %s' % self.data['messageColorAssistTrack'],
             'UI_setting_messageColorAssistStun_text'    : 'Color to message "Stun Hit Assist"',
             'UI_setting_messageColorAssistStun_tooltip' : '',
-            'UI_menu_blue'                              : 'Blue',
-            'UI_menu_brown'                             : 'Brown',
-            'UI_menu_chocolate'                         : 'Chocolate',
-            'UI_menu_cornflower_blue'                   : 'Cornflower Blue',
-            'UI_menu_cream'                             : 'Cream',
-            'UI_menu_cyan'                              : 'Cyan',
-            'UI_menu_emerald'                           : 'Emerald',
-            'UI_menu_gold'                              : 'Gold',
-            'UI_menu_green'                             : 'Green',
-            'UI_menu_green_yellow'                      : 'Green Yellow',
-            'UI_menu_hot_pink'                          : 'Hot Pink',
-            'UI_menu_lime'                              : 'Lime',
-            'UI_menu_orange'                            : 'Orange',
-            'UI_menu_pink'                              : 'Pink',
-            'UI_menu_purple'                            : 'Purple',
-            'UI_menu_red'                               : 'Red',
-            'UI_menu_wg_blur'                           : 'WG Blur',
-            'UI_menu_wg_enemy'                          : 'WG Enemy',
-            'UI_menu_wg_friend'                         : 'WG Friend',
-            'UI_menu_wg_squad'                          : 'WG Squad',
-            'UI_menu_yellow'                            : 'Yellow',
-            'UI_menu_nice_red'                          : 'Nice Red',
-            'UI_message_Spotted_text'                   : 'Spotted {vehicles}',
-            'UI_message_AssistRadio_text'               : 'Assist Radio:{vehicles}{damage}',
-            'UI_message_AssistTrack_text'               : 'Assist Track:{vehicles}{damage}',
-            'UI_message_AssistStun_text'                : 'Assist Stun:{vehicles}{damage}',
+            'UI_setting_messageColorAssistStun_default' : 'Default: %s' % self.data['messageColorAssistStun'],
+            'UI_message_Spotted_text'                   : 'Spotted:',
+            'UI_message_Spotted_default'                : 'Default: %s' % self.data['macros_Spotted'],
+            'UI_message_Spotted_description'            : 'Macros: Spotted',
+            'UI_message_AssistRadio_text'               : 'Assist Radio:',
+            'UI_message_AssistRadio_default'            : 'Default: %s' % self.data['macros_AssistRadio'],
+            'UI_message_AssistRadio_description'        : 'Macros: Assist Radio',
+            'UI_message_AssistTrack_text'               : 'Assist Track:',
+            'UI_message_AssistTrack_default'            : 'Default: %s' % self.data['macros_AssistTrack'],
+            'UI_message_AssistTrack_description'        : 'Macros: Assist Track',
+            'UI_message_AssistStun_text'                : 'Assist Stun:',
+            'UI_message_AssistStun_default'             : 'Default: %s' % self.data['macros_AssistStun'],
+            'UI_message_AssistStun_description'         : 'Macros: Assist Stun',
             'UI_message_macrosList'                     : 'Available macros in messages {icons}, {names}, {vehicles}, {icons_names}, {icons_vehicles}, {full}, {damage}'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
@@ -91,81 +94,29 @@ class Config(object):
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
     def template(self):
-        return {
-            'modDisplayName' : self.i18n['UI_description'],
-            'settingsVersion': self.version_id,
-            'enabled'        : self.data['enabled'],
-            'column1'        : [{
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_setting_sound_text'],
-                'value'  : self.data['sound'],
-                'tooltip': self.i18n['UI_setting_sound_tooltip'],
-                'varName': 'sound'
-            }, {
-                'type'        : 'Slider',
-                'text'        : self.i18n['UI_setting_iconSizeX_text'],
-                'minimum'     : 5,
-                'maximum'     : 150,
-                'snapInterval': 1,
-                'value'       : self.data['iconSizeX'],
-                'format'      : '{{value}}%s [47]' % self.i18n['UI_setting_iconSizeX_value'],
-                'varName'     : 'iconSizeX'
-            }, {
-                'type'        : 'Slider',
-                'text'        : self.i18n['UI_setting_iconSizeY_text'],
-                'minimum'     : 5,
-                'maximum'     : 150,
-                'snapInterval': 1,
-                'value'       : self.data['iconSizeY'],
-                'format'      : '{{value}}%s [16]' % self.i18n['UI_setting_iconSizeY_value'],
-                'varName'     : 'iconSizeY'
-            }],
-            'column2'        : [{
-                'type'        : 'Dropdown',
-                'text'        : self.i18n['UI_setting_messageColorSpotted_text'],
-                'tooltip'     : self.i18n['UI_setting_messageColorSpotted_tooltip'],
-                'itemRenderer': 'DropDownListItemRendererSound',
-                'options'     : self.generator_menu(),
-                'width'       : 200,
-                'value'       : self.data['messageColorSpotted'],
-                'varName'     : 'messageColorSpotted'
-            }, {
-                'type'        : 'Dropdown',
-                'text'        : self.i18n['UI_setting_messageColorAssistRadio_text'],
-                'tooltip'     : self.i18n['UI_setting_messageColorAssistRadio_tooltip'],
-                'itemRenderer': 'DropDownListItemRendererSound',
-                'options'     : self.generator_menu(),
-                'width'       : 200,
-                'value'       : self.data['messageColorAssistRadio'],
-                'varName'     : 'messageColorAssistRadio'
-            }, {
-                'type'        : 'Dropdown',
-                'text'        : self.i18n['UI_setting_messageColorAssistTrack_text'],
-                'tooltip'     : self.i18n['UI_setting_messageColorAssistTrack_tooltip'],
-                'itemRenderer': 'DropDownListItemRendererSound',
-                'options'     : self.generator_menu(),
-                'width'       : 200,
-                'value'       : self.data['messageColorAssistTrack'],
-                'varName'     : 'messageColorAssistTrack'
-            }, {
-                'type'        : 'Dropdown',
-                'text'        : self.i18n['UI_setting_messageColorAssistStun_text'],
-                'tooltip'     : self.i18n['UI_setting_messageColorAssistStun_tooltip'],
-                'itemRenderer': 'DropDownListItemRendererSound',
-                'options'     : self.generator_menu(),
-                'width'       : 200,
-                'value'       : self.data['messageColorAssistStun'],
-                'varName'     : 'messageColorAssistStun'
-            }]
-        }
+        return {'modDisplayName': self.i18n['UI_description'], 'settingsVersion': self.version_id, 'enabled': self.data['enabled'], 'column1': self._getLeftOptions(), 'column2': self._getRightOptions()}
 
-    def generator_menu(self):
-        res = []
-        for i in xrange(0, len(COLOR)):
-            res.append({
-                'label': '<font color="%s">%s</font>' % (COLOR[i], self.i18n[MENU[i]])
-            })
-        return res
+    def _getLeftOptions(self):
+        return [
+            g_gui.optionCheckBox('sound', self.data['sound'], self.i18n['UI_setting_sound_text'], self.i18n['UI_setting_sound_tooltip'], self.i18n['UI_setting_sound_default']),
+            g_gui.optionSlider('iconSizeX', self.data['iconSizeX'], 5, 150, 1, self.i18n['UI_setting_iconSizeX_text'], self.i18n['UI_setting_iconSizeX_value'], self.i18n['UI_setting_iconSizeX_tooltip'], self.i18n['UI_setting_iconSizeX_default']),
+            g_gui.optionSlider('iconSizeY', self.data['iconSizeY'], 5, 150, 1, self.i18n['UI_setting_iconSizeY_text'], self.i18n['UI_setting_iconSizeY_value'], self.i18n['UI_setting_iconSizeY_tooltip'], self.i18n['UI_setting_iconSizeY_default']),
+            g_gui.optionColorHEX('messageColorSpotted', self.data['messageColorSpotted'], self.i18n['UI_setting_messageColorSpotted_text'], self.i18n['UI_setting_messageColorSpotted_tooltip'], self.i18n['UI_setting_messageColorSpotted_default']),
+            g_gui.optionColorHEX('messageColorAssistRadio', self.data['messageColorAssistRadio'], self.i18n['UI_setting_messageColorAssistRadio_text'], self.i18n['UI_setting_messageColorAssistRadio_tooltip'], self.i18n['UI_setting_messageColorAssistRadio_default']),
+            g_gui.optionColorHEX('messageColorAssistTrack', self.data['messageColorAssistTrack'], self.i18n['UI_setting_messageColorAssistTrack_text'], self.i18n['UI_setting_messageColorAssistTrack_tooltip'], self.i18n['UI_setting_messageColorAssistTrack_default']),
+            g_gui.optionColorHEX('messageColorAssistStun', self.data['messageColorAssistStun'], self.i18n['UI_setting_messageColorAssistStun_text'], self.i18n['UI_setting_messageColorAssistStun_tooltip'], self.i18n['UI_setting_messageColorAssistStun_default']),
+            g_gui.optionTextInput('soundSpotted', self.data['soundSpotted'], self.i18n['UI_setting_soundSpotted_text'], self.i18n['UI_setting_soundSpotted_tooltip'], self.i18n['UI_setting_soundSpotted_default']),
+            g_gui.optionTextInput('soundAssist', self.data['soundAssist'], self.i18n['UI_setting_soundAssist_text'], self.i18n['UI_setting_soundAssist_tooltip'], self.i18n['UI_setting_soundAssist_default']),
+            g_gui.optionTextInput('macros_Spotted', self.data['macros_Spotted'], self.i18n['UI_message_Spotted_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_Spotted_default']),
+            g_gui.optionTextInput('macros_AssistRadio', self.data['macros_AssistRadio'], self.i18n['UI_message_AssistRadio_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_AssistRadio_default']),
+            g_gui.optionTextInput('macros_AssistTrack', self.data['macros_AssistTrack'], self.i18n['UI_message_AssistTrack_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_AssistTrack_default']),
+            g_gui.optionTextInput('macros_AssistStun', self.data['macros_AssistStun'], self.i18n['UI_message_AssistStun_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_AssistStun_default']),
+
+        ]
+
+    # noinspection PyMethodMayBeStatic
+    def _getRightOptions(self):
+        return []
 
     def apply(self, settings):
         self.data = g_gui.update_data(self.ids, settings, 'spoter')
@@ -180,7 +131,7 @@ class Assist(object):
     @staticmethod
     def check_macros(macros):
         for i in TEXT_LIST:
-            if macros in config.i18n[i]:
+            if macros in config.data[i]:
                 return True
 
     def format_recreate(self):
@@ -199,8 +150,8 @@ class Assist(object):
         BigWorld.player().soundNotifications.play(config.data[SOUND_LIST[assist_type]])
 
     def textGenerator(self, event):
-        text, color = GENERATOR[event]
-        return config.i18n[text].format(**self.format_str), COLOR[config.data[color]]
+        text, color, macros = GENERATOR[event]
+        return '%s%s' %(config.i18n[text], config.data[macros].format(**self.format_str)), config.data[color]
 
     def post_message(self, events):
         if not config.data['enabled']:
