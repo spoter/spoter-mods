@@ -23,8 +23,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.11 (2021-10-19)'
-        self.version_id = 411
+        self.version = 'v4.12 (2021-10-20)'
+        self.version_id = 412
         self.author = 'by spoter'
         self.data = {
             'version'                : self.version_id,
@@ -63,7 +63,7 @@ class Config(object):
             'UI_setting_iconSizeY_value'                : ' px.',
             'UI_setting_iconSizeY_tooltip'              : '',
             'UI_setting_iconSizeY_default'              : 'Default: %s' % self.data['iconSizeY'],
-            'UI_setting_messageColorSpotted_text'       : 'Color to message "Spotted',
+            'UI_setting_messageColorSpotted_text'       : 'Color to message "Spotted"',
             'UI_setting_messageColorSpotted_tooltip'    : '',
             'UI_setting_messageColorSpotted_default'    : 'Default: %s' % self.data['messageColorSpotted'],
             'UI_setting_messageColorAssistRadio_text'   : 'Color to message "Radio Hit Assist"',
@@ -105,18 +105,18 @@ class Config(object):
             g_gui.optionColorHEX('messageColorAssistRadio', self.data['messageColorAssistRadio'], self.i18n['UI_setting_messageColorAssistRadio_text'], self.i18n['UI_setting_messageColorAssistRadio_tooltip'], self.i18n['UI_setting_messageColorAssistRadio_default']),
             g_gui.optionColorHEX('messageColorAssistTrack', self.data['messageColorAssistTrack'], self.i18n['UI_setting_messageColorAssistTrack_text'], self.i18n['UI_setting_messageColorAssistTrack_tooltip'], self.i18n['UI_setting_messageColorAssistTrack_default']),
             g_gui.optionColorHEX('messageColorAssistStun', self.data['messageColorAssistStun'], self.i18n['UI_setting_messageColorAssistStun_text'], self.i18n['UI_setting_messageColorAssistStun_tooltip'], self.i18n['UI_setting_messageColorAssistStun_default']),
+        ]
+
+    # noinspection PyMethodMayBeStatic
+    def _getRightOptions(self):
+        return [
             g_gui.optionTextInput('soundSpotted', self.data['soundSpotted'], self.i18n['UI_setting_soundSpotted_text'], self.i18n['UI_setting_soundSpotted_tooltip'], self.i18n['UI_setting_soundSpotted_default']),
             g_gui.optionTextInput('soundAssist', self.data['soundAssist'], self.i18n['UI_setting_soundAssist_text'], self.i18n['UI_setting_soundAssist_tooltip'], self.i18n['UI_setting_soundAssist_default']),
             g_gui.optionTextInput('macros_Spotted', self.data['macros_Spotted'], self.i18n['UI_message_Spotted_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_Spotted_default']),
             g_gui.optionTextInput('macros_AssistRadio', self.data['macros_AssistRadio'], self.i18n['UI_message_AssistRadio_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_AssistRadio_default']),
             g_gui.optionTextInput('macros_AssistTrack', self.data['macros_AssistTrack'], self.i18n['UI_message_AssistTrack_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_AssistTrack_default']),
             g_gui.optionTextInput('macros_AssistStun', self.data['macros_AssistStun'], self.i18n['UI_message_AssistStun_description'], self.i18n['UI_message_macrosList'], self.i18n['UI_message_AssistStun_default']),
-
         ]
-
-    # noinspection PyMethodMayBeStatic
-    def _getRightOptions(self):
-        return []
 
     def apply(self, settings):
         self.data = g_gui.update_data(self.ids, settings, 'spoter')

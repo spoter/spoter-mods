@@ -31,7 +31,7 @@
     "UI_setting_messageColorAssistTrack_text": "Color to message \"Track Hit Assist\"",
     "UI_setting_messageColorAssistTrack_tooltip": "",
     "UI_setting_messageColorSpotted_default": "Default: #FF69B5",
-    "UI_setting_messageColorSpotted_text": "Color to message \"Spotted",
+    "UI_setting_messageColorSpotted_text": "Color to message \"Spotted\"",
     "UI_setting_messageColorSpotted_tooltip": "",
     "UI_setting_soundAssist_default": "Default: gun_intuition",
     "UI_setting_soundAssist_text": "ID sound to Assist",
@@ -42,5 +42,5 @@
     "UI_setting_sound_default": "Default: On",
     "UI_setting_sound_text": "Use sound in battle",
     "UI_setting_sound_tooltip": "",
-    "version": 411
+    "version": 412
 }
