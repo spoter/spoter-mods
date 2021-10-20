@@ -124,7 +124,7 @@
 
 #### Использование хуков на примере: Обработка нажатия кнопок, указанных в конфиге и сообщение для пользователя в этот момент
     from gui import InputHandler
-    import Keys
+    from Avatar import PlayerAvatar
 
     # регистрация событий нажатия и отпускания кнопки в начале боя
     @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
