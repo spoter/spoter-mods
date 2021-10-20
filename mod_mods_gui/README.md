@@ -126,6 +126,17 @@
     from gui import InputHandler
     from Avatar import PlayerAvatar
 
+    # Функция обработки нажатий
+    def injectButton(event):
+        if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
+            if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
+                repairChassis()
+                inject.message('Нужно больше золота', '#AABBCC')
+                # inject.message(message, color='#FFD700', type='PlayerMessages') вызываем сообщение над миникартой для игрока, type может быть 'VehicleMessages', 'VehicleErrorMessages', 'PlayerMessages'
+            if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
+                repairAll()
+                inject.message('Шахты истощены Милорд!')
+
     # регистрация событий нажатия и отпускания кнопки в начале боя
     @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
     @inject.log # включаем расширенное логирование, если необходимо
@@ -145,14 +156,3 @@
         InputHandler.g_instance.onKeyUp -= self.injectButton
         # возвращаем результат выполнения оригинальной функции
         return func(*args)
-
-    # Функция обработки нажатий
-    def injectButton(event):
-        if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
-            if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
-                repairChassis()
-                inject.message('Нужно больше золота', '#AABBCC')
-                # inject.message(message, color='#FFD700', type='PlayerMessages') вызываем сообщение над миникартой для игрока, type может быть 'VehicleMessages', 'VehicleErrorMessages', 'PlayerMessages'
-            if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
-                repairAll()
-                inject.message('Шахты истощены Милорд!')
