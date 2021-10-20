@@ -142,8 +142,8 @@
     @inject.log # включаем расширенное логирование, если необходимо
     def startBattle(func, *args):
         result = func(*args) #вызываем оригинальную функцию, после неё выполняем свои задачи
-        InputHandler.g_instance.onKeyDown += self.injectButton
-        InputHandler.g_instance.onKeyUp += self.injectButton
+        InputHandler.g_instance.onKeyDown += injectButton
+        InputHandler.g_instance.onKeyUp += injectButton
         #возвращаем обратно результат изначальной функции (можно внести изменения в результат на этом этапе, если необходимо)
         return result
 
@@ -152,7 +152,7 @@
     @inject.log # включаем расширенное логирование, если необходимо
     def stopBattle(func, *args):
         # Выполняем свои задачи до окончания боя, пока данные доступны
-        InputHandler.g_instance.onKeyDown -= self.injectButton
-        InputHandler.g_instance.onKeyUp -= self.injectButton
+        InputHandler.g_instance.onKeyDown -= injectButton
+        InputHandler.g_instance.onKeyUp -= injectButton
         # возвращаем результат выполнения оригинальной функции
         return func(*args)
