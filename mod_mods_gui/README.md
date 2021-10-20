@@ -5,7 +5,7 @@
 #### Импорт настроек
     from gui.mods.mod_mods_gui import g_gui, inject
     
-#### класс для хранения настроек и доступа к графическим настройкам в ангаре
+#### Класс для хранения настроек и доступа к графическим настройкам в ангаре
     class Config(object):
         def __init__(self):
             self.ids = 'modsName' # внутренний идентификатор мода, должен быть уникальным
@@ -17,7 +17,7 @@
                         'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]] # пример нажатия одной или другой кнопки, обычно используется для Альт, Контрол, Шифт
                         'buttonFire'   : [Keys.KEY_F, [Keys.KEY_LCTRL, Keys.KEY_RCTRL]] # пример нажатия кнопки одновременно с Контрол
             }
-            self.data = { # словарь настроек мода, имеет ДВА обязательных параметра, перезаписывает своё сдержимое на данные из json в папке конфигов, если совпадает версия
+            self.data = { # словарь настроек мода, имеет ДВА обязательных параметра, перезаписывает своё содержимое на данные из json в папке конфигов, если совпадает версия
                 'version'                : self.version_id, # обязательный параметр, используется для проверки конфигов игрока, если версии отличаются, текущий словарь используется как образец настроек по умолчанию и пересоздаёт конфиг на диске, перезаписывая настройки игрока
                 'enabled'                : True, # обязательный параметр, отвечает за включение или выключение мода
                 'sound'                  : True, # пример обычной настройки
@@ -60,15 +60,15 @@
             # 'modDisplayName' : отображаемое название мода
             # 'settingsVersion' : версия настроек, обновляет шаблон, если отличается от сохранённых.
             # 'enabled' : переключатель активности мода (вкл\выкл)
-            # 'column1' : список СЛЕВА с кнопками,меню,ползунками и т.д. можно генерировать функцией
-            # 'column2' : список СПРАВА с кнопками,меню,ползунками и т.д. можно генерировать функцией
+            # 'column1' : список СЛЕВА с кнопками, меню, ползунками и т.д. можно генерировать функцией
+            # 'column2' : список СПРАВА с кнопками, меню, ползунками и т.д. можно генерировать функцией
             def template(self):
                 return {'modDisplayName': self.i18n['UI_description'], 'settingsVersion': self.version_id, 'enabled': self.data['enabled'], 'column1': self._getLeftOptions(), 'column2': self._getRightOptions()}
 
-            # функциф генерации списка настроек в графической части            
+            # функция генерации списка настроек в графической части            
             def _getLeftOptions(self):
                 return [
-                    # пример создания: Текстовой метки, нерадактируемой
+                    # пример создания: Текстовой метки, нередактируемой
                     g_gui.optionLabel(self.i18n['UI_setting_currentCrew_label']),
                     # пример создания:  Переключатель (Вкл\Выкл)
                     g_gui.optionCheckBox('sound', self.data['sound'], self.i18n['UI_setting_sound_text'], self.i18n['UI_setting_sound_tooltip'], self.i18n['UI_setting_sound_default']),
@@ -85,7 +85,7 @@
                     # пример создания: Ввод и редактирования текстового параметра, ВНИМАНИЕ! проверок на корректность нет, если пользователь напишет с ошибками, то ничто ему не поможет, кроме пересоздания конфигов заново 
                     g_gui.optionTextInput('soundSpotted', self.data['soundSpotted'], self.i18n['UI_setting_soundSpotted_text'], self.i18n['UI_setting_soundSpotted_tooltip'], self.i18n['UI_setting_soundSpotted_default']),
                     g_gui.optionTextInput('spotted', self.data['spotted'], self.i18n['UI_setting_spotted_text'])
-                    # пример создания: Меню, результат в виде int от 0 до скольки укажете. поле в меню можно задавать с указанием цвета
+                    # пример создания: Меню, результат в виде int от 0 до значени, которое укажете. поле в меню можно задавать с указанием цвета
                     g_gui.optionMenu('translation', self.data['translation'], self.i18n['UI_setting_translation'], (('#00FF00', self.i18n['UI_setting_translation_en']), ('#8378FC', self.i18n['UI_setting_translation_ru']), ('#FF0000', self.i18n['UI_setting_translation_zh'])), self.i18n['UI_setting_translation_tooltip'], 200, self.i18n['UI_setting_translation_default']),
                     g_gui.optionMenu('selectParemeters', self.data['selectParemeters'], self.i18n['UI_setting_selectParemeters_text'], (self.i18n['UI_setting_selectParemeters_disabled_text'], self.i18n['UI_setting_selectParemeters_one_text'], self.i18n['UI_setting_selectParemeters_two_text']))
                     # пример создания: Кнопка, 
@@ -93,7 +93,7 @@
                     g_gui.optionButton('buttonSwitch', self.data['buttonSwitch'], self.i18n['UI_setting_buttonSwitch_text'])
                 ]
             
-            # функциф генерации списка настроек в графической части
+            # функция генерации списка настроек в графической части
             def _getRightOptions(self):
                 return [
                     # пример создания: 
@@ -114,7 +114,7 @@
                 # обновляем шаблон мода на новые значения после всех изменений
                 g_gui.update(self.ids, self.template)
 
-    # запускаме конфиг в теле мода
+    # запускаем конфиг в теле мода
     config = Config()
 
 
@@ -128,7 +128,7 @@
 
     # регистрация событий нажатия и отпускания кнопки в начале боя
     @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
-    @inject.log # включем расширенное логирование, если необходимо
+    @inject.log # включаем расширенное логирование, если необходимо
     def startBattle(func, *args):
         result = func(*args) #вызываем оригинальную функцию, после неё выполняем свои задачи
         InputHandler.g_instance.onKeyDown += self.injectButton
@@ -138,7 +138,7 @@
 
     # отмена регистрации событий нажатия и отпускания кнопки в конце боя
     @inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI') # хукаем функцию окончания боя
-    @inject.log # включем расширенное логирование, если необходимо
+    @inject.log # включаем расширенное логирование, если необходимо
     def stopBattle(func, *args):
         # Выполняем свои задачи до окончания боя, пока данные доступны
         InputHandler.g_instance.onKeyDown -= self.injectButton
@@ -146,13 +146,13 @@
         # возвращаем результат выполнения оригинальной функции
         return func(*args)
 
-    # Функциф обработки нажатий
+    # Функция обработки нажатий
     def injectButton(event):
         if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
-            if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверям что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
+            if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
                 repairChassis()
                 inject.message('Нужно больше золота', '#AABBCC')
                 # inject.message(message, color='#FFD700', type='PlayerMessages') вызываем сообщение над миникартой для игрока, type может быть 'VehicleMessages', 'VehicleErrorMessages', 'PlayerMessages'
-            if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверям что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
+            if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
                 repairAll()
                 inject.message('Шахты истощены Милорд!')
