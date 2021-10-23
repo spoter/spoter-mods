@@ -5,5 +5,5 @@
     "gui_enableButtonTooltip": "{HEADER}Настройки модов{/HEADER}{BODY}Вкл. | Выкл. и настроить моды{/BODY}",
     "gui_name": "МОДЫ - Настройки",
     "gui_windowTitle": "Настройки модов",
-    "version": 233
+    "version": 234
 }
