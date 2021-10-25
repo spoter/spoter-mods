@@ -137,7 +137,7 @@ from Avatar import PlayerAvatar
 
 # Функция обработки нажатий
 def injectButton(event):
-    if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
+    if inject.g_appLoader().getDefBattleApp() and config.data['enabled']: # проверяем что мы в бою и мод включен в настройках
         if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
             repairChassis() # выполняем нужное нам действие
             inject.message('Нужно больше золота', '#AABBCC')
