@@ -3,9 +3,12 @@
 #### Ядро для моих модов, графические настройки, хуки, ресурсы и т.д.
 ## Создание графических настроек:
 #### Импорт настроек
+'''python
     from gui.mods.mod_mods_gui import g_gui, inject
-    
+'''
+
 #### Класс для хранения настроек и доступа к графическим настройкам в ангаре
+'''python
     class Config(object):
         def __init__(self):
             self.ids = 'modsName' # внутренний идентификатор мода, должен быть уникальным
@@ -32,7 +35,6 @@
             }
             # регистрация json:             
             self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
-            
             # Использование:
             #   g_gui.register_data(unicID, data, translations, configFolder)  
             # где:
@@ -40,7 +42,6 @@
             #   dict(data) - словарь с настройками мода, в примере: self.data
             #   dict(translations) - словарь с текстами переводов мода, в примере: self.i18n
             #   str(configFolder) - название папки, где будет храниться мод и конфиги модов, в примере: 'spoter', /mods/1.14.1.0/spoter/modsName.wotmod /mods/configs/spoter/modsName.json
-            
             # Регистрация графических настроек            
             g_gui.register(self.ids, self.template, self.data, self.apply)
             # Использование:
@@ -50,10 +51,8 @@
             # template_function - функция, в которой задаётся шаблон для отображения настроек (название, версия, кнопки, ползунки и т.д.), в примере: self.template
             # data - словарь с настройками мода, в примере: self.data
             # callbackFunction - функция, в которую возвращаются изменения настроек из графической части, в примере: self.apply
-
             # сообщение в python.log об успешной загрузке мода
             print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
-
             # функция, в которой задаётся шаблон для отображения настроек
             # возвращает словарь
             # Обязательные параметры:
@@ -64,7 +63,6 @@
             # 'column2' : список СПРАВА с кнопками, меню, ползунками и т.д. можно генерировать функцией
             def template(self):
                 return {'modDisplayName': self.i18n['UI_description'], 'settingsVersion': self.version_id, 'enabled': self.data['enabled'], 'column1': self._getLeftOptions(), 'column2': self._getRightOptions()}
-
             # функция генерации списка настроек в графической части            
             def _getLeftOptions(self):
                 return [
@@ -92,7 +90,6 @@
                     g_gui.optionButton('button', self.data['button'], self.i18n['UI_setting_button_text'], self.i18n['UI_setting_button_tooltip'], self.i18n['UI_setting_button_default'])
                     g_gui.optionButton('buttonSwitch', self.data['buttonSwitch'], self.i18n['UI_setting_buttonSwitch_text'])
                 ]
-            
             # функция генерации списка настроек в графической части
             def _getRightOptions(self):
                 return [
@@ -106,26 +103,25 @@
                     g_gui.optionMenu(varName, value, text, menu, tooltip='', width=200, defaultValue='')
                     g_gui.optionButton(varName, value, text, tooltip='', defaultValue='')
                 ]
-            
             #функция, в которую возвращаются изменения настроек из графической части в виде словаря settings
             def apply(self, settings):
                 # обновляем словарь мода, на полученные значения в моде и в json на диск
                 self.data = g_gui.update_data(self.ids, settings, 'spoter')
                 # обновляем шаблон мода на новые значения после всех изменений
                 g_gui.update(self.ids, self.template)
-
     # запускаем конфиг в теле мода
     config = Config()
-
+'''
 
 ## Пример работы с параметрами в моде, после инициации класса Config
 #### Проверка на включен мод или выключен
+'''python
     if config.data['enabled']:
-
+'''
 #### Использование хуков на примере: Обработка нажатия кнопок, указанных в конфиге и сообщение для пользователя в этот момент
+'''python
     from gui import InputHandler
     from Avatar import PlayerAvatar
-
     # Функция обработки нажатий
     def injectButton(event):
         if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
@@ -136,7 +132,6 @@
             if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
                 repairAll()
                 inject.message('Шахты истощены Милорд!')
-
     # регистрация событий нажатия и отпускания кнопки в начале боя
     @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
     @inject.log # включаем расширенное логирование, если необходимо
@@ -146,7 +141,6 @@
         InputHandler.g_instance.onKeyUp += injectButton
         #возвращаем обратно результат изначальной функции (можно внести изменения в результат на этом этапе, если необходимо)
         return result
-
     # отмена регистрации событий нажатия и отпускания кнопки в конце боя
     @inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI') # хукаем функцию окончания боя
     @inject.log # включаем расширенное логирование, если необходимо
@@ -156,3 +150,4 @@
         InputHandler.g_instance.onKeyUp -= injectButton
         # возвращаем результат выполнения оригинальной функции
         return func(*args)
+'''
