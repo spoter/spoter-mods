@@ -75,6 +75,7 @@ class Config(object):
         def _getLeftOptions(self):
             return [
                 # пример создания: Текстовой метки, нередактируемой
+                g_gui.optionLabel(self.i18n['UI_setting_textMark_text'], self.i18n['UI_setting_textMark_tooltip']),
                 g_gui.optionLabel(self.i18n['UI_setting_currentCrew_label']),
                 # пример создания:  Переключатель (Вкл\Выкл)
                 g_gui.optionCheckBox('sound', self.data['sound'], self.i18n['UI_setting_sound_text'], self.i18n['UI_setting_sound_tooltip'], self.i18n['UI_setting_sound_default']),
