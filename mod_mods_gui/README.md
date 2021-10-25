@@ -145,6 +145,7 @@ def injectButton(event):
         if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
             repairAll() # выполняем нужное нам действие
             inject.message('Шахты истощены Милорд!')
+
 # регистрация событий нажатия и отпускания кнопки в начале боя
 @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
 @inject.log # включаем расширенное логирование, если необходимо
@@ -154,6 +155,7 @@ def startBattle(func, *args):
     InputHandler.g_instance.onKeyUp += injectButton
     #возвращаем обратно результат изначальной функции (можно внести изменения в результат на этом этапе, если необходимо)
     return result
+
 # отмена регистрации событий нажатия и отпускания кнопки в конце боя
 @inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI') # хукаем функцию окончания боя
 @inject.log # включаем расширенное логирование, если необходимо
