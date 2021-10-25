@@ -82,36 +82,36 @@ class Config(object):
                 g_gui.optionCheckBox('soundOther', self.data['soundOther'], self.i18n['UI_setting_soundOther_text']),
                 # пример создания:  Ползунок, значение float, от минимума, до максимума, с шагом
                 g_gui.optionSlider('iconSizeX', self.data['iconSizeX'], 5, 150, 1, self.i18n['UI_setting_iconSizeX_text'], self.i18n['UI_setting_iconSizeX_value'], self.i18n['UI_setting_iconSizeX_tooltip'], self.i18n['UI_setting_iconSizeX_default']),
-                g_gui.optionSlider('iconSizeY', self.data['iconSizeY'], 5, 150, 1, self.i18n['UI_setting_iconSizeY_text'], self.i18n['UI_setting_iconSizeY_value'])
+                g_gui.optionSlider('iconSizeY', self.data['iconSizeY'], 5, 150, 1, self.i18n['UI_setting_iconSizeY_text'], self.i18n['UI_setting_iconSizeY_value']),
                 # пример создания: Выбор цвета, формат '#AABBCC'
                 g_gui.optionColorHEX('currentColorBattle', self.data['currentColorBattle'], self.i18n['UI_setting_currentColorBattle_text'], self.i18n['UI_setting_currentColorBattle_tooltip'], self.i18n['UI_setting_currentColorBattle_default']),
                 g_gui.optionColorHEX('currentColorBattle1', self.data['currentColorBattle1'], self.i18n['UI_setting_currentColorBattle1_text'])
                 # пример создания: Выбор цвета с указанием прозрачности, формат '#AABBCCFF'
                 g_gui.optionColorHEXA('currentColorBattleA', self.data['currentColorBattleA'], self.i18n['UI_setting_currentColorBattleA_text'], self.i18n['UI_setting_currentColorBattleA_tooltip'], self.i18n['UI_setting_currentColorBattleA_default']),
-                g_gui.optionColorHEXA('currentColor', self.data['currentColor'], self.i18n['UI_setting_currentColor_text'])
+                g_gui.optionColorHEXA('currentColor', self.data['currentColor'], self.i18n['UI_setting_currentColor_text']),
                 # пример создания: Ввод и редактирования текстового параметра, ВНИМАНИЕ! проверок на корректность нет, если пользователь напишет с ошибками, то ничто ему не поможет, кроме пересоздания конфигов заново 
                 g_gui.optionTextInput('soundSpotted', self.data['soundSpotted'], self.i18n['UI_setting_soundSpotted_text'], self.i18n['UI_setting_soundSpotted_tooltip'], self.i18n['UI_setting_soundSpotted_default']),
-                g_gui.optionTextInput('spotted', self.data['spotted'], self.i18n['UI_setting_spotted_text'])
+                g_gui.optionTextInput('spotted', self.data['spotted'], self.i18n['UI_setting_spotted_text']),
                 # пример создания: Меню, результат в виде int от 0 до значени, которое укажете. поле в меню можно задавать с указанием цвета
                 g_gui.optionMenu('translation', self.data['translation'], self.i18n['UI_setting_translation'], (('#00FF00', self.i18n['UI_setting_translation_en']), ('#8378FC', self.i18n['UI_setting_translation_ru']), ('#FF0000', self.i18n['UI_setting_translation_zh'])), self.i18n['UI_setting_translation_tooltip'], 200, self.i18n['UI_setting_translation_default']),
-                g_gui.optionMenu('selectParemeters', self.data['selectParemeters'], self.i18n['UI_setting_selectParemeters_text'], (self.i18n['UI_setting_selectParemeters_disabled_text'], self.i18n['UI_setting_selectParemeters_one_text'], self.i18n['UI_setting_selectParemeters_two_text']))
+                g_gui.optionMenu('selectParemeters', self.data['selectParemeters'], self.i18n['UI_setting_selectParemeters_text'], (self.i18n['UI_setting_selectParemeters_disabled_text'], self.i18n['UI_setting_selectParemeters_one_text'], self.i18n['UI_setting_selectParemeters_two_text'])),
                 # пример создания: Кнопка, 
-                g_gui.optionButton('button', self.data['button'], self.i18n['UI_setting_button_text'], self.i18n['UI_setting_button_tooltip'], self.i18n['UI_setting_button_default'])
-                g_gui.optionButton('buttonSwitch', self.data['buttonSwitch'], self.i18n['UI_setting_buttonSwitch_text'])
+                g_gui.optionButton('button', self.data['button'], self.i18n['UI_setting_button_text'], self.i18n['UI_setting_button_tooltip'], self.i18n['UI_setting_button_default']),
+                g_gui.optionButton('buttonSwitch', self.data['buttonSwitch'], self.i18n['UI_setting_buttonSwitch_text']),
             ]
         
         # функция генерации списка настроек в графической части
         def _getRightOptions(self):
             return [
                 # пример создания: 
-                g_gui.optionLabel(text, tooltip='')
-                g_gui.optionCheckBox(varName, value, text, tooltip='', defaultValue='')
-                g_gui.optionSlider(varName, value, minValue, maxValue, step, text, formats, tooltip='', defaultValue='')
-                g_gui.optionColorHEX(varName, value, text, tooltip='', defaultValue='')
-                g_gui.optionColorHEXA(varName, value, text, tooltip='', defaultValue='')
-                g_gui.optionTextInput(varName, value, text, tooltip='', defaultValue='')
-                g_gui.optionMenu(varName, value, text, menu, tooltip='', width=200, defaultValue='')
-                g_gui.optionButton(varName, value, text, tooltip='', defaultValue='')
+                g_gui.optionLabel(text, tooltip=''),
+                g_gui.optionCheckBox(varName, value, text, tooltip='', defaultValue=''),
+                g_gui.optionSlider(varName, value, minValue, maxValue, step, text, formats, tooltip='', defaultValue=''),
+                g_gui.optionColorHEX(varName, value, text, tooltip='', defaultValue=''),
+                g_gui.optionColorHEXA(varName, value, text, tooltip='', defaultValue=''),
+                g_gui.optionTextInput(varName, value, text, tooltip='', defaultValue=''),
+                g_gui.optionMenu(varName, value, text, menu, tooltip='', width=200, defaultValue=''),
+                g_gui.optionButton(varName, value, text, tooltip='', defaultValue=''),
             ]
         
         #функция, в которую возвращаются изменения настроек из графической части в виде словаря settings
