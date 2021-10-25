@@ -134,7 +134,6 @@ if config.data['enabled']:
 ```python
 from gui import InputHandler
 from Avatar import PlayerAvatar
-from gui.mods.mod_mods_gui import g_gui, inject
 
 # Функция обработки нажатий
 def injectButton(event):
