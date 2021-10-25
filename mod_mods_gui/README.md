@@ -127,39 +127,41 @@ config = Config()
 ## Пример работы с параметрами в моде, после инициации класса Config
 #### Проверка на включен мод или выключен
 ```python
-    if config.data['enabled']:
+if config.data['enabled']:
 ```
 
 #### Использование хуков на примере: Обработка нажатия кнопок, указанных в конфиге и сообщение для пользователя в этот момент
 ```python
-    from gui import InputHandler
-    from Avatar import PlayerAvatar
-    # Функция обработки нажатий
-    def injectButton(event):
-        if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
-            if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
-                repairChassis()
-                inject.message('Нужно больше золота', '#AABBCC')
-                # inject.message(message, color='#FFD700', type='PlayerMessages') вызываем сообщение над миникартой для игрока, type может быть 'VehicleMessages', 'VehicleErrorMessages', 'PlayerMessages'
-            if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
-                repairAll()
-                inject.message('Шахты истощены Милорд!')
-    # регистрация событий нажатия и отпускания кнопки в начале боя
-    @inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
-    @inject.log # включаем расширенное логирование, если необходимо
-    def startBattle(func, *args):
-        result = func(*args) #вызываем оригинальную функцию, после неё выполняем свои задачи
-        InputHandler.g_instance.onKeyDown += injectButton
-        InputHandler.g_instance.onKeyUp += injectButton
-        #возвращаем обратно результат изначальной функции (можно внести изменения в результат на этом этапе, если необходимо)
-        return result
-    # отмена регистрации событий нажатия и отпускания кнопки в конце боя
-    @inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI') # хукаем функцию окончания боя
-    @inject.log # включаем расширенное логирование, если необходимо
-    def stopBattle(func, *args):
-        # Выполняем свои задачи до окончания боя, пока данные доступны
-        InputHandler.g_instance.onKeyDown -= injectButton
-        InputHandler.g_instance.onKeyUp -= injectButton
-        # возвращаем результат выполнения оригинальной функции
-        return func(*args)
+from gui import InputHandler
+from Avatar import PlayerAvatar
+from gui.mods.mod_mods_gui import g_gui, inject
+
+# Функция обработки нажатий
+def injectButton(event):
+    if inject.g_appLoader().getDefBattleApp(): # проверяем что мы в бою
+        if g_gui.get_key(config.data['buttonChassis']) and event.isKeyDown(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент нажатия кнопки
+            repairChassis() # выполняем нужное нам действие
+            inject.message('Нужно больше золота', '#AABBCC')
+            # inject.message(message, color='#FFD700', type='PlayerMessages') вызываем сообщение над миникартой для игрока, type может быть 'VehicleMessages', 'VehicleErrorMessages', 'PlayerMessages'
+        if g_gui.get_key(config.data['buttonRepair']) and event.isKeyUp(): # проверяем что нужная нам кнопка или несколько кнопок нажаты, выполняем действия в момент отпускания кнопки
+            repairAll() # выполняем нужное нам действие
+            inject.message('Шахты истощены Милорд!')
+# регистрация событий нажатия и отпускания кнопки в начале боя
+@inject.hook(PlayerAvatar, '_PlayerAvatar__startGUI') # хукаем функцию создания боя
+@inject.log # включаем расширенное логирование, если необходимо
+def startBattle(func, *args):
+    result = func(*args) #вызываем оригинальную функцию, после неё выполняем свои задачи
+    InputHandler.g_instance.onKeyDown += injectButton
+    InputHandler.g_instance.onKeyUp += injectButton
+    #возвращаем обратно результат изначальной функции (можно внести изменения в результат на этом этапе, если необходимо)
+    return result
+# отмена регистрации событий нажатия и отпускания кнопки в конце боя
+@inject.hook(PlayerAvatar, '_PlayerAvatar__destroyGUI') # хукаем функцию окончания боя
+@inject.log # включаем расширенное логирование, если необходимо
+def stopBattle(func, *args):
+    # Выполняем свои задачи до окончания боя, пока данные доступны
+    InputHandler.g_instance.onKeyDown -= injectButton
+    InputHandler.g_instance.onKeyUp -= injectButton
+    # возвращаем результат выполнения оригинальной функции
+    return func(*args)
 ```
