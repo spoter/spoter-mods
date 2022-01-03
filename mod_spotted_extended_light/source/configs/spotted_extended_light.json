@@ -1,11 +1,11 @@
 ﻿{
+    "AssistRadio": "{vehicles}{damage}",
+    "AssistStun": "{vehicles}{damage}",
+    "AssistTrack": "{vehicles}{damage}",
+    "Spotted": "{vehicles}",
     "enabled": true,
     "iconSizeX": 47,
     "iconSizeY": 16,
-    "macros_AssistRadio": "{vehicles}{damage}",
-    "macros_AssistStun": "{vehicles}{damage}",
-    "macros_AssistTrack": "{vehicles}{damage}",
-    "macros_Spotted": "{vehicles}",
     "messageColorAssistRadio": "#28F09C",
     "messageColorAssistStun": "#00FFFF",
     "messageColorAssistTrack": "#00FF00",
@@ -13,5 +13,5 @@
     "sound": true,
     "soundAssist": "gun_intuition",
     "soundSpotted": "enemy_sighted_for_team",
-    "version": 412
+    "version": 413
 }
