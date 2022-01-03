@@ -1,18 +1,15 @@
 ﻿{
     "UI_description": "银币收益计算",
     "UI_setting_battleBackground_text": "在战斗中的消耗",
-    "UI_setting_battleBackground_tooltip": "",
-    "UI_setting_battleShow_text": "在机库中显示",
-    "UI_setting_battleShow_tooltip": "",
+    "UI_setting_hangarShow_text": "在机库中显示",
     "UI_setting_hangarBackground_text": "机库的背景",
-    "UI_setting_hangarBackground_tooltip": "",
-    "UI_setting_hangarShow_text": "显示在战斗中",
-    "UI_setting_hangarShow_tooltip": "",
+    "UI_setting_battleShow_text": "显示在战斗中",
     "UI_setting_label1_text": "等到战斗结束返回到机库. 收益：绿色为胜利, 红色为失败, 结果: 弹药和消耗品.",
-    "UI_setting_label1_tooltip": "",
     "UI_setting_label2_text": "战斗中的详细情报:按Alt和Control按钮",
-    "UI_setting_label2_tooltip": "",
     "UI_setting_label_text": "在战斗中的得分, +1000或-1000银币差额: 这是正常的分数, 如果更好的: 发挥战斗造成损伤.",
-    "UI_setting_label_tooltip": "",
-    "version": 207
+    "UI_setting_battle_x_text": "战斗文本位置: X",
+    "UI_setting_battle_y_text": "战斗文本位置: Y",
+    "UI_setting_hangar_x_text": "机库文本位置: X",
+    "UI_setting_hangar_y_text": "机库文本位置: Y",
+    "version": 208
 }

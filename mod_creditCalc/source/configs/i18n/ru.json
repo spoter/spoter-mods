@@ -1,12 +1,15 @@
 ﻿{
     "UI_description": "creditCalc",
-    "UI_setting_background_text": "Задний фон в бою.",
-    "UI_setting_background_tooltip": "",
+    "UI_setting_battleBackground_text": "Задний фон в бою",
+    "UI_setting_battleShow_text": "Показывать в бою",
+    "UI_setting_hangarBackground_text": "Задний фон в ангаре",
+    "UI_setting_hangarShow_text": "Показывать в ангаре",
     "UI_setting_label1_text": "Дождитесь завершения боя без выхода в ангар. Доход: Зеленый победа, Красный поражение, Расходы: цена снарядов и расходников",
-    "UI_setting_label1_tooltip": "",
     "UI_setting_label2_text": "Дополнительная информация в бою: Нажмите кнопки АЛЬТ и КОНТРОЛ",
-    "UI_setting_label2_tooltip": "",
     "UI_setting_label_text": "Калькуляция серебра в бою, +1000 или -1000 разницы: Нормальный разброс, если разброс больше, проведите один бой без урона",
-    "UI_setting_label_tooltip": "",
-    "version": 207
+    "UI_setting_battle_x_text": "Позиция текста в бою: X",
+    "UI_setting_battle_y_text": "Позиция текста в бою: Y",
+    "UI_setting_hangar_x_text": "Позиция текста в ангаре: X",
+    "UI_setting_hangar_y_text": "Позиция текста в ангаре: Y",
+    "version": 208
 }

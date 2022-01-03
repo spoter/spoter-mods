@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.14.1.0'
+CLIENT_VERSION = '1.15.0.0'
 NAME = 'b4it.creditCalc'
 ADD_LICENSE = True
 
