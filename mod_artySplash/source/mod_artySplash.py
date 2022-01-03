@@ -18,14 +18,14 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.14 (2021-07-10)'
+        self.version = 'v2.15 (2022-01-03)'
         self.author = 'by spoter'
-        self.version_id = 214
+        self.version_id = 215
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
         }
-        self.data = {
+        self.dataDefault = {
             'version'            : self.version_id,
             'enabled'            : True,
             'buttonShowDot'      : self.buttons['buttonShowDot'],
@@ -39,83 +39,53 @@ class Config(object):
             'modelPathDot'       : 'objects/artyDot.model'
         }
         self.i18n = {
-            'version'                                  : self.version_id,
-            'UI_artySplash_name'                       : 'HE Splash',
-            'UI_artySplash_buttonShowDot_text'         : 'Button: show/hide Dot',
-            'UI_artySplash_buttonShowDot_tooltip'      : '',
-            'UI_artySplash_buttonShowSplash_text'      : 'Button: show/hide Splash',
-            'UI_artySplash_buttonShowSplash_tooltip'   : '',
-            'UI_artySplash_showSplashOnDefault_text'   : 'Show Splash on default',
-            'UI_artySplash_showSplashOnDefault_tooltip': '',
-            'UI_artySplash_showDotOnDefault_text'      : 'Show Dot on default',
-            'UI_artySplash_showDotOnDefault_tooltip'   : '',
-            'UI_artySplash_showModeArcade_text'        : 'Arcade mode available',
-            'UI_artySplash_showModeArcade_tooltip'     : '',
-            'UI_artySplash_showModeSniper_text'        : 'Sniper mode available',
-            'UI_artySplash_showModeSniper_tooltip'     : '',
-            'UI_artySplash_showModeArty_text'          : 'Arty mode available',
-            'UI_artySplash_showModeArty_tooltip'       : '',
-            'UI_artySplash_messageSplashOn'            : 'HE Splash: Show Splash',
-            'UI_artySplash_messageSplashOff'           : 'HE Splash: Hide Splash',
-            'UI_artySplash_messageDotOn'               : 'HE Splash: Show Dot',
-            'UI_artySplash_messageDotOff'              : 'HE Splash: Hide Dot'
+            'version'                            : self.version_id,
+            'UI_setting_name'                    : 'HE Splash',
+            'UI_setting_buttonShowDot_text'      : 'Button: show/hide Dot',
+            'UI_setting_buttonShowSplash_text'   : 'Button: show/hide Splash',
+            'UI_setting_showSplashOnDefault_text': 'Show Splash on default',
+            'UI_setting_showDotOnDefault_text'   : 'Show Dot on default',
+            'UI_setting_showModeArcade_text'     : 'Arcade mode available',
+            'UI_setting_showModeSniper_text'     : 'Sniper mode available',
+            'UI_setting_showModeArty_text'       : 'Arty mode available',
+            'UI_setting_messageSplashOn'         : 'HE Splash: Show Splash',
+            'UI_setting_messageSplashOff'        : 'HE Splash: Hide Splash',
+            'UI_setting_messageDotOn'            : 'HE Splash: Show Dot',
+            'UI_setting_messageDotOff'           : 'HE Splash: Hide Dot',
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
+        self.data, self.i18n = g_gui.register_data(self.ids, self.dataDefault, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
     def template(self):
         return {
-            'modDisplayName' : self.i18n['UI_artySplash_name'],
+            'modDisplayName' : self.i18n['UI_setting_name'],
             'settingsVersion': self.version,
             'enabled'        : self.data['enabled'],
-            'column1'        : [{
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_artySplash_showSplashOnDefault_text'],
-                'value'  : self.data['showSplashOnDefault'],
-                'tooltip': self.i18n['UI_artySplash_showSplashOnDefault_tooltip'],
-                'varName': 'showSplashOnDefault'
-            }, {
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_artySplash_showDotOnDefault_text'],
-                'value'  : self.data['showDotOnDefault'],
-                'tooltip': self.i18n['UI_artySplash_showDotOnDefault_tooltip'],
-                'varName': 'showDotOnDefault'
-            }, {
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_artySplash_showModeArcade_text'],
-                'value'  : self.data['showModeArcade'],
-                'tooltip': self.i18n['UI_artySplash_showModeArcade_tooltip'],
-                'varName': 'showModeArcade'
-            }, {
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_artySplash_showModeSniper_text'],
-                'value'  : self.data['showModeSniper'],
-                'tooltip': self.i18n['UI_artySplash_showModeSniper_tooltip'],
-                'varName': 'showModeSniper'
-            }, {
-                'type'   : 'CheckBox',
-                'text'   : self.i18n['UI_artySplash_showModeArty_text'],
-                'value'  : self.data['showModeArty'],
-                'tooltip': self.i18n['UI_artySplash_showModeArty_tooltip'],
-                'varName': 'showModeArty'
-            }],
-            'column2'        : [{
-                'type'        : 'HotKey',
-                'text'        : self.i18n['UI_artySplash_buttonShowSplash_text'],
-                'tooltip'     : self.i18n['UI_artySplash_buttonShowSplash_tooltip'],
-                'value'       : self.data['buttonShowSplash'],
-                'defaultValue': self.buttons['buttonShowSplash'],
-                'varName'     : 'buttonShowSplash'
-            }, {
-                'type'        : 'HotKey',
-                'text'        : self.i18n['UI_artySplash_buttonShowDot_text'],
-                'tooltip'     : self.i18n['UI_artySplash_buttonShowDot_tooltip'],
-                'value'       : self.data['buttonShowDot'],
-                'defaultValue': self.buttons['buttonShowDot'],
-                'varName'     : 'buttonShowDot'
-            }]
+            'column1'        : [
+                g_gui.optionCheckBox(*self.getI18nParam('showSplashOnDefault')),
+                g_gui.optionCheckBox(*self.getI18nParam('showDotOnDefault')),
+                g_gui.optionCheckBox(*self.getI18nParam('showModeArcade')),
+                g_gui.optionCheckBox(*self.getI18nParam('showModeSniper')),
+                g_gui.optionCheckBox(*self.getI18nParam('showModeArty')),
+            ],
+            'column2'        : [
+                g_gui.optionButton(*self.getI18nParamButton('buttonShowSplash', 'Alt+Z')),
+                g_gui.optionButton(*self.getI18nParamButton('buttonShowDot', 'Alt+C')),
+            ]
         }
+
+    def getI18nParam(self, name):
+        # return varName, value, defaultValue, text, tooltip, defaultValueText
+        tooltip = 'UI_setting_%s_tooltip' % name
+        tooltip = self.i18n[tooltip] if tooltip in self.i18n else ''
+        defaultValueText = 'UI_setting_%s_default' % name
+        defaultValueText = self.i18n[defaultValueText] if defaultValueText in self.i18n else '%s' % self.dataDefault[name]
+        return name, self.data[name], self.dataDefault[name], self.i18n['UI_setting_%s_text' % name], tooltip, defaultValueText
+
+    def getI18nParamButton(self, name, defaultValueText):
+        params = self.getI18nParam(name)
+        return params[:5] + (defaultValueText,)
 
     def apply(self, settings):
         self.data = g_gui.update_data(self.ids, settings, 'spoter')
@@ -235,7 +205,7 @@ class ArtyBall(object):
         if g_gui.get_key(config.data['buttonShowSplash']) and event.isKeyDown():
             self.modelSplashKeyPressed = True
             self.modelSplashVisible = not self.modelSplashVisible
-            message = config.i18n['UI_artySplash_messageSplashOn'] if self.modelSplashVisible else config.i18n['UI_artySplash_messageSplashOff']
+            message = config.i18n['UI_setting_messageSplashOn'] if self.modelSplashVisible else config.i18n['UI_setting_messageSplashOff']
             color = '#84DE40' if self.modelSplashVisible else '#FFA500'
             inject.message(message, color)
             self.setVisible()
@@ -243,7 +213,7 @@ class ArtyBall(object):
         if g_gui.get_key(config.data['buttonShowDot']) and event.isKeyDown():
             self.modelDotKeyPressed = True
             self.modelDotVisible = not self.modelDotVisible
-            message = config.i18n['UI_artySplash_messageDotOn'] if self.modelDotVisible else config.i18n['UI_artySplash_messageDotOff']
+            message = config.i18n['UI_setting_messageDotOn'] if self.modelDotVisible else config.i18n['UI_setting_messageDotOff']
             color = '#84DE40' if self.modelDotVisible else '#FFA500'
             inject.message(message, color)
             self.setVisible()
