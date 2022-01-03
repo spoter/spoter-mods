@@ -1,8 +1,8 @@
 ﻿{
-    "colorNewbie": 11,
-    "colorNewbieSpammer": 23,
-    "colorTwink": 6,
-    "colorTwinkSpammer": 23,
+    "colorNewbie": "#00FF00",
+    "colorNewbieSpammer": "#FE7903",
+    "colorTwink": "#28F09C",
+    "colorTwinkSpammer": "#FE7903",
     "enabled": true,
     "newbieDays": 30,
     "newbieWinRate": 46.0,
@@ -11,5 +11,5 @@
     "showTwink": true,
     "showWinRate": true,
     "twinkBattles": 5.0,
-    "version": 106
+    "version": 201
 }

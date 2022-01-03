@@ -7,30 +7,21 @@ import urllib2
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
 
-import Keys
-from gui import InputHandler
-from messenger import MessengerEntry
 # noinspection PyProtectedMember
 from messenger.gui.Scaleform.channels.bw.lobby_controllers import _ChannelController
-# noinspection PyProtectedMember
-from messenger.proto.bw_chat2.battle_chat_cmd import _OutCmdDecorator
-from messenger_common_chat2 import messageArgs
 
 COLORS = ['#FE0E00', '#FE7903', '#F8F400', '#60FF00', '#02C9B3', '#D042F3']
 WIN = [0.0, 46.5, 48.5, 52.5, 57.5, 64.5]
 BATTLES = [0.0, 2.0, 6.0, 16.0, 30.0, 43.0]
-COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FA8072', '#FE0E00', '#FE7903', '#F8F400', '#60FF00', '#02C9B3', '#D042F3']
-MENU = ['UI_color_blue', 'UI_color_brown', 'UI_color_chocolate', 'UI_color_cornflower_blue', 'UI_color_cream', 'UI_color_cyan', 'UI_color_emerald', 'UI_color_gold', 'UI_color_green', 'UI_color_green_yellow', 'UI_color_hot_pink', 'UI_color_lime',
-        'UI_color_orange', 'UI_color_pink', 'UI_color_purple', 'UI_color_red', 'UI_color_wg_blur', 'UI_color_wg_enemy', 'UI_color_wg_friend', 'UI_color_wg_squad', 'UI_color_yellow', 'UI_color_nice_red', 'UI_color_very_bad', 'UI_color_bad', 'UI_color_normal', 'UI_color_good', 'UI_color_very_good', 'UI_color_unique']
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v1.06 (2021-07-10)'
-        self.version_id = 106
+        self.version = 'v2.01 (2022-01-03)'
+        self.version_id = 201
         self.author = 'by spoter'
-        self.data = {
+        self.dataDefault = {
             'version'           : self.version_id,
             'enabled'           : True,
             'newbieDays'        : 30,
@@ -40,10 +31,10 @@ class Config(object):
             'showTwink'         : True,
             'showWinRate'       : True,
             'showBattles'       : True,
-            'colorNewbie'       : 11,
-            'colorNewbieSpammer': 23,
-            'colorTwink'        : 6,
-            'colorTwinkSpammer' : 23
+            'colorNewbie'       : '#00FF00',
+            'colorNewbieSpammer': '#FE7903',
+            'colorTwink'        : '#28F09C',
+            'colorTwinkSpammer' : '#FE7903'
         }
         self.i18n = {
             'version'                              : self.version_id,
@@ -57,11 +48,11 @@ class Config(object):
             'UI_setting_showBattles_text'          : 'Show Battles to user in chat',
             'UI_setting_showBattles_tooltip'       : '',
             'UI_setting_newbieDays_text'           : 'How long is a newbie',
-            'UI_setting_newbieDays_value'          : ' day\'s',
+            'UI_setting_newbieDays_formats'        : ' day\'s',
             'UI_setting_newbieWinRate_text'        : 'Newbie winRate status',
-            'UI_setting_newbieWinRate_value'       : '%',
+            'UI_setting_newbieWinRate_formats'     : '%',
             'UI_setting_twinkBattles_text'         : 'Twink battles status',
-            'UI_setting_twinkBattles_value'        : 'k',
+            'UI_setting_twinkBattles_formats'      : 'k',
             'UI_setting_colorNewbie_text'          : 'Newbie Color in chat',
             'UI_setting_colorNewbie_tooltip'       : '',
             'UI_setting_colorNewbieSpammer_text'   : 'Newbie Spammer Color in chat',
@@ -72,38 +63,8 @@ class Config(object):
             'UI_setting_colorTwinkSpammer_tooltip' : '{HEADER}<font color="#FFD700">Info:</font>{/HEADER}{BODY}Spammer status:\n<font color="#FFD700">0% WinRate</font>{/BODY}',
             'UI_chat_winRate'                      : '[{winRate}]',
             'UI_chat_battles'                      : '[{battles}]',
-            'UI_color_blue'                        : 'Blue',
-            'UI_color_brown'                       : 'Brown',
-            'UI_color_chocolate'                   : 'Chocolate',
-            'UI_color_cornflower_blue'             : 'Cornflower Blue',
-            'UI_color_cream'                       : 'Cream',
-            'UI_color_cyan'                        : 'Cyan',
-            'UI_color_emerald'                     : 'Emerald',
-            'UI_color_gold'                        : 'Gold',
-            'UI_color_green'                       : 'Green',
-            'UI_color_green_yellow'                : 'Green Yellow',
-            'UI_color_hot_pink'                    : 'Hot Pink',
-            'UI_color_lime'                        : 'Lime',
-            'UI_color_orange'                      : 'Orange',
-            'UI_color_pink'                        : 'Pink',
-            'UI_color_purple'                      : 'Purple',
-            'UI_color_red'                         : 'Red',
-            'UI_color_wg_blur'                     : 'WG Blur',
-            'UI_color_wg_enemy'                    : 'WG Enemy',
-            'UI_color_wg_friend'                   : 'WG Friend',
-            'UI_color_wg_squad'                    : 'WG Squad',
-            'UI_color_yellow'                      : 'Yellow',
-            'UI_color_nice_red'                    : 'Nice Red',
-            'UI_color_very_bad'                    : 'Very bad rating',
-            'UI_color_bad'                         : 'Bad rating',
-            'UI_color_normal'                      : 'Normal rating',
-            'UI_color_good'                        : 'Good rating',
-            'UI_color_very_good'                   : 'Very good rating',
-            'UI_color_unique'                      : 'Unique rating',
-            'UI_messageF5'                         : 'Affirmative!',
-            'UI_messageF6'                         : 'Negative!',
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
+        self.data, self.i18n = g_gui.register_data(self.ids, self.dataDefault, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
@@ -113,132 +74,51 @@ class Config(object):
             'settingsVersion': self.version_id,
             'enabled'        : self.data['enabled'],
             'column1'        : [
-                {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_showNewbie_text'],
-                    'value'  : self.data['showNewbie'],
-                    'tooltip': self.i18n['UI_setting_showNewbie_tooltip'],
-                    'varName': 'showNewbie'
-                }, {
-                    'type'        : 'Dropdown',
-                    'text'        : self.i18n['UI_setting_colorNewbie_text'],
-                    'tooltip'     : self.i18n['UI_setting_colorNewbie_tooltip'],
-                    'itemRenderer': 'DropDownListItemRendererSound',
-                    'options'     : self.generator_menu(),
-                    'width'       : 200,
-                    'value'       : self.data['colorNewbie'],
-                    'varName'     : 'colorNewbie'
-                }, {
-                    'type'        : 'Dropdown',
-                    'text'        : self.i18n['UI_setting_colorNewbieSpammer_text'],
-                    'tooltip'     : self.i18n['UI_setting_colorNewbieSpammer_tooltip'],
-                    'itemRenderer': 'DropDownListItemRendererSound',
-                    'options'     : self.generator_menu(),
-                    'width'       : 200,
-                    'value'       : self.data['colorNewbieSpammer'],
-                    'varName'     : 'colorNewbieSpammer'
-                }, {
-                    'type'        : 'Slider',
-                    'text'        : self.i18n['UI_setting_newbieWinRate_text'],
-                    'minimum'     : 10.0,
-                    'maximum'     : 60.0,
-                    'snapInterval': 1.0,
-                    'value'       : self.data['newbieWinRate'],
-                    'format'      : '{{value}}%s' % self.i18n['UI_setting_newbieWinRate_value'],
-                    'varName'     : 'newbieWinRate'
-                }, {
-                    'type'        : 'Slider',
-                    'text'        : self.i18n['UI_setting_newbieDays_text'],
-                    'minimum'     : 1,
-                    'maximum'     : 90,
-                    'snapInterval': 1,
-                    'value'       : self.data['newbieDays'],
-                    'format'      : '{{value}}%s' % self.i18n['UI_setting_newbieDays_value'],
-                    'varName'     : 'newbieDays'
-                }
+                g_gui.optionCheckBox(*self.getI18nParam('showNewbie')),
+                g_gui.optionColorHEX(*self.getI18nParam('colorNewbie')),
+                g_gui.optionColorHEX(*self.getI18nParam('colorNewbieSpammer')),
+                g_gui.optionSlider(*self.getI18nParamSlider('newbieWinRate', 10, 60, 1)),
+                g_gui.optionSlider(*self.getI18nParamSlider('newbieDays', 1, 90, 1)),
             ],
             'column2'        : [
-                {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_showTwink_text'],
-                    'value'  : self.data['showTwink'],
-                    'tooltip': self.i18n['UI_setting_showTwink_tooltip'],
-                    'varName': 'showTwink'
-                }, {
-                    'type'        : 'Dropdown',
-                    'text'        : self.i18n['UI_setting_colorTwink_text'],
-                    'tooltip'     : self.i18n['UI_setting_colorTwink_tooltip'],
-                    'itemRenderer': 'DropDownListItemRendererSound',
-                    'options'     : self.generator_menu(),
-                    'width'       : 200,
-                    'value'       : self.data['colorTwink'],
-                    'varName'     : 'colorTwink'
-                }, {
-                    'type'        : 'Dropdown',
-                    'text'        : self.i18n['UI_setting_colorTwinkSpammer_text'],
-                    'tooltip'     : self.i18n['UI_setting_colorTwinkSpammer_tooltip'],
-                    'itemRenderer': 'DropDownListItemRendererSound',
-                    'options'     : self.generator_menu(),
-                    'width'       : 200,
-                    'value'       : self.data['colorTwinkSpammer'],
-                    'varName'     : 'colorTwinkSpammer'
-                }, {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_showBattles_text'],
-                    'value'  : self.data['showBattles'],
-                    'tooltip': self.i18n['UI_setting_showBattles_tooltip'],
-                    'varName': 'showBattles'
-                }, {
-                    'type'   : 'CheckBox',
-                    'text'   : self.i18n['UI_setting_showWinRate_text'],
-                    'value'  : self.data['showWinRate'],
-                    'tooltip': self.i18n['UI_setting_showWinRate_tooltip'],
-                    'varName': 'showWinRate'
-                }, {
-                    'type'        : 'Slider',
-                    'text'        : self.i18n['UI_setting_twinkBattles_text'],
-                    'minimum'     : 0.1,
-                    'maximum'     : 12.0,
-                    'snapInterval': 0.1,
-                    'value'       : self.data['twinkBattles'],
-                    'format'      : '{{value}}%s' % self.i18n['UI_setting_twinkBattles_value'],
-                    'varName'     : 'twinkBattles'
-                }
+                g_gui.optionCheckBox(*self.getI18nParam('showTwink')),
+                g_gui.optionColorHEX(*self.getI18nParam('colorTwink')),
+                g_gui.optionColorHEX(*self.getI18nParam('colorTwinkSpammer')),
+                g_gui.optionCheckBox(*self.getI18nParam('showBattles')),
+                g_gui.optionCheckBox(*self.getI18nParam('showWinRate')),
+                g_gui.optionSlider(*self.getI18nParamSlider('twinkBattles', 0.1, 12.0, 0.1)),
 
             ]
         }
 
+    def getI18nParam(self, name):
+        # return varName, value, defaultValue, text, tooltip, defaultValueText
+        tooltip = 'UI_setting_%s_tooltip' % name
+        tooltip = self.i18n[tooltip] if tooltip in self.i18n else ''
+        defaultValueText = 'UI_setting_%s_default' % name
+        defaultValueText = self.i18n[defaultValueText] if defaultValueText in self.i18n else '%s' % self.dataDefault[name]
+        return name, self.data[name], self.dataDefault[name], self.i18n['UI_setting_%s_text' % name], tooltip, defaultValueText
+
+    def getI18nParamSlider(self, name, minValue, maxValue, step):
+        # return varName, value, defaultValue, minValue, maxValue, step, text, formats, tooltip, defaultValueText
+        params = self.getI18nParam(name)
+        formats = 'UI_setting_%s_formats' % name
+        formats = self.i18n[formats] if formats in self.i18n else ''
+        return params[0], params[1], params[2], minValue, maxValue, step, params[3], formats, params[4], params[5]
+
     def apply(self, settings):
         self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
-
-    def generator_menu(self):
-        res = []
-        for i in xrange(0, len(COLOR)):
-            res.append({
-                'label': '<font color="%s">%s</font>' % (COLOR[i], self.i18n[MENU[i]])
-            })
-        return res
 
 
 class ChatInfo(object):
     def __init__(self):
         self.dossiers = {}
         self.threadArray = []
-        InputHandler.g_instance.onKeyDown += self.pushButton
-        InputHandler.g_instance.onKeyUp += self.pushButton
-
-    @staticmethod
-    def pushButton(event):
-        if inject.g_appLoader().getDefBattleApp():
-            if event.key in (Keys.KEY_F5, Keys.KEY_F6) and event.isKeyDown():
-                controller = MessengerEntry.g_instance.gui.channelsCtrl.getController(_OutCmdDecorator(44, messageArgs(strArg1='')).getClientID())
-                if controller:
-                    controller.sendMessage(config.i18n['UI_messageF5'] if event.key == Keys.KEY_F5 else config.i18n['UI_messageF6'])
 
     @staticmethod
     def getColor(rating, value):
-        color = 'FFFFFF'
+        color = '#FFFFFF'
         for i, v in enumerate(COLORS):
             if value >= rating[i]:
                 color = v
@@ -278,15 +158,15 @@ class ChatInfo(object):
                     if config.data['showNewbie']:
                         if self.dossiers[databaseID]['newbie'] or chatInfo.dossiers[databaseID]['winRate'] <= config.data['newbieWinRate']:
                             if not chatInfo.dossiers[databaseID]['winRate']:
-                                result = result.replace('#979589', COLOR[config.data['colorNewbieSpammer']])
+                                result = result.replace('#979589', config.data['colorNewbieSpammer'])
                             else:
-                                result = result.replace('#979589', '%s' % COLOR[config.data['colorNewbie']])
+                                result = result.replace('#979589', '%s' % config.data['colorNewbie'])
                     if config.data['showTwink']:
                         if not self.dossiers[databaseID]['newbie'] and chatInfo.dossiers[databaseID]['battles'] <= config.data['twinkBattles']:
                             if not chatInfo.dossiers[databaseID]['winRate']:
-                                result = result.replace('#979589', COLOR[config.data['colorTwinkSpammer']])
+                                result = result.replace('#979589', config.data['colorTwinkSpammer'])
                             else:
-                                result = result.replace('#979589', COLOR[config.data['colorTwink']])
+                                result = result.replace('#979589', config.data['colorTwink'])
                 winRate = ''
                 battles = ''
                 if config.data['showWinRate']:
