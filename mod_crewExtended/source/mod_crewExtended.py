@@ -15,10 +15,10 @@ from items import tankmen
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v6.03 (2021-10-20)'
-        self.version_id = 603
+        self.version = 'v6.04 (2022-01-03)'
+        self.version_id = 604
         self.author = 'by spoter'
-        self.data = {
+        self.dataDefault = {
             'version'                        : self.version_id,
             'enabled'                        : True,
             'personalFileTotalXP'            : True,
@@ -57,7 +57,7 @@ class Config(object):
             'UI_setting_currentCrew_label'                      : 'Current Crew :',
             'UI_setting_currentColorBattle_text'                : 'Change Battles color',
             'UI_setting_currentColorBattle_tooltip'             : '',
-            'UI_setting_currentColorBattle_default'             : 'Default: %s' % self.data['currentColorBattle'],
+            'UI_setting_currentColorBattle_default'             : 'Default: %s' % self.dataDefault['currentColorBattle'],
             'UI_setting_currentCrewRankOnTop_text'              : 'Show Rank on Top',
             'UI_setting_currentCrewRankOnTop_tooltip'           : '{HEADER}Info:{/HEADER}{BODY}Default Role on top in current crew list in hangar, change it! :){/BODY}',
             'UI_setting_currentCrewRankBattle_text'             : 'Show Battles in Rank',
@@ -78,7 +78,7 @@ class Config(object):
             'UI_setting_currentCrewShowSkillResetStatus_tooltip': '',
             'UI_setting_currentColorExp_text'                   : 'Change Exp color',
             'UI_setting_currentColorExp_tooltip'                : '',
-            'UI_setting_currentColorExp_default'                : 'Default: %s' % self.data['currentColorExp'],
+            'UI_setting_currentColorExp_default'                : 'Default: %s' % self.dataDefault['currentColorExp'],
             'UI_setting_barracks_label'                         : 'Barracks :',
             'UI_setting_barracksEnable_text'                    : 'Show in Barracks',
             'UI_setting_barracksEnable_tooltip'                 : '',
@@ -94,7 +94,7 @@ class Config(object):
             'UI_setting_expIcon_tooltip'                        : '',
 
         }
-        self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
+        self.data, self.i18n = g_gui.register_data(self.ids, self.dataDefault, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)
         print '[LOAD_MOD]:  [%s %s, %s]' % (self.ids, self.version, self.author)
 
@@ -104,33 +104,48 @@ class Config(object):
     def _getLeftOptions(self):
         return [
             g_gui.optionLabel(self.i18n['UI_setting_currentCrew_label']),
-            g_gui.optionCheckBox('currentCrewBattleIcon', self.data['currentCrewBattleIcon'], self.i18n['UI_setting_currentCrewBattleIcon_text'], self.i18n['UI_setting_currentCrewBattleIcon_tooltip']),
-            g_gui.optionCheckBox('currentCrewRankBattle', self.data['currentCrewRankBattle'], self.i18n['UI_setting_currentCrewRankBattle_text'], self.i18n['UI_setting_currentCrewRankBattle_tooltip']),
-            g_gui.optionCheckBox('currentCrewRoleBattle', self.data['currentCrewRoleBattle'], self.i18n['UI_setting_currentCrewRoleBattle_text'], self.i18n['UI_setting_currentCrewRoleBattle_tooltip']),
-            g_gui.optionCheckBox('currentCrewShowNewSkillPercent', self.data['currentCrewShowNewSkillPercent'], self.i18n['UI_setting_currentCrewShowNewSkillPercent_text'], self.i18n['UI_setting_currentCrewShowNewSkillPercent_tooltip']),
-            g_gui.optionCheckBox('currentCrewRankOnTop', self.data['currentCrewRankOnTop'], self.i18n['UI_setting_currentCrewRankOnTop_text'], self.i18n['UI_setting_currentCrewRankOnTop_tooltip']),
-            g_gui.optionCheckBox('currentCrewExpIcon', self.data['currentCrewExpIcon'], self.i18n['UI_setting_currentCrewExpIcon_text'], self.i18n['UI_setting_currentCrewExpIcon_tooltip']),
-            g_gui.optionCheckBox('currentCrewRankExp', self.data['currentCrewRankExp'], self.i18n['UI_setting_currentCrewRankExp_text'], self.i18n['UI_setting_currentCrewRankExp_tooltip']),
-            g_gui.optionCheckBox('currentCrewRoleExp', self.data['currentCrewRoleExp'], self.i18n['UI_setting_currentCrewRoleExp_text'], self.i18n['UI_setting_currentCrewRoleExp_tooltip']),
-            g_gui.optionCheckBox('currentCrewShowSkillResetStatus', self.data['currentCrewShowSkillResetStatus'], self.i18n['UI_setting_currentCrewShowSkillResetStatus_text'], self.i18n['UI_setting_currentCrewShowSkillResetStatus_tooltip']),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewBattleIcon')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewRankBattle')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewRoleBattle')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewShowNewSkillPercent')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewRankOnTop')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewExpIcon')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewRankExp')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewRoleExp')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('currentCrewShowSkillResetStatus')),
             g_gui.optionLabel(self.i18n['UI_setting_personalFile_label']),
-            g_gui.optionCheckBox('personalFileTotalXP', self.data['personalFileTotalXP'], self.i18n['UI_setting_personalFileTotalXP_text'], self.i18n['UI_setting_personalFileTotalXP_tooltip']),
-            g_gui.optionCheckBox('personalFileSkillBattle', self.data['personalFileSkillBattle'], self.i18n['UI_setting_personalFileSkillBattle_text'], self.i18n['UI_setting_personalFileSkillBattle_tooltip']),
-            g_gui.optionCheckBox('personalFileSkillXP', self.data['personalFileSkillXP'], self.i18n['UI_setting_personalFileSkillXP_text'], self.i18n['UI_setting_personalFileSkillXP_tooltip']),
+            g_gui.optionCheckBox(*self.p__getI18nParam('personalFileTotalXP')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('personalFileSkillBattle')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('personalFileSkillXP')),
             g_gui.optionLabel(self.i18n['UI_setting_barracks_label']),
-            g_gui.optionCheckBox('barracksEnable', self.data['barracksEnable'], self.i18n['UI_setting_barracksEnable_text'], self.i18n['UI_setting_barracksEnable_tooltip']),
-            g_gui.optionCheckBox('barracksBattleOrExp', self.data['barracksBattleOrExp'], self.i18n['UI_setting_barracksBattleOrExp_text'], self.i18n['UI_setting_barracksBattleOrExp_tooltip']),
-            g_gui.optionCheckBox('barracksSkillIcons', self.data['barracksSkillIcons'], self.i18n['UI_setting_barracksSkillIcons_text'], self.i18n['UI_setting_barracksSkillIcons_tooltip']),
+            g_gui.optionCheckBox(*self.p__getI18nParam('barracksEnable')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('barracksBattleOrExp')),
+            g_gui.optionCheckBox(*self.p__getI18nParam('barracksSkillIcons')),
         ]
 
     def _getRightOptions(self):
         return [
-            g_gui.optionColorHEX('currentColorBattle', self.data['currentColorBattle'], self.i18n['UI_setting_currentColorBattle_text'], self.i18n['UI_setting_currentColorBattle_tooltip'], self.i18n['UI_setting_currentColorBattle_default']),
-            g_gui.optionColorHEX('currentColorExp', self.data['currentColorExp'], self.i18n['UI_setting_currentColorExp_text'], self.i18n['UI_setting_currentColorExp_tooltip'], self.i18n['UI_setting_currentColorExp_default']),
-            g_gui.optionTextInput('premiumSkillIcon', self.data['premiumSkillIcon'], self.i18n['UI_setting_premiumSkillIcon_text'], self.i18n['UI_setting_premiumSkillIcon_tooltip']),
-            g_gui.optionTextInput('battleIcon', self.data['battleIcon'], self.i18n['UI_setting_battleIcon_text'], self.i18n['UI_setting_battleIcon_tooltip']),
-            g_gui.optionTextInput('expIcon', self.data['expIcon'], self.i18n['UI_setting_expIcon_text'], self.i18n['UI_setting_expIcon_tooltip']),
+            g_gui.optionColorHEX(*self.p__getI18nParam('currentColorBattle')),
+            g_gui.optionColorHEX(*self.p__getI18nParam('currentColorExp')),
+            g_gui.optionTextInput(*self.p__getI18nParam('premiumSkillIcon')),
+            g_gui.optionTextInput(*self.p__getI18nParam('battleIcon')),
+            g_gui.optionTextInput(*self.p__getI18nParam('expIcon')),
         ]
+
+    def p__getI18nParam(self, name):
+        # return varName, value, defaultValue, text, tooltip, defaultValueText
+        tooltip = 'UI_setting_%s_tooltip' % name
+        tooltip = self.i18n[tooltip] if tooltip in self.i18n else ''
+        defaultValueText = 'UI_setting_%s_default' % name
+        defaultValueText = self.i18n[defaultValueText] if defaultValueText in self.i18n else '%s' % self.dataDefault[name]
+        return name, self.data[name], self.dataDefault[name], self.i18n['UI_setting_%s_text' % name], tooltip, defaultValueText
+
+    def p__getI18nParamSlider(self, name, minValue, maxValue, step):
+        # return varName, value, defaultValue, minValue, maxValue, step, text, formats, tooltip, defaultValueText
+        params = self.p__getI18nParam(name)
+        formats = 'UI_setting_%s_formats' % name
+        formats = self.i18n[formats] if formats in self.i18n else ''
+        return params[0], params[1], params[2], minValue, maxValue, step, params[3], formats, params[4], params[5]
 
     @inject.log
     def apply(self, settings):
