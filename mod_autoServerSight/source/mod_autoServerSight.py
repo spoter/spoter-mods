@@ -13,8 +13,8 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'autoServerSight'
-        self.version = 'v1.01 (2022-01-20)'
-        self.version_id = 101
+        self.version = 'v1.02 (2022-01-20)'
+        self.version_id = 102
         self.author = 'by spoter'
         self.dataDefault = {
             'version'   : self.version_id,
@@ -83,10 +83,12 @@ class Support(object):
             player = BigWorld.player()
             if not player:
                 return
-            vehicleType = Vehicle.getVehicleClassTag(BigWorld.player().getVehicleDescriptor().type.tags)
+            try:
+                vehicleType = Vehicle.getVehicleClassTag(BigWorld.player().getVehicleDescriptor().type.tags)
+            except StandardError:
+                vehicleType = None
             showServerMarker = vehicleType in _config.data and _config.data[vehicleType]
-            self.p__checkServerAimStatus(showServerMarker)
-            if showServerMarker:
+            if self.p__checkServerAimStatus(showServerMarker):
                 inject.message('{0}: {1}'.format(_config.i18n['UI_description'], _config.i18n['UI_setting_%s_text' %vehicleType]))
 
     def startBattle(self):
@@ -100,10 +102,14 @@ class Support(object):
         player = BigWorld.player()
         if not player or not _config.data['enabled']:
             return
-        if showServerMarker is None:
-            showServerMarker = player.gunRotator.settingsCore.getSetting('useServerAim')
-        player.gunRotator.showServerMarker = showServerMarker
-        player.gunRotator._VehicleGunRotator__set_showServerMarker(showServerMarker)
+        try:
+            if showServerMarker is None:
+                showServerMarker = player.gunRotator.settingsCore.getSetting('useServerAim')
+            player.gunRotator.showServerMarker = showServerMarker
+            player.gunRotator._VehicleGunRotator__set_showServerMarker(showServerMarker)
+            return True
+        except StandardError:
+            return
 
 
 # start mod

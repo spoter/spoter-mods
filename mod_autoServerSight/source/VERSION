@@ -1,5 +1,5 @@
 {
-  "version": 1.01,
+  "version": 1.02,
   "source": "mod_autoServerSight.py",
   "meta": "configs/meta.xml",
   "config": "configs/autoServerSight.json",
