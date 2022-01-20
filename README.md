@@ -19,7 +19,7 @@
 * [mod_mods_gui][] - Функциональное ядро, обязательный пакет с системными модулями (без него моды работать не будут)
 * [mod_tooltipsCountItemsLimitExtend][] - Расширяет список танков, на котором установлено оборудование (в ангарных подсказках), На складе показывает полную цену продажи модулей, расходников и боеприпасов.
 * [mod_restartRandomQueue][] - Сбрасывает очередь входа в рандом каждые 5 сек
-* [mods_autoServerSight][] - Автоматическое включение серверного прицела в начале боя, в зависимости от типа техники, на которой первоначально вышли в бой.
+* [mod_autoServerSight][] - Автоматическое включение серверного прицела в начале боя, в зависимости от типа техники, на которой первоначально вышли в бой.
 
 [mod_artySplash]:./mod_artySplash/
 [mod_autoAimOptimize]:./mod_autoAimOptimize/
@@ -40,4 +40,4 @@
 [mod_mods_gui]:./mod_mods_gui/
 [mod_tooltipsCountItemsLimitExtend]:./mod_tooltipsCountItemsLimitExtend/
 [mod_restartRandomQueue]:./mod_restartRandomQueue/
-[mods_autoServerSight]:./mods_autoServerSight/
+[mod_autoServerSight]:./mods_autoServerSight/
