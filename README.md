@@ -40,4 +40,4 @@
 [mod_mods_gui]:./mod_mods_gui/
 [mod_tooltipsCountItemsLimitExtend]:./mod_tooltipsCountItemsLimitExtend/
 [mod_restartRandomQueue]:./mod_restartRandomQueue/
-[mod_autoServerSight]:./mods_autoServerSight/
+[mod_autoServerSight]:./mod_autoServerSight/
