@@ -1,6 +1,6 @@
 <root>
     <id>spoter.autoServerSight</id>
-    <version>1.02</version>
+    <version>1.03</version>
     <name>Auto Server Sight</name>
     <description>Automaticities change Server sight status in battle by vehicle type</description>
 </root>

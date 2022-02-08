@@ -6,15 +6,14 @@ from gui.mods.mod_mods_gui import g_gui, inject
 import BigWorld
 from Avatar import PlayerAvatar
 from gui.shared.gui_items import Vehicle
-from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 from helpers import getLanguageCode
 
 
 class _Config(object):
     def __init__(self):
         self.ids = 'autoServerSight'
-        self.version = 'v1.02 (2022-01-20)'
-        self.version_id = 102
+        self.version = 'v1.03 (2022-02-08)'
+        self.version_id = 103
         self.author = 'by spoter'
         self.dataDefault = {
             'version'   : self.version_id,
@@ -88,7 +87,7 @@ class Support(object):
             except StandardError:
                 vehicleType = None
             showServerMarker = vehicleType in _config.data and _config.data[vehicleType]
-            if self.p__checkServerAimStatus(showServerMarker):
+            if self.p__checkServerAimStatus(showServerMarker) and showServerMarker:
                 inject.message('{0}: {1}'.format(_config.i18n['UI_description'], _config.i18n['UI_setting_%s_text' %vehicleType]))
 
     def startBattle(self):

@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.15.0.1'
+CLIENT_VERSION = '1.15.0.2'
 NAME = 'spoter.autoServerSight'
 ADD_LICENSE = True
 
