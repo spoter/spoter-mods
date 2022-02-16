@@ -1,0 +1,7 @@
+﻿{
+    "enabled": true,
+    "hotkey": [ 67 ],
+    "restoreSoundAfterBattleEnd": true,
+    "showMessage": true,
+    "version": 101
+}

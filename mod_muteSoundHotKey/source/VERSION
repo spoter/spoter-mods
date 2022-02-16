@@ -1,0 +1,8 @@
+{
+  "version": 1.01,
+  "source": "mod_muteSoundHotKey.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/muteSoundHotKey.json",
+  "i18n": "configs/i18n",
+  "resources": []
+}

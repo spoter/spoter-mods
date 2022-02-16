@@ -1,0 +1,9 @@
+﻿{
+    "UI_description": "Mute Sound HotKey",
+    "UI_setting_hotkey_text": "Hotkey",
+    "UI_setting_restoreSoundAfterBattleEnd_text": "Restore Sound after battle end",
+    "UI_setting_showMessage_text": "Show status message in battle",
+    "UI_setting_soundMuted": "Game Sound ON",
+    "UI_setting_soundRestored": "Game Sound OFF",
+    "version": 101
+}
