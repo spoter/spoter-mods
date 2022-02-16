@@ -5,5 +5,7 @@
     "UI_setting_showMessage_text": "Show status message in battle",
     "UI_setting_soundMuted": "Game Sound ON",
     "UI_setting_soundRestored": "Game Sound OFF",
-    "version": 101
+    "UI_setting_mutedSoundVolume_text": "Minimal sound level when muted",
+    "UI_setting_mutedSoundVolume_formats": "%",
+    "version": 102
 }

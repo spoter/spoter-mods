@@ -3,5 +3,6 @@
     "hotkey": [ 67 ],
     "restoreSoundAfterBattleEnd": true,
     "showMessage": true,
-    "version": 101
+    "mutedSoundVolume": 0,
+    "version": 102
 }
