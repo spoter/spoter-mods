@@ -1,6 +1,6 @@
 <root>
     <id>spoter.muteSoundHotKey</id>
-    <version>1.02</version>
+    <version>1.03</version>
     <name>Mute Sound HotKey</name>
     <description>Add HotKey to mute sound in game</description>
 </root>

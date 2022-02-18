@@ -14,8 +14,8 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'muteSoundHotKey'
-        self.version = 'v1.02 (2022-02-17)'
-        self.version_id = 102
+        self.version = 'v1.03 (2022-02-18)'
+        self.version_id = 103
         self.author = 'by spoter'
         self.dataDefault = {
             'version'                   : self.version_id,
@@ -107,7 +107,8 @@ class Support(object):
     def showStatusMessage(self):
         if config.data['enabled'] and config.data['showMessage']:
             message = config.i18n['UI_setting_soundMuted'] if self.mutedSound else config.i18n['UI_setting_soundRestored']
-            color = '#84DE40' if self.mutedSound else '#FFA500'
+            message += ', {}%'.format(int(BigWorld.player().settingsCore.getSetting(settings_constants.SOUND.MASTER)))
+            color = '#84DE40' if self.mutedSound else '#FF0000'
             inject.message(message, color)
 
     @inject.log
