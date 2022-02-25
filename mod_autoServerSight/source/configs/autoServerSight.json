@@ -1,14 +1,9 @@
 ﻿{
-    "activateMessage": false,
-    "autoActivateWheelMode": true,
-    "buttonAutoMode": [
-        19,
-        [ 56, 184 ]
-    ],
+    "AT-SPG": false,
+    "SPG": true,
     "enabled": true,
-    "fixAccuracyInMove": true,
-    "fixWheelCruiseControl": true,
-    "maxWheelMode": false,
-    "serverTurret": true,
+    "heavyTank": false,
+    "lightTank": false,
+    "mediumTank": false,
     "version": 103
 }

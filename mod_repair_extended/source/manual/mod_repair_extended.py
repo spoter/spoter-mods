@@ -40,7 +40,7 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'leftTrack0', 'rightTrack0', 'l
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.13 (2022-01-03)'
+        self.version = 'v3.13 (2022-02-25)'
         self.author = 'by spoter'
         self.version_id = 313
         self.buttons = {

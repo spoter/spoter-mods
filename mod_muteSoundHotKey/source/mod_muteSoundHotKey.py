@@ -14,7 +14,7 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'muteSoundHotKey'
-        self.version = 'v1.03 (2022-02-18)'
+        self.version = 'v1.03 (2022-02-25)'
         self.version_id = 103
         self.author = 'by spoter'
         self.dataDefault = {
