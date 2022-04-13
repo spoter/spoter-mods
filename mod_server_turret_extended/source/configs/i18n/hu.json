@@ -19,5 +19,5 @@
     "UI_setting_fixWheelCruiseControl_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Amikor aktiválja a sebességtartó automatikát a kerekes tankon akkor a jármű leáll, ez a beállítás letiltja ezt{/BODY}",
     "UI_setting_serverTurret_text": "Szerver Torony",
     "UI_setting_serverTurret_tooltip": "{HEADER}Infó:{/HEADER}{BODY}Torony áthelyezése a Szerver Célzó koordinátákra (Engedélyezni kell a játék beállításaiban a szerver oldali célkeresztet){/BODY}",
-    "version": 311
+    "version": 312
 }

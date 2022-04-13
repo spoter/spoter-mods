@@ -19,8 +19,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.11 (2022-02-25)'
-        self.version_id = 311
+        self.version = 'v3.12 (2022-04-13)'
+        self.version_id = 312
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -209,9 +209,8 @@ class MovementControl(object):
                             return self.changeSiege(False)
 
     def changeSiege(self, status):
-        player = BigWorld.player()
         SOUND_NOTIFICATIONS.TRANSITION_TIMER = ''
-        player.cell.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
+        BigWorld.player().cell.vehicle_changeSetting(VEHICLE_SETTING.SIEGE_MODE_ENABLED, status)
         self.timer = BigWorld.time()
 
     @staticmethod
@@ -228,7 +227,7 @@ class MovementControl(object):
         result = vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode
         if result:
             soundStateChange = vehicle.typeDescriptor.type.siegeModeParams['soundStateChange']
-            vehicle.appearance.engineAudition.setSiegeSoundEvents(soundStateChange.isEngine, soundStateChange.npcOn, soundStateChange.npcOff)
+            vehicle.appearance.engineAudition.setSiegeSoundEvents(soundStateChange.isEngine, soundStateChange.on, soundStateChange.npcOn, soundStateChange.off, soundStateChange.npcOff)
         return result
 
 
@@ -290,7 +289,7 @@ def updateSiegeStateStatus(func, self, vehicleID, status, timeLeft):
     if not movement_control.fixSiegeModeCruiseControl():
         return func(self, vehicleID, status, timeLeft)
     typeDescr = self._PlayerAvatar__updateVehicleStatus(vehicleID)
-    if not typeDescr:
+    if not typeDescr or not self.vehicle or vehicleID != self.vehicle.id:
         return
     self.guiSessionProvider.invalidateVehicleState(VEHICLE_VIEW_STATE.SIEGE_MODE, (status, timeLeft))
     self._PlayerAvatar__onSiegeStateUpdated(vehicleID, status, timeLeft)
