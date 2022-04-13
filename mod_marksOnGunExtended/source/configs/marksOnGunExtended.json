@@ -1,12 +1,6 @@
 ﻿{
     "UI": 10,
     "background": true,
-    "backgroundData": {
-        "alpha": 1.0,
-        "height": 50,
-        "width": 163
-    },
-    "backgroundImage": "../maps/icons/quests/inBattleHint.png",
     "battleMessage": "<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>",
     "battleMessageAlt": "<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>\n{c_damageToMark65}{c_damageToMark85}\n{c_damageToMark95}{c_damageToMark100}",
     "battleMessageSizeInPercent": 100,
@@ -64,34 +58,34 @@
     "enabled": true,
     "font": "$FieldFont",
     "panel": {
-        "height": 50,
-        "visible": true,
+        "index": 10000,
+        "width": 183.0,
         "drag": true,
-        "alignX": "left",
-        "border": true,
-        "index": 1,
+        "height": 50.0,
+        "visible": true,
         "alignY": "bottom",
-        "width": 163,
-        "limit": true,
-        "y": -228,
-        "x": 230
+        "alignX": "left",
+        "background": true,
+        "alpha": 1.0,
+        "y": -226.0,
+        "x": 230.0
+        "shadow": {
+            "distance": 0,
+            "strength": 0,
+            "blurX": 0,
+            "blurY": 0,
+            "color": 0,
+            "alpha": 0,
+            "angle": 0,
+            "quality": 0
+        },
+        "border": true
     },
     "panelSize": {
         "heightNormal": 50,
         "heightAlt": 80,
-        "widthAlt": 163,
-        "widthNormal": 163
-    },
-    "shadow": true,
-    "shadowText": {
-        "distance": 0,
-        "blurX": 1,
-        "strength": 1,
-        "angle": 0,
-        "blurY": 1,
-        "color": 0,
-        "alpha": 1,
-        "quality": 1
+        "widthAlt": 183,
+        "widthNormal": 183
     },
     "showInBattle": false,
     "showInBattleHalfPercents": false,
@@ -104,5 +98,5 @@
     "showInTechTreeMastery": true,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 903
+    "version": 904
 }

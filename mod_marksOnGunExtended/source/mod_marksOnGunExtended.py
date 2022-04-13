@@ -67,8 +67,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.03 (2022-02-25)'
-        self.version_id = 903
+        self.version = 'v9.04 (2022-04-13)'
+        self.version_id = 904
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -97,12 +97,35 @@ class Config(object):
             'unknownColor'                          : 16,
             'font'                                  : '$FieldFont',
             'background'                            : True,
-            'backgroundImage'                       : '../maps/icons/quests/inBattleHint.png',
-            'backgroundData'                        : {'alpha': 1.0, 'width': 163, 'height': 50},
-            'shadow'                                : True,
-            'panelSize'                             : {'widthAlt': 163, 'heightAlt': 80, 'widthNormal': 163, 'heightNormal': 50},
-            'panel'                                 : {'index': 1, 'x': 230, 'y': -228, 'width': 163, 'height': 50, 'drag': True, 'border': True, 'alignX': COMPONENT_ALIGN.LEFT, 'alignY': COMPONENT_ALIGN.BOTTOM, 'visible': True, 'limit': True, },
-            'shadowText'                            : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 1, 'blurX': 1, 'blurY': 1, 'strength': 1, 'quality': 1},
+            'panelSize'                             : {
+                'widthAlt'    : 183.0,
+                'heightAlt'   : 80.0,
+                'widthNormal' : 183.0,
+                'heightNormal': 50.0
+            },
+            'panel'                                 : {
+                'index'  : 10000,
+                'x'      : 230.0,
+                'y'      : -226.0,
+                'width'  : 183.0,
+                'height' : 50.0,
+                'drag'   : True,
+                'border' : True,
+                'alignX' : COMPONENT_ALIGN.LEFT,
+                'alignY' : COMPONENT_ALIGN.BOTTOM,
+                'visible': True,
+                'alpha'  : 1.0,
+                'shadow' : {
+                    'distance': 0,
+                    'blurX'   : 0,
+                    'strength': 0,
+                    'angle'   : 0,
+                    'blurY'   : 0,
+                    'color'   : 0,
+                    'alpha'   : 0,
+                    'quality' : 0
+                },
+            },
             'battleMessage'                         : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                                       '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',
 
@@ -111,7 +134,7 @@ class Config(object):
                                                       '{c_damageToMark65}{c_damageToMark85}\n'
                                                       '{c_damageToMark95}{c_damageToMark100}',
             'battleMessage{status}Up'               : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_online.png\" vspace=\"-5\"/> ',
-            'battleMessage{c_status}Up'             : '?',
+            'battleMessage{c_status}Up'             : 'Δ',
             'battleMessage{status}Down'             : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy.png\" vspace=\"-5\"/>',
             'battleMessage{c_status}Down'           : 'V',
             'battleMessage{status}Unknown'          : '<img src=\"img://gui/maps/icons/messenger/status/24x24/chat_icon_user_is_busy_violet.png\" vspace=\"-5\"/>',
@@ -414,6 +437,19 @@ class Config(object):
         return res
 
     def apply(self, settings):
+        if 'panel' in settings:
+            settings['panel'].pop('text', None)
+        if 'panel' in settings:
+            if 'x' in settings['panel']:
+                settings['panel']['x'] = settings['panel']['x'] * 1.0
+            if 'y' in settings['panel']:
+                settings['panel']['y'] = settings['panel']['y'] * 1.0
+            if 'alpha' in settings['panel']:
+                settings['panel']['alpha'] = settings['panel']['alpha'] * 1.0
+            if 'height' in settings['panel']:
+                settings['panel']['height'] = settings['panel']['height'] * 1.0
+            if 'width' in settings['panel']:
+                settings['panel']['width'] = settings['panel']['width'] * 1.0
         self.data = g_gui.update_data(self.ids, settings, 'spoter')
         g_gui.update(self.ids, self.template)
 
@@ -561,11 +597,11 @@ class Worker(object):
                     self.requestNewData(self.damageRating, self.movingAvgDamage)
                 config.values = g_gui.update_data('%s_stats' % config.ids, config.values)
 
-    def onBattleEvents(self, events):
+    def onBattleEvents(self, vehicleID, events):
         if not config.data['enabled']: return
         player = BigWorld.player()
         guiSessionProvider = player.guiSessionProvider
-        if guiSessionProvider.shared.vehicleState.getControllingVehicleID() == player.playerVehicleID:
+        if vehicleID == player.playerVehicleID:
             for data in events:
                 feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
                 eventType = feedbackEvent.getBattleEventType()
@@ -865,14 +901,13 @@ class Worker(object):
                 color = '#84DE40'
                 inject.message(config.i18n['battleMessageSizeReset'], color)
                 config.data = g_gui.update_data(config.ids, config.data, 'spoter')
-                config.data['panel']['x'] = 230
-                flash.data[COMPONENT_TYPE.PANEL]['x'] = 230
-                config.data['panel']['y'] = -228
-                flash.data[COMPONENT_TYPE.PANEL]['y'] = -228
+                config.data['panel']['x'] = 230.0
+                flash.data[COMPONENT_TYPE.LABEL]['x'] = 230.0
+                config.data['panel']['y'] = -228.0
+                flash.data[COMPONENT_TYPE.LABEL]['y'] = -228.0
                 self.altMode = True
                 self.checkBattleMessage()
                 flash.setupSize()
-                flash.screenResize()
                 self.altMode = False
                 flash.setupSize()
                 self.calc()
@@ -885,7 +920,6 @@ class Worker(object):
                 self.altMode = True
                 self.checkBattleMessage()
                 flash.setupSize()
-                flash.screenResize()
                 self.altMode = False
                 flash.setupSize()
                 self.calc()
@@ -898,7 +932,6 @@ class Worker(object):
                 self.altMode = True
                 self.checkBattleMessage()
                 flash.setupSize()
-                flash.screenResize()
                 self.altMode = False
                 flash.setupSize()
                 self.calc()
@@ -1139,21 +1172,11 @@ class Flash(object):
     def startBattle(self):
         if not config.data['enabled']: return
         if BattleReplay.isPlaying() and not config.data['showInReplay']: return
-        self.setup()
+        self.data = self.setup()
         COMPONENT_EVENT.UPDATED += self.update
-        self.createObject(COMPONENT_TYPE.PANEL)
-        self.createObject(COMPONENT_TYPE.LABEL)
-        if config.data['background']:
-            data = {'background': True}
-            self.updateObject(COMPONENT_TYPE.LABEL, data)
-            # self.createObject(COMPONENT_TYPE.IMAGE)
-            # self.updateObject(COMPONENT_TYPE.IMAGE, self.data['backgroundData'])
-        if config.data['shadow']:
-            self.updateObject(COMPONENT_TYPE.LABEL, self.data['shadow'])
-        else:
-            self.updateObject(COMPONENT_TYPE.LABEL, {'shadow': {"distance": 0, "angle": 0, "color": 0x000000, "alpha": 0, "blurX": 0, "blurY": 0, "strength": 0, "quality": 0}})
+        self.createObject(COMPONENT_TYPE.LABEL, self.data[COMPONENT_TYPE.LABEL])
+        self.updateObject(COMPONENT_TYPE.LABEL, {'background': config.data['background']})
         g_guiResetters.add(self.screenResize)
-        self.screenResize()
         self.setupSize()
 
     def stopBattle(self):
@@ -1161,16 +1184,13 @@ class Flash(object):
         if BattleReplay.isPlaying() and not config.data['showInReplay']: return
         g_guiResetters.remove(self.screenResize)
         COMPONENT_EVENT.UPDATED -= self.update
-        self.deleteObject(COMPONENT_TYPE.PANEL)
-        # if config.data['background']:
-        #   self.deleteObject(COMPONENT_TYPE.IMAGE)
         self.deleteObject(COMPONENT_TYPE.LABEL)
 
     def deleteObject(self, name):
         g_guiFlash.deleteComponent(self.name[name])
 
-    def createObject(self, name):
-        g_guiFlash.createComponent(self.name[name], name, self.data[name])
+    def createObject(self, name, data):
+        g_guiFlash.createComponent(self.name[name], name, data)
 
     def updateObject(self, name, data):
         g_guiFlash.updateComponent(self.name[name], data)
@@ -1181,78 +1201,84 @@ class Flash(object):
     @inject.log
     def update(self, alias, props):
         if str(alias) == str(config.ids):
-            x = int(props.get('x', config.data['panel']['x']))
-            if x and x != int(config.data['panel']['x']):
+            x = props.get('x', config.data['panel']['x'])
+            if x and x != config.data['panel']['x']:
                 config.data['panel']['x'] = x
-                self.data[COMPONENT_TYPE.PANEL]['x'] = x
-            y = int(props.get('y', config.data['panel']['y']))
-            if y and y != int(config.data['panel']['y']):
+                self.data[COMPONENT_TYPE.LABEL]['x'] = x
+            y = props.get('y', config.data['panel']['y'])
+            if y and y != config.data['panel']['y']:
                 config.data['panel']['y'] = y
-                self.data[COMPONENT_TYPE.PANEL]['y'] = y
-            self.screenResize()
+                self.data[COMPONENT_TYPE.LABEL]['y'] = y
+            self.setupSize()
             print '%s Flash coordinates updated : y = %i, x = %i, props: %s' % (alias, config.data['panel']['y'], config.data['panel']['x'], props)
 
     def setup(self):
         self.name = {
-            COMPONENT_TYPE.PANEL: config.ids,
-            COMPONENT_TYPE.IMAGE: '%s.%s' % (config.ids, 'image'),
-            COMPONENT_TYPE.LABEL: '%s.%s' % (config.ids, 'text')
+            COMPONENT_TYPE.LABEL: '%s' % (config.ids)
         }
         self.data = {
-            COMPONENT_TYPE.PANEL: config.data.get('panel'),
-            COMPONENT_TYPE.IMAGE: {'image': config.data.get('backgroundImage')},
-            'backgroundData'    : config.data.get('backgroundData'),
-            COMPONENT_TYPE.LABEL: {'text': '', },  # 'multiline': True, 'wordWrap': True, 'drag': True, 'border': True, 'limit': True},
-            'shadow'            : {'shadow': config.data.get('shadowText')}
-        }
+            COMPONENT_TYPE.LABEL: {
+                'index'  : 10000,
+                'x'      : -226.0,
+                'y'      : -226.0,
+                'width'  : 183.0,
+                'height' : 50.0,
+                'drag'   : True,
+                'border' : True,
+                'alignX' : 'left',
+                'alignY' : 'bottom',
+                'visible': True,
+                'text'   : '',
+                'shadow' : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 90, 'blurX': 4, 'blurY': 4, 'strength': 3000, 'quality': 1}
+            },
 
-        self.data[COMPONENT_TYPE.PANEL]['index'] = 1
-        self.data[COMPONENT_TYPE.IMAGE]['index'] = 2
-        self.data[COMPONENT_TYPE.LABEL]['index'] = 3
-        self.data[COMPONENT_TYPE.PANEL]['limit'] = True
-        self.data[COMPONENT_TYPE.LABEL]['alpha'] = 1.0
+        }
+        for key, value in config.data['panel'].items():
+            if key in self.data[COMPONENT_TYPE.LABEL]:
+                self.data[COMPONENT_TYPE.LABEL][key] = value
+        return self.data
+
 
     def setupSize(self, h=None, w=None):
-        height = int(config.data['panelSize'].get('heightNormal', 50)) if not worker.altMode else int(config.data['panelSize'].get('heightAlt', 80))
-        width = int(config.data['panelSize'].get('widthNormal', 163)) if not worker.altMode else int(config.data['panelSize'].get('widthAlt', 163))
+        height = config.data['panelSize'].get('heightNormal', 50.0) if not worker.altMode else config.data['panelSize'].get('heightAlt', 80.0)
+        width = config.data['panelSize'].get('widthNormal', 163.0) if not worker.altMode else config.data['panelSize'].get('widthAlt', 163.0)
         if config.data['UI'] == 1:
-            height = 30 if not worker.altMode else 45
-            width = 152 if not worker.altMode else 152
+            height = 30.0 if not worker.altMode else 45.0
+            width = 152.0 if not worker.altMode else 152.0
         if config.data['UI'] == 2:
-            height = 30 if not worker.altMode else 50
-            width = 130 if not worker.altMode else 130
+            height = 30.0 if not worker.altMode else 50.0
+            width = 130.0 if not worker.altMode else 130.0
         if config.data['UI'] == 3:
-            height = 70 if not worker.altMode else 100
-            width = 144 if not worker.altMode else 144
+            height = 70.0 if not worker.altMode else 100.0
+            width = 144.0 if not worker.altMode else 144.0
         if config.data['UI'] == 4:
-            height = 50 if not worker.altMode else 80
-            width = 163 if not worker.altMode else 163
+            height = 50.0 if not worker.altMode else 80.0
+            width = 163.0 if not worker.altMode else 163.0
 
         if config.data['UI'] in (5, 6, 7, 8):
-            height = 82 if not worker.altMode else 82
-            width = 343 if not worker.altMode else 343
+            height = 82.0 if not worker.altMode else 82.0
+            width = 343.0 if not worker.altMode else 343.0
         if config.data['UI'] == 9:
-            height = 42 if not worker.altMode else 42
-            width = 54 if not worker.altMode else 115
+            height = 42.0 if not worker.altMode else 42.0
+            width = 54.0 if not worker.altMode else 115.0
         if config.data['UI'] == 10:
-            height = 50 if not worker.altMode else 90
-            width = 183 if not worker.altMode else 183
+            height = 50.0 if not worker.altMode else 90.0
+            width = 183.0 if not worker.altMode else 183.0
         if h is not None and w is not None:
             height = h
             width = w
-
-        height = height * config.data['battleMessageSizeInPercent'] / 100
-        width = width * config.data['battleMessageSizeInPercent'] / 100
+        height = height * config.data['battleMessageSizeInPercent'] / 100.0
+        width = width * config.data['battleMessageSizeInPercent'] / 100.0
 
         for name in self.data:
             self.data[name]['height'] = height
             self.data[name]['width'] = width
-        self.data[COMPONENT_TYPE.PANEL]['height'] = height
-        self.data[COMPONENT_TYPE.PANEL]['width'] = width
-        data = {'height': height, 'width': width}
-        self.updateObject(COMPONENT_TYPE.PANEL, data)
-        # if config.data['background']:
-        #    self.updateObject(COMPONENT_TYPE.IMAGE, data)
+        self.data[COMPONENT_TYPE.LABEL]['height'] = height
+        self.data[COMPONENT_TYPE.LABEL]['width'] = width
+        self.screenResize()
+        x = self.data[COMPONENT_TYPE.LABEL]['x']
+        y = self.data[COMPONENT_TYPE.LABEL]['y']
+        data = {'height': height, 'width': width, 'x': x, 'y': y}
         self.updateObject(COMPONENT_TYPE.LABEL, data)
 
     @staticmethod
@@ -1276,45 +1302,42 @@ class Flash(object):
     def set_text(self, text):
         txt = '<font face="%s" color="#FFFFFF" vspace="-3" align="baseline" >%s</font>' % (config.data['font'], text)
         self.updateObject(COMPONENT_TYPE.LABEL, {'text': self.textRepSize(txt)})
-        # self.animateObject(COMPONENT_TYPE.LABEL, {'alpha': 1.8}, 1)
 
     def setVisible(self, status):
         data = {'visible': status}
-        self.updateObject(COMPONENT_TYPE.PANEL, data)
         self.updateObject(COMPONENT_TYPE.LABEL, data)
-        if config.data['background']:
-            if config.data['UI'] in (5, 6, 7, 8):
-                data = {'background': False}
-            else:
-                data = {'background': status}
-            self.updateObject(COMPONENT_TYPE.LABEL, data)
+        if config.data['UI'] in (5, 6, 7, 8):
+            data = {'background': False}
+        else:
+            data = {'background': config.data['background']}
+        self.updateObject(COMPONENT_TYPE.LABEL, data)
 
     @staticmethod
     def screenFix(screen, value, mod, align=1):
         if align == 1:  # ?????????????
             if value + mod > screen:
-                return max(0, int(screen - mod))
+                return float(max(0, screen - mod))
             if value < 0:
-                return 0
+                return 0.0
         if align == -1:  # ?????????????
             if value - mod < -screen:
-                return min(0, int(-screen + mod))
+                return min(0, -screen + mod)
             if value > 0:
-                return 0
+                return 0.0
         if align == 0:  # ?????
-            scr = screen / 2
+            scr = screen / 2.0
             if value < scr:
-                return int(scr - mod)
+                return float(scr - mod)
             if value > -scr:
-                return int(-scr)
-        return None
+                return float(-scr)
+        return value
 
     @inject.log
     def screenResize(self):
         curScr = GUI.screenResolution()
-        scale = self.settingsCore.interfaceScale.get()
+        scale = float(self.settingsCore.interfaceScale.get())
         xMo, yMo = curScr[0] / scale, curScr[1] / scale
-        x = None
+        x = config.data['panel'].get('x', None)
         if config.data['panel']['alignX'] == COMPONENT_ALIGN.LEFT:
             x = self.screenFix(xMo, config.data['panel']['x'], config.data['panel']['width'], 1)
         if config.data['panel']['alignX'] == COMPONENT_ALIGN.RIGHT:
@@ -1322,10 +1345,10 @@ class Flash(object):
         if config.data['panel']['alignX'] == COMPONENT_ALIGN.CENTER:
             x = self.screenFix(xMo, config.data['panel']['x'], config.data['panel']['width'], 0)
         if x is not None:
-            if x != int(config.data['panel']['x']):
+            if x != config.data['panel']['x']:
                 config.data['panel']['x'] = x
-                self.data[COMPONENT_TYPE.PANEL]['x'] = x
-        y = None
+                self.data[COMPONENT_TYPE.LABEL]['x'] = x
+        y = config.data['panel'].get('y', None)
         if config.data['panel']['alignY'] == COMPONENT_ALIGN.TOP:
             y = self.screenFix(yMo, config.data['panel']['y'], config.data['panel']['height'], 1)
         if config.data['panel']['alignY'] == COMPONENT_ALIGN.BOTTOM:
@@ -1333,11 +1356,11 @@ class Flash(object):
         if config.data['panel']['alignY'] == COMPONENT_ALIGN.CENTER:
             y = self.screenFix(yMo, config.data['panel']['y'], config.data['panel']['height'], 0)
         if y is not None:
-            if y != int(config.data['panel']['y']):
+            if y != config.data['panel']['y']:
                 config.data['panel']['y'] = y
-                self.data[COMPONENT_TYPE.PANEL]['y'] = y
+                self.data[COMPONENT_TYPE.LABEL]['y'] = y
         config.apply(config.data)
-        self.updateObject(COMPONENT_TYPE.PANEL, self.data[COMPONENT_TYPE.PANEL])
+        self.updateObject(COMPONENT_TYPE.LABEL, {'x': x, 'y': y})
 
     def getData(self):
         return self.data
@@ -1363,7 +1386,7 @@ def tankmanResponse(func, *args):
 def onBattleEvents(func, *args):
     func(*args)
     if BigWorld.player().arena.bonusType == ARENA_BONUS_TYPE.REGULAR:
-        worker.onBattleEvents(args[1])
+        worker.onBattleEvents(args[1], args[2])
 
 
 @inject.hook(Vehicle, 'onHealthChanged')

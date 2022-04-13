@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.16.0.0'
+CLIENT_VERSION = '1.16.1.0'
 NAME = 'spoter.marksOnGunExtended'
 ADD_LICENSE = True
 
