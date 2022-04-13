@@ -58,34 +58,33 @@
     "enabled": true,
     "font": "$FieldFont",
     "panel": {
-        "index": 10000,
-        "width": 183.0,
-        "drag": true,
         "height": 50.0,
         "visible": true,
-        "alignY": "bottom",
+        "drag": true,
         "alignX": "left",
-        "background": true,
         "alpha": 1.0,
-        "y": -226.0,
-        "x": 230.0
         "shadow": {
             "distance": 0,
             "strength": 0,
             "blurX": 0,
             "blurY": 0,
-            "color": 0,
             "alpha": 0,
+            "color": 0,
             "angle": 0,
             "quality": 0
         },
-        "border": true
+        "border": true,
+        "index": 10000,
+        "alignY": "bottom",
+        "width": 183.0,
+        "y": -226.0,
+        "x": 230.0
     },
     "panelSize": {
-        "heightNormal": 50,
-        "heightAlt": 80,
-        "widthAlt": 183,
-        "widthNormal": 183
+        "heightNormal": 50.0,
+        "heightAlt": 80.0,
+        "widthAlt": 183.0,
+        "widthNormal": 183.0
     },
     "showInBattle": false,
     "showInBattleHalfPercents": false,
