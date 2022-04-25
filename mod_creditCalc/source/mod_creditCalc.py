@@ -119,8 +119,8 @@ class Config(object):
     def __init__(self):
         self.ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.08 (2022-02-25)'
-        self.version_id = 208
+        self.version = 'v2.09 (2022-04-25)'
+        self.version_id = 209
         self.versionI18n = 3401
         lang = getLanguageCode().lower()
         self.dataDefault = {
@@ -476,7 +476,7 @@ class CreditsCalculator(object):
             return True
         return False
 
-    def onBattleEvents(self, events):
+    def onBattleEvents(self, targetID, events):
         player = BigWorld.player()
         guiSessionProvider = player.guiSessionProvider
         radio = 0
@@ -486,7 +486,6 @@ class CreditsCalculator(object):
             for data in events:
                 feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
                 eventType = feedbackEvent.getBattleEventType()
-                targetID = feedbackEvent.getTargetID()
                 if eventType == BATTLE_EVENT_TYPE.SPOTTED:
                     vehicle = BigWorld.entity(targetID)
                     self.SPOT += 1
@@ -2058,10 +2057,10 @@ def hook_CrewMeta_as_tankmenResponseS(self, data):
     return hooked_CrewMeta_as_tankmenResponseS(self, data)
 
 
-def hook_onBattleEvents(self, events):
-    hooked_onBattleEvents(self, events)
+def hook_onBattleEvents(self, vehicleID, events):
+    hooked_onBattleEvents(self, vehicleID, events)
     if BigWorld.player().arena.bonusType == ARENA_BONUS_TYPE.REGULAR:
-        calc.onBattleEvents(events)
+        calc.onBattleEvents(vehicleID, events)
 
 
 def hook_LobbyPopulate(self):
