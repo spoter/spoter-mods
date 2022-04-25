@@ -23,8 +23,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.13 (2022-02-25)'
-        self.version_id = 413
+        self.version = 'v4.14 (2022-04-25)'
+        self.version_id = 414
         self.author = 'by spoter'
         self.dataDefault = {
             'version'                : self.version_id,
@@ -168,7 +168,7 @@ class Assist(object):
         text, color, macros = GENERATOR[event]
         return '%s%s' %(config.i18n[text], config.data[macros].format(**self.format_str)), config.data[color]
 
-    def post_message(self, events):
+    def post_message(self, vehicleID, events):
         if not config.data['enabled']:
             return
         g_sessionProvider = BigWorld.player().guiSessionProvider
@@ -177,7 +177,6 @@ class Assist(object):
             feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
             eventID = feedbackEvent.getBattleEventType()
             if eventID in [BATTLE_EVENT_TYPE.SPOTTED, BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST]:
-                vehicleID = feedbackEvent.getTargetID()
                 icon = '<img src="img://%s" width="%s" height="%s" />' % (g_sessionProvider.getArenaDP().getVehicleInfo(vehicleID).vehicleType.iconPath.replace('..', 'gui'), config.data['iconSizeX'], config.data['iconSizeY'])
                 target_info = g_sessionProvider.getCtx().getPlayerFullNameParts(vID=vehicleID)
                 if self.check_macros('{icons}'): self.format_str['icons'] += icon
@@ -206,4 +205,4 @@ assist = Assist()
 @inject.log
 def onBattleEvents(func, *args):
     func(*args)
-    assist.post_message(args[1])
+    assist.post_message(args[1], args[2])
