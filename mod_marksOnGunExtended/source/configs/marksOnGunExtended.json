@@ -65,13 +65,13 @@
         "alpha": 1.0,
         "shadow": {
             "distance": 0,
-            "strength": 0,
-            "blurX": 0,
-            "blurY": 0,
-            "alpha": 0,
+            "strength": 3000,
+            "blurX": 1,
+            "blurY": 1,
             "color": 0,
+            "alpha": 90,
             "angle": 0,
-            "quality": 0
+            "quality": 1
         },
         "border": true,
         "index": 10000,
@@ -97,5 +97,5 @@
     "showInTechTreeMastery": true,
     "unknownColor": 16,
     "upColor": 18,
-    "version": 904
+    "version": 905
 }

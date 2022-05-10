@@ -14,6 +14,7 @@
     "UI_menu_UIskill4ltu": "<font color=\"#60FF00\">@skill</font> Auswahl [<font color=\"#60FF00\">twitch.tv/skill4ltu</font>]",
     "UI_menu_UIspoter": "<font color=\"#6595EE\">@spoter</font> Auswahl [<font color=\"#6595EE\">github.com/spoter</font>]",
     "UI_menu_UIspoterNew": "Neu <font color=\"#6595EE\">@spoter</font> Auswahl [<font color=\"#6595EE\">github.com/spoter</font>]",
+    "UI_menu_UIkorbenDallasNoMercy": "<font color=\"#e3256b\">@KorbenDallasNoMercy</font> Auswahl [<font color=\"#e3256b\">youtube.com/c/KorbenDallasNoMercy</font>]",
     "UI_menu_blue": "Blau",
     "UI_menu_brown": "Braun",
     "UI_menu_chocolate": "Schokolade",
@@ -89,5 +90,5 @@
     "battleMessageSizeLimitMin": "MoE mod: <b>minimum[10%]</b> erreicht",
     "battleMessageSizeReset": "MoE mod: Einstellungen zurücksetzen</b>",
     "battleMessageSizeUp": "MoE mod: Größe <b>+10%</b>",
-    "version": 904
+    "version": 905
 }
