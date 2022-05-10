@@ -67,7 +67,7 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.05 (2022-05-10)'
+        self.version = 'v9.05 (2022-05-11)'
         self.version_id = 905
         self.author = 'by spoter & oldskool'
         self.buttons = {
@@ -719,7 +719,7 @@ class Worker(object):
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         if config.data['UI'] == 11:
-            self.formatStrings['damageCurrentPercent'] = '[<b>%.0f</b>]' % EDn if EDn < limit or self.replay else config.i18n['NaN']
+            self.formatStrings['damageCurrentPercent'] = '<b>%.0f</b>' % EDn if EDn < limit or self.replay else config.i18n['NaN']
         else:
             self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < limit or self.replay else config.i18n['NaN']
         self.levels.append(curPercent)
