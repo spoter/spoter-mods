@@ -504,8 +504,8 @@ class Worker(object):
             'battleMessagesspoterNew'    : '<font size=\"32\">{c_battleMarkOfGun}{c_damageCurrent}</font>',
             'battleMessagesspoterNewAlt' : '<font size=\"32\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n<font size=\"32\">{c_damageToMark100}</font>',
 
-            'battleMessageskorbenDallasNoMercy'   : '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"20\">{damageNextPercent}</font></p>',
-            'battleMessageskorbenDallasNoMercyAlt': '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"20\">{damageNextPercent}</font></p>',
+            'battleMessageskorbenDallasNoMercy'   : '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrentPercent}</font></p>',
+            'battleMessageskorbenDallasNoMercyAlt': '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrentPercent}</font></p>',
 
         }
         self.levels = []
@@ -718,7 +718,10 @@ class Worker(object):
             EDn += 1
             EMA = k * EDn + (1 - k) * d1
             start = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
-        self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < limit or self.replay else config.i18n['NaN']
+        if config.data['UI'] == 11:
+            self.formatStrings['damageCurrentPercent'] = '[<b>%.0f</b>]' % EDn if EDn < limit or self.replay else config.i18n['NaN']
+        else:
+            self.formatStrings['damageCurrentPercent'] = config.data['battleMessage{damageCurrentPercent}'] % EDn if EDn < limit or self.replay else config.i18n['NaN']
         self.levels.append(curPercent)
         self.damages.append(EDn)
         if halfPercent and config.data['showInBattleHalfPercents']:
