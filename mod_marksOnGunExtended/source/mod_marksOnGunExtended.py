@@ -67,8 +67,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.05 (2022-05-11)'
-        self.version_id = 905
+        self.version = 'v9.06 (2022-05-11)'
+        self.version_id = 906
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -504,8 +504,8 @@ class Worker(object):
             'battleMessagesspoterNew'    : '<font size=\"32\">{c_battleMarkOfGun}{c_damageCurrent}</font>',
             'battleMessagesspoterNewAlt' : '<font size=\"32\">{c_nextMarkOfGun}:{c_damageNextPercent}</font>\n<font size=\"32\">{c_damageToMark100}</font>',
 
-            'battleMessageskorbenDallasNoMercy'   : '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrentPercent}</font></p>',
-            'battleMessageskorbenDallasNoMercyAlt': '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"20\">{damageCurrentPercent}</font></p>',
+            'battleMessageskorbenDallasNoMercy'   : '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"22\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"22\">{damageCurrentPercent}</font></p>',
+            'battleMessageskorbenDallasNoMercyAlt': '<p align=\"right\"><font size=\"54\"><font color=\"{status}\">{battleMarkOfGun}</font></font></p>\n<p align=\"right\"><font size=\"22\">{damageCurrent}</font></p>\n<p align=\"right\"><font size=\"22\">{damageCurrentPercent}</font></p>',
 
         }
         self.levels = []
@@ -957,13 +957,13 @@ class Worker(object):
                 self.formatStrings['color'] = '%s' % COLOR[config.data['upColor']]
                 if self.checkMark(nextMark):
                     self.formatStrings['color'] = '#D042F3'
-                self.formatStrings['status'] = config.data['battleMessage{status}Up'] if config.data['UI'] != 11 else "#00FF00"
+                self.formatStrings['status'] = config.data['battleMessage{status}Up'] if config.data['UI'] != 11 else "#228b22"
                 self.formatStrings['c_status'] = '%s%s%s' % (self.formatStrings['colorOpen'], config.data['battleMessage{c_status}Up'], self.formatStrings['colorClose'])
             else:
                 self.formatStrings['color'] = '%s' % COLOR[config.data['downColor']]
                 if self.checkMark(nextMark):
                     self.formatStrings['color'] = '#D042F3'
-                self.formatStrings['status'] = config.data['battleMessage{status}Down'] if config.data['UI'] != 11 else "#FF0000"
+                self.formatStrings['status'] = config.data['battleMessage{status}Down'] if config.data['UI'] != 11 else "#af2b1e"
                 self.formatStrings['c_status'] = '%s%s%s' % (self.formatStrings['colorOpen'], config.data['battleMessage{c_status}Down'], self.formatStrings['colorClose'])
         else:
             self.formatStrings['color'] = '%s' % COLOR[config.data['unknownColor']]
