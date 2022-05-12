@@ -34,6 +34,7 @@ class Release(object):
         #copy mod_mods_gui core
         if os.path.exists('../mod_mods_gui/release'):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, self.data.CLIENT_VERSION), '*.wotmod') )
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, 'configs', 'mods_gui'), '*.txt_'))
         if os.path.exists('../mod_mods_gui/release/i18n'):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.json') )
             subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.html'))

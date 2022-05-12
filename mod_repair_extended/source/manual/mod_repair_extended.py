@@ -40,9 +40,9 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'leftTrack0', 'rightTrack0', 'l
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.13 (2022-02-25)'
+        self.version = 'v3.14 (2022-05-12)'
         self.author = 'by spoter'
-        self.version_id = 313
+        self.version_id = 314
         self.buttons = {
             'buttonRepair' : [Keys.KEY_SPACE],
             'buttonChassis': [[Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -175,6 +175,7 @@ class Config(object):
 
 class Repair(object):
     def __init__(self):
+        self.player = None
         self.ctrl = None
         self.consumablesPanel = None
         self.items = {
@@ -186,7 +187,8 @@ class Repair(object):
         g_eventBus.addListener(events.ComponentEvent.COMPONENT_UNREGISTERED, self.__onComponentUnregistered, EVENT_BUS_SCOPE.GLOBAL)
 
     def startBattle(self):
-        self.ctrl = BigWorld.player().guiSessionProvider.shared
+        self.player = BigWorld.player()
+        self.ctrl = self.player.guiSessionProvider.shared
         InputHandler.g_instance.onKeyDown += self.injectButton
         InputHandler.g_instance.onKeyUp += self.injectButton
         self.checkBattleStarted()
@@ -216,6 +218,11 @@ class Repair(object):
         if BattleReplay.g_replayCtrl.isPlaying: return
         if self.ctrl is None:
             return
+        selfVehicle = self.player.getVehicleAttached()
+        if selfVehicle is None:
+            return
+        if self.ctrl.vehicleState.getControllingVehicleID() != selfVehicle.id:
+            return
         equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
         if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
             # noinspection PyProtectedMember
@@ -227,6 +234,11 @@ class Repair(object):
         if not config.data['enabled']: return
         if BattleReplay.g_replayCtrl.isPlaying: return
         if self.ctrl is None:
+            return
+        selfVehicle = self.player.getVehicleAttached()
+        if selfVehicle is None:
+            return
+        if self.ctrl.vehicleState.getControllingVehicleID() != selfVehicle.id:
             return
         equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
         if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
@@ -289,6 +301,11 @@ class Repair(object):
     def repairAll(self):
         if self.ctrl is None:
             return
+        selfVehicle = self.player.getVehicleAttached()
+        if selfVehicle is None:
+            return
+        if self.ctrl.vehicleState.getControllingVehicleID() != selfVehicle.id:
+            return
         if config.data['extinguishFire']:
             self.extinguishFire()
         if config.data['repairDevices']:
@@ -302,6 +319,11 @@ class Repair(object):
 
     def repairChassis(self):
         if self.ctrl is None:
+            return
+        selfVehicle = self.player.getVehicleAttached()
+        if selfVehicle is None:
+            return
+        if self.ctrl.vehicleState.getControllingVehicleID() != selfVehicle.id:
             return
         equipmentTag = 'repairkit'
         for intCD, equipment in self.ctrl.equipments.iterEquipmentsByTag(equipmentTag):
