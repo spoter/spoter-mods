@@ -67,8 +67,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.06 (2022-05-12)'
-        self.version_id = 906
+        self.version = 'v9.07 (2022-05-20)'
+        self.version_id = 907
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -597,11 +597,11 @@ class Worker(object):
                     self.requestNewData(self.damageRating, self.movingAvgDamage)
                 config.values = g_gui.update_data('%s_stats' % config.ids, config.values)
 
-    def onBattleEvents(self, vehicleID, events):
+    def onBattleEvents(self, events):
         if not config.data['enabled']: return
         player = BigWorld.player()
         guiSessionProvider = player.guiSessionProvider
-        if vehicleID == player.playerVehicleID:
+        if guiSessionProvider.shared.vehicleState.getControllingVehicleID() == player.playerVehicleID:
             for data in events:
                 feedbackEvent = feedback_events.PlayerFeedbackEvent.fromDict(data)
                 eventType = feedbackEvent.getBattleEventType()
@@ -1397,7 +1397,7 @@ def tankmanResponse(func, *args):
 def onBattleEvents(func, *args):
     func(*args)
     if BigWorld.player().arena.bonusType == ARENA_BONUS_TYPE.REGULAR:
-        worker.onBattleEvents(args[1], args[2])
+        worker.onBattleEvents(args[1])
 
 
 @inject.hook(Vehicle, 'onHealthChanged')

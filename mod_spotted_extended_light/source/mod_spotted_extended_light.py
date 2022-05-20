@@ -23,8 +23,8 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.17 (2022-05-12)'
-        self.version_id = 417
+        self.version = 'v4.18 (2022-05-20)'
+        self.version_id = 418
         self.author = 'by spoter'
         self.dataDefault = {
             'version'                : self.version_id,
@@ -168,7 +168,7 @@ class Assist(object):
         text, color, macros = GENERATOR[event]
         return '%s%s' %(config.i18n[text], config.data[macros].format(**self.format_str)), config.data[color]
 
-    def post_message(self, _, events):
+    def post_message(self, events):
         if not config.data['enabled']:
             return
         g_sessionProvider = BigWorld.player().guiSessionProvider
@@ -206,4 +206,4 @@ assist = Assist()
 @inject.log
 def onBattleEvents(func, *args):
     func(*args)
-    assist.post_message(args[1], args[2])
+    assist.post_message(args[1])
