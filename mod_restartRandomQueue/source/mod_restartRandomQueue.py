@@ -3,7 +3,7 @@ import BigWorld
 import constants
 from PlayerEvents import g_playerEvents
 # noinspection PyProtectedMember
-from gui.Scaleform.daapi.view.lobby.battle_queue.base_queue import _QueueProvider
+from gui.Scaleform.daapi.view.lobby.battle_queue import _QueueProvider
 from gui.prb_control import prbEntityProperty
 from helpers import dependency
 from skeletons.gui.lobby_context import ILobbyContext
@@ -65,4 +65,4 @@ def newStart(self):
 oldStart = _QueueProvider.start
 _QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.10 (04-05-2022), by spoter]'
+print '[LOAD_MOD]:  [mod_restartRandomQueue 1.11 (20-05-2022), by spoter]'
