@@ -67,8 +67,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.07 (2022-05-20)'
-        self.version_id = 907
+        self.version = 'v9.08 (2022-06-01)'
+        self.version_id = 908
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -997,7 +997,7 @@ class Worker(object):
         return vehicle.id == BigWorld.player().playerVehicleID
 
     # noinspection PyUnusedLocal
-    def onVehicleKilled(self, target_id, attacker_id, equipment_id, reason):
+    def onVehicleKilled(self, target_id, *args):
         if target_id == BigWorld.player().playerVehicleID:
             self.killed = True
             self.calc()
