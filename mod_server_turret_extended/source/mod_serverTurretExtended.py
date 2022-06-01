@@ -19,8 +19,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.12 (2022-05-12)'
-        self.version_id = 312
+        self.version = 'v3.13 (2022-06-01)'
+        self.version_id = 313
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -227,7 +227,7 @@ class MovementControl(object):
         result = vehicle and vehicle.isAlive() and vehicle.isWheeledTech and vehicle.typeDescriptor.hasSiegeMode
         if result:
             soundStateChange = vehicle.typeDescriptor.type.siegeModeParams['soundStateChange']
-            vehicle.appearance.engineAudition.setSiegeSoundEvents(soundStateChange.isEngine, soundStateChange.on, soundStateChange.npcOn, soundStateChange.off, soundStateChange.npcOff)
+            vehicle.appearance.engineAudition.setSiegeSoundEvents(soundStateChange.isEngine, soundStateChange.npcOn, soundStateChange.npcOff)
         return result
 
 
