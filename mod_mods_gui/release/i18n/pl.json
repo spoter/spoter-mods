@@ -5,5 +5,5 @@
     "gui_enableButtonTooltip": "{HEADER}Preferencje modów{/HEADER}{BODY}Włączanie/Wyłączanie modyfikacji oraz konfiguracja ustawień{/BODY}",
     "gui_name": "Mody - Preferencje ",
     "gui_windowTitle": "Preferencje modów",
-    "version": 303
+    "version": 304
 }
