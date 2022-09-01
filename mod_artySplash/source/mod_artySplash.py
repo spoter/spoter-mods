@@ -18,9 +18,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.15 (2022-05-12)'
+        self.version = 'v2.16 (2022-09-01)'
         self.author = 'by spoter'
-        self.version_id = 215
+        self.version_id = 216
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -119,9 +119,9 @@ class ArtyBall(object):
             self.modelDot = StaticObjectMarker3D({
                 'path': config.data['modelPathDot']
             }, (0, 0, 0))
-            self.modelDot._StaticObjectMarker3D__model.scale = (0.1, 0.1, 0.1)
+            self.modelDot._StaticObjectMarker3D__model.sacle = (0.1, 0.1, 0.1) # они больные! поменяли BigWorld.Model().scale на BigWorld.Model().saсle как такое вообще в голову пришло? лучшие наркоманы в индустрии
             if Vehicle.getVehicleClassTag(self.player.vehicleTypeDescriptor.type.tags) == VEHICLE_CLASS_NAME.SPG:
-                self.modelDot._StaticObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
+                self.modelDot._StaticObjectMarker3D__model.sacle = (0.5, 0.5, 0.5)
             self.modelSplash._StaticObjectMarker3D__model.visible = False
             self.modelDot._StaticObjectMarker3D__model.visible = False
             # noinspection PyUnresolvedReferences
@@ -175,7 +175,7 @@ class ArtyBall(object):
         if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
             if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
                 self.scaleSplash = shell.type.explosionRadius
-                self.modelSplash._StaticObjectMarker3D__model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
+                self.modelSplash._StaticObjectMarker3D__model.sacle = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelSplash._StaticObjectMarker3D__model.position = self.player.gunRotator.markerInfo[0]
