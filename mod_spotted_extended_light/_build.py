@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.17.0.0'
+CLIENT_VERSION = '1.18.0.1'
 NAME = 'spoter.spotted_extended_light'
 ADD_LICENSE = True
 

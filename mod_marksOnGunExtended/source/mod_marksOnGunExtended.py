@@ -67,7 +67,7 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.08 (2022-08-30)'
+        self.version = 'v9.08 (2022-09-16)'
         self.version_id = 908
         self.author = 'by spoter & oldskool'
         self.buttons = {
