@@ -40,7 +40,7 @@ CHASSIS = ['chassis', 'leftTrack', 'rightTrack', 'leftTrack0', 'rightTrack0', 'l
 class Config(object):
     def __init__(self):
         self.ids = 'repair_extended'
-        self.version = 'v3.14 (2022-09-16)'
+        self.version = 'v3.14 (2022-10-15)'
         self.author = 'by spoter'
         self.version_id = 314
         self.buttons = {
@@ -225,8 +225,7 @@ class Repair(object):
             return
         equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][0]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][0]) else None
         if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
-            # noinspection PyProtectedMember
-            self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][0], item)
+            self.consumablesPanel._handleEquipmentPressed(self.items[equipmentTag][0], item)
             sound = SoundGroups.g_instance.getSound2D('vo_flt_repair')
             BigWorld.callback(1.0, sound.play)
 
@@ -242,8 +241,7 @@ class Repair(object):
             return
         equipment = self.ctrl.equipments.getEquipment(self.items[equipmentTag][1]) if self.ctrl.equipments.hasEquipment(self.items[equipmentTag][1]) else None
         if equipment is not None and equipment.isReady and equipment.isAvailableToUse:
-            # noinspection PyProtectedMember
-            self.consumablesPanel._ConsumablesPanel__handleEquipmentPressed(self.items[equipmentTag][1])
+            self.consumablesPanel._handleEquipmentPressed(self.items[equipmentTag][1])
             sound = SoundGroups.g_instance.getSound2D('vo_flt_repair')
             BigWorld.callback(1.0, sound.play)
 
