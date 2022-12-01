@@ -15,6 +15,7 @@ from helpers.i18n import makeString as p__makeString
 from gui.shared.gui_items import GUI_ITEM_TYPE
 from gui.impl import backport
 from gui.impl.gen import R
+from gui.shared.tooltips.module import StatusBlockConstructor
 
 i18n = {
     'UI_TOOLTIPS_StabBonus_ColorPositive'      : '#28F09C',
@@ -177,61 +178,51 @@ if 'tr' in getLanguageCode().lower():
 }
 
 
-def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonTooltip='', extraParams=(), specializations=()):
-    result = oldCreateStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType, nationFlagIcon, enabled, available, contextMenuId, additionalInfo, active, upgradable, upgradeButtonTooltip, extraParams, specializations)
-    try:
-        b = []
-        for priced in result['price']['price']:
-            b.append((priced[0], priced[1] * result['count']))
-        result['price']['price'] = tuple(b)
-    except StandardError:
-        pass
+def createStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType='', nationFlagIcon='', enabled=True, available=True, contextMenuId='', additionalInfo='', actionButtonLabel=None, active=GOODIE_STATE.INACTIVE, upgradable=False, upgradeButtonIcon=None, upgradeButtonTooltip='', extraParams=(), specializations=()):
+    result = oldCreateStorageDefVO(itemID, title, description, count, price, image, imageAlt, itemType, nationFlagIcon, enabled, available, contextMenuId, additionalInfo, actionButtonLabel, active, upgradable, upgradeButtonIcon, upgradeButtonTooltip, extraParams, specializations)
+    #if 'price' in result and 'count' in result:
+    b = []
+    for priced in result['price']['price']:
+        b.append((priced[0], priced[1] * result['count']))
+    result['price']['price'] = tuple(b)
     return result
 
 
-def makeShellTooltip(self, descriptor, piercingPower, shotSpeed):
-    result = oldMakeShellTooltip(self, descriptor, piercingPower, shotSpeed)
-    try:
-        damage = backport.getNiceNumberFormat(descriptor.damage[0])
-        damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, backport.getNiceNumberFormat(descriptor.damage[1]))
-    except StandardError:
-        return result
+def makeShellTooltip(*args):
+    result = oldMakeShellTooltip(*args)
+    descriptor = args[1]
+    damage = backport.getNiceNumberFormat(descriptor.damage[0])
+    damageModule = i18n['UI_TOOLTIPS_modulesTextTooltipBattle_Text'] % (damage, backport.getNiceNumberFormat(descriptor.damage[1]))
     return result.replace(damage, damageModule)
 
 
 def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
     params = oldGetFormattedParamsList(descriptor, parameters, excludeRelative)
     result = []
-    try:
-        for param in params:
-            if 'caliber' in param:
-                result.append(param)
-                result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(backport.getNiceNumberFormat(descriptor.damage[1]))))
-            else:
-                result.append(param)
-    except StandardError:
-        return params
+    for param in params:
+        if 'caliber' in param:
+            result.append(param)
+            result.append(('avgDamage', i18n['UI_TOOLTIPS_modulesText_Text'].format(backport.getNiceNumberFormat(descriptor.damage[1]))))
+        else:
+            result.append(param)
     return result
 
 
 def construct(self):
     result = old_construct(self)
-    try:
-        block = []
-        avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
-        for pack in result:
-            if 'name' in pack['data'] and avgDamage in pack['data']['name']:
-                block.append(pack)
-                block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
-            else:
-                block.append(pack)
-        vehicle = g_currentVehicle.item
-        module = vehicle.gun
-        bonuses = p__getStabFactors(vehicle, module)
-        for bonus in bonuses:
-            block.append(self._packParameterBlock(bonus[0], bonus[1], ''))
-    except StandardError:
-        return result
+    block = []
+    avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
+    for pack in result:
+        if 'name' in pack['data'] and avgDamage in pack['data']['name']:
+            block.append(pack)
+            block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
+        else:
+            block.append(pack)
+    vehicle = g_currentVehicle.item
+    module = vehicle.gun
+    bonuses = p__getStabFactors(vehicle, module)
+    for bonus in bonuses:
+        block.append(self._packParameterBlock(bonus[0], bonus[1], ''))
     return block
 
 
@@ -320,63 +311,56 @@ def p__getStabFactors(vehicle, module, inSettings=False):
 
 def construct1(self):
     result = list(old1_construct(self))
-    try:
-        module = self.module
-        vehicle = self.configuration.vehicle
-        if module.itemTypeID == GUI_ITEM_TYPE.GUN:
-            bonuses = p__getStabFactors(vehicle, module)
-            for bonus in bonuses:
-                result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
-    except StandardError:
-        pass
+    module = self.module
+    vehicle = self.configuration.vehicle
+    if module.itemTypeID == GUI_ITEM_TYPE.GUN:
+        bonuses = p__getStabFactors(vehicle, module)
+        for bonus in bonuses:
+            result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
     return result
 
 def _packBlocks(self, paramName):
     blocks = old_packBlocks(self, paramName)
-    try:
-        if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
-            vehicle = g_currentVehicle.item
-            module = vehicle.gun
-            bonuses = p__getStabFactors(vehicle, module)
-            result = []
-            found = False
-            for block in blocks:
-                result.append(block)
-                if 'blocksData' in block['data']:
-                    if found:
-                        continue
-                    for linkage in block['data']['blocksData']:
-                        if 'TooltipTextBlockUI' in linkage['linkage']:
-                            found = True
-                            for bonus in bonuses:
-                                result.append(formatters1.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters1.packPadding(left=59, right=20)))
-                            break
-            return result
-    except StandardError:
-        pass
+    if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
+        vehicle = g_currentVehicle.item
+        module = vehicle.gun
+        bonuses = p__getStabFactors(vehicle, module)
+        result = []
+        found = False
+        for block in blocks:
+            result.append(block)
+            if 'blocksData' in block['data']:
+                if found:
+                    continue
+                for linkage in block['data']['blocksData']:
+                    if 'TooltipTextBlockUI' in linkage['linkage']:
+                        found = True
+                        for bonus in bonuses:
+                            result.append(formatters1.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters1.packPadding(left=59, right=20)))
+                        break
+        return result
     return blocks
 
+def StatusBlockConstructor_getStatus(self):
+    self.MAX_INSTALLED_LIST_LEN = 1000
+    return old_StatusBlockConstructor_getStatus(self)
 
 oldCreateStorageDefVO = storage_helpers.createStorageDefVO
-if hasattr(ConsumablesPanel, '_makeShellTooltip'):
-    oldMakeShellTooltip = ConsumablesPanel._makeShellTooltip
-else:
-    oldMakeShellTooltip = ConsumablesPanel._ConsumablesPanel__makeShellTooltip
+oldMakeShellTooltip = ConsumablesPanel._ConsumablesPanel__makeShellTooltip
 oldGetFormattedParamsList = formatters.getFormattedParamsList
 old_construct = CommonStatsBlockConstructor.construct
 old1_construct = CommonStatsBlockConstructor1.construct
 old_packBlocks = VehicleAdvancedParametersTooltipData._packBlocks
+old_StatusBlockConstructor_getStatus = StatusBlockConstructor._getStatus
 
 ModuleTooltipBlockConstructor.MAX_INSTALLED_LIST_LEN = 1000
 battle_booster._MAX_INSTALLED_LIST_LEN = 1000
 storage_helpers.createStorageDefVO = createStorageDefVO
-if hasattr(ConsumablesPanel, '_makeShellTooltip'):
-    ConsumablesPanel._makeShellTooltip = makeShellTooltip
-else:
-    ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
+ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
 formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
 VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
+StatusBlockConstructor._getStatus = StatusBlockConstructor_getStatus
 
-print '[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.03 (26-09-2020), by spoter, gox, b4it]'
+print('[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.05 (01-12-2022), by spoter]')

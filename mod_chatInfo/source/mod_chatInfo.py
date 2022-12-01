@@ -18,7 +18,7 @@ BATTLES = [0.0, 2.0, 6.0, 16.0, 30.0, 43.0]
 class Config(object):
     def __init__(self):
         self.ids = 'chatInfo'
-        self.version = 'v2.01 (2022-09-16)'
+        self.version = 'v2.01 (2022-12-01)'
         self.version_id = 201
         self.author = 'by spoter'
         self.dataDefault = {
