@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.19.0.1'
+CLIENT_VERSION = '1.19.1.0'
 NAME = 'spoter.artySplash'
 ADD_LICENSE = True
 
@@ -30,7 +30,7 @@ class Build(object):
         self.createFileDict()
         self.packWotmod()
         self.clear()
-        print 'created: %s v%s (%s) to %s' % (self.RELEASE, self.VERSION["version"], self.DATE, CLIENT_VERSION)
+        print('created: %s v%s (%s) to %s' % (self.RELEASE, self.VERSION["version"], self.DATE, CLIENT_VERSION))
 
     def clear(self):
         try:
@@ -67,7 +67,7 @@ class Build(object):
             newData = []
             for line in data:
                 if 'self.ids = ' in line:
-                    self.configName = re.split('self.ids = ', line)[1]
+                    self.CONFIG_NAME = re.split('self.ids = ', line)[1]
                 if string in line:
                     newData.append('%s%s%s\n' % (re.split(string, line)[0], string, text))
                     continue
