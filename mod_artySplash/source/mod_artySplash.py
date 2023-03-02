@@ -10,7 +10,7 @@ from gui import InputHandler
 from Avatar import PlayerAvatar
 from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME
 # noinspection PyProtectedMember
-from tutorial.control.battle.functional import _StaticObjectMarker3D as StaticObjectMarker3D
+from bootcamp.BootcampMarkers import _StaticObjectMarker3D as StaticObjectMarker3D
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 from gui.shared.gui_items import Vehicle
 
@@ -18,9 +18,9 @@ from gui.shared.gui_items import Vehicle
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.16 (2023-01-18)'
+        self.version = 'v2.17 (2023-03-02)'
         self.author = 'by spoter'
-        self.version_id = 216
+        self.version_id = 217
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
