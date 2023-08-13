@@ -13,12 +13,13 @@ from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME
 from bootcamp.BootcampMarkers import _StaticObjectMarker3D as StaticObjectMarker3D
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 from gui.shared.gui_items import Vehicle
+from CombatSelectedArea import CombatSelectedArea
 
 
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.17 (2023-03-02)'
+        self.version = 'v2.17 (2023-08-13)'
         self.author = 'by spoter'
         self.version_id = 217
         self.buttons = {

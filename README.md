@@ -10,7 +10,6 @@
 
 ### Описание модов:
 * [mod_artySplash][] - Сфера предполагаемого распространения фугасного урона и оглушения (для ОФ снарядов)
-* [mod_chatInfo][] - Информативный чат, подсвечивает в чате твинков, новичков, показывает процент побед и количество боёв у игрока в сообщении чата
 * [mod_crewExtended][] - Прокачка экипажа, показывает количество боёв и опыта до следующего изучаемого перка экипажа
 * [mod_marksOnGunExtended][] - "Отметки", прогресс отметок на орудии в бою и показ границ суммарного урона для взятия отметки в статистике танка
 * [mod_repair_extended][] - "Винтик", быстрый ремонт и лечение экипажа
@@ -27,7 +26,6 @@
 [mod_autoAimOptimize]:./mod_autoAimOptimize/
 [mod_battleChatSwitcher]:./mod_battleChatSwitcher/
 [mod_bookmarks]:./mod_bookmarks/
-[mod_chatInfo]:./mod_chatInfo/
 [mod_crewExtended]:./mod_crewExtended/
 [mod_dispersionCircle]:./mod_dispersionCircle/
 [mod_marksOnGunExtended]:./mod_marksOnGunExtended/

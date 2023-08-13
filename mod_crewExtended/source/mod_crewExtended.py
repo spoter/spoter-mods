@@ -15,7 +15,7 @@ from items import tankmen
 class Config(object):
     def __init__(self):
         self.ids = 'crewExtended'
-        self.version = 'v6.04 (2023-03-02)'
+        self.version = 'v6.04 (2023-08-13)'
         self.version_id = 604
         self.author = 'by spoter'
         self.dataDefault = {
