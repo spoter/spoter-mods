@@ -5,17 +5,37 @@ from CurrentVehicle import g_currentVehicle
 from goodies.goodie_constants import GOODIE_STATE
 from gui.Scaleform.daapi.view.battle.shared.consumables_panel import ConsumablesPanel
 from gui.Scaleform.daapi.view.lobby.storage import storage_helpers
-from gui.shared.items_parameters import formatters, functions
-from gui.shared.tooltips import battle_booster, formatters as formatters1
-from gui.shared.tooltips.vehicle import VehicleAdvancedParametersTooltipData
-from gui.shared.tooltips.module import CommonStatsBlockConstructor as CommonStatsBlockConstructor1, ModuleTooltipBlockConstructor
-from gui.shared.tooltips.shell import CommonStatsBlockConstructor
-from helpers import getLanguageCode
-from helpers.i18n import makeString as p__makeString
-from gui.shared.gui_items import GUI_ITEM_TYPE
 from gui.impl import backport
 from gui.impl.gen import R
+from gui.shared.formatters import icons
+from gui.shared.formatters import text_styles
+from gui.shared.gui_items import GUI_ITEM_TYPE
+from gui.shared.items_parameters import formatters, functions
+from gui.shared.items_parameters import params
+from gui.shared.tooltips import formatters as formatters_tooltips
+from gui.shared.tooltips import module
+from gui.shared.tooltips.common import _CurrencySetting
+from gui.shared.tooltips.module import CommonStatsBlockConstructor as CommonStatsBlockConstructor1
 from gui.shared.tooltips.module import StatusBlockConstructor
+from gui.shared.tooltips.shell import CommonStatsBlockConstructor
+from gui.shared.utils.requesters import REQ_CRITERIA
+from helpers import getLanguageCode
+from helpers.i18n import makeString as p__makeString
+
+# вентилятор и т.д.
+#from gui.shared.tooltips.module import OptDeviceEffectsBlockConstructor
+# аптечки
+#from gui.shared.tooltips.module import EffectsBlockConstructor
+# оборудка в исследованиях
+#from gui.shared.tooltips.module import CommonStatsBlockConstructor
+
+# стоимость одной текущей оборудки
+#from gui.shared.tooltips.module import PriceBlockConstructor
+
+# где на танках находится и сколько на складе лежит
+#from gui.shared.tooltips.module import InventoryBlockConstructor
+
+
 
 i18n = {
     'UI_TOOLTIPS_StabBonus_ColorPositive'      : '#28F09C',
@@ -316,9 +336,10 @@ def construct1(self):
     if module.itemTypeID == GUI_ITEM_TYPE.GUN:
         bonuses = p__getStabFactors(vehicle, module)
         for bonus in bonuses:
-            result.append(formatters1.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters1.packPadding(left=-5)))
+            result.append(formatters_tooltips.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters_tooltips.packPadding(left=-5)))
     return result
 
+# TODO: устарело, необходимо разобраться и восстановить позже
 def _packBlocks(self, paramName):
     blocks = old_packBlocks(self, paramName)
     if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
@@ -336,7 +357,7 @@ def _packBlocks(self, paramName):
                     if 'TooltipTextBlockUI' in linkage['linkage']:
                         found = True
                         for bonus in bonuses:
-                            result.append(formatters1.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters1.packPadding(left=59, right=20)))
+                            result.append(formatters_tooltips.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters_tooltips.packPadding(left=59, right=20)))
                         break
         return result
     return blocks
@@ -345,22 +366,134 @@ def StatusBlockConstructor_getStatus(self):
     self.MAX_INSTALLED_LIST_LEN = 1000
     return old_StatusBlockConstructor_getStatus(self)
 
+# Создаем испраленный конструктор для показа списка танков в подсказке
+def InventoryBlockConstructorConstruct(self):
+    block = []
+    module = self.module
+    inventoryCount = self.configuration.inventoryCount
+    vehiclesCount = self.configuration.vehiclesCount
+    if self.module.itemTypeID is GUI_ITEM_TYPE.EQUIPMENT and self.module.isBuiltIn:
+        return
+    else:
+        items = self.itemsCache.items
+        if inventoryCount:
+            count = module.inventoryCount
+            if count > 0:
+                block.append(self._getInventoryBlock(count, self._inInventoryBlockData, self._inventoryPadding))
+        if vehiclesCount:
+            inventoryVehicles = items.getVehicles(REQ_CRITERIA.INVENTORY)
+            installedVehicles = module.getInstalledVehicles(inventoryVehicles.itervalues())
+            count = len(installedVehicles)
+            if count > 0:
+                totalInstalledVehicles = [x.shortUserName for x in installedVehicles]
+                totalInstalledVehicles.sort()
+                tooltipText = None
+                visibleVehiclesCount = 0
+                for installedVehicle in totalInstalledVehicles:
+                    if tooltipText is None:
+                        tooltipText = installedVehicle
+                        visibleVehiclesCount = 1
+                        continue
+                    # изменённая строка
+                    if len(tooltipText) + len(installedVehicle) + 2 > MAX_INSTALLED_LIST_LEN:
+                        break
+                    tooltipText = ', '.join((tooltipText, installedVehicle))
+                    visibleVehiclesCount += 1
+
+                if count > visibleVehiclesCount:
+                    hiddenVehicleCount = count - visibleVehiclesCount
+                    hiddenTxt = backport.text(R.strings.tooltips.moduleFits.already_installed.hiddenVehicleCount(), count=str(hiddenVehicleCount))
+                    tooltipText = '... '.join((tooltipText, text_styles.stats(hiddenTxt)))
+                self._onVehicleBlockData['text'] = tooltipText
+                block.append(self._getInventoryBlock(count, self._onVehicleBlockData, self._inventoryPadding))
+        return block
+
+# добавляем показ стоимости продажи всего оборудования\расходников в ангаре и на технике в подсказке
+def PriceBlockConstructorConstruct(self):
+    # выполняем изначальный код
+    block = oldPriceBlockConstructorConstruct(self)
+    module = self.module
+    # получаем данные о текущем количестве на складе и на танках
+    inventoryCount = self.configuration.inventoryCount and module.inventoryCount
+    vehiclesCount = self.configuration.vehiclesCount and len(module.getInstalledVehicles(self.itemsCache.items.getVehicles(REQ_CRITERIA.INVENTORY).itervalues()))
+    # проверка наличия и уточнение что цена в кредитах
+    if (inventoryCount or vehiclesCount) and module.getBuyPrice().getCurrency() == 'credits' and module.sellPrices.itemPrice.price.credits:
+        # тип Продажа
+        settings = _CurrencySetting('#tooltips:vehicle/sell_price', icons.credits(), text_styles.credits, 'credits', iconYOffset=0)
+        # считаем стоимость продажи ВСЕГО однотипного оборудования\расходников цена * (количество на складе + количество на танках)
+        priceValue = settings.textStyle(backport.getIntegralFormat(module.sellPrices.itemPrice.price.credits * (inventoryCount + vehiclesCount)))
+        # добавляем текстовую подсказку с количеством
+        text = text_styles.concatStylesWithSpace(text_styles.main(settings.text), '(%s + %s)' %(inventoryCount, vehiclesCount))
+        # вставляем сформированный результат в конце блока стоимости
+        block.append(formatters_tooltips.packTextParameterWithIconBlockData(name=text, value=priceValue, icon=settings.frame, valueWidth=self._valueWidth, padding=formatters_tooltips.packPadding(left=-5), nameOffset=14, gap=0, iconYOffset=settings.iconYOffset))
+    return block
+
+# Добавляем показ параметров, которые изменит расходник (аптечка, кола и т.д.) если будет установлена на танк
+def EffectsBlockConstructorConstruct(self):
+    block = oldEffectsBlockConstructorConstruct(self)
+    isInstalled = self.module.isInstalled(self.configuration.vehicle)
+    if isInstalled:
+        kpiArgs = {kpi.name: kpi.value for kpi in self.module.getKpi(self.configuration.vehicle)}
+        currParams = params.VehicleParams(self.configuration.vehicle).getParamsDict()
+        onUseStr = ''
+        sets = {
+            'crewLevel': ('reloadTimeSecs', 'clipFireRate', 'autoReloadTime', 'aimingTime', 'shotDispersionAngle',
+                          'avgDamagePerMinute', 'circularVisionRadius'),
+            'vehicleEnginePower': ('enginePowerPerTon', 'enginePower', 'turretRotationSpeed'),
+            'vehicleFireChance': ('damagedModulesDetectionTimeSituational', 'damagedModulesDetectionTime'),
+            'vehicleRepairSpeed': ('chassisRepairTime', 'repairSpeed'),
+        }
+        for datasheet in sets:
+            if datasheet in kpiArgs:
+                for param in sets[datasheet]:
+                    if param in currParams and currParams[param]:
+                        value = currParams[param]
+                        if type(value) == int:
+                            temp = '%s' % value
+                        elif type(value) == float:
+                            temp = '%.2f' % value
+                        else:
+                            temp = '%.2f' % value[0]
+                        if 'clipFireRate' in param:
+                            temp = '(%.2f/%.2f/%.2f)' % (value[0], value[1], value[2])
+                        onUseStr += "<font face='$FieldFont' size='14' color='#80d43a'>%s</font> %s %s\n" % (text_styles.bonusAppliedText(temp), p__makeString(formatters.measureUnitsForParameter(param)), p__makeString('#menu:tank_params/%s' % param))
+        block.append(formatters_tooltips.packImageTextBlockData(title=text_styles.middleTitle(backport.text(R.strings.tooltips.equipment.always())), desc=text_styles.main(onUseStr), padding=formatters_tooltips.packPadding(top=5)))
+    return block
+
+
+# хуки изначальной функции
 oldCreateStorageDefVO = storage_helpers.createStorageDefVO
 oldMakeShellTooltip = ConsumablesPanel._ConsumablesPanel__makeShellTooltip
 oldGetFormattedParamsList = formatters.getFormattedParamsList
 old_construct = CommonStatsBlockConstructor.construct
 old1_construct = CommonStatsBlockConstructor1.construct
-old_packBlocks = VehicleAdvancedParametersTooltipData._packBlocks
+#old_packBlocks = VehicleAdvancedParametersTooltipData._packBlocks
 old_StatusBlockConstructor_getStatus = StatusBlockConstructor._getStatus
+# добавление в конструктор стоимости для оборудования\расходников
+oldPriceBlockConstructorConstruct = module.PriceBlockConstructor.construct
 
-ModuleTooltipBlockConstructor.MAX_INSTALLED_LIST_LEN = 1000
-battle_booster._MAX_INSTALLED_LIST_LEN = 1000
+#old_ModuleBlockTooltipData_packBlocks = ModuleBlockTooltipData._packBlocks
+# добавление в конструктор подсказок для расходников, на что именно влияет и какие результирующие цифры будут
+oldEffectsBlockConstructorConstruct = module.EffectsBlockConstructor.construct
+# расширение списка танков, где установленно оборудование\расходники
+MAX_INSTALLED_LIST_LEN = 1200 # оригинал 120
+
+# хуки для назначения новых функций взамен старых
+# # замена конструктора списка танков, на которых установлено оборудование\расходники
+module.InventoryBlockConstructor.construct = InventoryBlockConstructorConstruct
+# добавление в конструктор стоимости для оборудования\расходников
+module.PriceBlockConstructor.construct = PriceBlockConstructorConstruct
+# добавление в конструктор подсказок для расходников, на что именно влияет и какие результирующие цифры будут
+module.EffectsBlockConstructor.construct = EffectsBlockConstructorConstruct
+
 storage_helpers.createStorageDefVO = createStorageDefVO
 ConsumablesPanel._ConsumablesPanel__makeShellTooltip = makeShellTooltip
 formatters.getFormattedParamsList = getFormattedParamsList
 CommonStatsBlockConstructor.construct = construct
 CommonStatsBlockConstructor1.construct = construct1
-VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
+#VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
 StatusBlockConstructor._getStatus = StatusBlockConstructor_getStatus
 
-print('[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.05 (01-12-2022), by spoter]')
+
+print('[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.06 (14-09-2023), by spoter]')
+
