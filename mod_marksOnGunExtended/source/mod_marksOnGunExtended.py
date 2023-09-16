@@ -67,8 +67,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.08 (2023-08-13)'
-        self.version_id = 908
+        self.version = 'v9.09 (2023-09-16)'
+        self.version_id = 909
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -952,7 +952,7 @@ class Worker(object):
         result = p0 + (EMA - d0) / (d1 - d0) * (p1 - p0)
         nextMark = round(min(100.0, result), 2) if result > 0.0 else 0.0
         unknown = t0 < self.dateTime or t1 < self.dateTime
-        if not unknown and d0 and self.initiated or self.replay:
+        if not unknown and d0 and self.initiated or self.replay or self.damageRating == 100.0:
             if nextMark >= self.damageRating:
                 self.formatStrings['color'] = '%s' % COLOR[config.data['upColor']]
                 if self.checkMark(nextMark):
