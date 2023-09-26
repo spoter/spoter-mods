@@ -17,7 +17,7 @@ from constants import ARENA_BONUS_TYPE
 from dossiers2.ui.achievements import ACHIEVEMENT_BLOCK
 from gui import InputHandler, g_guiResetters
 from gui.Scaleform.daapi.view.lobby.profile.ProfileUtils import ProfileUtils
-from gui.Scaleform.daapi.view.meta.CrewMeta import CrewMeta
+from gui.Scaleform.daapi.view.meta.CrewOperationsPopOverMeta import CrewOperationsPopOverMeta
 from gui.battle_control.controllers import feedback_events
 from gui.shared.gui_items.dossier.achievements.mark_on_gun import MarkOnGunAchievement
 from helpers import dependency
@@ -67,8 +67,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.09 (2023-09-16)'
-        self.version_id = 909
+        self.version = 'v9.10 (2023-09-26)'
+        self.version_id = 910
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -1385,7 +1385,7 @@ flash = Flash()
 worker = Worker()
 
 
-@inject.hook(CrewMeta, 'as_tankmenResponseS')
+@inject.hook(CrewOperationsPopOverMeta, 'as_updateS')
 @inject.log
 def tankmanResponse(func, *args):
     worker.getCurrentHangarData()
