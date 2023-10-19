@@ -1,5 +1,5 @@
 {
-  "version": 2.10,
+  "version": 2.11,
   "source": "mod_creditCalc.py",
   "meta": "configs/meta.xml",
   "config": "configs/creditCalc.json",

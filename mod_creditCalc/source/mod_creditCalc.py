@@ -24,7 +24,7 @@ from frameworks.wulf import WindowLayer as ViewTypes
 from gui import InputHandler
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
 from gui.Scaleform.daapi.view.meta.CrewOperationsPopOverMeta import CrewOperationsPopOverMeta
-
+from gui.impl.lobby.crew.widget.crew_widget import CrewWidget
 from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
 from gui.Scaleform.framework.entities.View import View
 from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
@@ -120,8 +120,8 @@ class Config(object):
     def __init__(self):
         self.ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.10 (2023-09-26)'
-        self.version_id = 210
+        self.version = 'v2.11 (2023-10-19)'
+        self.version_id = 211
         self.versionI18n = 3401
         lang = getLanguageCode().lower()
         self.dataDefault = {
@@ -2044,7 +2044,8 @@ def hook_before_delete(*args):
         calc.stopBattle()
     hooked_before_delete(*args)
 
-def hook_CrewOperationsPopOverMeta_as_updateS(self, data):
+def hook_CrewWidget_updateWidgetModel(self):
+    result = hooked_CrewWidget_updateWidgetModel(self)
     if g_currentVehicle.item:
         try:
             status = g_currentVehicle.itemsCache.items.stats.activePremiumExpiryTime > 0
@@ -2055,7 +2056,7 @@ def hook_CrewOperationsPopOverMeta_as_updateS(self, data):
         except Exception as e:
             print 'ERROR: creditCalc crew:', e
 
-    return hooked_CrewOperationsPopOverMeta_as_updateS(self, data)
+    return result
 
 
 def hook_onBattleEvents(self, events):
@@ -2086,14 +2087,14 @@ def IntoBattle():
 hooked_start_battle = PlayerAvatar._PlayerAvatar__startGUI
 hooked_before_delete = PlayerAvatar._PlayerAvatar__destroyGUI
 hooked_onBattleEvents = PlayerAvatar.onBattleEvents
-hooked_CrewOperationsPopOverMeta_as_updateS = CrewOperationsPopOverMeta.as_updateS
+hooked_CrewWidget_updateWidgetModel = CrewWidget._CrewWidget__updateWidgetModel
 hooked_LobbyPopulate = LobbyView._populate
 hooked_BattleResultsFormatter_format = BattleResultsFormatter.format
 
 PlayerAvatar._PlayerAvatar__startGUI = hook_start_battle
 PlayerAvatar._PlayerAvatar__destroyGUI = hook_before_delete
 PlayerAvatar.onBattleEvents = hook_onBattleEvents
-CrewOperationsPopOverMeta.as_updateS = hook_CrewOperationsPopOverMeta_as_updateS
+CrewWidget._CrewWidget__updateWidgetModel = hook_CrewWidget_updateWidgetModel
 LobbyView._populate = hook_LobbyPopulate
 BattleResultsFormatter.format = hook_BattleResultsFormatter_format
 g_playerEvents.onBattleResultsReceived += calc.receiveBattleResult
