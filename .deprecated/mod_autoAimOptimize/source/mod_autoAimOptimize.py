@@ -1,14 +1,15 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import math
-
-import Math
 
 import BigWorld
 import CommandMapping
+import Math
 from Avatar import PlayerAvatar
 from AvatarInputHandler import cameras, control_modes
-from gui.app_loader import g_appLoader
+from gui.shared.personality import ServicesLocator
+
 from gui.mods.mod_mods_gui import g_gui, inject
+# Fixed to Wot 1.11.0.0
 
 
 class Config(object):
@@ -95,7 +96,7 @@ class Worked(object):
             if vData['team'] != self.player.team and vData['isAlive']:
                 vehicle = BigWorld.entity(vId)
                 if vehicle is not None and vehicle.isStarted and vehicle.isAlive():
-                    radian = self.calc_radian(vehicle.position, self.angle)  # 1.289 градуса в радианах
+                    radian = self.calc_radian(vehicle.position, self.angle)  # 1.289
                     if radian:
                         length = Math.Vector3(vehicle.position - playerPosition).length
                         if result_len is None:
@@ -112,7 +113,6 @@ class Worked(object):
             return result if result is not None else None
         return
 
-    # рассчёт угла видимости от камеры до противника
     @staticmethod
     def calc_radian(target_position, angle):
         cameraDir, cameraPos = cameras.getWorldRayAndPoint(0, 0)
@@ -128,7 +128,8 @@ class Worked(object):
     @inject.log
     def injectButton(self, isDown, key):
         if config.data['enabled'] and self.player is not None:
-            if g_appLoader.getDefBattleApp():
+            battle = ServicesLocator.appLoader.getDefBattleApp()  # update
+            if battle:
                 if CommandMapping.g_instance.isFired(CommandMapping.CMD_CM_LOCK_TARGET, key) and isDown:
                     return self.catch()
         return
