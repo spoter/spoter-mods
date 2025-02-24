@@ -15,7 +15,7 @@ import traceback
 MOD_NAME = sys.argv[1] # название мода, соответствует названию папки мода в файловой структуре относительно текущей папки
 CLIENT_VERSION_RU = sys.argv[2] # Леста версия клиента
 CLIENT_VERSION_WG = sys.argv[3] # Международная версия клиента
-compile_exe = 'c:\Python27\python.exe'
+compile_exe = 'python'
 
 # класс сборки мода
 class Build(object):
