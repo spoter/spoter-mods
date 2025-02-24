@@ -10,6 +10,7 @@ from CurrentVehicle import g_currentVehicle
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 from gui.prb_control.dispatcher import g_prbLoader
 from gui.Scaleform.daapi.view.lobby.header import battle_selector_items
+from constants import PREBATTLE_TYPE
 
 class Mod:
     lobbyContext = dependency.descriptor(ILobbyContext)
@@ -32,7 +33,16 @@ class Mod:
             prbDispatcher = g_prbLoader.getDispatcher()
             if prbDispatcher is not None and self.lobbyContext.isFightButtonPressPossible() and self.prbEntity.getQueueType() == constants.ARENA_GUI_TYPE.RANDOM and self._count:
                 state = prbDispatcher.getFunctionalState()
-                if battle_selector_items.getItems().update(state).isInSquad(state):
+                isInSquad = False
+                try:
+                    isInSquad = any((state.isInUnit(prbType) for prbType in PREBATTLE_TYPE.SQUAD_PREBATTLES))
+                except:
+                    pass
+                try:
+                    isInSquad = battle_selector_items.getItems().update(state).isInSquad(state)
+                except:
+                    pass
+                if isInSquad:
                     return
                 vehicle = g_currentVehicle.item
                 if vehicle is not None and vehicle.type != VEHICLE_CLASS_NAME.SPG:

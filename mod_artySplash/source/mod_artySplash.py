@@ -1,19 +1,19 @@
 ﻿# -*- coding: utf-8 -*-
 
+# noinspection PyUnresolvedReferences
 import BigWorld
-import Keys
+# noinspection PyUnresolvedReferences
 import Math
 # noinspection PyUnresolvedReferences
 from gui.mods.mod_mods_gui import g_gui, inject
+
+import Keys
 import VehicleGunRotator
-from gui import InputHandler
 from Avatar import PlayerAvatar
 from AvatarInputHandler.aih_global_binding import CTRL_MODE_NAME
-# noinspection PyProtectedMember
-from bootcamp.BootcampMarkers import _StaticObjectMarker3D as StaticObjectMarker3D
-from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
+from gui import InputHandler
 from gui.shared.gui_items import Vehicle
-from CombatSelectedArea import CombatSelectedArea
+from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 
 
 # Removed in wot ver. 1.26.00
@@ -21,9 +21,9 @@ class _StaticWorldObjectMarker3D(object):
     def __init__(self, data, position):
         self.__path = data.get('path')
         offset = data.get('offset', Math.Vector3(0, 0, 0))
-        self.__model = None
+        self.model = None
         self.__isMarkerVisible = True
-        self.__modelOwner = None
+        self.modelOwner = None
         self.__destroyed = False
         if self.__path is not None:
             modelPosition = Math.Vector3(position[:]) + offset
@@ -31,14 +31,14 @@ class _StaticWorldObjectMarker3D(object):
             self.__onModelLoaded(refs, modelPosition)
 
     def addMarkerModel(self):
-        if self.__model is None or self.__modelOwner is not None:
+        if self.model is None or self.modelOwner is not None:
             return
-        self.__modelOwner = BigWorld.player()
-        self.__modelOwner.addModel(self.__model)
+        self.modelOwner = BigWorld.player()
+        self.modelOwner.addModel(self.model)
 
     def clear(self):
         self.setVisible(False)
-        self.__model = None
+        self.model = None
         self.__destroyed = True
 
     def setVisible(self, isVisible):
@@ -47,17 +47,17 @@ class _StaticWorldObjectMarker3D(object):
             self.addMarkerModel()
         elif not isVisible:
             self.__isMarkerVisible = False
-            if self.__modelOwner is not None and not self.__modelOwner.isDestroyed:
-                self.__modelOwner.delModel(self.__model)
-            self.__modelOwner = None
+            if self.modelOwner is not None and not self.modelOwner.isDestroyed:
+                self.modelOwner.delModel(self.model)
+            self.modelOwner = None
 
     def __onModelLoaded(self, refs, position):
         if self.__destroyed:
             return
         if self.__path not in refs.failedIDs:
-            self.__model = refs[self.__path]
-            self.__model.position = position
-            self.__model.castsShadow = False
+            self.model = refs[self.__path]
+            self.model.position = position
+            self.model.castsShadow = False
             if self.__isMarkerVisible:
                 self.addMarkerModel()
 
@@ -152,23 +152,23 @@ class ArtyBall(object):
         self.scaleSplash = None
         self.player = None
 
-        def startBattle(self):
+    def startBattle(self):
         InputHandler.g_instance.onKeyDown += self.injectButton
         if config.data['enabled']:
-            self.player = BigWorld.player() # fix
+            self.player = BigWorld.player()
             self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelDotVisible = config.data['showDotOnDefault']
             self.scaleSplash = None
             self.modelSplash = _StaticWorldObjectMarker3D({'path': config.data['modelPathSplash']}, (0, 0, 0))
             self.modelDot = _StaticWorldObjectMarker3D({'path': config.data['modelPathDot']}, (0, 0, 0))
-            self.modelDot._StaticWorldObjectMarker3D__model.scale = (0.1, 0.1, 0.1)
+            self.modelDot.model.scale = (0.1, 0.1, 0.1)
             if Vehicle.getVehicleClassTag(self.player.vehicleTypeDescriptor.type.tags) == VEHICLE_CLASS_NAME.SPG:
-                self.modelDot._StaticWorldObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
-            self.modelSplash._StaticWorldObjectMarker3D__model.visible = False
-            self.modelDot._StaticWorldObjectMarker3D__model.visible = False
+                self.modelDot.model.scale = (0.5, 0.5, 0.5)
+            self.modelSplash.model.visible = False
+            self.modelDot.model.visible = False
             self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
             self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(2.0, 2.0), 0.5, 4294967295L, BigWorld.player().spaceID)
-            self.modelSplash._StaticWorldObjectMarker3D__model.root.attach(self.modelSplashCircle)
+            self.modelSplash.model.root.attach(self.modelSplashCircle)
             self.modelSplashCircle.enableAccurateCollision(False)
 
     def stopBattle(self):
@@ -215,7 +215,7 @@ class ArtyBall(object):
         if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
             if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
                 self.scaleSplash = shell.type.explosionRadius
-                self.modelSplash._StaticObjectMarker3D__model.sacle = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
+                self.modelSplash._StaticObjectMarker3D__model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelSplash._StaticObjectMarker3D__model.position = self.player.gunRotator.markerInfo[0]

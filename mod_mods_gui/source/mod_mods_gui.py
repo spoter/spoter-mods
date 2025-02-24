@@ -69,8 +69,8 @@ def LOG_DEBUG(*args):
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.04 (2025-02-24)'
-        self.version_id = 304
+        self.version = 'v3.05 (2025-02-24)'
+        self.version_id = 305
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
@@ -1203,7 +1203,7 @@ class p__Browser(object):
             inject.message(message)
             self.open(self._url, False)
 
-    def open(self, link, internal=True):
+    def open(self, link, internal=False):
         self._url = link
         if internal:
             return self.showBrowserOverlayView()
@@ -1446,17 +1446,6 @@ p__WebBrowser.WebBrowser.handleKeyEvent = p__WebBrowser_handleKeyEvent
 
 # patch cef_browser_process.exe
 try:
-    with open('win32/cef_browser_process.exe', 'rb') as f:
-        p__content = f.read()
-    p__pattern = '\xB0\x01\x8B\x55\xEC\x88\x45\xD4'
-    p__idx = p__content.find(p__pattern)
-    p__byte = 1
-
-    if p__idx != -1:
-        p__content = p__content[:p__idx + p__byte] + '\x00' + p__content[p__idx + p__byte + 1:]
-        with open('win32/cef_browser_process.exe', 'wb') as f:
-            f.write(p__content)
-
     with open('win64/cef_browser_process.exe', 'rb') as f:
         p__content = f.read()
     p__pattern = '\x40\x32\xF6\xEB\x03\x40\xB6\x01'  # win64 verion
