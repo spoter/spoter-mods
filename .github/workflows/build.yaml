@@ -9,9 +9,9 @@ jobs:
       max-parallel: 4
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
+    - uses: LizardByte/setup-python-action@master
       with:
-        python-version: '2.7.18' 
+        python-version: '2.7' 
         version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: python ./.github/createRelease.py
