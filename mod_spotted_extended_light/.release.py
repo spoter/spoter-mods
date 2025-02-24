@@ -6,20 +6,26 @@ import subprocess
 
 import _build as build
 
-ZIP = 'mods_spotted_extended_light.zip'
+CLIENT_VERSION_RU = '1.32.0.0'
+CLIENT_VERSION_WG = '1.27.1.0'
+
+ZIP_RU = 'mods_spotted_extended_light_LESTA.zip'
+ZIP_WG = 'mods_spotted_extended_light.zip'
 
 class Release(object):
 
-    def __init__(self, build, zip):
+    def __init__(self, build, zip, CLIENT_VERSION):
+        self.CLIENT_VERSION = CLIENT_VERSION
         self.data = build
         self.zipPath = os.path.join('zip', zip)
         self.modsPath = os.path.join(self.data.build.OUT_PATH, 'mods')
-        self.versionPath = os.path.join(self.modsPath, self.data.CLIENT_VERSION, 'spoter')
+        self.versionPath = os.path.join(self.modsPath, self.CLIENT_VERSION, 'spoter')
         self.configPath = os.path.join(self.modsPath, 'configs', 'spoter', os.path.splitext(os.path.basename(self.data.build.VERSION["config"]))[0])
         self.i18n = os.path.join(self.configPath, 'i18n')
-        self.clearZip()
+        #self.clearZip()
         self.packZip()
         self.clear()
+        print ('created: %s v%s (%s) to %s' % (self.data.build.RELEASE, self.data.build.VERSION["version"], self.data.build.DATE, CLIENT_VERSION))
 
     def packZip(self):
         subprocess.check_call(['powershell', 'mkdir', self.versionPath])
@@ -33,7 +39,7 @@ class Release(object):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.join(self.data.build.BUILD_PATH, self.data.build.VERSION["i18n"]), os.path.realpath(self.i18n), os.path.basename(path)))
         #copy mod_mods_gui core
         if os.path.exists('../mod_mods_gui/release'):
-            subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, self.data.CLIENT_VERSION), '*.wotmod') )
+            subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, self.CLIENT_VERSION), '*.wotmod') )
             subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath('../mod_mods_gui/release'), os.path.join(self.modsPath, 'configs', 'mods_gui'), '*.txt_'))
         if os.path.exists('../mod_mods_gui/release/i18n'):
             subprocess.call('powershell robocopy %s %s %s /COPYALL' %(os.path.realpath('../mod_mods_gui/release/i18n'), os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'), '*.json') )
@@ -61,4 +67,5 @@ class Release(object):
         except OSError:
             pass
 
-Release(build, ZIP)
+Release(build, ZIP_WG, CLIENT_VERSION_WG)
+Release(build, ZIP_RU, CLIENT_VERSION_RU)

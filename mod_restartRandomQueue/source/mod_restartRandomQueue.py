@@ -64,4 +64,5 @@ def newStart(self):
 oldStart = QueueProvider.start
 QueueProvider.start = newStart
 
-print '[LOAD_MOD]:  [mod_restartRandomQueue 1.12 (13-08-2023), by spoter]'
+VERSION_MOD = 'v1.12 (2025-02-24)'
+print '[LOAD_MOD]:  [mod_restartRandomQueue {}, by spoter]'.format(VERSION_MOD)

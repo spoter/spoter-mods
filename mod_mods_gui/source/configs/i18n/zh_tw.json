@@ -1,0 +1,9 @@
+﻿{
+    "gui_buttonApply": "应用",
+    "gui_buttonCancel": "取消",
+    "gui_buttonOK": "确认",
+    "gui_enableButtonTooltip": "{HEADER}插件的偏好{/HEADER}{BODY}启用|禁用插件和配置设置{/BODY}",
+    "gui_name": "插件-首选项",
+    "gui_windowTitle": "插件 首选项",
+    "version": 304
+}

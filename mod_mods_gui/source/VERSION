@@ -1,0 +1,9 @@
+{
+  "version": 3.04,
+  "source": "mod_mods_gui.py",
+  "meta": "configs/meta.xml",
+  "config": "configs/mods_gui.json",
+  "i18n": "configs/i18n",
+  "txt": "configs",
+  "resources": ["gui"]
+}

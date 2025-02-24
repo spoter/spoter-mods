@@ -19,7 +19,7 @@ from CombatSelectedArea import CombatSelectedArea
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.17 (2023-08-13)'
+        self.version = 'v2.17 (2025-02-24)'
         self.author = 'by spoter'
         self.version_id = 217
         self.buttons = {
