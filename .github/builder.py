@@ -17,9 +17,19 @@ CLIENT_VERSION_RU = sys.argv[2] # Леста версия клиента
 CLIENT_VERSION_WG = sys.argv[3] # Международная версия клиента
 compile_exe = 'python'
 
+def test_main_folder():
+    main_folder = os.path.realpath('./../%s' %(MOD_NAME))
+    if os.path.isdir(main_folder):
+        return os.path.realpath('./../')
+    main_folder = os.path.realpath('./%s' % (MOD_NAME))
+    if os.path.isdir(main_folder):
+        return os.path.realpath('./')
+
+MAIN_FOLDER = test_main_folder()
+
 # класс сборки мода
 class Build(object):
-    directoryBase = os.path.realpath('./%s' %(MOD_NAME)) # Директория мода формата './mod_testBuild', реальный путь вида 'D:\github.com\spoter-mods\mod_testBuild'
+    directoryBase = os.path.realpath(os.path.join(MAIN_FOLDER, MOD_NAME)) # Директория мода формата './mod_testBuild', реальный путь вида 'D:\github.com\spoter-mods\mod_testBuild'
     directoryTemp = os.path.join(directoryBase, '.out') # Временная директория для сборки 'mod_testBuild/.out'
     directoryTempCompiled = os.path.join(directoryTemp, 'res', 'scripts', 'client', 'gui', 'mods')  # Временная директория для компилированного мода 'mod_testBuild/.out/res/scripts/client/gui/mods'
     directoryRelease = os.path.join(directoryBase, 'release') # Директория в которой хранится релизный архив мода 'mod_testBuild/release'
@@ -129,7 +139,7 @@ class Build(object):
                     else:
                         shutil.copy2(source_dir, dest_dir)
         wotmod_name = os.path.realpath(os.path.join(self.directoryRelease, '{}_{:.2f}.wotmod'.format(MOD_NAME, self.config["version"])))
-        arc_path = [os.path.realpath('./.github/7z.exe'), "a", "-tzip", "-ssw", "-mx0", wotmod_name] # Вызов архиватора из './.github/7z.exe a -tzip -ssw -mx0 ./mod_testBuild/release/mod_testBuild_3.12.wotmod'
+        arc_path = [os.path.realpath(os.path.join(MAIN_FOLDER, '.github/7z.exe')), "a", "-tzip", "-ssw", "-mx0", wotmod_name] # Вызов архиватора из './.github/7z.exe a -tzip -ssw -mx0 ./mod_testBuild/release/mod_testBuild_3.12.wotmod'
         subprocess.check_call(arc_path + [os.path.realpath(os.path.join(self.directoryTemp, 'res'))], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # пакуем './mod_testBuild/.out/res'
         subprocess.check_call(arc_path + [os.path.realpath(os.path.join(self.directoryTemp, os.path.basename(self.config["meta"])))], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # пакуем './mod_testBuild/.out/meta.xml'
         subprocess.check_call(arc_path + [self.create_license()], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # создаем файл лицензии и пакуем его './mod_testBuild/.out/LICENSE'
@@ -213,7 +223,7 @@ class Release(object):
                     if os.path.isfile(path):
                         shutil.copy2(path, os.path.realpath(self.configPath))
         else:
-            additional_path = os.path.realpath('./mod_mods_gui/release')
+            additional_path = os.path.realpath(os.path.join(MAIN_FOLDER, 'mod_mods_gui/release'))
             if os.path.exists(additional_path):
                 for path in glob.glob(os.path.join(additional_path, "*.wotmod")):
                     if os.path.isfile(path):
@@ -221,7 +231,7 @@ class Release(object):
                 for path in glob.glob(os.path.join(additional_path, "*.txt_")):
                     if os.path.isfile(path):
                         shutil.copy2(path, os.path.realpath(os.path.join(self.modsPath, 'configs', 'mods_gui')))
-            additional_path = os.path.realpath('./mod_mods_gui/release/i18n')
+            additional_path = os.path.realpath(os.path.join(MAIN_FOLDER, 'mod_mods_gui/release/i18n'))
             if os.path.exists(additional_path):
                 for path in glob.glob(os.path.join(additional_path, "*.json")):
                     if os.path.isfile(path):
@@ -235,7 +245,7 @@ class Release(object):
             for path in glob.glob(os.path.join(additional_path, "*.wotmod")):
                 if os.path.isfile(path):
                     shutil.copy2(path, os.path.realpath(os.path.join(self.versionPath, 'oldskool')))
-            additional_path = os.path.realpath('./mod_mods_gui/release')
+            additional_path = os.path.realpath(os.path.join(MAIN_FOLDER, 'mod_mods_gui/release'))
             if os.path.exists(additional_path):
                 for path in glob.glob(os.path.join(additional_path, "*.txt_")):
                     if os.path.isfile(path):
@@ -251,7 +261,7 @@ class Release(object):
         # Упаковываем итоговый архив, перезаписывая если уже существует
         if os.path.isfile(self.zipFilePath):
             os.unlink(self.zipFilePath)
-        arc_path = [os.path.realpath('./.github/7z.exe'), "a", "-tzip", "-ssw", "-mx9", "-aoa", self.zipFilePath, os.path.realpath(self.modsPath)]  # Вызов архиватора из './.github/7z.exe a -tzip -ssw -mx0 ./mod_testBuild/zip/mod_testBuild.zip'
+        arc_path = [os.path.realpath(os.path.join(MAIN_FOLDER, '.github/7z.exe')), "a", "-tzip", "-ssw", "-mx9", "-aoa", self.zipFilePath, os.path.realpath(self.modsPath)]  # Вызов архиватора из './.github/7z.exe a -tzip -ssw -mx0 ./mod_testBuild/zip/mod_testBuild.zip'
         subprocess.check_call(arc_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)  # пакуем итоговый архив './mod_testBuild/zip/mod_testBuild.zip'
 
 
@@ -268,7 +278,7 @@ try:
     Release(build, MOD_NAME, CLIENT_VERSION_RU, True)
 
     if 'mod_mods_gui' not in MOD_NAME: # чистим за собой если не ядро
-        directoryBase = os.path.realpath('./%s' %(MOD_NAME)) # Директория мода формата './mod_testBuild', реальный путь вида 'D:\github.com\spoter-mods\mod_testBuild'
+        directoryBase = os.path.realpath(os.path.join(MAIN_FOLDER, MOD_NAME)) # Директория мода формата './mod_testBuild', реальный путь вида 'D:\github.com\spoter-mods\mod_testBuild'
         directoryRelease = os.path.join(directoryBase, 'release') # Директория в которой хранится релизный архив мода 'mod_testBuild/release'
         try:
             shutil.rmtree(directoryRelease, True)
