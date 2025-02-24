@@ -33,7 +33,7 @@ print('      WG: {}'.format(CLIENT_VERSION_WG))
 script_path = os.path.realpath('builder.py')
 for MOD_NAME in mods_list:
     try:
-        os.system("c:\Python27\python.exe builder.py {} {} {}".format(MOD_NAME, CLIENT_VERSION_RU, CLIENT_VERSION_WG))
+        os.system("python builder.py {} {} {}".format(MOD_NAME, CLIENT_VERSION_RU, CLIENT_VERSION_WG))
     except Exception as e:
         print('ERROR: {}'.format(e))
         traceback.print_exc()
