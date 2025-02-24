@@ -31,9 +31,14 @@ print('Start building')
 print('      RU: {}'.format(CLIENT_VERSION_RU))
 print('      WG: {}'.format(CLIENT_VERSION_WG))
 script_path = os.path.realpath('builder.py')
+print(script_path)
+script_path = os.path.realpath('./builder.py')
+print(script_path)
+script_path = os.path.realpath('./.github/builder.py')
+print(script_path)
 for MOD_NAME in mods_list:
     try:
-        os.system("python builder.py {} {} {}".format(MOD_NAME, CLIENT_VERSION_RU, CLIENT_VERSION_WG))
+        os.system("python ./builder.py {} {} {}".format(MOD_NAME, CLIENT_VERSION_RU, CLIENT_VERSION_WG))
     except Exception as e:
         print('ERROR: {}'.format(e))
         traceback.print_exc()
