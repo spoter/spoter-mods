@@ -82,7 +82,7 @@ class Build(object):
         metaPath = '%s' % os.path.join(self.BUILD_PATH, os.path.dirname(self.VERSION["meta"]))
         metaFile = os.path.basename(self.VERSION["meta"])
 
-        subprocess.check_call(['python', '-m', 'compileall', py])
+        subprocess.check_call(['c:\Python27\python.exe', '-m', 'compileall', py])
         subprocess.call('powershell robocopy %s %s %s /COPYALL /MOV' % (os.path.realpath(self.BUILD_PATH), os.path.realpath(self.PYC_PATH), pyc))
         subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath(metaPath), os.path.realpath(self.OUT_PATH), metaFile))
         if self.VERSION["resources"]:

@@ -1,0 +1,8 @@
+{
+  "version": 1.12,
+  "source": "mod_restartRandomQueue.py",
+  "meta": "meta.xml",
+  "config": "",
+  "i18n": "",
+  "resources": []
+}

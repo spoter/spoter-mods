@@ -120,7 +120,7 @@ class Config(object):
     def __init__(self):
         self.ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.11 (2023-10-19)'
+        self.version = 'v2.11 (2025-02-24)'
         self.version_id = 211
         self.versionI18n = 3401
         lang = getLanguageCode().lower()

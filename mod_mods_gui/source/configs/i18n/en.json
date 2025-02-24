@@ -1,0 +1,9 @@
+﻿{
+    "gui_buttonApply": "Apply",
+    "gui_buttonCancel": "Cancel",
+    "gui_buttonOK": "Ok",
+    "gui_enableButtonTooltip": "{HEADER}Mods Preferences{/HEADER}{BODY}Enable|Disable mods and configure settings{/BODY}",
+    "gui_name": "MODS - Preferences",
+    "gui_windowTitle": "Mods Preferences",
+    "version": 304
+}

@@ -1,0 +1,9 @@
+﻿{
+    "gui_buttonApply": "Uygula",
+    "gui_buttonCancel": "İptal et",
+    "gui_buttonOK": "Tamam",
+    "gui_enableButtonTooltip": "{HEADER}Mod Tercihleri{/HEADER}{BODY}Etkinleştir|Modları ve yapılandırma ayarlarını devredışı bırak{/BODY}",
+    "gui_name": "Modlar - Tercihler",
+    "gui_windowTitle": "Mod Tercihleri",
+    "version": 304
+}

@@ -1,0 +1,9 @@
+﻿{
+    "gui_buttonApply": "Alkalmaz",
+    "gui_buttonCancel": "Visszavonás",
+    "gui_buttonOK": "OK",
+    "gui_enableButtonTooltip": "{HEADER}Aktuális mód kikapcsolása{/HEADER}",
+    "gui_name": "b4it - Beállítások",
+    "gui_windowTitle": "b4it - Beállítások",
+    "version": 304
+}

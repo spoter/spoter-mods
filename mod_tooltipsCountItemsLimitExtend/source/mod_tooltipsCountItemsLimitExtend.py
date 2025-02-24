@@ -339,28 +339,28 @@ def construct1(self):
             result.append(formatters_tooltips.packTextParameterBlockData(name=bonus[0], value=bonus[1], valueWidth=self._valueWidth, padding=formatters_tooltips.packPadding(left=-5)))
     return result
 
-# TODO: устарело, необходимо разобраться и восстановить позже
-def _packBlocks(self, paramName):
-    blocks = old_packBlocks(self, paramName)
-    if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
-        vehicle = g_currentVehicle.item
-        module = vehicle.gun
-        bonuses = p__getStabFactors(vehicle, module)
-        result = []
-        found = False
-        for block in blocks:
-            result.append(block)
-            if 'blocksData' in block['data']:
-                if found:
-                    continue
-                for linkage in block['data']['blocksData']:
-                    if 'TooltipTextBlockUI' in linkage['linkage']:
-                        found = True
-                        for bonus in bonuses:
-                            result.append(formatters_tooltips.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters_tooltips.packPadding(left=59, right=20)))
-                        break
-        return result
-    return blocks
+## TODO: устарело, необходимо разобраться и восстановить позже
+#def _packBlocks(self, paramName):
+#    blocks = old_packBlocks(self, paramName)
+#    if paramName in ('relativePower', 'vehicleGunShotDispersion', 'aimingTime'):
+#        vehicle = g_currentVehicle.item
+#        module = vehicle.gun
+#        bonuses = p__getStabFactors(vehicle, module)
+#        result = []
+#        found = False
+#        for block in blocks:
+#            result.append(block)
+#            if 'blocksData' in block['data']:
+#                if found:
+#                    continue
+#                for linkage in block['data']['blocksData']:
+#                    if 'TooltipTextBlockUI' in linkage['linkage']:
+#                        found = True
+#                        for bonus in bonuses:
+#                            result.append(formatters_tooltips.packTextParameterBlockData(name='%s:&nbsp;%s' %(bonus[1], bonus[0]), value='', valueWidth=0, padding=formatters_tooltips.packPadding(left=59, right=20)))
+#                        break
+#        return result
+#    return blocks
 
 def StatusBlockConstructor_getStatus(self):
     self.MAX_INSTALLED_LIST_LEN = 1000
@@ -494,6 +494,6 @@ CommonStatsBlockConstructor1.construct = construct1
 #VehicleAdvancedParametersTooltipData._packBlocks = _packBlocks
 StatusBlockConstructor._getStatus = StatusBlockConstructor_getStatus
 
-
-print('[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend 2.06 (14-09-2023), by spoter]')
+VERSION_MOD = 'v2.06 (2025-02-24)'
+print('[LOAD_MOD]:  [mod_tooltipsCountItemsLimitExtend {}, by spoter]'.format(VERSION_MOD))
 

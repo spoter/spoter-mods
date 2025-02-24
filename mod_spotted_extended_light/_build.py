@@ -9,7 +9,6 @@ import shutil
 import subprocess
 import base64
 
-CLIENT_VERSION = '1.22.0.0'
 NAME = 'spoter.spotted_extended_light'
 ADD_LICENSE = True
 
@@ -30,7 +29,7 @@ class Build(object):
         self.createFileDict()
         self.packWotmod()
         self.clear()
-        print 'created: %s v%s (%s) to %s' % (self.RELEASE, self.VERSION["version"], self.DATE, CLIENT_VERSION)
+
 
     def clear(self):
         try:
@@ -87,7 +86,7 @@ class Build(object):
         metaPath = '%s' % os.path.join(self.BUILD_PATH, os.path.dirname(self.VERSION["meta"]))
         metaFile = os.path.basename(self.VERSION["meta"])
 
-        subprocess.check_call(['python', '-m', 'compileall', py])
+        subprocess.check_call(['c:\Python27\python.exe', '-m', 'compileall', py])
         subprocess.call('powershell robocopy %s %s %s /COPYALL /MOV' % (os.path.realpath(self.BUILD_PATH), os.path.realpath(self.PYC_PATH), pyc))
         subprocess.call('powershell robocopy %s %s %s /COPYALL' % (os.path.realpath(metaPath), os.path.realpath(self.OUT_PATH), metaFile))
         if self.VERSION["resources"]:
