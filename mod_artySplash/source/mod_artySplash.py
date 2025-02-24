@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # noinspection PyUnresolvedReferences
 import BigWorld
@@ -179,7 +179,7 @@ class ArtyBall(object):
         self.modelDotKeyPressed = False
         if self.modelSplash is not None:
             if self.modelSplashCircle.attached:
-                self.modelSplash._StaticObjectMarker3D__model.root.detach(self.modelSplashCircle)
+                self.modelSplash.model.root.detach(self.modelSplashCircle)
             self.modelSplash.clear()
         if self.modelDot is not None:
             self.modelDot.clear()
@@ -212,33 +212,33 @@ class ArtyBall(object):
             self.hideVisible()
             return
 
-        if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
+        if self.modelSplash is not None and self.modelSplash.model:
             if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
                 self.scaleSplash = shell.type.explosionRadius
-                self.modelSplash._StaticObjectMarker3D__model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
+                self.modelSplash.model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
-            self.modelSplash._StaticObjectMarker3D__model.position = self.player.gunRotator.markerInfo[0]
+            self.modelSplash.model.position = self.player.gunRotator.markerInfo[0]
             self.modelSplashCircle.updateHeights()
-        if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model:
+        if self.modelDot is not None and self.modelDot.model:
             if not self.modelDotKeyPressed:
                 self.modelDotVisible = config.data['showDotOnDefault']
-            self.modelDot._StaticObjectMarker3D__model.position = self.player.gunRotator.markerInfo[0]
+            self.modelDot.model.position = self.player.gunRotator.markerInfo[0]
         self.setVisible()
 
     def setVisible(self):
-        if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model:
-            if self.modelSplash._StaticObjectMarker3D__model.visible != self.modelSplashVisible:
-                self.modelSplash._StaticObjectMarker3D__model.visible = self.modelSplashVisible
-        if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model:
-            if self.modelDot._StaticObjectMarker3D__model.visible != self.modelDotVisible:
-                self.modelDot._StaticObjectMarker3D__model.visible = self.modelDotVisible
+        if self.modelSplash is not None and self.modelSplash.model:
+            if self.modelSplash.model.visible != self.modelSplashVisible:
+                self.modelSplash.model.visible = self.modelSplashVisible
+        if self.modelDot is not None and self.modelDot.model:
+            if self.modelDot.model.visible != self.modelDotVisible:
+                self.modelDot.model.visible = self.modelDotVisible
 
     def hideVisible(self):
-        if self.modelSplash is not None and self.modelSplash._StaticObjectMarker3D__model and self.modelSplash._StaticObjectMarker3D__model.visible:
-            self.modelSplash._StaticObjectMarker3D__model.visible = False
-        if self.modelDot is not None and self.modelDot._StaticObjectMarker3D__model and self.modelDot._StaticObjectMarker3D__model.visible:
-            self.modelDot._StaticObjectMarker3D__model.visible = False
+        if self.modelSplash is not None and self.modelSplash.model and self.modelSplash.model.visible:
+            self.modelSplash.model.visible = False
+        if self.modelDot is not None and self.modelDot.model and self.modelDot.model.visible:
+            self.modelDot.model.visible = False
 
     @inject.log
     def injectButton(self, event):
