@@ -20,19 +20,18 @@ def test_main_folder():
 MAIN_FOLDER = test_main_folder()
 
 mods_list = [
+    'mod_mods_gui',
     'mod_artySplash',
     'mod_autoServerSight',
     'mod_creditCalc',
     'mod_crewExtended',
     'mod_discordHangar',
     'mod_marksOnGunExtended',
-    'mod_mods_gui',
     'mod_muteSoundHotKey',
     'mod_repair_extended',
     'mod_restartRandomQueue',
     'mod_server_turret_extended',
     'mod_spotted_extended_light',
-    'mod_tooltipsCountItemsLimitExtend',
 ]
 print('---------------------')
 print('Start building')

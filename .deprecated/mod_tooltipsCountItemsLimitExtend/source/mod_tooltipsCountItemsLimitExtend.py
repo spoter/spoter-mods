@@ -251,13 +251,15 @@ def getFormattedParamsList(descriptor, parameters, excludeRelative=False):
 def construct(self):
     result = old_construct(self)
     block = []
-    avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
+    #shell = self.shell
+    #avgDamage = backport.text(R.strings.menu.moduleInfo.params.dyn('avgDamage')())
     for pack in result:
-        if 'name' in pack['data'] and avgDamage in pack['data']['name']:
-            block.append(pack)
-            block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
-        else:
-            block.append(pack)
+        block.append(pack)
+    #    if 'name' in pack['data'] and avgDamage in pack['data']['name']:
+    #        block.append(pack)
+    #        block.append(self._packParameterBlock(avgDamage, "<font color='#FFA500'>%s</font>" % backport.getNiceNumberFormat(self.shell.descriptor.damage[1]), p__makeString(formatters.measureUnitsForParameter('avgDamage')) + i18n['UI_TOOLTIPS_modulesTextTooltip_Text']))
+    #    else:
+    #        block.append(pack)
     vehicle = g_currentVehicle.item
     module = vehicle.gun
     bonuses = p__getStabFactors(vehicle, module)
