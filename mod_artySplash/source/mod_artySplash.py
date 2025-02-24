@@ -16,6 +16,52 @@ from gui.shared.gui_items import Vehicle
 from CombatSelectedArea import CombatSelectedArea
 
 
+# Removed in wot ver. 1.26.00
+class _StaticWorldObjectMarker3D(object):
+    def __init__(self, data, position):
+        self.__path = data.get('path')
+        offset = data.get('offset', Math.Vector3(0, 0, 0))
+        self.__model = None
+        self.__isMarkerVisible = True
+        self.__modelOwner = None
+        self.__destroyed = False
+        if self.__path is not None:
+            modelPosition = Math.Vector3(position[:]) + offset
+            refs = BigWorld.loadResourceListFG([self.__path])
+            self.__onModelLoaded(refs, modelPosition)
+
+    def addMarkerModel(self):
+        if self.__model is None or self.__modelOwner is not None:
+            return
+        self.__modelOwner = BigWorld.player()
+        self.__modelOwner.addModel(self.__model)
+
+    def clear(self):
+        self.setVisible(False)
+        self.__model = None
+        self.__destroyed = True
+
+    def setVisible(self, isVisible):
+        if not self.__isMarkerVisible and isVisible:
+            self.__isMarkerVisible = True
+            self.addMarkerModel()
+        elif not isVisible:
+            self.__isMarkerVisible = False
+            if self.__modelOwner is not None and not self.__modelOwner.isDestroyed:
+                self.__modelOwner.delModel(self.__model)
+            self.__modelOwner = None
+
+    def __onModelLoaded(self, refs, position):
+        if self.__destroyed:
+            return
+        if self.__path not in refs.failedIDs:
+            self.__model = refs[self.__path]
+            self.__model.position = position
+            self.__model.castsShadow = False
+            if self.__isMarkerVisible:
+                self.addMarkerModel()
+
+
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
@@ -106,34 +152,27 @@ class ArtyBall(object):
         self.scaleSplash = None
         self.player = None
 
-    def startBattle(self):
+        def startBattle(self):
         InputHandler.g_instance.onKeyDown += self.injectButton
-        # InputHandler.g_instance.onKeyUp += self.injectButton
         if config.data['enabled']:
-            self.player = BigWorld.player()
+            self.player = BigWorld().player()
             self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelDotVisible = config.data['showDotOnDefault']
             self.scaleSplash = None
-            self.modelSplash = StaticObjectMarker3D({
-                'path': config.data['modelPathSplash']
-            }, (0, 0, 0))
-            self.modelDot = StaticObjectMarker3D({
-                'path': config.data['modelPathDot']
-            }, (0, 0, 0))
-            self.modelDot._StaticObjectMarker3D__model.sacle = (0.1, 0.1, 0.1) # они больные! поменяли BigWorld.Model().scale на BigWorld.Model().saсle как такое вообще в голову пришло? лучшие наркоманы в индустрии
+            self.modelSplash = _StaticWorldObjectMarker3D({'path': config.data['modelPathSplash']}, (0, 0, 0))
+            self.modelDot = _StaticWorldObjectMarker3D({'path': config.data['modelPathDot']}, (0, 0, 0))
+            self.modelDot._StaticWorldObjectMarker3D__model.scale = (0.1, 0.1, 0.1)
             if Vehicle.getVehicleClassTag(self.player.vehicleTypeDescriptor.type.tags) == VEHICLE_CLASS_NAME.SPG:
-                self.modelDot._StaticObjectMarker3D__model.sacle = (0.5, 0.5, 0.5)
-            self.modelSplash._StaticObjectMarker3D__model.visible = False
-            self.modelDot._StaticObjectMarker3D__model.visible = False
-            # noinspection PyUnresolvedReferences
+                self.modelDot._StaticWorldObjectMarker3D__model.scale = (0.5, 0.5, 0.5)
+            self.modelSplash._StaticWorldObjectMarker3D__model.visible = False
+            self.modelDot._StaticWorldObjectMarker3D__model.visible = False
             self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
-            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(2.0, 2.0), 0.5, 4294967295L)
-            self.modelSplash._StaticObjectMarker3D__model.root.attach(self.modelSplashCircle)
+            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(2.0, 2.0), 0.5, 4294967295L, BigWorld.player().spaceID)
+            self.modelSplash._StaticWorldObjectMarker3D__model.root.attach(self.modelSplashCircle)
             self.modelSplashCircle.enableAccurateCollision(False)
 
     def stopBattle(self):
         InputHandler.g_instance.onKeyDown -= self.injectButton
-        # InputHandler.g_instance.onKeyUp -= self.injectButton
         self.modelSplashVisible = False
         self.modelDotVisible = False
         self.modelSplashKeyPressed = False
