@@ -7,16 +7,11 @@ jobs:
     runs-on: windows-latest
     strategy:
       max-parallel: 4
-      matrix:
-        python-version: '2.7'
-        client-ru: '1.32.0.0'
-        client-wg: '1.27.1.0'
-
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
+        python-version: '2.7.18' 
         version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: python ./.github/createRelease.py ${{ matrix.client-ru }} ${{ matrix.client-wg }}
+      run: python ./.github/createRelease.py
