@@ -155,7 +155,7 @@ class ArtyBall(object):
         def startBattle(self):
         InputHandler.g_instance.onKeyDown += self.injectButton
         if config.data['enabled']:
-            self.player = BigWorld().player()
+            self.player = BigWorld.player() # fix
             self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelDotVisible = config.data['showDotOnDefault']
             self.scaleSplash = None
