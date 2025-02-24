@@ -12,6 +12,5 @@ jobs:
     - uses: LizardByte/setup-python-action@master
       with:
         python-version: '2.7' 
-        version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: python ./.github/createRelease.py
