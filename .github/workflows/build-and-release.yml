@@ -10,78 +10,88 @@ jobs:
     runs-on: windows-latest  # Используем Windows для сборки
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python 2.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: '2.7'  # Python 2.7 для сборки
+      - name: Install Python 2.7 manually
+        run: |
+          # Скачиваем Python 2.7
+          $pythonUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
+          $pythonInstaller = "$env:RUNNER_TEMP\python-2.7.18.amd64.msi"
+          Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
+          
+          # Устанавливаем Python 2.7
+          Start-Process msiexec.exe -ArgumentList "/i $pythonInstaller /quiet" -Wait
+          
+          # Добавляем Python в PATH
+          $pythonPath = "C:\Python27"
+          echo "::add-path::$pythonPath"
+          echo "::add-path::$pythonPath\Scripts"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Если у вас есть зависимости
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Если у вас есть зависимости
 
-    - name: Install GitHub CLI
-      run: |
-        winget install --id GitHub.cli
+      - name: Install GitHub CLI
+        run: |
+          winget install --id GitHub.cli
 
-    - name: Read game versions and mod list from JSON
-      id: versions
-      run: |
-        # Чтение данных из JSON-файла
-        $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
-        $wg_version = $data.CLIENT_VERSION_WG
-        $lesta_version = $data.CLIENT_VERSION_RU
-        $mod_list = $data.mod_list -join ","  # Преобразуем список модов в строку
+      - name: Read game versions and mod list from JSON
+        id: versions
+        run: |
+          # Чтение данных из JSON-файла
+          $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
+          $wg_version = $data.CLIENT_VERSION_WG
+          $lesta_version = $data.CLIENT_VERSION_RU
+          $mod_list = $data.mod_list -join ","  # Преобразуем список модов в строку
+          
+          # Сохраняем данные в outputs для использования в следующих шагах
+          echo "::set-output name=wg_version::$wg_version"
+          echo "::set-output name=lesta_version::$lesta_version"
+          echo "::set-output name=mod_list::$mod_list"
 
-        # Сохраняем данные в outputs для использования в следующих шагах
-        echo "::set-output name=wg_version::$wg_version"
-        echo "::set-output name=lesta_version::$lesta_version"
-        echo "::set-output name=mod_list::$mod_list"
+      - name: Run build script
+        run: |
+          python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}
 
-    - name: Run build script
-      run: |
-        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
+          draft: false
+          prerelease: false
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ github.run_number }}
-        release_name: Release v${{ github.run_number }}
-        draft: false
-        prerelease: false
-
-    - name: Upload WG Mod Archives
-      run: |
-        $mods = "${{ steps.versions.outputs.mod_list }}" -split ","
-        foreach ($mod in $mods) {
-          $archivePath = "$mod/zip/$mod.zip"
-          if (Test-Path $archivePath) {
-            echo "Uploading $archivePath"
-            gh release upload v${{ github.run_number }} $archivePath --clobber
-          } else {
-            echo "Archive not found: $archivePath"
+      - name: Upload WG Mod Archives
+        run: |
+          $mods = "${{ steps.versions.outputs.mod_list }}" -split ","
+          foreach ($mod in $mods) {
+            $archivePath = "$mod/zip/$mod.zip"
+            if (Test-Path $archivePath) {
+              echo "Uploading $archivePath"
+              gh release upload v${{ github.run_number }} $archivePath --clobber
+            } else {
+              echo "Archive not found: $archivePath"
+            }
           }
-        }
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Upload Lesta Mod Archives
-      run: |
-        $mods = "${{ steps.versions.outputs.mod_list }}" -split ","
-        foreach ($mod in $mods) {
-          $archivePath = "$mod/zip/${mod}_RU.zip"
-          if (Test-Path $archivePath) {
-            echo "Uploading $archivePath"
-            gh release upload v${{ github.run_number }} $archivePath --clobber
-          } else {
-            echo "Archive not found: $archivePath"
+      - name: Upload Lesta Mod Archives
+        run: |
+          $mods = "${{ steps.versions.outputs.mod_list }}" -split ","
+          foreach ($mod in $mods) {
+            $archivePath = "$mod/zip/${mod}_RU.zip"
+            if (Test-Path $archivePath) {
+              echo "Uploading $archivePath"
+              gh release upload v${{ github.run_number }} $archivePath --clobber
+            } else {
+              echo "Archive not found: $archivePath"
+            }
           }
-        }
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
