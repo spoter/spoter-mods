@@ -39,10 +39,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
 
-    - name: Install GitHub CLI
-      run: |
-        winget install --id GitHub.cli
-
     - name: Read game versions and mod list from JSON
       id: versions
       run: |
