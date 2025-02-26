@@ -11,7 +11,7 @@ parser.add_argument('wg_version', help='Client version for WG')
 args = parser.parse_args()
 
 CLIENT_VERSION_WG = args.wg_version    # Международная версия клиента
-CLIENT_VERSION_RU = args.lesta_versioт # Леста версия клиента
+CLIENT_VERSION_RU = args.lesta_version # Леста версия клиента
 
 def test_main_folder():
     main_folder = os.path.realpath('./../mod_mods_gui')
