@@ -1,0 +1,75 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master  # ветка, на которую пушить изменения
+
+jobs:
+  build:
+    runs-on: windows-latest  # Используем Windows Server для сборки
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python 2.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: '2.7'  # Python 2.7 используем для сборки
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Если у вас есть зависимости
+
+    - name: Read game versions and mod list from JSON
+      id: versions
+      run: |
+        # Чтение данных из JSON-файла
+        $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
+        $wg_version = $data.CLIENT_VERSION_WG
+        $lesta_version = $data.CLIENT_VERSION_RU
+        $mod_list = $data.mod_list -join ","  # Преобразуем список модов в строку
+
+        # Сохраняем данные в outputs для использования в следующих шагах
+        echo "::set-output name=wg_version::$wg_version"
+        echo "::set-output name=lesta_version::$lesta_version"
+        echo "::set-output name=mod_list::$mod_list"
+
+    - name: Run build script
+      run: |
+        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+
+    - name: Upload WG Mod Archives
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: |
+          ${{ fromJSON(steps.versions.outputs.mod_list) | toJson }}
+          # Формируем список путей к архивам для WG клиента
+          ${{ fromJSON(steps.versions.outputs.mod_list) | map => format('{0}/zip/{0}.zip', _) | toJson }}
+        asset_name: ${{ fromJSON(steps.versions.outputs.mod_list) | map => format('{0}.zip', _) | toJson }}
+        asset_content_type: application/zip
+
+    - name: Upload Lesta Mod Archives
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: |
+          ${{ fromJSON(steps.versions.outputs.mod_list) | toJson }}
+          # Формируем список путей к архивам для Lesta клиента
+          ${{ fromJSON(steps.versions.outputs.mod_list) | map => format('{0}/zip/{0}_RU.zip', _) | toJson }}
+        asset_name: ${{ fromJSON(steps.versions.outputs.mod_list) | map => format('{0}_RU.zip', _) | toJson }}
+        asset_content_type: application/zip

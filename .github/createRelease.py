@@ -2,12 +2,16 @@
 import sys
 import traceback
 import os
-CLIENT_VERSION_RU = '1.32.0.0' # Леста версия клиента
-CLIENT_VERSION_WG = '1.27.1.0'# Международная версия клиента
+import argparse
 
-if len(sys.argv) > 1:
-    CLIENT_VERSION_RU = sys.argv[2] # Леста версия клиента
-    CLIENT_VERSION_WG = sys.argv[3] # Международная версия клиента
+parser = argparse.ArgumentParser(description='Create mod archives.')
+parser.add_argument('lesta_version', help='Client version for Lesta')
+parser.add_argument('wg_version', help='Client version for WG')
+
+args = parser.parse_args()
+
+CLIENT_VERSION_WG = args.wg_version    # Международная версия клиента
+CLIENT_VERSION_RU = args.lesta_versioт # Леста версия клиента
 
 def test_main_folder():
     main_folder = os.path.realpath('./../mod_mods_gui')
