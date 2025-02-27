@@ -11,40 +11,35 @@ jobs:
 
     steps:
     - name: Checkout repository
-    - uses: actions/checkout@v4
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0  # Получаем всю историю коммитов
 
-    - name: Set up Python 2.7
-    - uses: LizardByte/setup-python-action@master
-      with:
-        python-version: '2.7'
+    - name: Install Python 2.7 manually
+      run: |
+        # Скачиваем Python 2.7
+        $pythonUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
+        $pythonInstaller = "$env:RUNNER_TEMP\python-2.7.18.amd64.msi"
+        Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
 
-    #- name: Install Python 2.7 manually
-    #  run: |
-    #    # Скачиваем Python 2.7
-    #    $pythonUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
-    #    $pythonInstaller = "$env:RUNNER_TEMP\python-2.7.18.amd64.msi"
-    #    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
-    #
-    #    # Устанавливаем Python 2.7
-    #    Start-Process msiexec.exe -ArgumentList "/i $pythonInstaller /quiet" -Wait
-    #
-    #    # Добавляем Python в PATH с использованием Environment Files
-    #    $pythonPath = "C:\Python27"
-    #    $pythonScriptsPath = "$pythonPath\Scripts"
-    #    echo "$pythonPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-    #    echo "$pythonScriptsPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        # Устанавливаем Python 2.7
+        Start-Process msiexec.exe -ArgumentList "/i $pythonInstaller /quiet" -Wait
+
+        # Добавляем Python в PATH с использованием Environment Files
+        $pythonPath = "C:\Python27"
+        $pythonScriptsPath = "$pythonPath\Scripts"
+        echo "$pythonPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        echo "$pythonScriptsPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
     - name: Verify Python installation
       run: |
         python --version
         pip --version
 
-    #- name: Install dependencies
-    #  run: |
-    #    python -m pip install --upgrade pip
-    #    pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
 
     - name: Check commit message for release keywords
       id: check_commit
