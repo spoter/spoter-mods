@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Получаем всю историю коммитов
 
     - name: Install Python 2.7 manually
       run: |
@@ -78,7 +80,7 @@ jobs:
           echo "updated_mods=$($modList -join ',')" >> $env:GITHUB_OUTPUT
         } else {
           # Иначе ищем измененные моды только в source
-          $modifiedFiles = git diff --name-only HEAD^ HEAD
+          $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
           $updatedMods = @()
           foreach ($mod in $modList) {
             if ($modifiedFiles -match "$mod/source/") {
