@@ -102,7 +102,7 @@ jobs:
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "DEBUG: Building all mods because 'release all' keyword was found or game_version.json was modified."
-          echo "DEBUG: $UPDATED_MODS=$($modList -join ',')"
+          echo "DEBUG: UPDATED_MODS=$($modList -join ',')"
           echo "$UPDATED_MODS=$($modList -join ',')" >> $env:GITHUB_ENV
         } else {
           # Иначе ищем измененные моды только в source
