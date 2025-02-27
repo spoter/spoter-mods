@@ -129,12 +129,11 @@ jobs:
     - name: Debug updated_mods
       run: |
         $updatedMods = $env:UPDATED_MODS
-        echo "updatedMods = $updatedMods"
-        echo "Updated mods: $UPDATED_MODS"
+        echo "Updated mods: $updatedMods"
 
     - name: Read game versions and mod versions
       id: versions
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: $env:UPDATED_MODS != ''
       run: |
         # Чтение данных из JSON-файла
         $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
@@ -142,7 +141,7 @@ jobs:
         $lesta_version = $data.CLIENT_VERSION_RU
 
         # Получаем список обновленных модов
-        $updatedMods = "$UPDATED_MODS" -split ","
+        $updatedMods = $env:UPDATED_MODS -split ","
 
         # Чтение версий модов
         $modVersions = @{}
@@ -160,7 +159,7 @@ jobs:
         # Сохраняем данные в outputs для использования в следующих шагах
         echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
         echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
-        echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
+        #echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
         echo "mod_versions=$($modVersions | ConvertTo-Json -Compress)" >> $env:GITHUB_OUTPUT
         echo "date=$currentDate" >> $env:GITHUB_OUTPUT
         echo "mark=$mark" >> $env:GITHUB_OUTPUT
@@ -169,13 +168,13 @@ jobs:
     - name: Run build script
       if: env.UPDATED_MODS != ''
       run: |
-        echo "Running build script with updated mods: $UPDATED_MODS"
-        echo "python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}"
-        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}
+        echo "Running build script with updated mods: $env:UPDATED_MODS"
+        echo "python .github/createRelease.py $env:lesta_version $env:wg_version $env:UPDATED_MODS"
+        python .github/createRelease.py $env:lesta_version $env:wg_version $env:UPDATED_MODS
 
     - name: Create Release
       id: create_release
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: $env:UPDATED_MODS != ''
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -183,14 +182,14 @@ jobs:
         tag_name: v${{ github.run_number }}
         release_name: Release v${{ github.run_number }}
         body: |
-          ${{ toJson(fromJson(steps.versions.outputs.mod_versions)) }}
+          ${{ toJson(fromJson($env:mod_versions)) }}
         draft: false
         prerelease: false
 
     - name: Upload WG Mod Archives
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: $env:UPDATED_MODS != ''
       run: |
-        $updatedMods = "$UPDATED_MODS" -split ","
+        $updatedMods = "$env:UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/$mod.zip"
           if (Test-Path $archivePath) {
@@ -204,9 +203,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Lesta Mod Archives
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: $env:UPDATED_MODS != ''
       run: |
-        $updatedMods = "$UPDATED_MODS" -split ","
+        $updatedMods = "$env:UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/${mod}_RU.zip"
           if (Test-Path $archivePath) {
@@ -220,9 +219,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Update README files
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: $env:UPDATED_MODS != ''
       run: |
-        $updatedMods = "$UPDATED_MODS" -split ","
+        $updatedMods = "$env:UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $wgArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/$mod.zip"
           $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
@@ -232,17 +231,17 @@ jobs:
     
           # Обновляем или создаем файл имя_мода/zip/README.md
           $zipReadmePath = "$mod/zip/README.md"
-          $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
+          $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ $env:date }}) #World of Tanks ${{ $env:wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ $env:date }}) #Tanki Lesta ${{ $env:lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $zipReadmePath -Value $zipReadmeContent
     
           # Обновляем или создаем файл имя_мода/README.md
           $modReadmePath = "$mod/README.md"
-          $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
+          $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ $env:date }}) #World of Tanks ${{ $env:wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ $env:date }}) #Tanki Lesta ${{ $env:lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $modReadmePath -Value $modReadmeContent
         }
 
     - name: Commit and push changes
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: $env:UPDATED_MODS != ''
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"

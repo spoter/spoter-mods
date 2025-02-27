@@ -8,17 +8,19 @@ import json
 parser = argparse.ArgumentParser(description='Create mod archives.')
 parser.add_argument('lesta_version', help='Client version for Lesta')
 parser.add_argument('wg_version', help='Client version for WG')
+parser.add_argument('updated_mods', help='Client version for WG')
 # Читаем переменную окружения
-updated_mods = os.getenv("UPDATED_MODS", "").split(",") if os.getenv("UPDATED_MODS") else []
+#updated_mods = os.getenv("UPDATED_MODS", "").split(",") if os.getenv("UPDATED_MODS") else []
 
 args = parser.parse_args()
-print('DEBUG: we get args: python .github/createRelease.py %s %s' %(args.lesta_version, args.wg_version))
-print('DEBUG: getenv %s' %os.getenv("UPDATED_MODS"))
-print('DEBUG: updated_mods = %s' %updated_mods)
 
 CLIENT_VERSION_WG = args.wg_version    # Международная версия клиента
 CLIENT_VERSION_RU = args.lesta_version # Леста версия клиента
-#updated_mods = args.updated_mods.split(",") if args.updated_mods else []  # список модов для обновления
+updated_mods = args.updated_mods.split(",") if args.updated_mods else []  # список модов для обновления
+
+print('DEBUG: we get args: python .github/createRelease.py %s %s' %(args.lesta_version, args.wg_version))
+print('DEBUG: getenv %s' %os.getenv("UPDATED_MODS"))
+print('DEBUG: updated_mods = %s' %updated_mods)
 
 def test_main_folder():
     main_folder = os.path.realpath('./../mod_mods_gui')
