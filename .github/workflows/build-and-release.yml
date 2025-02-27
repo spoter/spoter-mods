@@ -78,12 +78,12 @@ jobs:
       run: |
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
-        echo "Mod list: $modList"
-    
+        echo "Mod list: $($modList -join ',')"
+      
         # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
         $isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
-    
+      
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
@@ -91,15 +91,15 @@ jobs:
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
-          echo "Modified files: $modifiedFiles"
+          echo "Modified files: $($modifiedFiles -join ',')"
           $updatedMods = @()
           foreach ($mod in $modList) {
-            if ($modifiedFiles -match "$mod/source/") {
+            if ($modifiedFiles | Where-Object { $_ -match "$mod/source/" }) {
               echo "Modified mod: $mod"
               $updatedMods += $mod
             }
           }
-    
+        
           # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
             echo "Updated mods: $($updatedMods -join ',')"
@@ -108,7 +108,6 @@ jobs:
             echo "No mods were updated."
             echo "UPDATED_MODS=" >> $env:GITHUB_ENV
           }
-        }
 
     - name: Debug updated_mods
       run: |

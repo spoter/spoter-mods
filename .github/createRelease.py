@@ -12,6 +12,9 @@ parser.add_argument('wg_version', help='Client version for WG')
 updated_mods = os.getenv("UPDATED_MODS", "").split(",") if os.getenv("UPDATED_MODS") else []
 
 args = parser.parse_args()
+print('DEBUG: we get args: python .github/createRelease.py %s %s' %(args.lesta_version, args.wg_version))
+print('DEBUG: getenv %s' %os.getenv("UPDATED_MODS"))
+print('DEBUG: updated_mods = %s' %updated_mods)
 
 CLIENT_VERSION_WG = args.wg_version    # Международная версия клиента
 CLIENT_VERSION_RU = args.lesta_version # Леста версия клиента
