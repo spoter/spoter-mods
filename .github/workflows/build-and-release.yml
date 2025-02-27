@@ -185,7 +185,7 @@ jobs:
           import locale
           import sys
           locale.setlocale(locale.LC_ALL, '')
-          print(u'✅ Escaped commit message in Python: ' + unicode(sys.argv1, 'utf-8'))" "$commitMessage"
+          print(u'✅ Escaped commit message in Python: ' + unicode(sys.argv[1], 'utf-8'))" "$commitMessage"
 
       # Шаг 6: Углублённый дебаг и тестирование переменных
       - name: Deep debug and test variables
