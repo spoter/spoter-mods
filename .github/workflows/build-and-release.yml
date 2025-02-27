@@ -73,7 +73,7 @@ jobs:
       run: |
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
-
+    
         # Если в сообщении коммита есть all/всех/все/всё, собираем все моды
         if ('${{ steps.check_commit.outputs.is_all }}' -eq 'true') {
           echo "Building all mods because 'release all' keyword was found."
@@ -88,7 +88,7 @@ jobs:
               $updatedMods += $mod
             }
           }
-
+    
           # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
             echo "Updated mods: $($updatedMods -join ',')"
@@ -98,6 +98,10 @@ jobs:
             echo "updated_mods=" >> $env:GITHUB_OUTPUT
           }
         }
+
+    - name: Debug updated_mods
+      run: |
+        echo "Updated mods: ${{ steps.modified_mods.outputs.updated_mods }}"
 
     - name: Read game versions and mod versions
       id: versions
@@ -136,7 +140,7 @@ jobs:
     - name: Run build script
       if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }} ${{ steps.versions.outputs.updated_mods }}
+        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }} "${{ steps.modified_mods.outputs.updated_mods }}"
 
     - name: Create Release
       id: create_release
