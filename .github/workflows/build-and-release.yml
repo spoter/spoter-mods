@@ -58,30 +58,30 @@ jobs:
         $isAll = $commitMessage -match $allPattern
     
         if ($isRelease) {
-          echo "Commit message contains release keyword."
-          echo "commit_message=$commitMessage"
-          echo "is_release=true"
+          echo "DEBUG: Commit message contains release keyword."
+          echo "DEBUG: commit_message=$commitMessage"
+          echo "DEBUG: is_release=true"
           
           echo "commit_message=$commitMessage" >> $env:GITHUB_OUTPUT
           echo "is_release=true" >> $env:GITHUB_OUTPUT
           if ($isAll) {
-            echo "is_all=true"
+            echo "DEBUG: is_all=true"
             echo "is_all=true" >> $env:GITHUB_OUTPUT
           } else {
-            echo "is_all=false"
+            echo "DEBUG: is_all=false"
             echo "is_all=false" >> $env:GITHUB_OUTPUT
           }
         } else {
-          echo "Commit message does not contain release keyword. Skipping build."
-          echo "is_release=false"
+          echo "DEBUG: Commit message does not contain release keyword. Skipping build."
+          echo "DEBUG: is_release=false"
           echo "is_release=false" >> $env:GITHUB_OUTPUT
-          echo "is_all=false"
+          echo "DEBUG: is_all=false"
           echo "is_all=false" >> $env:GITHUB_OUTPUT
         }
 
     - name: Debug modified files
       run: |
-        echo "Modified files:"
+        echo "DEBUG: Modified files:"
         git diff --name-only ${{ github.event.before }} ${{ github.sha }}
 
     - name: Determine modified mods
@@ -90,7 +90,7 @@ jobs:
       run: |
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
-        echo "Mod list: [$($modList -join ',')]"
+        echo "DEBUG: Mod list: [$($modList -join ',')]"
     
         # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
         #$isAll = Get-Content -Path $env:GITHUB_ENV | Select-String -Pattern 'is_all=true'
@@ -98,38 +98,38 @@ jobs:
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
         echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
-        $updated_mods = ""
+        #$updated_mods = ""
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
-          echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
-          echo "$UPDATED_MODS=$($modList -join ',')"
+          echo "DEBUG: Building all mods because 'release all' keyword was found or game_version.json was modified."
+          echo "DEBUG: $UPDATED_MODS=$($modList -join ',')"
           echo "$UPDATED_MODS=$($modList -join ',')" >> $env:GITHUB_ENV
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
-          echo "Modified files: $modifiedFiles"
+          echo "DEBUG: Modified files: $modifiedFiles"
           $updatedMods = @()
           foreach ($mod in $modList) {
             if ($modifiedFiles -match "$mod/source/") {
-              echo "Modified mod: $mod"
+              echo "DEBUG: Modified mod: $mod"
               $updatedMods += $mod
             }
           }
     
           # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
-            echo "Updated mods: $($updatedMods -join ',')"
+            echo "DEBUG: Updated mods: $($updatedMods -join ',')"
             echo "$UPDATED_MODS=$($updatedMods -join ',')" >> $env:GITHUB_ENV
           } else {
-            echo "No mods were updated."
+            echo "DEBUG: No mods were updated."
             echo "$UPDATED_MODS=" >> $env:GITHUB_ENV
           }
         }
 
     - name: Debug updated_mods
       run: |
-        $updatedMods = $env:$updated_mods
-        echo "Updated mods: $updatedMods"
+        $updatedMods = $env:UPDATED_MODS
+        echo "DEBUG: Updated mods: $updatedMods"
         echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
     - name: Read game versions and mod versions
@@ -142,7 +142,7 @@ jobs:
         $lesta_version = "$data.CLIENT_VERSION_RU"
 
         # Получаем список обновленных модов
-        $updatedMods = $env:$updated_mods
+        $updatedMods = $env:UPDATED_MODS
         $updatedMods = $updatedMods -split ","
 
         # Чтение версий модов
@@ -158,23 +158,14 @@ jobs:
         # Определяем mark (World of Tanks или Tanki Lesta)
         $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
         
-        $updated_mods = "$($updatedMods -join ',')"
+
         $mod_versions= "$($modVersions | ConvertTo-Json -Compress)"
         $client= "${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}"
-        
-        # Сохраняем данные в outputs для использования в следующих шагах
-        echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
-        echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
-        echo "updated_mods=$updated_mods" >> $env:GITHUB_OUTPUT
-        echo "mod_versions=$mod_versions" >> $env:GITHUB_OUTPUT
-        echo "date=$currentDate" >> $env:GITHUB_OUTPUT
-        echo "mark=$mark" >> $env:GITHUB_OUTPUT
-        echo "client=$client" >> $env:GITHUB_OUTPUT
         
         # DEBUG: Сохраняем данные в outputs для использования в следующих шагах
         echo "DEBUG: wg_version=$wg_version"
         echo "DEBUG: lesta_version=$lesta_version"
-        echo "DEBUG: updated_mods=$updated_mods"
+
         echo "DEBUG: mod_versions=$mod_versions"
         echo "DEBUG: date=$currentDate"
         echo "DEBUG: mark=$mark"
@@ -187,14 +178,25 @@ jobs:
         echo "DEBUG2: date=$env:date"
         echo "DEBUG2: mark=$env:mark"
         echo "DEBUG2: client=$env:client"
+        
+        # Сохраняем данные в outputs для использования в следующих шагах
+        echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
+        echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
+
+        echo "mod_versions=$mod_versions" >> $env:GITHUB_OUTPUT
+        echo "date=$currentDate" >> $env:GITHUB_OUTPUT
+        echo "mark=$mark" >> $env:GITHUB_OUTPUT
+        echo "client=$client" >> $env:GITHUB_OUTPUT
+        
+
 
     - name: Run build script
       if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        $updatedMods = $env:$updated_mods
+        $updatedMods = $env:UPDATED_MODS
         $lesta_version = $env:lesta_version
         $wg_version = $env:wg_version
-        echo "python .github/createRelease.py $lesta_version $wg_version $updatedMods"
+        echo "DEBUG: python .github/createRelease.py $lesta_version $wg_version $updatedMods"
         python .github/createRelease.py $lesta_version $wg_version $updatedMods
 
     - name: Create Release
@@ -218,10 +220,10 @@ jobs:
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/$mod.zip"
           if (Test-Path $archivePath) {
-            echo "Uploading $archivePath"
+            echo "DEBUG: Uploading $archivePath"
             gh release upload v${{ github.run_number }} $archivePath --clobber
           } else {
-            echo "Archive not found: $archivePath"
+            echo "DEBUG: Archive not found: $archivePath"
           }
         }
       env:
@@ -234,10 +236,10 @@ jobs:
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/${mod}_RU.zip"
           if (Test-Path $archivePath) {
-            echo "Uploading $archivePath"
+            echo "DEBUG: Uploading $archivePath"
             gh release upload v${{ github.run_number }} $archivePath --clobber
           } else {
-            echo "Archive not found: $archivePath"
+            echo "DEBUG: Archive not found: $archivePath"
           }
         }
       env:
