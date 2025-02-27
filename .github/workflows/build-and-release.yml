@@ -72,15 +72,13 @@ jobs:
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
 
-        # Передаем измененные файлы из GitHub Actions в PowerShell
-        $modifiedFiles = @('${{ toJson(github.event.head_commit.modified) }}' | ConvertFrom-Json)
-
         # Если в сообщении коммита есть all/всех/все/всё, собираем все моды
         if ('${{ steps.check_commit.outputs.is_all }}' -eq 'true') {
           echo "Building all mods because 'release all' keyword was found."
           echo "updated_mods=$($modList -join ',')" >> $env:GITHUB_OUTPUT
         } else {
           # Иначе ищем измененные моды только в source
+          $modifiedFiles = git diff --name-only HEAD^ HEAD
           $updatedMods = @()
           foreach ($mod in $modList) {
             if ($modifiedFiles -match "$mod/source/") {
