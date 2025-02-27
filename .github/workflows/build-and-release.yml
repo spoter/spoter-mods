@@ -156,15 +156,19 @@ jobs:
 
         # Определяем mark (World of Tanks или Tanki Lesta)
         $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
-
+        
+        $updated_mods = $($updatedMods -join ',')
+        $mod_versions=$($modVersions | ConvertTo-Json -Compress)
+        $client=${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}
+        
         # Сохраняем данные в outputs для использования в следующих шагах
         echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
         echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
-        echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
-        echo "mod_versions=$($modVersions | ConvertTo-Json -Compress)" >> $env:GITHUB_OUTPUT
+        echo "updated_mods=$updated_mods" >> $env:GITHUB_OUTPUT
+        echo "mod_versions=$mod_versions" >> $env:GITHUB_OUTPUT
         echo "date=$currentDate" >> $env:GITHUB_OUTPUT
         echo "mark=$mark" >> $env:GITHUB_OUTPUT
-        echo "client=${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}" >> $env:GITHUB_OUTPUT
+        echo "client=$client" >> $env:GITHUB_OUTPUT
 
     - name: Run build script
       if: env.UPDATED_MODS != ''
