@@ -79,6 +79,9 @@ jobs:
           echo "is_all=false" >> $env:GITHUB_OUTPUT
         }
 
+    - name: Pause to ensure environment variable is set 1
+      run: sleep 10
+
     - name: Debug modified files
       run: |
         echo "DEBUG: Modified files:"
@@ -132,6 +135,9 @@ jobs:
             echo "DEBUG: Updated mods: $updatedMods"
             echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
+    - name: Pause to ensure environment variable is set 2
+      run: sleep 10
+
     - name: Read game versions and mod versions
       id: versions
       if: env.UPDATED_MODS != ''
@@ -166,7 +172,8 @@ jobs:
         echo "mark=$mark" >> $env:GITHUB_OUTPUT
         echo "client=$wg_version$lesta_version" >> $env:GITHUB_OUTPUT
         
-
+    - name: Pause to ensure environment variable is set 3
+      run: sleep 10
 
     - name: Run build script
       if: env.UPDATED_MODS != ''
@@ -176,6 +183,9 @@ jobs:
         $wg_version = $env:wg_version
         echo "DEBUG: python .github/createRelease.py $lesta_version $wg_version $updatedMods"
         python .github/createRelease.py $lesta_version $wg_version $updatedMods
+
+    - name: Pause to ensure environment variable is set 4
+      run: sleep 10
 
     - name: Create Release
       id: create_release
@@ -190,6 +200,9 @@ jobs:
           ${{ toJson(fromJson(steps.versions.outputs.mod_versions)) }}
         draft: false
         prerelease: false
+
+    - name: Pause to ensure environment variable is set 5
+      run: sleep 10
 
     - name: Upload WG Mod Archives
       if: env.UPDATED_MODS != ''
