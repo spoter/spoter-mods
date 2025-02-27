@@ -170,9 +170,10 @@ jobs:
       if: env.UPDATED_MODS != ''
       run: |
         $updatedMods = $env:UPDATED_MODS
-        echo "Running build script with updated mods: $updatedMods"
-        echo "python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}"
-        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}
+        $lesta_version = $env:lesta_version
+        $wg_version = $env:wg_version
+        echo "python .github/createRelease.py $lesta_version $wg_version $updatedMods"
+        python .github/createRelease.py $lesta_version $wg_version $updatedMods
 
     - name: Create Release
       id: create_release
