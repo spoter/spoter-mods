@@ -36,10 +36,10 @@ jobs:
         python --version
         pip --version
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
+    #- name: Install dependencies
+    #  run: |
+    #    python -m pip install --upgrade pip
+    #    pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
 
     - name: Check commit message for release keywords
       id: check_commit
@@ -59,11 +59,15 @@ jobs:
     
         if ($isRelease) {
           echo "Commit message contains release keyword."
+          echo "is_release=true"
+          echo "commit_message=$commitMessage"
+          echo "is_all=$isAll"
           echo "is_release=true" >> $env:GITHUB_OUTPUT
           echo "commit_message=$commitMessage" >> $env:GITHUB_OUTPUT
           echo "is_all=$isAll" >> $env:GITHUB_OUTPUT
         } else {
           echo "Commit message does not contain release keyword. Skipping build."
+          echo "is_release=false"
           echo "is_release=false" >> $env:GITHUB_OUTPUT
         }
 
@@ -78,12 +82,14 @@ jobs:
       run: |
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
-        echo "Mod list: $modList"
+        echo "Mod list: [$($modList -join ',')]"
     
         # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
         $isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
-    
+        
+        echo "DEBUG: Проверяем, есть ли ключевые слова "release all"($isAll)  или изменён game_version.json ($isGameVersionModified)"
+        
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
