@@ -17,19 +17,13 @@ jobs:
 
     - name: Install Python 2.7 manually
       run: |
-        # Скачиваем Python 2.7
         $pythonUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
         $pythonInstaller = "$env:RUNNER_TEMP\python-2.7.18.amd64.msi"
         Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
-
-        # Устанавливаем Python 2.7
         Start-Process msiexec.exe -ArgumentList "/i $pythonInstaller /quiet" -Wait
-
-        # Добавляем Python в PATH с использованием Environment Files
         $pythonPath = "C:\Python27"
         $pythonScriptsPath = "$pythonPath\Scripts"
-        echo "$pythonPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        echo "$pythonScriptsPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        echo "$env:GITHUB_PATH += `"$pythonPath`";$pythonScriptsPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
     - name: Verify Python installation
       run: |
@@ -39,29 +33,22 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
+        pip install -r .github/workflows/requirements.txt
 
     - name: Check commit message for release keywords
       id: check_commit
       run: |
-        # Получаем сообщение последнего коммита
         $commitMessage = git log -1 --pretty=%B
-    
-        # Экранируем кавычки в сообщении коммита
         $commitMessage = $commitMessage -replace '"', '`"'
-    
-        # Проверяем, содержит ли сообщение ключевые слова
-        $releasePattern = "(?i)release|релиз"  # Регулярное выражение для release/релиз (регистронезависимо)
-        $allPattern = "(?i)all|всех|все|всё"  # Регулярное выражение для all/всех/все/всё (регистронезависимо)
-    
+        $releasePattern = "(?i)release|релиз"
+        $allPattern = "(?i)all|всех|все|всё"
         $isRelease = $commitMessage -match $releasePattern
         $isAll = $commitMessage -match $allPattern
-    
+
         if ($isRelease) {
           echo "DEBUG: Commit message contains release keyword."
           echo "DEBUG: commit_message=$commitMessage"
           echo "DEBUG: is_release=true"
-          
           echo "commit_message=$commitMessage" >> $env:GITHUB_OUTPUT
           echo "is_release=true" >> $env:GITHUB_OUTPUT
           if ($isAll) {
@@ -91,24 +78,21 @@ jobs:
       id: modified_mods
       if: steps.check_commit.outputs.is_release == 'true' || contains(github.event.head_commit.modified, '.github/game_version.json')
       run: |
-        # Получаем список модов из game_version.json
-        $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
+        $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
+        $modList = $data.mod_list
         echo "DEBUG: Mod list: [$($modList -join ',')]"
         
-        # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
-        $isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
+        $isAll = $env:GITHUB_OUTPUT -like "*is_all=true*"
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
         echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
         
-        # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "DEBUG: Building all mods because 'release all' keyword was found or game_version.json was modified."
           $updatedMods = $modList -join ','
           echo "DEBUG: UPDATED_MODS=$updatedMods"
           echo "UPDATED_MODS=$updatedMods" >> $env:GITHUB_ENV
         } else {
-          # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
           echo "DEBUG: Modified files: $modifiedFiles"
           $updatedMods = @()
@@ -119,7 +103,6 @@ jobs:
             }
           }
         
-          # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
             echo "DEBUG: Updated mods: $($updatedMods -join ',')"
             echo "UPDATED_MODS=$($updatedMods -join ',')" >> $env:GITHUB_ENV
@@ -128,10 +111,9 @@ jobs:
             echo "UPDATED_MODS=" >> $env:GITHUB_ENV
           }
         }
-    
+
     - name: Debug updated_mods
       run: |
-        #$updatedMods = $env:UPDATED_MODS
         echo "DEBUG: Updated mods: $updatedMods"
         echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
@@ -142,28 +124,20 @@ jobs:
       id: versions
       if: env.UPDATED_MODS != ''
       run: |
-        # Чтение данных из JSON-файла
         $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
         $wg_version = $data.CLIENT_VERSION_WG
         $lesta_version = $data.CLIENT_VERSION_RU
     
-        # Получаем список обновленных модов
         $updatedMods = $env:UPDATED_MODS -split ","
-    
-        # Чтение версий модов
         $modVersions = @{}
         foreach ($mod in $updatedMods) {
           $modVersion = Get-Content -Path "$mod/source/VERSION" -Raw | ConvertFrom-Json | Select-Object -ExpandProperty version
           $modVersions[$mod] = $modVersion
         }
     
-        # Получаем текущую дату
         $currentDate = Get-Date -Format "yyyy-MM-dd"
-    
-        # Определяем mark (World of Tanks или Tanki Lesta)
         $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
-    
-        # Сохраняем данные в outputs для использования в следующих шагах
+        
         echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
         echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
         echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
@@ -171,18 +145,14 @@ jobs:
         echo "date=$currentDate" >> $env:GITHUB_OUTPUT
         echo "mark=$mark" >> $env:GITHUB_OUTPUT
         echo "client=$wg_version$lesta_version" >> $env:GITHUB_OUTPUT
-        
+
     - name: Pause to ensure environment variable is set 3
       run: sleep 10
 
     - name: Run build script
       if: env.UPDATED_MODS != ''
       run: |
-        $updatedMods = $env:UPDATED_MODS
-        $lesta_version = $env:lesta_version
-        $wg_version = $env:wg_version
-        echo "DEBUG: python .github/createRelease.py $lesta_version $wg_version $updatedMods"
-        python .github/createRelease.py $lesta_version $wg_version $updatedMods
+        python .github/createRelease.py $env:lesta_version $env:wg_version $env:UPDATED_MODS
 
     - name: Pause to ensure environment variable is set 4
       run: sleep 10
@@ -244,15 +214,12 @@ jobs:
           $wgArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/$mod.zip"
           $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
     
-          # Получаем версию мода
           $modVersion = (Get-Content -Path "$mod/source/VERSION" -Raw | ConvertFrom-Json).version
     
-          # Обновляем или создаем файл имя_мода/zip/README.md
           $zipReadmePath = "$mod/zip/README.md"
           $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $zipReadmePath -Value $zipReadmeContent
     
-          # Обновляем или создаем файл имя_мода/README.md
           $modReadmePath = "$mod/README.md"
           $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $modReadmePath -Value $modReadmeContent
