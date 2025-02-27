@@ -104,6 +104,7 @@ jobs:
           echo "DEBUG: Building all mods because 'release all' keyword was found or game_version.json was modified."
           echo "DEBUG: UPDATED_MODS=$updatedMods"
           echo "$UPDATED_MODS=$updatedMods" >> $env:GITHUB_ENV
+          echo "DEBUG: end1"
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
@@ -124,7 +125,9 @@ jobs:
             echo "DEBUG: No mods were updated."
             echo "$UPDATED_MODS=" >> $env:GITHUB_ENV
           }
+          echo "DEBUG: end2"
         }
+        echo "DEBUG: end3"
 
     - name: Debug updated_mods
       run: |
