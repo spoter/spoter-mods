@@ -12,12 +12,13 @@ jobs:
     steps:
     - name: Checkout repository
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Получаем всю историю коммитов
 
     - name: Set up Python 2.7
     - uses: LizardByte/setup-python-action@master
       with:
         python-version: '2.7'
-        fetch-depth: 0  # Получаем всю историю коммитов
 
     #- name: Install Python 2.7 manually
     #  run: |
