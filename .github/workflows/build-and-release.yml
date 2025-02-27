@@ -130,6 +130,7 @@ jobs:
       run: |
         $updatedMods = $env:UPDATED_MODS
         echo "Updated mods: $updatedMods"
+        echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
     - name: Read game versions and mod versions
       id: versions
