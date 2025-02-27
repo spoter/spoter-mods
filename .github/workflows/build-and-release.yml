@@ -128,7 +128,7 @@ jobs:
 
     - name: Debug updated_mods
       run: |
-        $updatedMods = '${{ steps.modified_mods.outputs.$updatedMods }}'
+        $updatedMods = $env:UPDATED_MODS
         echo "updatedMods = $updatedMods"
         echo "Updated mods: $UPDATED_MODS"
 
