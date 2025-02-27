@@ -46,7 +46,7 @@ jobs:
         $commitMessage = git log -1 --pretty=%B
 
         # Экранируем кавычки в сообщении коммита
-        $commitMessage = $commitMessage -replace '"', '\"'
+        $commitMessage = $commitMessage -replace '"', '`"'
 
         # Проверяем, содержит ли сообщение ключевые слова
         $releasePattern = "(?i)release|релиз"  # Регулярное выражение для release/релиз (регистронезависимо)
@@ -73,7 +73,7 @@ jobs:
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
 
         # Если в сообщении коммита есть all/всех/все/всё или изменен game_version.json, собираем все моды
-        if ("${{ steps.check_commit.outputs.is_all }}" -eq "true" || contains(github.event.head_commit.modified, '.github/game_version.json')) {
+        if ('${{ steps.check_commit.outputs.is_all }}' -eq 'true' -or (contains(github.event.head_commit.modified, '.github/game_version.json'))) {
           echo "Building all mods."
           echo "updated_mods=$($modList -join ',')" >> $env:GITHUB_OUTPUT
         } else {
