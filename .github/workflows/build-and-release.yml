@@ -3,108 +3,150 @@ name: Build and Release
 on:
   push:
     branches:
-      - master  # Workflow запускается при пуше в ветку master
+      - master
 
 jobs:
   build:
-    runs-on: windows-latest  # Используем Windows для сборки
+    runs-on: windows-latest
 
     steps:
-      # Шаг 1: Проверка кода из репозитория
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 50  # Загружаем последние 50 коммитов
+          fetch-depth: 50
 
-      # Шаг 2: Получение информации о пуше
+        # Проверка на наличие ошибок после checkout
+        run: |
+          git gc --force
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "❌ Error: Failed to clone repository."
+            exit 1
+          }
+
       - name: Get push details
         id: push-details
         shell: pwsh
         run: |
-          # Получаем хэш последнего коммита
           $commitHash = git rev-parse HEAD
           Write-Host "✅ Commit hash: $commitHash"
 
-          # Получаем описание пуша (сообщение коммита)
           $commitMessage = git log -1 --pretty=%B
           Write-Host "✅ Commit message: $commitMessage"
 
-          # Экранируем спецсимволы в сообщении коммита
+          # Экранирование специальных символов
           $escapedCommitMessage = $commitMessage -replace '"', '`"' -replace "'", "''" -replace "`n", " " -replace "`r", " "
           Write-Host "✅ Escaped commit message: $escapedCommitMessage"
 
-          # Получаем список измененных файлов
+          # Получение списка измененных файлов
           $changedFiles = git diff --name-only HEAD^ HEAD
           Write-Host "✅ Changed files:"
           $changedFiles | ForEach-Object { Write-Host "  $_" }
 
-          # Сохраняем данные в выходные переменные
+          # Сохранение данных в переменные окружения
           echo "commit_hash=$commitHash" >> $env:GITHUB_OUTPUT
           echo "commit_message=$escapedCommitMessage" >> $env:GITHUB_OUTPUT
           echo "changed_files=$($changedFiles -join ';')" >> $env:GITHUB_OUTPUT
 
-      # Шаг 3: Установка Python 2.7 через Chocolatey
       - name: Install Python 2.7
         id: install-python
         shell: pwsh
         run: |
-          # Проверяем, установлен ли Python 2.7
+          # Проверка на наличие Python 2.7 в PATH
           if (Test-Path "C:\Python27\python.exe") {
-              Write-Host "✅ Python 2.7 is already installed."
-              & "C:\Python27\python.exe" --version
-              exit 0
+            Write-Host "✅ Python 2.7 is already installed."
+            & "C:\Python27\python.exe" --version
+            exit 0
           }
 
-          # Проверяем, установлен ли Chocolatey
+          # Проверка на наличие Chocolatey
           if (Get-Command choco -ErrorAction SilentlyContinue) {
-              Write-Host "✅ Chocolatey is already installed."
+            Write-Host "✅ Chocolatey is already installed."
           } else {
-              Write-Host "❌ Chocolatey is not installed. Installing now..."
-              Set-ExecutionPolicy Bypass -Scope Process -Force
-              [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-              iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-              Write-Host "✅ Chocolatey installed successfully."
+            Write-Host "❌ Chocolatey is not installed. Installing now..."
+            Set-ExecutionPolicy Bypass -Scope Process -Force
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+            iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+            Write-Host "✅ Chocolatey installed successfully."
           }
 
-          # Устанавливаем Python 2.7
+          # Установка Python 2.7
           Write-Host "🚀 Installing Python 2.7..."
           choco install python2 -y --force
           Write-Host "✅ Python 2.7 installed successfully."
 
-          # Обновляем переменные окружения
+          # Обновление окружения
           Write-Host "🔄 Refreshing environment variables..."
           Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
           refreshenv
           Write-Host "✅ Environment variables refreshed."
 
-          # Проверяем, что Python 2.7 установился и доступен
+          # Проверка установки Python 2.7
           Write-Host "🔍 Checking Python 2.7 installation..."
           & "C:\Python27\python.exe" --version
           if ($LASTEXITCODE -eq 0) {
-              Write-Host "✅ Python 2.7 is available in PATH."
+            Write-Host "✅ Python 2.7 is available in PATH."
           } else {
-              Write-Host "❌ Python 2.7 is not available in PATH. Please check the installation."
-              exit 1
+            Write-Host "❌ Python 2.7 is not available in PATH. Please check the installation."
+            exit 1
           }
 
-          # Логируем PATH для отладки
+          # Логирование PATH
           Write-Host "📂 Current PATH:"
           $env:PATH -split ";" | ForEach-Object { Write-Host "  $_" }
 
-      # Шаг 4: Дебаг и тестирование
-      - name: Debug and test
+      - name: Check commit message for release keywords
+        id: check_commit
+        shell: pwsh
+        run: |
+          # Получение переменных из предыдущего шага
+          $commitMessage = "${{ steps.push-details.outputs.commit_message }}"
+          $changedFiles = "${{ steps.push-details.outputs.changed_files }}" -split ";"
+
+          Write-Host "🔍 Checking commit message for release keywords..."
+
+          # Проверка на наличие ключевых слов
+          $releasePattern = "(?i)release|релиз"
+          $allPattern = "(?i)all|всех|все|всё"
+
+          $isRelease = $commitMessage -match $releasePattern
+          $isAll = $commitMessage -match $allPattern
+
+          # Проверка изменения файла .github/game_version.json
+          $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
+
+          # Логирование результатов проверки
+          if ($isRelease) {
+            Write-Host "✅ Commit message contains release keyword."
+            echo "is_release=true" >> $env:GITHUB_OUTPUT
+
+            if ($isAll -or $isGameVersionChanged) {
+              Write-Host "✅ is_all=true"
+              echo "is_all=true" >> $env:GITHUB_OUTPUT
+            } else {
+              Write-Host "✅ is_all=false"
+              echo "is_all=false" >> $env:GITHUB_OUTPUT
+            }
+          } else {
+            Write-Host "❌ Commit message does not contain release keyword. Skipping build."
+            echo "is_release=false" >> $env:GITHUB_OUTPUT
+            echo "is_all=false" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Debug and Test
         id: debug-test
         shell: pwsh
         run: |
-          # Выводим данные из предыдущих шагов
           Write-Host "🚀 Debug information:"
-          Write-Host "Commit hash: ${{ steps.push-details.outputs.commit_hash }}"
-          Write-Host "Commit message: ${{ steps.push-details.outputs.commit_message }}"
-          Write-Host "Changed files: ${{ steps.push-details.outputs.changed_files }}"
+          Write-Host "✅ Commit hash: ${{ steps.push-details.outputs.commit_hash }}"
+          Write-Host "✅ Commit message: ${{ steps.push-details.outputs.commit_message }}"
 
-          # Пример использования переменных в PowerShell
+          # Пример работы с переменными в PowerShell
           $commitMessage = "${{ steps.push-details.outputs.commit_message }}"
           Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
 
-          # Пример использования переменных в Python
+          # Пример работы с переменными в Python 2.7
           & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$commitMessage"
+
+          # Дополнительные проверки
+          Write-Host "🔄 Environment variables after refresh:"
+          $env:PATH -split ";" | ForEach-Object { Write-Host "  $_" }
