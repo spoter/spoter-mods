@@ -54,12 +54,12 @@ jobs:
 
         if ($isRelease) {
           echo "Commit message contains release keyword."
-          echo "is_release=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          echo "commit_message=$commitMessage" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          echo "is_all=$isAll" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "is_release=true" >> $env:GITHUB_OUTPUT
+          echo "commit_message=$commitMessage" >> $env:GITHUB_OUTPUT
+          echo "is_all=$isAll" >> $env:GITHUB_OUTPUT
         } else {
           echo "Commit message does not contain release keyword. Skipping build."
-          echo "is_release=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "is_release=false" >> $env:GITHUB_OUTPUT
         }
 
     - name: Determine modified mods
@@ -72,7 +72,7 @@ jobs:
         # Если в сообщении коммита есть all/всех/все/всё или изменен game_version.json, собираем все моды
         if ("${{ steps.check_commit.outputs.is_all }}" -eq "true" || contains(github.event.head_commit.modified, '.github/game_version.json')) {
           echo "Building all mods."
-          echo "updated_mods=$($modList -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "updated_mods=$($modList -join ',')" >> $env:GITHUB_OUTPUT
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only HEAD^ HEAD
@@ -87,10 +87,10 @@ jobs:
           # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
             echo "Updated mods: $($updatedMods -join ',')"
-            echo "updated_mods=$($updatedMods -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+            echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
           } else {
             echo "No mods were updated."
-            echo "updated_mods=" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+            echo "updated_mods=" >> $env:GITHUB_OUTPUT
           }
         }
 
@@ -120,13 +120,13 @@ jobs:
         $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
 
         # Сохраняем данные в outputs для использования в следующих шагах
-        echo "wg_version=$wg_version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "lesta_version=$lesta_version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "updated_mods=$($updatedMods -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "mod_versions=$($modVersions | ConvertTo-Json -Compress)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "date=$currentDate" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "mark=$mark" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "client=${{ fromJson(steps.versions.outputs.wg_version) || fromJson(steps.versions.outputs.lesta_version) }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
+        echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
+        echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
+        echo "mod_versions=$($modVersions | ConvertTo-Json -Compress)" >> $env:GITHUB_OUTPUT
+        echo "date=$currentDate" >> $env:GITHUB_OUTPUT
+        echo "mark=$mark" >> $env:GITHUB_OUTPUT
+        echo "client=${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}" >> $env:GITHUB_OUTPUT
 
     - name: Run build script
       if: steps.modified_mods.outputs.updated_mods != ''
@@ -143,7 +143,7 @@ jobs:
         tag_name: v${{ github.run_number }}
         release_name: Release v${{ github.run_number }}
         body: |
-          ${{ fromJson(steps.versions.outputs.mod_versions) | ForEach-Object { "[$_]: #$($_.Value) (${{ steps.versions.outputs.date }}) #${{ steps.versions.outputs.mark }} ${{ steps.versions.outputs.client }}" } | Join-String -Separator "\n" }}
+          ${{ fromJson(steps.versions.outputs.mod_versions) | toJson }}
         draft: false
         prerelease: false
 
