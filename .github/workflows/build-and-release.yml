@@ -129,11 +129,11 @@ jobs:
           }
         }
     
-        - name: Debug updated_mods
-          run: |
-            #$updatedMods = $env:UPDATED_MODS
-            echo "DEBUG: Updated mods: $updatedMods"
-            echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
+    - name: Debug updated_mods
+      run: |
+        #$updatedMods = $env:UPDATED_MODS
+        echo "DEBUG: Updated mods: $updatedMods"
+        echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
     - name: Pause to ensure environment variable is set 2
       run: sleep 10
