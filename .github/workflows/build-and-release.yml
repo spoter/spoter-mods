@@ -137,8 +137,8 @@ jobs:
       run: |
         # Чтение данных из JSON-файла
         $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
-        $wg_version = $data.CLIENT_VERSION_WG
-        $lesta_version = $data.CLIENT_VERSION_RU
+        $wg_version = "$data.CLIENT_VERSION_WG"
+        $lesta_version = "$data.CLIENT_VERSION_RU"
 
         # Получаем список обновленных модов
         $updatedMods = $env:UPDATED_MODS
@@ -157,9 +157,9 @@ jobs:
         # Определяем mark (World of Tanks или Tanki Lesta)
         $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
         
-        $updated_mods = $($updatedMods -join ',')
-        $mod_versions=$($modVersions | ConvertTo-Json -Compress)
-        $client=${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}
+        $updated_mods = "$($updatedMods -join ',')"
+        $mod_versions= "$($modVersions | ConvertTo-Json -Compress)"
+        $client= "${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}"
         
         # Сохраняем данные в outputs для использования в следующих шагах
         echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
