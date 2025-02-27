@@ -91,19 +91,19 @@ jobs:
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
         echo "DEBUG: Mod list: [$($modList -join ',')]"
-    
+        
         # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
-        #$isAll = Get-Content -Path $env:GITHUB_ENV | Select-String -Pattern 'is_all=true'
         $isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
         echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
-        $updatedMods = $($modList -join ',')
+        
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "DEBUG: Building all mods because 'release all' keyword was found or game_version.json was modified."
+          $updatedMods = $modList -join ','
           echo "DEBUG: UPDATED_MODS=$updatedMods"
-          echo "$UPDATED_MODS=$updatedMods" >> $env:GITHUB_ENV
+          echo "UPDATED_MODS=$updatedMods" >> $env:GITHUB_ENV
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
@@ -115,86 +115,61 @@ jobs:
               $updatedMods += $mod
             }
           }
-    
+        
           # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
             echo "DEBUG: Updated mods: $($updatedMods -join ',')"
-            echo "$UPDATED_MODS=$($updatedMods -join ',')" >> $env:GITHUB_ENV
+            echo "UPDATED_MODS=$($updatedMods -join ',')" >> $env:GITHUB_ENV
           } else {
             echo "DEBUG: No mods were updated."
-            echo "$UPDATED_MODS=" >> $env:GITHUB_ENV
+            echo "UPDATED_MODS=" >> $env:GITHUB_ENV
           }
         }
-
-
-    - name: Debug updated_mods
-      run: |
-        echo "DEBUG: end1"
-        #$updatedMods = $env:UPDATED_MODS
-        echo "DEBUG: Updated mods: $updatedMods"
-        echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
-        echo "DEBUG: end2"
+    
+        - name: Debug updated_mods
+          run: |
+            #$updatedMods = $env:UPDATED_MODS
+            echo "DEBUG: Updated mods: $updatedMods"
+            echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
     - name: Read game versions and mod versions
       id: versions
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: env.UPDATED_MODS != ''
       run: |
         # Чтение данных из JSON-файла
         $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
-        $wg_version = "$data.CLIENT_VERSION_WG"
-        $lesta_version = "$data.CLIENT_VERSION_RU"
-
+        $wg_version = $data.CLIENT_VERSION_WG
+        $lesta_version = $data.CLIENT_VERSION_RU
+    
         # Получаем список обновленных модов
-        $updatedMods = $env:UPDATED_MODS
-        $updatedMods = $updatedMods -split ","
-
+        $updatedMods = $env:UPDATED_MODS -split ","
+    
         # Чтение версий модов
         $modVersions = @{}
         foreach ($mod in $updatedMods) {
           $modVersion = Get-Content -Path "$mod/source/VERSION" -Raw | ConvertFrom-Json | Select-Object -ExpandProperty version
           $modVersions[$mod] = $modVersion
         }
-
+    
         # Получаем текущую дату
         $currentDate = Get-Date -Format "yyyy-MM-dd"
-
+    
         # Определяем mark (World of Tanks или Tanki Lesta)
         $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
-        
-
-        $mod_versions= "$($modVersions | ConvertTo-Json -Compress)"
-        $client= "${{ steps.versions.outputs.wg_version || steps.versions.outputs.lesta_version }}"
-        
-        # DEBUG: Сохраняем данные в outputs для использования в следующих шагах
-        echo "DEBUG: wg_version=$wg_version"
-        echo "DEBUG: lesta_version=$lesta_version"
-
-        echo "DEBUG: mod_versions=$mod_versions"
-        echo "DEBUG: date=$currentDate"
-        echo "DEBUG: mark=$mark"
-        echo "DEBUG: client=$client"
-        
-        echo "DEBUG2: wg_version=$env:wg_version"
-        echo "DEBUG2: lesta_version=$env:lesta_version"
-        echo "DEBUG2: updated_mods=$env:updated_mods"
-        echo "DEBUG2: mod_versions=$env:mod_versions"
-        echo "DEBUG2: date=$env:date"
-        echo "DEBUG2: mark=$env:mark"
-        echo "DEBUG2: client=$env:client"
-        
+    
         # Сохраняем данные в outputs для использования в следующих шагах
         echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
         echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
-
-        echo "mod_versions=$mod_versions" >> $env:GITHUB_OUTPUT
+        echo "updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_OUTPUT
+        echo "mod_versions=$($modVersions | ConvertTo-Json -Compress)" >> $env:GITHUB_OUTPUT
         echo "date=$currentDate" >> $env:GITHUB_OUTPUT
         echo "mark=$mark" >> $env:GITHUB_OUTPUT
-        echo "client=$client" >> $env:GITHUB_OUTPUT
+        echo "client=$wg_version$lesta_version" >> $env:GITHUB_OUTPUT
         
 
 
     - name: Run build script
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: env.UPDATED_MODS != ''
       run: |
         $updatedMods = $env:UPDATED_MODS
         $lesta_version = $env:lesta_version
@@ -217,9 +192,9 @@ jobs:
         prerelease: false
 
     - name: Upload WG Mod Archives
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: env.UPDATED_MODS != ''
       run: |
-        $updatedMods = "$UPDATED_MODS" -split ","
+        $updatedMods = "$env:UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/$mod.zip"
           if (Test-Path $archivePath) {
@@ -233,9 +208,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Lesta Mod Archives
-      if: steps.modified_mods.outputs.updated_mods != ''
+      if: env.UPDATED_MODS != ''
       run: |
-        $updatedMods = "$UPDATED_MODS" -split ","
+        $updatedMods = "$env:UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/${mod}_RU.zip"
           if (Test-Path $archivePath) {
