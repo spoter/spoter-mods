@@ -11,25 +11,27 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    - uses: LizardByte/setup-python-action@master
       with:
+        python-version: '2.7'
         fetch-depth: 0  # Получаем всю историю коммитов
 
-    - name: Install Python 2.7 manually
-      run: |
-        # Скачиваем Python 2.7
-        $pythonUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
-        $pythonInstaller = "$env:RUNNER_TEMP\python-2.7.18.amd64.msi"
-        Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
-
-        # Устанавливаем Python 2.7
-        Start-Process msiexec.exe -ArgumentList "/i $pythonInstaller /quiet" -Wait
-
-        # Добавляем Python в PATH с использованием Environment Files
-        $pythonPath = "C:\Python27"
-        $pythonScriptsPath = "$pythonPath\Scripts"
-        echo "$pythonPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        echo "$pythonScriptsPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    #- name: Install Python 2.7 manually
+    #  run: |
+    #    # Скачиваем Python 2.7
+    #    $pythonUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
+    #    $pythonInstaller = "$env:RUNNER_TEMP\python-2.7.18.amd64.msi"
+    #    Invoke-WebRequest -Uri $pythonUrl -OutFile $pythonInstaller
+    #
+    #    # Устанавливаем Python 2.7
+    #    Start-Process msiexec.exe -ArgumentList "/i $pythonInstaller /quiet" -Wait
+    #
+    #    # Добавляем Python в PATH с использованием Environment Files
+    #    $pythonPath = "C:\Python27"
+    #    $pythonScriptsPath = "$pythonPath\Scripts"
+    #    echo "$pythonPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    #    echo "$pythonScriptsPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
     - name: Verify Python installation
       run: |
@@ -59,16 +61,24 @@ jobs:
     
         if ($isRelease) {
           echo "Commit message contains release keyword."
-          echo "is_release=true"
           echo "commit_message=$commitMessage"
-          echo "is_all=$isAll"
-          echo "is_release=true" >> $env:GITHUB_OUTPUT
+          echo "is_release=true"
+          
           echo "commit_message=$commitMessage" >> $env:GITHUB_OUTPUT
-          echo "is_all=$isAll" >> $env:GITHUB_OUTPUT
+          echo "is_release=true" >> $env:GITHUB_OUTPUT
+          if ($isAll) {
+            echo "is_all=true"
+            echo "is_all=true" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "is_all=false"
+            echo "is_all=false" >> $env:GITHUB_OUTPUT
+          }
         } else {
           echo "Commit message does not contain release keyword. Skipping build."
           echo "is_release=false"
           echo "is_release=false" >> $env:GITHUB_OUTPUT
+          echo "is_all=false"
+          echo "is_all=false" >> $env:GITHUB_OUTPUT
         }
 
     - name: Debug modified files
@@ -89,7 +99,7 @@ jobs:
         #$isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
-        echo "DEBUG: Проверяем, есть ли ключевые слова "release all"($isAll)  или изменён game_version.json ($isGameVersionModified)"
+        echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
         
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
