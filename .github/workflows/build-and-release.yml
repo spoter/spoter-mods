@@ -98,12 +98,13 @@ jobs:
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
         echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
-        
+        $updated_mods = ""
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
-          echo "UPDATED_MODS=$($modList -join ',')"
-          echo "UPDATED_MODS=$($modList -join ',')" >> $env:GITHUB_ENV
+          echo "$updated_mods=$($modList -join ',')"
+          echo "$updated_mods=$($modList -join ',')" >> $env:GITHUB_ENV
+          $updated_mods
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
@@ -119,16 +120,16 @@ jobs:
           # Сохраняем список обновленных модов
           if ($updatedMods.Count -gt 0) {
             echo "Updated mods: $($updatedMods -join ',')"
-            echo "UPDATED_MODS=$($updatedMods -join ',')" >> $env:GITHUB_ENV
+            echo "$updated_mods=$($updatedMods -join ',')" >> $env:GITHUB_ENV
           } else {
             echo "No mods were updated."
-            echo "UPDATED_MODS=" >> $env:GITHUB_ENV
+            echo "$updated_mods=" >> $env:GITHUB_ENV
           }
         }
 
     - name: Debug updated_mods
       run: |
-        $updatedMods = $env:UPDATED_MODS
+        $updatedMods = $env:$updated_mods
         echo "Updated mods: $updatedMods"
         echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
 
@@ -142,7 +143,7 @@ jobs:
         $lesta_version = "$data.CLIENT_VERSION_RU"
 
         # Получаем список обновленных модов
-        $updatedMods = $env:UPDATED_MODS
+        $updatedMods = $env:$updated_mods
         $updatedMods = $updatedMods -split ","
 
         # Чтение версий модов
@@ -189,9 +190,9 @@ jobs:
         echo "DEBUG2: client=$env:client"
 
     - name: Run build script
-      if: env.UPDATED_MODS != ''
+      if: env.$updated_mods != ''
       run: |
-        $updatedMods = $env:UPDATED_MODS
+        $updatedMods = $env:$updated_mods
         $lesta_version = $env:lesta_version
         $wg_version = $env:wg_version
         echo "python .github/createRelease.py $lesta_version $wg_version $updatedMods"
