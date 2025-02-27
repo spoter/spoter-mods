@@ -177,8 +177,8 @@ jobs:
           # Изменяем кодовую страницу консоли на UTF-8
           chcp 65001
       
-          # Выводим сообщение с использованием UTF-8
-          & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].decode('utf-8'))" "$commitMessage"
+          # Выводим сообщение с использованием UTF-8, явно преобразуя строку
+          & "C:\Python27\python.exe" -c "import sys; print(u'✅ Escaped commit message in Python: ' + unicode(sys.argv[1], 'utf-8'))" "$commitMessage"
 
       # Шаг 6: Углублённый дебаг и тестирование переменных
       - name: Deep debug and test variables
