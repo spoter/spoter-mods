@@ -98,12 +98,12 @@ jobs:
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
         echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
-        #$updated_mods = ""
+        $updatedMods = $($modList -join ',')
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "DEBUG: Building all mods because 'release all' keyword was found or game_version.json was modified."
-          echo "DEBUG: UPDATED_MODS=$($modList -join ',')"
-          echo "$UPDATED_MODS=$($modList -join ',')" >> $env:GITHUB_ENV
+          echo "DEBUG: UPDATED_MODS=$updatedMods"
+          echo "$UPDATED_MODS=$updatedMods" >> $env:GITHUB_ENV
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
