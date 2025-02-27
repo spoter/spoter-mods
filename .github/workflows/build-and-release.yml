@@ -189,24 +189,12 @@ jobs:
 
           # Обновляем или создаем файл имя_мода/zip/README.md
           $zipReadmePath = "$mod/zip/README.md"
-          $zipReadmeContent = @"
-# $mod
-
-#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)
-
-#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)
-"@
+          $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $zipReadmePath -Value $zipReadmeContent
 
           # Обновляем или создаем файл имя_мода/README.md
           $modReadmePath = "$mod/README.md"
-          $modReadmeContent = @"
-# $mod
-
-#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)
-
-#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)
-"@
+          $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $modReadmePath -Value $modReadmeContent
         }
 
