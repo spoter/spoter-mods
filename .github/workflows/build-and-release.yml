@@ -2,8 +2,8 @@ name: Build and Release
 
 on:
   push:
-    branches:
-      - master  # ветка, на которую пушить изменения
+    paths:
+      - '**/source/**'  # Триггерим workflow только при изменении файлов в папке source
 
 jobs:
   build:
@@ -39,39 +39,119 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r .github/workflows/requirements.txt  # Указываем путь к requirements.txt
 
-    - name: Read game versions and mod list from JSON
+    - name: Check commit message for release keywords
+      id: check_commit
+      run: |
+        # Получаем сообщение последнего коммита
+        $commitMessage = git log -1 --pretty=%B
+
+        # Проверяем, содержит ли сообщение ключевые слова
+        $releasePattern = "(?i)release|релиз"  # Регулярное выражение для release/релиз (регистронезависимо)
+        $allPattern = "(?i)all|всех|все|всё"  # Регулярное выражение для all/всех/все/всё (регистронезависимо)
+
+        $isRelease = $commitMessage -match $releasePattern
+        $isAll = $commitMessage -match $allPattern
+
+        if ($isRelease) {
+          echo "Commit message contains release keyword."
+          echo "is_release=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "commit_message=$commitMessage" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "is_all=$isAll" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        } else {
+          echo "Commit message does not contain release keyword. Skipping build."
+          echo "is_release=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        }
+
+    - name: Determine modified mods
+      id: modified_mods
+      if: steps.check_commit.outputs.is_release == 'true'
+      run: |
+        # Получаем список модов из game_version.json
+        $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
+
+        # Если в сообщении коммита есть all/всех/все/всё, собираем все моды
+        if ("${{ steps.check_commit.outputs.is_all }}" -eq "true") {
+          echo "Building all mods."
+          echo "updated_mods=$($modList -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        } else {
+          # Иначе ищем измененные моды
+          $modifiedFiles = git diff --name-only HEAD^ HEAD
+          $updatedMods = @()
+          foreach ($mod in $modList) {
+            if ($modifiedFiles -match "$mod/source/") {
+              echo "Modified mod: $mod"
+              $updatedMods += $mod
+            }
+          }
+
+          # Сохраняем список обновленных модов
+          if ($updatedMods.Count -gt 0) {
+            echo "Updated mods: $($updatedMods -join ',')"
+            echo "updated_mods=$($updatedMods -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          } else {
+            echo "No mods were updated."
+            echo "updated_mods=" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          }
+        }
+
+    - name: Read game versions and mod versions
       id: versions
+      if: steps.modified_mods.outputs.updated_mods != ''
       run: |
         # Чтение данных из JSON-файла
         $data = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json
         $wg_version = $data.CLIENT_VERSION_WG
         $lesta_version = $data.CLIENT_VERSION_RU
-        $mod_list = $data.mod_list -join ","  # Преобразуем список модов в строку
+
+        # Получаем список обновленных модов
+        $updatedMods = "${{ steps.modified_mods.outputs.updated_mods }}" -split ","
+
+        # Чтение версий модов
+        $modVersions = @{}
+        foreach ($mod in $updatedMods) {
+          $modVersion = Get-Content -Path "$mod/source/VERSION" -Raw | ConvertFrom-Json | Select-Object -ExpandProperty version
+          $modVersions[$mod] = $modVersion
+        }
+
+        # Получаем текущую дату
+        $currentDate = Get-Date -Format "yyyy-MM-dd"
+
+        # Определяем mark (World of Tanks или Tanki Lesta)
+        $mark = if ($wg_version) { "World of Tanks" } else { "Tanki Lesta" }
 
         # Сохраняем данные в outputs для использования в следующих шагах
         echo "wg_version=$wg_version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
         echo "lesta_version=$lesta_version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        echo "mod_list=$mod_list" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        echo "updated_mods=$($updatedMods -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        echo "mod_versions=$($modVersions | ConvertTo-Json -Compress)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        echo "date=$currentDate" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        echo "mark=$mark" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        echo "client=${{ fromJson(steps.versions.outputs.wg_version) || fromJson(steps.versions.outputs.lesta_version) }}" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
     - name: Run build script
+      if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }}
+        python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }} ${{ steps.versions.outputs.updated_mods }}
 
     - name: Create Release
       id: create_release
+      if: steps.modified_mods.outputs.updated_mods != ''
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v${{ github.run_number }}
         release_name: Release v${{ github.run_number }}
+        body: |
+          ${{ fromJson(steps.versions.outputs.mod_versions) | ForEach-Object { "[$_]: #$($_.Value) (${{ steps.versions.outputs.date }}) #${{ steps.versions.outputs.mark }} ${{ steps.versions.outputs.client }}" }}
         draft: false
         prerelease: false
 
     - name: Upload WG Mod Archives
+      if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        $mods = "${{ steps.versions.outputs.mod_list }}" -split ","
-        foreach ($mod in $mods) {
+        $updatedMods = "${{ steps.versions.outputs.updated_mods }}" -split ","
+        foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/$mod.zip"
           if (Test-Path $archivePath) {
             echo "Uploading $archivePath"
@@ -84,9 +164,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Lesta Mod Archives
+      if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        $mods = "${{ steps.versions.outputs.mod_list }}" -split ","
-        foreach ($mod in $mods) {
+        $updatedMods = "${{ steps.versions.outputs.updated_mods }}" -split ","
+        foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/${mod}_RU.zip"
           if (Test-Path $archivePath) {
             echo "Uploading $archivePath"
@@ -97,3 +178,43 @@ jobs:
         }
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update README files
+      if: steps.modified_mods.outputs.updated_mods != ''
+      run: |
+        $updatedMods = "${{ steps.versions.outputs.updated_mods }}" -split ","
+        foreach ($mod in $updatedMods) {
+          $wgArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/$mod.zip"
+          $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
+
+          # Обновляем или создаем файл имя_мода/zip/README.md
+          $zipReadmePath = "$mod/zip/README.md"
+          $zipReadmeContent = @"
+# $mod
+
+#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)
+
+#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)
+"@
+          Set-Content -Path $zipReadmePath -Value $zipReadmeContent
+
+          # Обновляем или создаем файл имя_мода/README.md
+          $modReadmePath = "$mod/README.md"
+          $modReadmeContent = @"
+# $mod
+
+#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)
+
+#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)
+"@
+          Set-Content -Path $modReadmePath -Value $modReadmeContent
+        }
+
+    - name: Commit and push changes
+      if: steps.modified_mods.outputs.updated_mods != ''
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        git commit -m "#update resources for ${{ steps.check_commit.outputs.commit_message }}"
+        git push
