@@ -80,8 +80,12 @@ jobs:
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
         echo "Mod list: $modList"
     
-        # Если в сообщении коммита есть all/всех/все/всё или изменён game_version.json, собираем все моды
-        if ('${{ steps.check_commit.outputs.is_all }}' -eq 'true' || contains(github.event.head_commit.modified, '.github/game_version.json')) {
+        # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
+        $isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
+        $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
+    
+        # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
+        if ($isAll -or $isGameVersionModified) {
           echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
           echo "updated_mods=$($modList -join ',')" >> $env:GITHUB_OUTPUT
         } else {
