@@ -143,7 +143,7 @@ jobs:
         tag_name: v${{ github.run_number }}
         release_name: Release v${{ github.run_number }}
         body: |
-          ${{ fromJson(steps.versions.outputs.mod_versions) | toJson }}
+          ${{ toJson(fromJson(steps.versions.outputs.mod_versions)) }}
         draft: false
         prerelease: false
 
@@ -187,14 +187,17 @@ jobs:
           $wgArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/$mod.zip"
           $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
 
+          # Получаем версию мода
+          $modVersion = "${{ fromJson(steps.versions.outputs.mod_versions).$mod }}"
+
           # Обновляем или создаем файл имя_мода/zip/README.md
           $zipReadmePath = "$mod/zip/README.md"
-          $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
+          $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $zipReadmePath -Value $zipReadmeContent
 
           # Обновляем или создаем файл имя_мода/README.md
           $modReadmePath = "$mod/README.md"
-          $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$(${{ fromJson(steps.versions.outputs.mod_versions).$mod }}) (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
+          $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $modReadmePath -Value $modReadmeContent
         }
 
