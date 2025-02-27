@@ -102,6 +102,7 @@ jobs:
         # Если есть ключевые слова "release all" или изменён game_version.json, собираем все моды
         if ($isAll -or $isGameVersionModified) {
           echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
+          echo "UPDATED_MODS=$($modList -join ',')"
           echo "UPDATED_MODS=$($modList -join ',')" >> $env:GITHUB_ENV
         } else {
           # Иначе ищем измененные моды только в source
@@ -127,7 +128,7 @@ jobs:
 
     - name: Debug updated_mods
       run: |
-        echo "Updated mods: ${{ steps.modified_mods.outputs.updated_mods }}"
+        echo "Updated mods: $UPDATED_MODS"
 
     - name: Read game versions and mod versions
       id: versions
@@ -139,7 +140,7 @@ jobs:
         $lesta_version = $data.CLIENT_VERSION_RU
 
         # Получаем список обновленных модов
-        $updatedMods = "${{ steps.modified_mods.outputs.updated_mods }}" -split ","
+        $updatedMods = "$UPDATED_MODS" -split ","
 
         # Чтение версий модов
         $modVersions = @{}
@@ -187,7 +188,7 @@ jobs:
     - name: Upload WG Mod Archives
       if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        $updatedMods = "${{ steps.versions.outputs.updated_mods }}" -split ","
+        $updatedMods = "$UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/$mod.zip"
           if (Test-Path $archivePath) {
@@ -203,7 +204,7 @@ jobs:
     - name: Upload Lesta Mod Archives
       if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        $updatedMods = "${{ steps.versions.outputs.updated_mods }}" -split ","
+        $updatedMods = "$UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $archivePath = "$mod/zip/${mod}_RU.zip"
           if (Test-Path $archivePath) {
@@ -219,7 +220,7 @@ jobs:
     - name: Update README files
       if: steps.modified_mods.outputs.updated_mods != ''
       run: |
-        $updatedMods = "${{ steps.versions.outputs.updated_mods }}" -split ","
+        $updatedMods = "$UPDATED_MODS" -split ","
         foreach ($mod in $updatedMods) {
           $wgArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/$mod.zip"
           $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
