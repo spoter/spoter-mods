@@ -43,63 +43,14 @@ jobs:
           echo "commit_message=$escapedCommitMessage" >> $env:GITHUB_OUTPUT
           echo "changed_files=$($changedFiles -join ';')" >> $env:GITHUB_OUTPUT
 
-      # Шаг 3: Установка Python 2.7 через Chocolatey
-      - name: Install Python 2.7
-        id: install-python
-        shell: pwsh
-        run: |
-          # Проверяем, установлен ли Python 2.7
-          if (Test-Path "C:\Python27\python.exe") {
-              Write-Host "✅ Python 2.7 is already installed."
-              & "C:\Python27\python.exe" --version
-              exit 0
-          }
+      # Шаг 3: Установка Python 2.7
+      - name: Set up Python 2.7
+        uses: LizardByte/setup-python-action@master
+        with:
+          pythonVersion: '2.7'
+        # Комментарий: используем действие для установки Python 2.7, что упрощает процесс и делает его более надёжным
+        # Это действие автоматически настроит окружение для работы с выбранной версией Python.
 
-          # Проверяем, установлен ли Chocolatey
-          if (Get-Command choco -ErrorAction SilentlyContinue) {
-              Write-Host "✅ Chocolatey is already installed."
-          } else {
-              Write-Host "❌ Chocolatey is not installed. Installing now..."
-              Set-ExecutionPolicy Bypass -Scope Process -Force
-              [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-              try {
-                  iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-                  Write-Host "✅ Chocolatey installed successfully."
-              } catch {
-                  Write-Host "❌ Error installing Chocolatey: $_"
-                  exit 1
-              }
-          }
-
-          # Устанавливаем Python 2.7
-          Write-Host "🚀 Installing Python 2.7..."
-          try {
-              choco install python2 -y --force
-              Write-Host "✅ Python 2.7 installed successfully."
-          } catch {
-              Write-Host "❌ Error installing Python 2.7: $_"
-              exit 1
-          }
-
-          # Обновляем переменные окружения
-          Write-Host "🔄 Refreshing environment variables..."
-          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-          refreshenv
-          Write-Host "✅ Environment variables refreshed."
-
-          # Проверяем, что Python 2.7 установился и доступен
-          Write-Host "🔍 Checking Python 2.7 installation..."
-          & "C:\Python27\python.exe" --version
-          if ($LASTEXITCODE -eq 0) {
-              Write-Host "✅ Python 2.7 is available in PATH."
-          } else {
-              Write-Host "❌ Python 2.7 is not available in PATH. Please check the installation."
-              exit 1
-          }
-
-          # Логируем PATH для отладки
-          Write-Host "📂 Current PATH:"
-          $env:PATH -split ";" | ForEach-Object { Write-Host "  $_" }
 
       # Шаг 4: Проверка сообщения коммита на ключевые слова
       - name: Check commit message for release keywords
