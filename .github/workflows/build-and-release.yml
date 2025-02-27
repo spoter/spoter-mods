@@ -3,23 +3,70 @@ name: Build and Release
 on:
   push:
     branches:
-      - master  # ветка, на которую пушить изменения
+      - master  # Workflow запускается при пуше в ветку master
 
 jobs:
   build:
     runs-on: windows-latest  # Используем Windows для сборки
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0  # Получаем всю историю коммитов
+      # Шаг 1: Проверка кода из репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Получаем всю историю коммитов
+        id: checkout
+        shell: pwsh
+        run: |
+          Write-Host "✅ Repository checked out successfully."
+          Write-Host "Commit hash: $(git rev-parse HEAD)"
 
-    - name: Install Chocolatey
-      run: |
-        Set-ExecutionPolicy Bypass -Scope Process -Force
-        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+      # Шаг 2: Установка Python 2.7 через Chocolatey
+      - name: Install Python 2.7
+        id: install-python
+        shell: pwsh
+        run: |
+          # Проверяем, установлен ли Chocolatey
+          if (Get-Command choco -ErrorAction SilentlyContinue) {
+              Write-Host "✅ Chocolatey is already installed."
+          } else {
+              Write-Host "❌ Chocolatey is not installed. Installing now..."
+              Set-ExecutionPolicy Bypass -Scope Process -Force
+              [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
+              iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+              Write-Host "✅ Chocolatey installed successfully."
+          }
 
-    - name: Install Python 2.7 via Chocolatey
-      run: choco install python2 -y
+          # Устанавливаем Python 2.7
+          Write-Host "🚀 Installing Python 2.7..."
+          choco install python2 -y
+          Write-Host "✅ Python 2.7 installed successfully."
+
+          # Обновляем переменные окружения
+          Write-Host "🔄 Refreshing environment variables..."
+          refreshenv
+          Write-Host "✅ Environment variables refreshed."
+
+          # Проверяем, что Python установился и доступен
+          Write-Host "🔍 Checking Python installation..."
+          python --version
+          if ($LASTEXITCODE -eq 0) {
+              Write-Host "✅ Python is available in PATH."
+          } else {
+              Write-Host "❌ Python is not available in PATH. Please check the installation."
+              exit 1
+          }
+
+          # Логируем PATH для отладки
+          Write-Host "📂 Current PATH:"
+          $env:PATH -split ";" | ForEach-Object { Write-Host "  $_" }
+
+      # Шаг 3: Пример следующего шага (заглушка)
+      - name: Debug step
+        id: debug-step
+        shell: pwsh
+        run: |
+          Write-Host "🚀 This is a debug step."
+          Write-Host "📂 Current working directory: $(Get-Location)"
+          Write-Host "📂 List of files in the repository:"
+          Get-ChildItem -Recurse | ForEach-Object { Write-Host "  $($_.FullName)" }
