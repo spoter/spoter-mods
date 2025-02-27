@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master  # ветка, на которую пушить изменения
-    paths:
-      - '**/source/**'  # Триггерим при изменении файлов в source
-      - '.github/game_version.json'  # Триггерим при изменении game_version.json
 
 jobs:
   build:
@@ -77,7 +74,7 @@ jobs:
           echo "Building all mods."
           echo "updated_mods=$($modList -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
         } else {
-          # Иначе ищем измененные моды
+          # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only HEAD^ HEAD
           $updatedMods = @()
           foreach ($mod in $modList) {
