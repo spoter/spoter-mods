@@ -130,7 +130,7 @@ jobs:
     - name: Debug updated_mods
       run: |
         echo "DEBUG: end1"
-        $updatedMods = $env:UPDATED_MODS
+        #$updatedMods = $env:UPDATED_MODS
         echo "DEBUG: Updated mods: $updatedMods"
         echo "DEBUG: updated_mods: ${{ steps.versions.outputs.updated_mods }}"
         echo "DEBUG: end2"
