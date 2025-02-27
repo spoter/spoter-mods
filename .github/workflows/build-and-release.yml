@@ -190,7 +190,7 @@ jobs:
         echo "DEBUG2: client=$env:client"
 
     - name: Run build script
-      if: env.$updated_mods != ''
+      if: steps.modified_mods.outputs.updated_mods != ''
       run: |
         $updatedMods = $env:$updated_mods
         $lesta_version = $env:lesta_version
