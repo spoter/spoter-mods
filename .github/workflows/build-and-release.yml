@@ -14,18 +14,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Получаем всю историю коммитов
+          fetch-depth: 50  # Загружаем последние 50 коммитов
         id: checkout
         shell: pwsh
         run: |
           Write-Host "✅ Repository checked out successfully."
           Write-Host "Commit hash: $(git rev-parse HEAD)"
+          Write-Host "Last 5 commits:"
+          git log -5 --oneline
 
       # Шаг 2: Установка Python 2.7 через Chocolatey
       - name: Install Python 2.7
         id: install-python
         shell: pwsh
         run: |
+          # Проверяем, установлен ли Python
+          if (Get-Command python -ErrorAction SilentlyContinue) {
+              Write-Host "✅ Python is already installed."
+              python --version
+              exit 0
+          }
+
           # Проверяем, установлен ли Chocolatey
           if (Get-Command choco -ErrorAction SilentlyContinue) {
               Write-Host "✅ Chocolatey is already installed."
