@@ -2,8 +2,12 @@ name: Build and Release
 
 on:
   push:
-    paths:
-      - '**/source/**'  # Триггерим workflow только при изменении файлов в папке source
+    branches:
+      - master  # ветка, на которую пушить изменения
+    #paths:
+    #  - '**/source/**'  # Триггерим при изменении файлов в source
+    #  - '.github/workflows/**'  # Триггерим при изменении workflow
+    #  - '**/README.md'  # Триггерим при изменении README.md
 
 jobs:
   build:
