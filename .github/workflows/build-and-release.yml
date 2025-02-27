@@ -156,6 +156,16 @@ jobs:
           Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
 
           # Пример использования переменных в Python
+          Write-Host "🔍 Checking console encoding for Python..."
+          & "C:\Python27\python.exe" -c "import sys; print('Python default encoding: ' + sys.getdefaultencoding())"
+          & "C:\Python27\python.exe" -c "import sys; print('Python stdout encoding: ' + sys.stdout.encoding)"
+          & "C:\Python27\python.exe" -c "import sys; print('Python file system encoding: ' + sys.getfilesystemencoding())"
+
+          # Устанавливаем кодировку UTF-8 для Python
+          $env:PYTHONIOENCODING = "utf-8"
+          Write-Host "✅ Set PYTHONIOENCODING to utf-8."
+
+          # Выводим сообщение с использованием UTF-8
           & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$commitMessage"
 
       # Шаг 6: Углубленный дебаг и тестирование переменных
