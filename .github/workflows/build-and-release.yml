@@ -15,15 +15,35 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 50  # Загружаем последние 50 коммитов
-        id: checkout
+
+      # Шаг 2: Получение информации о пуше
+      - name: Get push details
+        id: push-details
         shell: pwsh
         run: |
-          Write-Host "✅ Repository checked out successfully."
-          Write-Host "Commit hash: $(git rev-parse HEAD)"
-          Write-Host "Last 5 commits:"
-          git log -5 --oneline
+          # Получаем хэш последнего коммита
+          $commitHash = git rev-parse HEAD
+          Write-Host "✅ Commit hash: $commitHash"
 
-      # Шаг 2: Установка Python 2.7 через Chocolatey
+          # Получаем описание пуша (сообщение коммита)
+          $commitMessage = git log -1 --pretty=%B
+          Write-Host "✅ Commit message: $commitMessage"
+
+          # Экранируем спецсимволы в сообщении коммита
+          $escapedCommitMessage = $commitMessage -replace "`"", "\`"" -replace "'", "\'" -replace "`n", " " -replace "`r", " "
+          Write-Host "✅ Escaped commit message: $escapedCommitMessage"
+
+          # Получаем список измененных файлов
+          $changedFiles = git diff --name-only HEAD^ HEAD
+          Write-Host "✅ Changed files:"
+          $changedFiles | ForEach-Object { Write-Host "  $_" }
+
+          # Сохраняем данные в выходные переменные
+          echo "commit_hash=$commitHash" >> $env:GITHUB_OUTPUT
+          echo "commit_message=$escapedCommitMessage" >> $env:GITHUB_OUTPUT
+          echo "changed_files=$($changedFiles -join ';')" >> $env:GITHUB_OUTPUT
+
+      # Шаг 3: Установка Python 2.7 через Chocolatey
       - name: Install Python 2.7
         id: install-python
         shell: pwsh
@@ -70,12 +90,20 @@ jobs:
           Write-Host "📂 Current PATH:"
           $env:PATH -split ";" | ForEach-Object { Write-Host "  $_" }
 
-      # Шаг 3: Пример следующего шага (заглушка)
-      - name: Debug step
-        id: debug-step
+      # Шаг 4: Дебаг и тестирование
+      - name: Debug and test
+        id: debug-test
         shell: pwsh
         run: |
-          Write-Host "🚀 This is a debug step."
-          Write-Host "📂 Current working directory: $(Get-Location)"
-          Write-Host "📂 List of files in the repository:"
-          Get-ChildItem -Recurse | ForEach-Object { Write-Host "  $($_.FullName)" }
+          # Выводим данные из предыдущих шагов
+          Write-Host "🚀 Debug information:"
+          Write-Host "Commit hash: ${{ steps.push-details.outputs.commit_hash }}"
+          Write-Host "Commit message: ${{ steps.push-details.outputs.commit_message }}"
+          Write-Host "Changed files: ${{ steps.push-details.outputs.changed_files }}"
+
+          # Пример использования переменных в PowerShell
+          $commitMessage = "${{ steps.push-details.outputs.commit_message }}"
+          Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
+
+          # Пример использования переменных в Python
+          python -c "print('✅ Escaped commit message in Python: ${{ steps.push-details.outputs.commit_message }}')"
