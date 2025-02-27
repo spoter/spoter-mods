@@ -160,23 +160,22 @@ jobs:
           Write-Host "Changed files: ${{ steps.push-details.outputs.changed_files }}"
           Write-Host "Is release: ${{ steps.check_commit.outputs.is_release }}"
           Write-Host "Is all: ${{ steps.check_commit.outputs.is_all }}"
-
+      
           # Пример использования переменных в PowerShell
           $commitMessage = "${{ steps.push-details.outputs.commit_message }}"
           Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
-
-          # Пример использования переменных в Python
-          Write-Host "🔍 Checking console encoding for Python..."
-          & "C:\Python27\python.exe" -c "import sys; print('Python default encoding: ' + sys.getdefaultencoding())"
-          & "C:\Python27\python.exe" -c "import sys; print('Python stdout encoding: ' + sys.stdout.encoding)"
-          & "C:\Python27\python.exe" -c "import sys; print('Python file system encoding: ' + sys.getfilesystemencoding())"
-
+      
           # Устанавливаем кодировку UTF-8 для Python
           $env:PYTHONIOENCODING = "utf-8"
           Write-Host "✅ Set PYTHONIOENCODING to utf-8."
-
+      
+          # Проверяем кодировку в Python
+          & "C:\Python27\python.exe" -c "import sys; print('Python default encoding: ' + sys.getdefaultencoding())"
+          & "C:\Python27\python.exe" -c "import sys; print('Python stdout encoding: ' + sys.stdout.encoding)"
+          & "C:\Python27\python.exe" -c "import sys; print('Python file system encoding: ' + sys.getfilesystemencoding())"
+      
           # Выводим сообщение с использованием UTF-8
-          & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$commitMessage"
+          & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].decode('utf-8'))" "$commitMessage"
 
       # Шаг 6: Углублённый дебаг и тестирование переменных
       - name: Deep debug and test variables
