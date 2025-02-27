@@ -143,7 +143,7 @@ jobs:
         tag_name: v${{ github.run_number }}
         release_name: Release v${{ github.run_number }}
         body: |
-          ${{ fromJson(steps.versions.outputs.mod_versions) | ForEach-Object { "[$_]: #$($_.Value) (${{ steps.versions.outputs.date }}) #${{ steps.versions.outputs.mark }} ${{ steps.versions.outputs.client }}" }}
+          ${{ fromJson(steps.versions.outputs.mod_versions) | ForEach-Object { "[$_]: #$($_.Value) (${{ steps.versions.outputs.date }}) #${{ steps.versions.outputs.mark }} ${{ steps.versions.outputs.client }}" } | Join-String -Separator "\n" }}
         draft: false
         prerelease: false
 
