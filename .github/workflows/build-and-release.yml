@@ -46,17 +46,17 @@ jobs:
       run: |
         # Получаем сообщение последнего коммита
         $commitMessage = git log -1 --pretty=%B
-
+    
         # Экранируем кавычки в сообщении коммита
         $commitMessage = $commitMessage -replace '"', '`"'
-
+    
         # Проверяем, содержит ли сообщение ключевые слова
         $releasePattern = "(?i)release|релиз"  # Регулярное выражение для release/релиз (регистронезависимо)
         $allPattern = "(?i)all|всех|все|всё"  # Регулярное выражение для all/всех/все/всё (регистронезависимо)
-
+    
         $isRelease = $commitMessage -match $releasePattern
         $isAll = $commitMessage -match $allPattern
-
+    
         if ($isRelease) {
           echo "Commit message contains release keyword."
           echo "is_release=true" >> $env:GITHUB_OUTPUT
@@ -67,20 +67,27 @@ jobs:
           echo "is_release=false" >> $env:GITHUB_OUTPUT
         }
 
+    - name: Debug modified files
+      run: |
+        echo "Modified files:"
+        git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+
     - name: Determine modified mods
       id: modified_mods
       if: steps.check_commit.outputs.is_release == 'true' || contains(github.event.head_commit.modified, '.github/game_version.json')
       run: |
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
+        echo "Mod list: $modList"
     
-        # Если в сообщении коммита есть all/всех/все/всё, собираем все моды
-        if ('${{ steps.check_commit.outputs.is_all }}' -eq 'true') {
-          echo "Building all mods because 'release all' keyword was found."
+        # Если в сообщении коммита есть all/всех/все/всё или изменён game_version.json, собираем все моды
+        if ('${{ steps.check_commit.outputs.is_all }}' -eq 'true' || contains(github.event.head_commit.modified, '.github/game_version.json')) {
+          echo "Building all mods because 'release all' keyword was found or game_version.json was modified."
           echo "updated_mods=$($modList -join ',')" >> $env:GITHUB_OUTPUT
         } else {
           # Иначе ищем измененные моды только в source
           $modifiedFiles = git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+          echo "Modified files: $modifiedFiles"
           $updatedMods = @()
           foreach ($mod in $modList) {
             if ($modifiedFiles -match "$mod/source/") {
@@ -140,6 +147,7 @@ jobs:
     - name: Run build script
       if: steps.modified_mods.outputs.updated_mods != ''
       run: |
+        echo "Running build script with updated mods: ${{ steps.modified_mods.outputs.updated_mods }}"
         python .github/createRelease.py ${{ steps.versions.outputs.lesta_version }} ${{ steps.versions.outputs.wg_version }} "${{ steps.modified_mods.outputs.updated_mods }}"
 
     - name: Create Release
@@ -195,15 +203,15 @@ jobs:
         foreach ($mod in $updatedMods) {
           $wgArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/$mod.zip"
           $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
-
+    
           # Получаем версию мода
           $modVersion = (Get-Content -Path "$mod/source/VERSION" -Raw | ConvertFrom-Json).version
-
+    
           # Обновляем или создаем файл имя_мода/zip/README.md
           $zipReadmePath = "$mod/zip/README.md"
           $zipReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
           Set-Content -Path $zipReadmePath -Value $zipReadmeContent
-
+    
           # Обновляем или создаем файл имя_мода/README.md
           $modReadmePath = "$mod/README.md"
           $modReadmeContent = "# $mod\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #World of Tanks ${{ steps.versions.outputs.wg_version }}]($wgArchiveUrl)\n\n#### Скачать [$mod]: #$modVersion (${{ steps.versions.outputs.date }}) #Tanki Lesta ${{ steps.versions.outputs.lesta_version }}]($lestaArchiveUrl)"
