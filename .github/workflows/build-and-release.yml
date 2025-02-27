@@ -30,7 +30,7 @@ jobs:
           Write-Host "✅ Commit message: $commitMessage"
 
           # Экранируем спецсимволы в сообщении коммита
-          $escapedCommitMessage = $commitMessage -replace "`"", "\`"" -replace "'", "\'" -replace "`n", " " -replace "`r", " "
+          $escapedCommitMessage = $commitMessage -replace '"', '`"' -replace "'", "''" -replace "`n", " " -replace "`r", " "
           Write-Host "✅ Escaped commit message: $escapedCommitMessage"
 
           # Получаем список измененных файлов
@@ -48,10 +48,10 @@ jobs:
         id: install-python
         shell: pwsh
         run: |
-          # Проверяем, установлен ли Python
-          if (Get-Command python -ErrorAction SilentlyContinue) {
-              Write-Host "✅ Python is already installed."
-              python --version
+          # Проверяем, установлен ли Python 2.7
+          if (Test-Path "C:\Python27\python.exe") {
+              Write-Host "✅ Python 2.7 is already installed."
+              & "C:\Python27\python.exe" --version
               exit 0
           }
 
@@ -68,7 +68,7 @@ jobs:
 
           # Устанавливаем Python 2.7
           Write-Host "🚀 Installing Python 2.7..."
-          choco install python2 -y
+          choco install python2 -y --force
           Write-Host "✅ Python 2.7 installed successfully."
 
           # Обновляем переменные окружения
@@ -76,13 +76,13 @@ jobs:
           refreshenv
           Write-Host "✅ Environment variables refreshed."
 
-          # Проверяем, что Python установился и доступен
-          Write-Host "🔍 Checking Python installation..."
-          python --version
+          # Проверяем, что Python 2.7 установился и доступен
+          Write-Host "🔍 Checking Python 2.7 installation..."
+          & "C:\Python27\python.exe" --version
           if ($LASTEXITCODE -eq 0) {
-              Write-Host "✅ Python is available in PATH."
+              Write-Host "✅ Python 2.7 is available in PATH."
           } else {
-              Write-Host "❌ Python is not available in PATH. Please check the installation."
+              Write-Host "❌ Python 2.7 is not available in PATH. Please check the installation."
               exit 1
           }
 
@@ -106,4 +106,4 @@ jobs:
           Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
 
           # Пример использования переменных в Python
-          python -c "print('✅ Escaped commit message in Python: ${{ steps.push-details.outputs.commit_message }}')"
+          & "C:\Python27\python.exe" -c "print('✅ Escaped commit message in Python: ${{ steps.push-details.outputs.commit_message }}')"
