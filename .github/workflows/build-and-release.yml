@@ -121,9 +121,10 @@ jobs:
           Write-Host "✅ Set PYTHONIOENCODING to utf-8."
       
           # Проверяем кодировку в Python
-          & "C:\Python27\python.exe" -c "import sys; print('Python default encoding: ' + sys.getdefaultencoding())"
-          & "C:\Python27\python.exe" -c "import sys; print('Python stdout encoding: ' + sys.stdout.encoding)"
-          & "C:\Python27\python.exe" -c "import sys; print('Python file system encoding: ' + sys.getfilesystemencoding())"
+          $pythonPath = $env:PYTHON27_PATH
+          & "$pythonPath\python.exe" -c "import sys; print('Python default encoding: ' + sys.getdefaultencoding())"
+          & "$pythonPath\python.exe" -c "import sys; print('Python stdout encoding: ' + sys.stdout.encoding)"
+          & "$pythonPath\python.exe" -c "import sys; print('Python file system encoding: ' + sys.getfilesystemencoding())"
       
           # Изменяем кодовую страницу консоли на UTF-8
           chcp 65001
@@ -132,7 +133,7 @@ jobs:
           Write-Host "Current system culture: $(Get-Culture)"
       
           # Выводим сообщение с использованием UTF-8, явно преобразуя строку
-          & "C:\Python27\python.exe" -c "
+          & "$pythonPath\python.exe" -c "
           import locale
           import sys
           locale.setlocale(locale.LC_ALL, '')
