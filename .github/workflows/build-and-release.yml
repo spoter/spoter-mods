@@ -73,6 +73,7 @@ jobs:
 
           # Обновляем переменные окружения
           Write-Host "🔄 Refreshing environment variables..."
+          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
           refreshenv
           Write-Host "✅ Environment variables refreshed."
 
@@ -106,4 +107,4 @@ jobs:
           Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
 
           # Пример использования переменных в Python
-          & "C:\Python27\python.exe" -c "print('✅ Escaped commit message in Python: ${{ steps.push-details.outputs.commit_message }}')"
+          & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1])" "$commitMessage"
