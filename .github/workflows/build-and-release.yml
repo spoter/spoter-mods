@@ -169,6 +169,23 @@ jobs:
         echo "date=$currentDate" >> $env:GITHUB_OUTPUT
         echo "mark=$mark" >> $env:GITHUB_OUTPUT
         echo "client=$client" >> $env:GITHUB_OUTPUT
+        
+        # DEBUG: Сохраняем данные в outputs для использования в следующих шагах
+        echo "DEBUG: wg_version=$wg_version"
+        echo "DEBUG: lesta_version=$lesta_version"
+        echo "DEBUG: updated_mods=$updated_mods"
+        echo "DEBUG: mod_versions=$mod_versions"
+        echo "DEBUG: date=$currentDate"
+        echo "DEBUG: mark=$mark"
+        echo "DEBUG: client=$client"
+        
+        echo "DEBUG2: wg_version=$env:wg_version"
+        echo "DEBUG2: lesta_version=$env:lesta_version"
+        echo "DEBUG2: updated_mods=$env:updated_mods"
+        echo "DEBUG2: mod_versions=$env:mod_versions"
+        echo "DEBUG2: date=$env:date"
+        echo "DEBUG2: mark=$env:mark"
+        echo "DEBUG2: client=$env:client"
 
     - name: Run build script
       if: env.UPDATED_MODS != ''
