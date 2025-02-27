@@ -3,18 +3,18 @@ name: Build and Release
 on:
   push:
     branches:
-      - master  # Workflow запускается при пуше в ветку master
+      - master # Workflow запускается при пуше в ветку master
 
 jobs:
   build:
-    runs-on: windows-latest  # Используем Windows для сборки
+    runs-on: windows-latest # Используем Windows для сборки
 
     steps:
       # Шаг 1: Проверка кода из репозитория
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 50  # Загружаем последние 50 коммитов
+          fetch-depth: 50 # Загружаем последние 50 коммитов
 
       # Шаг 2: Получение информации о пуше
       - name: Get push details
@@ -62,14 +62,24 @@ jobs:
               Write-Host "❌ Chocolatey is not installed. Installing now..."
               Set-ExecutionPolicy Bypass -Scope Process -Force
               [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12
-              iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-              Write-Host "✅ Chocolatey installed successfully."
+              try {
+                  iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+                  Write-Host "✅ Chocolatey installed successfully."
+              } catch {
+                  Write-Host "❌ Error installing Chocolatey: $_"
+                  exit 1
+              }
           }
 
           # Устанавливаем Python 2.7
           Write-Host "🚀 Installing Python 2.7..."
-          choco install python2 -y --force
-          Write-Host "✅ Python 2.7 installed successfully."
+          try {
+              choco install python2 -y --force
+              Write-Host "✅ Python 2.7 installed successfully."
+          } catch {
+              Write-Host "❌ Error installing Python 2.7: $_"
+              exit 1
+          }
 
           # Обновляем переменные окружения
           Write-Host "🔄 Refreshing environment variables..."
@@ -168,7 +178,7 @@ jobs:
           # Выводим сообщение с использованием UTF-8
           & "C:\Python27\python.exe" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$commitMessage"
 
-      # Шаг 6: Углубленный дебаг и тестирование переменных
+      # Шаг 6: Углублённый дебаг и тестирование переменных
       - name: Deep debug and test variables
         id: deep-debug
         shell: pwsh
@@ -180,27 +190,29 @@ jobs:
           Write-Host "Changed files: ${{ steps.push-details.outputs.changed_files }}"
           Write-Host "Is release: ${{ steps.check_commit.outputs.is_release }}"
           Write-Host "Is all: ${{ steps.check_commit.outputs.is_all }}"
-
-          # Проверяем, что переменные корректно передаются
+      
+          # Проверяем, что все переменные корректно переданы
+          $errors = @()
           if (-not "${{ steps.push-details.outputs.commit_hash }}") {
-              Write-Host "❌ Commit hash is empty!"
-              exit 1
+              $errors += "Commit hash is empty!"
           }
           if (-not "${{ steps.push-details.outputs.commit_message }}") {
-              Write-Host "❌ Commit message is empty!"
-              exit 1
+              $errors += "Commit message is empty!"
           }
           if (-not "${{ steps.push-details.outputs.changed_files }}") {
-              Write-Host "❌ Changed files list is empty!"
-              exit 1
+              $errors += "Changed files list is empty!"
           }
           if (-not "${{ steps.check_commit.outputs.is_release }}") {
-              Write-Host "❌ Is release flag is empty!"
-              exit 1
+              $errors += "Is release flag is empty!"
           }
           if (-not "${{ steps.check_commit.outputs.is_all }}") {
-              Write-Host "❌ Is all flag is empty!"
-              exit 1
+              $errors += "Is all flag is empty!"
           }
-
-          Write-Host "✅ All variables are correctly set and passed."
+      
+          if ($errors.Count -gt 0) {
+              Write-Host "❌ Errors found:"
+              $errors | ForEach-Object { Write-Host " - $_" }
+              exit 1
+          } else {
+              Write-Host "✅ All variables are correctly set and passed."
+          }
