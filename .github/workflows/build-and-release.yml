@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - master  # ветка, на которую пушить изменения
-    #paths:
-    #  - '**/source/**'  # Триггерим при изменении файлов в source
-    #  - '.github/workflows/**'  # Триггерим при изменении workflow
-    #  - '**/README.md'  # Триггерим при изменении README.md
+    paths:
+      - '**/source/**'  # Триггерим при изменении файлов в source
+      - '.github/game_version.json'  # Триггерим при изменении game_version.json
 
 jobs:
   build:
@@ -68,13 +67,13 @@ jobs:
 
     - name: Determine modified mods
       id: modified_mods
-      if: steps.check_commit.outputs.is_release == 'true'
+      if: steps.check_commit.outputs.is_release == 'true' || contains(github.event.head_commit.modified, '.github/game_version.json')
       run: |
         # Получаем список модов из game_version.json
         $modList = Get-Content -Path .github/game_version.json -Raw | ConvertFrom-Json | Select-Object -ExpandProperty mod_list
 
-        # Если в сообщении коммита есть all/всех/все/всё, собираем все моды
-        if ("${{ steps.check_commit.outputs.is_all }}" -eq "true") {
+        # Если в сообщении коммита есть all/всех/все/всё или изменен game_version.json, собираем все моды
+        if ("${{ steps.check_commit.outputs.is_all }}" -eq "true" || contains(github.event.head_commit.modified, '.github/game_version.json')) {
           echo "Building all mods."
           echo "updated_mods=$($modList -join ',')" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
         } else {
