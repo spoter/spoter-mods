@@ -93,8 +93,8 @@ jobs:
         echo "Mod list: [$($modList -join ',')]"
     
         # Проверяем, есть ли ключевые слова "release all" или изменён game_version.json
-        $isAll = Get-Content -Path $env:GITHUB_ENV | Select-String -Pattern 'is_all=true'
-        #$isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
+        #$isAll = Get-Content -Path $env:GITHUB_ENV | Select-String -Pattern 'is_all=true'
+        $isAll = '${{ steps.check_commit.outputs.is_all }}' -eq 'true'
         $isGameVersionModified = $env:GITHUB_EVENT_HEAD_COMMIT_MODIFIED -match '\.github/game_version\.json'
         
         echo "DEBUG: Проверяем, есть ли ключевые слова release all ($isAll) или изменён game_version.json ($isGameVersionModified)"
