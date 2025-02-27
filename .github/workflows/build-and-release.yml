@@ -188,7 +188,7 @@ jobs:
           $lestaArchiveUrl = "https://github.com/spoter/spoter-mods/releases/download/v${{ github.run_number }}/${mod}_RU.zip"
 
           # Получаем версию мода
-          $modVersion = "${{ fromJson(steps.versions.outputs.mod_versions).$mod }}"
+          $modVersion = (Get-Content -Path "$mod/source/VERSION" -Raw | ConvertFrom-Json).version
 
           # Обновляем или создаем файл имя_мода/zip/README.md
           $zipReadmePath = "$mod/zip/README.md"
