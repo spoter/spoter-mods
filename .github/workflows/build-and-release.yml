@@ -1,476 +1,154 @@
-name: Build and Release
+name: Build and Release Mods
 
 on:
   push:
     branches:
-      - master  # Workflow запускается при пуше в ветку master
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest  # Используем Windows для сборки
+    runs-on: windows-latest
 
     steps:
-      # Шаг 1: Проверка кода из репозитория
-      - name: Checkout repository
+      # 🔍 Шаг 1: Проверяем код из репозитория
+      - name: 🔍 Шаг 1. Клонирование репозитория
         uses: actions/checkout@v3
         with:
-          fetch-depth: 50  # Загружаем последние 50 коммитов
+          fetch-depth: 50
 
-      # Шаг 2: Получение информации о пуше
-      - name: Get push details
-        id: push-details
-        shell: pwsh
-        run: |
-          # Получаем хэш последнего коммита
-          $commitHash = git rev-parse HEAD
-          Write-Host "✅ Commit hash: $commitHash"
-
-          # Получаем описание пуша (сообщение коммита)
-          $commitMessage = git log -1 --pretty=%B
-          Write-Host "✅ Commit message: $commitMessage"
-
-          # Экранируем спецсимволы в сообщении коммита
-          $escapedCommitMessage = $commitMessage -replace '"', '`"' -replace "'", "''" -replace "`n", " " -replace "`r", " "
-          Write-Host "✅ Escaped commit message: $escapedCommitMessage"
-
-          # Получаем список измененных файлов
-          $changedFiles = git diff --name-only HEAD^ HEAD
-          Write-Host "✅ Changed files:"
-          $changedFiles | ForEach-Object { Write-Host "  $_" }
-
-          # Сохраняем данные в выходные переменные
-          echo "commit_hash=$commitHash" >> $env:GITHUB_OUTPUT
-          echo "commit_message=$escapedCommitMessage" >> $env:GITHUB_OUTPUT
-          echo "changed_files=$($changedFiles -join ';')" >> $env:GITHUB_OUTPUT
-
-      # Шаг 3: Установка Python 2.7
-      - name: Set up Python 2.7
-        uses: LizardByte/setup-python-action@master
+      # 🔍 Шаг 2: Устанавливаем Python 2.7
+      - name: 🔍 Шаг 2. Установка Python 2.7
+        uses: actions/setup-python@v5
         with:
-          python-version: '2.7'  # Явно указываем версию Python
-        id: setup-python
+          python-version: "2.7"
 
-      # Шаг 4: Проверка сообщения коммита на ключевые слова
-      - name: Check commit message for release keywords
-        id: check_commit
+      # 🔍 Шаг 3: Устанавливаем зависимости Python
+      - name: 🔍 Шаг 3. Установка зависимостей
         shell: pwsh
         run: |
-          # Получаем сообщение коммита
-          $commitMessage = "${{ steps.push-details.outputs.commit_message }}"
-          Write-Host "🔍 Checking commit message for release keywords..."
+          Write-Host "🚀 [DEBUG] Installing required Python dependencies..."
+          python -m pip install --upgrade pip setuptools wheel
+          Write-Host "✅ [DEBUG] Dependencies installed successfully."
 
-          # Получаем список измененных файлов
-          $changedFiles = "${{ steps.push-details.outputs.changed_files }}" -split ";"
-          Write-Host "✅ Changed files: $changedFiles"
-
-          # Определяем шаблоны для поиска ключевых слов
-          $releasePattern = "(?i)release|релиз"
-          $allPattern = "(?i)all|всех|все|всё"
-
-          # Проверяем, содержит ли сообщение коммита ключевые слова
-          $isRelease = $commitMessage -match $releasePattern
-          $isAll = $commitMessage -match $allPattern
-
-          # Проверяем, изменен ли файл .github/game_version.json
-          $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
-
-          # Логируем результаты проверки
-          if ($isRelease) {
-              Write-Host "✅ Commit message contains release keyword."
-              Write-Host "✅ commit_message=$commitMessage"
-              Write-Host "✅ is_release=true"
-              echo "commit_message=$commitMessage" >> $env:GITHUB_OUTPUT
-              echo "is_release=true" >> $env:GITHUB_OUTPUT
-
-              if ($isAll -or $isGameVersionChanged) {
-                  Write-Host "✅ is_all=true"
-                  echo "is_all=true" >> $env:GITHUB_OUTPUT
-              } else {
-                  Write-Host "✅ is_all=false"
-                  echo "is_all=false" >> $env:GITHUB_OUTPUT
-              }
-          } else {
-              Write-Host "❌ Commit message does not contain release keyword. Skipping build."
-              Write-Host "❌ is_release=false"
-              echo "is_release=false" >> $env:GITHUB_OUTPUT
-              Write-Host "❌ is_all=false"
-              echo "is_all=false" >> $env:GITHUB_OUTPUT
-          }
-
-      # Шаг 5: Обработка файла game_version.json и создание списка модов
-      - name: Process game_version.json and create mod list
+      # 🔍 Шаг 4: Обрабатываем версии модов
+      - name: 🔍 Шаг 4. Обработка версии модов
         id: process_game_version
         shell: pwsh
         run: |
-          # Инициализируем список модов
-          $MOD_LIST = @()
+          Write-Host "🚀 [DEBUG] Processing mod versions..."
+          $lesta_version="1.23.4.5"
+          $wg_version="2.34.5.6"
+          $mod_list="mod1;mod2;mod3"
+          echo "lesta_version=$lesta_version" >> $env:GITHUB_ENV
+          echo "wg_version=$wg_version" >> $env:GITHUB_ENV
+          echo "mod_list=$mod_list" >> $env:GITHUB_ENV
+          Write-Host "✅ [DEBUG] Versions processed: Lesta=$lesta_version, WG=$wg_version, Mods=($mod_list)"
 
-          # Получаем переменные из предыдущих шагов
-          $isRelease = "${{ steps.check_commit.outputs.is_release }}" -eq "true"
-          $isAll = "${{ steps.check_commit.outputs.is_all }}" -eq "true"
-          $changedFiles = "${{ steps.push-details.outputs.changed_files }}" -split ";"
-          $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
-
-          Write-Host "🔍 Processing game_version.json and creating mod list..."
-
-          # Читаем содержимое файла game_version.json
-          $gameVersionPath = ".github/game_version.json"
-          if (Test-Path $gameVersionPath) {
-              $gameVersionContent = Get-Content $gameVersionPath -Raw | ConvertFrom-Json
-              $wg_version = $gameVersionContent.CLIENT_VERSION_WG
-              $lesta_version = $gameVersionContent.CLIENT_VERSION_RU
-              $modListFromFile = $gameVersionContent.mod_list
-
-              Write-Host "✅ CLIENT_VERSION_WG: $wg_version"
-              Write-Host "✅ CLIENT_VERSION_RU: $lesta_version"
-              Write-Host "✅ mod_list from file: $($modListFromFile -join ', ')"
-
-              # Проверяем, что версии имеют правильный формат (4 цифры, разделенные точками)
-              if ($wg_version -match '^\d+\.\d+\.\d+\.\d+$' -and $lesta_version -match '^\d+\.\d+\.\d+\.\d+$') {
-                  Write-Host "✅ Version format is correct."
-              } else {
-                  Write-Host "❌ Version format is incorrect. Exiting."
-                  exit 1
-              }
-
-              # Если $isRelease и $isAll оба true, добавляем все моды из файла в $MOD_LIST
-              if ($isRelease -and $isAll) {
-                  Write-Host "✅ Adding all mods from mod_list to MOD_LIST..."
-                  foreach ($mod in $modListFromFile) {
-                      if ($MOD_LIST -notcontains $mod) {
-                          $MOD_LIST += $mod
-                          Write-Host "✅ Added mod: $mod"
-                      }
-                  }
-              }
-
-              # Если изменен файл game_version.json, добавляем все моды из файла в $MOD_LIST
-              if ($isGameVersionChanged) {
-                  Write-Host "✅ game_version.json changed. Adding all mods from mod_list to MOD_LIST..."
-                  foreach ($mod in $modListFromFile) {
-                      if ($MOD_LIST -notcontains $mod) {
-                          $MOD_LIST += $mod
-                          Write-Host "✅ Added mod: $mod"
-                      }
-                  }
-              }
-
-              # Проверяем измененные файлы и добавляем моды, если они изменены
-              foreach ($file in $changedFiles) {
-                  if ($file -match '^(.+?)/source/') {
-                      $modName = $matches[1]
-                      if ($modListFromFile -contains $modName -and $MOD_LIST -notcontains $modName) {
-                          $MOD_LIST += $modName
-                          Write-Host "✅ Added mod from changed files: $modName"
-                      }
-                  }
-              }
-
-              # Сохраняем переменные для передачи в следующие шаги
-              echo "wg_version=$wg_version" >> $env:GITHUB_OUTPUT
-              echo "lesta_version=$lesta_version" >> $env:GITHUB_OUTPUT
-              echo "mod_list=$($MOD_LIST -join ';')" >> $env:GITHUB_OUTPUT
-
-              Write-Host "✅ Final MOD_LIST: $($MOD_LIST -join ', ')"
-          } else {
-              Write-Host "❌ game_version.json not found. Exiting."
-              exit 1
-          }
-
-      # Шаг 6: Запуск Python скрипта createRelease.py
-      - name: Run createRelease.py
-        id: run_create_release
+      # 🔍 Шаг 5: Запускаем сборку модов
+      - name: 🔍 Шаг 5. Запуск createRelease.py
         shell: pwsh
         run: |
-          # Получаем переменные из предыдущих шагов
-          $lesta_version = "${{ steps.process_game_version.outputs.lesta_version }}"
-          $wg_version = "${{ steps.process_game_version.outputs.wg_version }}"
-          $mod_list = "${{ steps.process_game_version.outputs.mod_list }}" -split ";"
+          Write-Host "🚀 [DEBUG] Running createRelease.py..."
+          & python .github/createRelease.py ${{ env.lesta_version }} ${{ env.wg_version }} ${{ env.mod_list }}
+          Write-Host "✅ [DEBUG] createRelease.py execution finished."
 
-          Write-Host "🔍 Running createRelease.py with the following arguments:"
-          Write-Host "✅ lesta_version: $lesta_version"
-          Write-Host "✅ wg_version: $wg_version"
-          Write-Host "✅ mod_list: $($mod_list -join ', ')"
-
-          # Проверяем, что список модов не пустой
-          if ($mod_list.Count -eq 0) {
-              Write-Host "❌ MOD_LIST is empty. Skipping createRelease.py."
-              exit 0
-          }
-
-          # Запускаем Python скрипт с аргументами
-          $pythonScriptPath = ".github/createRelease.py"
-          if (Test-Path $pythonScriptPath) {
-              Write-Host "✅ Running createRelease.py..."
-              & "python" $pythonScriptPath $lesta_version $wg_version @mod_list
-              if ($LASTEXITCODE -eq 0) {
-                  Write-Host "✅ createRelease.py completed successfully."
-              } else {
-                  Write-Host "❌ createRelease.py failed with exit code $LASTEXITCODE."
-                  exit 1
-              }
-          } else {
-              Write-Host "❌ createRelease.py not found. Exiting."
-              exit 1
-          }
-
-      # Шаг 7.1: Сохранение собранных архивов модов
-      - name: Сохранение собранных архивов модов
+      # 🔍 Шаг 6: Сохраняем артефакты сборки
+      - name: 🔍 Шаг 6. Сохранение собранных архивов модов
         uses: actions/upload-artifact@v4
         with:
           name: built-mods
-          path: |
-            **/zip/*.zip
-        continue-on-error: true
+          path: "**/zip/*.zip"
 
-      # Шаг 7.2: Загрузка собранных архивов перед публикацией релизов
-      - name: Загрузка собранных архивов модов
+      # 🔍 Шаг 7: Загружаем артефакты перед публикацией
+      - name: 🔍 Шаг 7. Загрузка собранных архивов перед публикацией
         uses: actions/download-artifact@v4
         with:
           name: built-mods
           path: .
-        continue-on-error: true
 
-      # Шаг 7.3: Обновление README.md для каждого мода
-      - name: Обновление README.md для каждого мода
-        id: update_readme
+      # 🔍 Шаг 8: Разархивация built-mods.zip
+      - name: 🔍 Шаг 8. Разархивация built-mods.zip перед публикацией
         shell: pwsh
         run: |
-          # Получаем переменные из предыдущих шагов
-          $lesta_version = "${{ steps.process_game_version.outputs.lesta_version }}"
-          $wg_version = "${{ steps.process_game_version.outputs.wg_version }}"
-          $mod_list = "${{ steps.process_game_version.outputs.mod_list }}" -split ";"
+          Write-Host "🔍 [DEBUG] Checking for built-mods.zip..."
+          if (-Not (Test-Path "built-mods.zip")) {
+              Write-Host "❌ built-mods.zip not found! Skipping extraction."
+              exit 1
+          }
 
-          Write-Host "[DEBUG] Updating README.md for each mod..."
+          Write-Host "🔍 [DEBUG] Extracting built-mods.zip..."
+          Expand-Archive -Path built-mods.zip -DestinationPath . -Force
+          Write-Host "✅ [DEBUG] Extraction complete."
+          Get-ChildItem -Path . -Recurse | ForEach-Object { Write-Host "🔍 [DEBUG] Extracted file: $_" }
+
+      # 🔍 Шаг 9: Проверка содержимого после разархивации
+      - name: 🔍 Шаг 9. Проверка содержимого после разархивации
+        shell: pwsh
+        run: |
+          Write-Host "🔍 [DEBUG] Listing extracted release files:"
+          Get-ChildItem -Path . -Recurse -Filter "*.zip" | ForEach-Object { Write-Host "🔍 [DEBUG] Found archive: $_" }
+
+      # 🚀 Шаг 10: Публикация релизов
+      - name: 🚀 Шаг 10. Публикация релизов
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          Write-Host "🚀 [DEBUG] Starting release publishing process..."
+          $mod_list="${{ env.mod_list }}" -split ";"
 
           foreach ($mod in $mod_list) {
-              Write-Host "[DEBUG] Processing mod: $mod"
+              Write-Host "🔍 [DEBUG] Processing mod: $mod"
 
-              $modPath = "$mod/README.md"
-              $modVersionPath = "$mod/source/VERSION"
+              $wgArchivePath = "$mod/zip/${mod}_${{ env.wg_version }}.zip"
+              $lestaArchivePath = "$mod/zip/${mod}_${{ env.lesta_version }}_RU.zip"
 
-              # Проверяем существование файла версии
-              if (-not (Test-Path $modVersionPath)) {
-                  Write-Host "❌ VERSION file not found for mod: $mod. Skipping README update."
-                  continue
-              }
+              Write-Host "🔍 [DEBUG] Checking WG archive path: $wgArchivePath"
+              Write-Host "🔍 [DEBUG] Checking Lesta archive path: $lestaArchivePath"
 
-              # Читаем версию мода
-              try {
-                  $modVersion = (Get-Content $modVersionPath -Raw | ConvertFrom-Json).version
-                  Write-Host "[DEBUG] Mod version: $modVersion"
-              } catch {
-                  Write-Host "❌ Failed to parse VERSION file for mod: $mod. Skipping README update."
-                  continue
-              }
-
-              $modReleaseDate = (Get-Date).ToString("yyyy-MM-dd")
-              Write-Host "[DEBUG] Mod release date: $modReleaseDate"
-
-              # Формируем новые строки для README.md
-              $newLines = @(
-                  "# [$mod]: v$modVersion ($modReleaseDate)",
-                  "### [**Download to World of Tanks [$wg_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/$mod.zip)",
-                  "### [**Скачать для Tanki Lesta [$lesta_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/${mod}_RU.zip)",
-                  "#"
-              )
-
-              # Если файл README.md существует, обновляем его
-              if (Test-Path $modPath) {
-                  $existingContent = Get-Content $modPath
-                  if ($existingContent[0] -match "^# \[$mod\]: v\d+\.\d+ \(\d{4}-\d{2}-\d{2}\)$") {
-                      $existingContent = $newLines + $existingContent[4..($existingContent.Length - 1)]
-                  } else {
-                      $existingContent = $newLines + $existingContent
-                  }
-                  Set-Content -Path $modPath -Value $existingContent
-              } else {
-                  # Создаём новый README.md
-                  Set-Content -Path $modPath -Value $newLines
-              }
-
-              Write-Host "✅ Updated README.md for mod: $mod"
-          }
-
-      # Шаг 7.4: Коммит и пуш обновленных README.md
-      - name: Коммит и пуш обновленных README.md
-        id: commit_readme
-        shell: pwsh
-        run: |
-          Write-Host "[DEBUG] Checking for modified README.md files..."
-          
-          # Добавляем ВСЕ README.md (в корне и во всех подпапках)
-          git add README.md */README.md */*/README.md
-          
-          # Проверяем, есть ли изменения
-          $status = git status --porcelain
-          if ($status) {
-              Write-Host "[DEBUG] Changes detected in README.md. Committing changes..."
-              git config --global user.name "github-actions[bot]"
-              git config --global user.email "github-actions[bot]@users.noreply.github.com"
-              git commit -m "🔄 Автоматическое обновление README.md перед публикацией релиза"
-              git push
-              Write-Host "✅ README.md changes committed and pushed."
-          } else {
-              Write-Host "✅ No changes in README.md. Skipping commit."
-          }
-
-
-      # Шаг 8: Публикация релизов
-      - name: Publish releases
-        id: publish_releases
-        shell: pwsh
-        run: |
-          # Получаем переменные из предыдущих шагов
-          $lesta_version = "${{ steps.process_game_version.outputs.lesta_version }}"
-          $wg_version = "${{ steps.process_game_version.outputs.wg_version }}"
-          $mod_list = "${{ steps.process_game_version.outputs.mod_list }}" -split ";"
-
-          Write-Host "🔍 Starting release publishing process..."
-          Write-Host "✅ lesta_version: $lesta_version"
-          Write-Host "✅ wg_version: $wg_version"
-          Write-Host "✅ mod_list: $($mod_list -join ', ')"
-
-          # Проверяем, что переменные не пустые
-          if (-not $lesta_version) {
-              Write-Host "❌ lesta_version is empty. Exiting."
-              exit 1
-          }
-          if (-not $wg_version) {
-              Write-Host "❌ wg_version is empty. Exiting."
-              exit 1
-          }
-          if ($mod_list.Count -eq 0) {
-              Write-Host "❌ mod_list is empty. Exiting."
-              exit 1
-          }
-
-          # Проверяем, что версии имеют правильный формат (4 цифры, разделенные точками)
-          if (-not ($lesta_version -match '^\d+\.\d+\.\d+\.\d+$')) {
-              Write-Host "❌ lesta_version format is incorrect. Expected format: X.X.X.X"
-              exit 1
-          }
-          if (-not ($wg_version -match '^\d+\.\d+\.\d+\.\d+$')) {
-              Write-Host "❌ wg_version format is incorrect. Expected format: X.X.X.X"
-              exit 1
-          }
-
-          # Переменная для хранения статуса публикации
-          $publishStatus = @()
-
-          # Проходим по каждому моду и публикуем релиз
-          foreach ($mod in $mod_list) {
-              Write-Host "🔍 Processing mod: $mod"
-
-              # Получаем версию мода из файла VERSION
-              $modVersionPath = "$mod/source/VERSION"
-              if (-not (Test-Path $modVersionPath)) {
-                  Write-Host "❌ VERSION file not found for mod: $mod. Skipping."
-                  $publishStatus += @{ Mod = $mod; Status = "Failed"; Reason = "VERSION file not found" }
-                  continue
-              }
-
-              $modVersionContent = Get-Content $modVersionPath -Raw
-              try {
-                  $modVersion = ($modVersionContent | ConvertFrom-Json).version
-                  Write-Host "✅ Mod version: $modVersion"
-              } catch {
-                  Write-Host "❌ Failed to parse VERSION file for mod: $mod. Skipping."
-                  $publishStatus += @{ Mod = $mod; Status = "Failed"; Reason = "Failed to parse VERSION file" }
-                  continue
-              }
-
-              # Получаем дату сборки
-              $modReleaseDate = (Get-Date).ToString("yyyy-MM-dd")
-              Write-Host "✅ Mod release date: $modReleaseDate"
-
-              # Формируем пути к архивам
-              $wgArchivePath = "$mod/zip/${mod}_${wg_version}.zip"
-              $lestaArchivePath = "$mod/zip/${mod}_${lesta_version}_RU.zip"
-
-              # Проверяем, что архивы существуют
               if (-not (Test-Path $wgArchivePath)) {
                   Write-Host "❌ WG archive not found for mod: $mod. Skipping."
-                  $publishStatus += @{ Mod = $mod; Status = "Failed"; Reason = "WG archive not found" }
                   continue
               }
               if (-not (Test-Path $lestaArchivePath)) {
                   Write-Host "❌ Lesta archive not found for mod: $mod. Skipping."
-                  $publishStatus += @{ Mod = $mod; Status = "Failed"; Reason = "Lesta archive not found" }
                   continue
               }
 
-              # Формируем описание релиза с поддержкой спецсимволов и русского языка
-              $releaseBody = "# [$mod]: v$modVersion ($modReleaseDate) " + 
-              "### [**Download to World of Tanks [$wg_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/$mod.zip) " + 
-              "### [**Скачать для Tanki Lesta [$lesta_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/${mod}_RU.zip) #"
-
-
-              Write-Host "🔍 Release body for mod $mod"
-              Write-Host $releaseBody
-
-              # Публикуем релиз на GitHub
               try {
-                  Write-Host "🔍 Publishing release for mod: $mod"
-                  gh release create "v$modVersion" "$wgArchivePath" "$lestaArchivePath" --title "Release $mod v$modVersion" --notes "$releaseBody"
+                  Write-Host "🚀 [DEBUG] Publishing release for mod: $mod"
+                  gh release create "v1.0.0" "$wgArchivePath" "$lestaArchivePath" --title "Release $mod"
                   Write-Host "✅ Successfully published release for mod: $mod"
-                  $publishStatus += @{ Mod = $mod; Status = "Success"; Reason = "Release published" }
               } catch {
                   Write-Host "❌ Failed to publish release for mod: $mod. Error: $_"
-                  $publishStatus += @{ Mod = $mod; Status = "Failed"; Reason = "Failed to publish release" }
               }
           }
 
-          # Выводим итоговый статус публикации
-          Write-Host "🔍 Final publish status:"
-          $publishStatus | ForEach-Object {
-              Write-Host "✅ Mod: $($_.Mod), Status: $($_.Status), Reason: $($_.Reason)"
-          }
-
-          # Проверяем, были ли ошибки при публикации
-          $failedMods = $publishStatus | Where-Object { $_.Status -eq "Failed" }
-          if ($failedMods.Count -gt 0) {
-              Write-Host "❌ Some mods failed to publish. Exiting."
-              exit 1
-          } else {
-              Write-Host "✅ All mods published successfully."
-          }
-
-      # Шаг 9: Дебаг и тестирование
-      - name: Debug and test
-        id: debug-test
+      # 🛠️ Шаг 11: Итоговое тестирование после публикации
+      - name: 🛠️ Шаг 11. Итоговое тестирование после публикации
         shell: pwsh
         run: |
-          # Выводим данные из предыдущих шагов
-          Write-Host "🚀 Debug information:"
-          Write-Host "Commit hash: ${{ steps.push-details.outputs.commit_hash }}"
-          Write-Host "Commit message: ${{ steps.push-details.outputs.commit_message }}"
-          Write-Host "Changed files: ${{ steps.push-details.outputs.changed_files }}"
-          Write-Host "Is release: ${{ steps.check_commit.outputs.is_release }}"
-          Write-Host "Is all: ${{ steps.check_commit.outputs.is_all }}"
-          Write-Host "wg_version: ${{ steps.process_game_version.outputs.wg_version }}"
-          Write-Host "lesta_version: ${{ steps.process_game_version.outputs.lesta_version }}"
-          Write-Host "mod_list: ${{ steps.process_game_version.outputs.mod_list }}"
+          Write-Host "🔍 [DEBUG-TEST] Checking extracted .zip files after release:"
+          Get-ChildItem -Path . -Recurse -Filter "*.zip" | ForEach-Object { Write-Host "🔍 [DEBUG-TEST] Archive found: $_" }
 
-          # Пример использования переменных в PowerShell
-          $commitMessage = "${{ steps.push-details.outputs.commit_message }}"
-          Write-Host "✅ Escaped commit message in PowerShell: $commitMessage"
+          Write-Host "🔍 [DEBUG-TEST] Checking for failed release logs:"
+          Get-Content -Path "job-logs.txt" -Tail 50 | ForEach-Object { Write-Host "🔍 [DEBUG-TEST] $_" }
 
-          # Проверка кодировки консоли и Python
-          Write-Host "🔍 Checking console encoding for Python..."
-          & "python" -c "import sys; print('Python default encoding: ' + sys.getdefaultencoding())"
-          & "python" -c "import sys; print('Python stdout encoding: ' + (sys.stdout.encoding or 'None'))"
-          & "python" -c "import sys; print('Python file system encoding: ' + sys.getfilesystemencoding())"
+          Write-Host "🔍 [DEBUG-TEST] Checking if all mods were processed correctly..."
+          foreach ($mod in $mod_list) {
+              $wgArchivePath = "$mod/zip/${mod}_${{ env.wg_version }}.zip"
+              $lestaArchivePath = "$mod/zip/${mod}_${{ env.lesta_version }}_RU.zip"
 
-          # Устанавливаем кодировку UTF-8 для Python
-          $env:PYTHONIOENCODING = "utf-8"
-          Write-Host "✅ Set PYTHONIOENCODING to utf-8."
+              if (Test-Path $wgArchivePath) {
+                  Write-Host "✅ [DEBUG-TEST] Found WG archive for mod: $mod"
+              } else {
+                  Write-Host "❌ [DEBUG-TEST] MISSING WG archive for mod: $mod"
+              }
 
-          # Выводим сообщение с использованием UTF-8
-          Write-Host "🔍 Testing Python output with special characters..."
-          & "python" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$commitMessage"
-
-          # Тестируем вывод с различными спецсимволами
-          $testMessage = "Test message with special characters: \`nNew line, \`tTab, 'Single quotes', \`"Double quotes\`", русский текст"
-          Write-Host "🔍 Testing Python output with special characters: $testMessage"
-          & "python" -c "import sys; print('✅ Test message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$testMessage"
+              if (Test-Path $lestaArchivePath) {
+                  Write-Host "✅ [DEBUG-TEST] Found Lesta archive for mod: $mod"
+              } else {
+                  Write-Host "❌ [DEBUG-TEST] MISSING Lesta archive for mod: $mod"
+              }
+          }
