@@ -5,6 +5,7 @@ import os
 import argparse
 import json
 import subprocess
+import codecs
 
 # Настройка вывода в консоль для поддержки UTF-8
 reload(sys)
