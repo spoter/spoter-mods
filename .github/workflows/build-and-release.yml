@@ -125,7 +125,13 @@ jobs:
           Write-Host "✅ Set PYTHONIOENCODING to utf-8."
 
           # Выводим сообщение с использованием UTF-8
+          Write-Host "🔍 Testing Python output with special characters..."
           & "python" -c "import sys; print('✅ Escaped commit message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$commitMessage"
+
+          # Тестируем вывод с различными спецсимволами
+          $testMessage = "Test message with special characters: \nNew line, \tTab, 'Single quotes', \"Double quotes\", русский текст"
+          Write-Host "🔍 Testing Python output with special characters: $testMessage"
+          & "python" -c "import sys; print('✅ Test message in Python: ' + sys.argv[1].encode('utf-8').decode('utf-8'))" "$testMessage"
 
       # Шаг 6: Углубленный дебаг и тестирование переменных
       - name: Deep debug and test variables
