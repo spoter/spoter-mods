@@ -357,7 +357,7 @@ jobs:
                               #
                               "@
 
-              Write-Host "🔍 Release body for mod $mod:"
+              Write-Host "🔍 Release body for mod $mod"
               Write-Host $releaseBody
 
               # Публикуем релиз на GitHub
