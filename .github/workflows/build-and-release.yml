@@ -350,12 +350,10 @@ jobs:
               }
 
               # Формируем описание релиза с поддержкой спецсимволов и русского языка
-              $releaseBody = @"
-                              # [$mod]: v$modVersion ($modReleaseDate)
-                              ### [**Download to World of Tanks [$wg_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/$mod.zip)
-                              ### [**Скачать для Tanki Lesta [$lesta_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/${mod}_RU.zip)
-                              #
-                              "@
+              $releaseBody = "# [$mod]: v$modVersion ($modReleaseDate) " + 
+              "### [**Download to World of Tanks [$wg_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/$mod.zip) " + 
+              "### [**Скачать для Tanki Lesta [$lesta_version]**](https://github.com/spoter/spoter-mods/releases/download/v7/${mod}_RU.zip) #"
+
 
               Write-Host "🔍 Release body for mod $mod"
               Write-Host $releaseBody
