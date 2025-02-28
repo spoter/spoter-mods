@@ -85,7 +85,6 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     output, _ = process.communicate()
     print("[DEBUG] Raw builder output:")
     print(output)
-    sys.stdout.flush()
     output = output.decode('utf-8')
     print("[DEBUG] Raw builder output with utf-8:")
     print(output)
