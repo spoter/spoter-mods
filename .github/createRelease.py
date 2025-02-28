@@ -17,6 +17,24 @@ def debug(message):
     if DEBUG_MODE:
         print(u"[DEBUG] {}".format(message))
 
+
+def find_main_folder():
+    """
+    Поиск основной папки с модами.
+    Проверяем наличие папки mod_mods_gui в родительской директории или текущей директории.
+    """
+    debug(u"Searching for main mods folder")
+    possible_paths = [
+        os.path.realpath(os.path.join('..', 'mod_mods_gui')),
+        os.path.realpath('mod_mods_gui')
+    ]
+    for path in possible_paths:
+        if os.path.isdir(path):
+            debug(u"Found main folder: {}".format(path))
+            return os.path.dirname(path)
+    raise IOError(u"Main mods folder not found")
+
+
 def parse_builder_output(output):
     """
     Парсинг вывода builder.py для извлечения результатов сборки.
@@ -33,6 +51,7 @@ def parse_builder_output(output):
             result['ru_path'] = line.split('=')[1]
     return result
 
+
 def build_mod(mod_name, client_version_ru, client_version_wg):
     """
     Запуск сборки одного мода.
@@ -40,7 +59,7 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     """
     debug(u"Building mod: {}".format(mod_name))
     script_path = os.path.realpath(os.path.join(MAIN_FOLDER, '.github', 'builder.py'))
-    
+
     # Формирование команды
     cmd_args = [
         'python', script_path,
@@ -50,27 +69,28 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     ]
     if DEBUG_MODE:
         cmd_args.append('--debug')
-    
+
     debug(u"Command: {}".format(' '.join(cmd_args)))
-    
+
     # Запуск процесса сборки
     process = subprocess.Popen(
         cmd_args,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT
     )
-    
+
     # Чтение и обработка вывода
     output, _ = process.communicate()
     output = output.decode('utf-8')
-    
+
     if DEBUG_MODE:
         print(output)
-    
+
     if process.returncode != 0:
         raise RuntimeError(u"Build failed with code {}".format(process.returncode))
-    
+
     return parse_builder_output(output)
+
 
 def main():
     """Основная функция скрипта."""
@@ -123,6 +143,7 @@ def main():
     # Вывод результатов
     print(u'\n----- Результаты сборки -----')
     print(json.dumps(build_results, ensure_ascii=False, indent=2))
+
 
 if __name__ == "__main__":
     try:
