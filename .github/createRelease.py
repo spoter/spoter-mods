@@ -68,7 +68,8 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
         client_version_wg
     ]
     if DEBUG_MODE:
-        cmd_args.append('--debug')
+        pass
+        #cmd_args.append('--debug')
 
     debug(u"Command: {}".format(' '.join(cmd_args)))
 
@@ -84,7 +85,7 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     output = output.decode('utf-8')
 
     if DEBUG_MODE:
-        print(output)
+        print(u"Build with output {}".format(output))
 
     if process.returncode != 0:
         raise RuntimeError(u"Build failed with code {}".format(process.returncode))
@@ -104,7 +105,7 @@ def main():
 
     global DEBUG_MODE
     DEBUG_MODE = args.debug
-    DEBUG_MODE = True
+    #DEBUG_MODE = True
 
     # Получаем версии клиентов и список модов
     client_version_wg = args.wg_version
