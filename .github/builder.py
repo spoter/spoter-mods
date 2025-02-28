@@ -11,11 +11,6 @@ import base64
 import sys
 import traceback
 
-print("[DEBUG] builder.py script started")
-print("[DEBUG] Received arguments:")
-for i, arg in enumerate(sys.argv):
-    print("[DEBUG] Arg {}: {}".format(i, arg))
-sys.stdout.flush()
 
 # Настройка вывода в консоль для поддержки UTF-8
 reload(sys)
