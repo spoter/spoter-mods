@@ -68,8 +68,7 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
         client_version_wg
     ]
     if DEBUG_MODE:
-        pass
-        #cmd_args.append('--debug')
+        cmd_args.append('--debug')
 
     debug(u"Command: {}".format(' '.join(cmd_args)))
 
@@ -105,7 +104,7 @@ def main():
 
     global DEBUG_MODE
     DEBUG_MODE = args.debug
-    #DEBUG_MODE = True
+    DEBUG_MODE = True
 
     # Получаем версии клиентов и список модов
     client_version_wg = args.wg_version
