@@ -334,8 +334,8 @@ jobs:
               Write-Host "✅ Mod release date: $modReleaseDate"
 
               # Формируем пути к архивам
-              $wgArchivePath = "$mod/release/${mod}_${wg_version}.zip"
-              $lestaArchivePath = "$mod/release/${mod}_${lesta_version}_RU.zip"
+              $wgArchivePath = "$mod/zip/${mod}_${wg_version}.zip"
+              $lestaArchivePath = "$mod/zip/${mod}_${lesta_version}_RU.zip"
 
               # Проверяем, что архивы существуют
               if (-not (Test-Path $wgArchivePath)) {
