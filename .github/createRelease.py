@@ -84,21 +84,6 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     # Чтение и обработка вывода
     output, _ = process.communicate()
     output = output.decode('utf-8')
-    print("[DEBUG] Raw builder output:")
-    print("[DEBUG] Parsing builder output...")
-
-    # Разбираем строки из вывода
-    output_lines = output.splitlines()
-    parsed_results = {}
-
-    for line in output_lines:
-        parts = line.strip().split("|")
-        if len(parts) == 3:
-            mod_name, zip_path, zip_ru_path = parts
-            parsed_results[mod_name] = (zip_path, zip_ru_path)
-
-    print("[DEBUG] Parsed build results:", parsed_results)
-    sys.stdout.flush()
 
     if DEBUG_MODE:
         print(u"Build with output {}".format(output))
@@ -121,7 +106,7 @@ def main():
 
     global DEBUG_MODE
     DEBUG_MODE = args.debug
-    DEBUG_MODE = True
+    #DEBUG_MODE = True
 
     # Получаем версии клиентов и список модов
     client_version_wg = args.wg_version
@@ -161,6 +146,15 @@ def main():
     # Вывод результатов
     print(u'\n----- Результаты сборки -----')
     print(json.dumps(build_results, ensure_ascii=False, indent=2))
+    print("[DEBUG] Preparing to upload files...")
+    for mod_name, result in build_results.items():
+        if 'wg_path' in result and 'ru_path' in result:
+            print("[DEBUG] Uploading mod:", mod_name)
+            print("[DEBUG] WG File:", result['wg_path'])
+            print("[DEBUG] RU File:", result['ru_path'])
+        else:
+            print("[ERROR] Missing release files for mod:", mod_name)
+    sys.stdout.flush()
 
 
 if __name__ == "__main__":
