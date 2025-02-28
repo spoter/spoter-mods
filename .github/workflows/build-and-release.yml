@@ -216,7 +216,7 @@ jobs:
 
       # Шаг 7.1: Сохранение собранных архивов модов
       - name: Сохранение собранных архивов модов
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: built-mods
           path: |
