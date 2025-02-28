@@ -110,7 +110,7 @@ def main():
 
     global DEBUG_MODE
     DEBUG_MODE = args.debug
-    #DEBUG_MODE = True
+    DEBUG_MODE = True
 
     # Получаем версии клиентов и список модов
     client_version_wg = args.wg_version
