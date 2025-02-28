@@ -61,10 +61,6 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     debug(u"Building mod: {}".format(mod_name))
     script_path = os.path.realpath(os.path.join(MAIN_FOLDER, '.github', 'builder.py'))
 
-    print("[DEBUG] Attempting to execute builder.py")
-    print("[DEBUG] Script path:", script_path)
-    print("[DEBUG] Arguments being passed:", sys.argv[1:])
-    sys.stdout.flush()
 
     # Формирование команды
     cmd_args = [
