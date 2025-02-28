@@ -7,6 +7,13 @@ import json
 import subprocess
 import codecs
 
+print("[DEBUG] createRelease.py script started")
+print("[DEBUG] Received arguments:")
+print("Lesta version:", sys.argv[1])
+print("WG version:", sys.argv[2])
+print("Mods to update:", sys.argv[3:])
+sys.stdout.flush()
+
 # Настройка вывода в консоль для поддержки UTF-8
 reload(sys)
 sys.setdefaultencoding('utf-8')
