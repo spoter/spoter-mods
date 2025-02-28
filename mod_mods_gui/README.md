@@ -1,3 +1,7 @@
+# [mod_mods_gui]: v3.05 (2025-02-28)
+### [**Download to World of Tanks [1.27.1.0]**](https://github.com/spoter/spoter-mods/releases/download/v7/mod_mods_gui.zip)
+### [**Скачать для Tanki Lesta [1.32.0.0]**](https://github.com/spoter/spoter-mods/releases/download/v7/mod_mods_gui_RU.zip)
+#
 # mod_mods_gui
 ### Описание мода:
 #### Ядро для моих модов, графические настройки, хуки, ресурсы и т.д.
