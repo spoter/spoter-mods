@@ -48,7 +48,7 @@ if len(sys.argv) < 4:
 MOD_NAME = sys.argv[1]  # Название мода
 CLIENT_VERSION_RU = sys.argv[2]  # Версия клиента для Lesta
 CLIENT_VERSION_WG = sys.argv[3]  # Версия клиента для WG
-
+COMPILE_EXE = 'python'             # Команда для компиляции (Python 2.7)
 MAIN_FOLDER = find_main_folder()
 
 class Build(object):
@@ -432,13 +432,13 @@ class Release(object):
         Очистка временной директории после упаковки релиза.
         Используется директория сборки из Build.
         """
-        debug(u"Clearing temporary directory after release packaging: {}".format(self.build.directory_temp if hasattr(self, 'build') else self.directory_temp))
+        debug(u"Clearing temporary directory after release packaging: {}".format(self.build.directory_temp if hasattr(self, 'build') else self.build.directory_temp))
         if hasattr(self, 'build'):
             if os.path.exists(self.build.directory_temp):
                 shutil.rmtree(self.build.directory_temp, ignore_errors=True)
         else:
-            if os.path.exists(self.directory_temp):
-                shutil.rmtree(self.directory_temp, ignore_errors=True)
+            if os.path.exists(self.build.directory_temp):
+                shutil.rmtree(self.build.directory_temp, ignore_errors=True)
 
 if __name__ == "__main__":
     try:
