@@ -214,8 +214,25 @@ jobs:
               exit 1
           }
 
-      # Шаг 7: Обновление README.md для каждого мода
-      - name: Update README.md for each mod
+      # Шаг 7.1: Сохранение собранных архивов модов
+      - name: Сохранение собранных архивов модов
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-mods
+          path: |
+            **/zip/*.zip
+        continue-on-error: true
+
+      # Шаг 7.2: Загрузка собранных архивов перед публикацией релизов
+      - name: Загрузка собранных архивов модов
+        uses: actions/download-artifact@v3
+        with:
+          name: built-mods
+          path: .
+        continue-on-error: true
+
+      # Шаг 7.3: Обновление README.md для каждого мода
+      - name: Обновление README.md для каждого мода
         id: update_readme
         shell: pwsh
         run: |
@@ -224,16 +241,31 @@ jobs:
           $wg_version = "${{ steps.process_game_version.outputs.wg_version }}"
           $mod_list = "${{ steps.process_game_version.outputs.mod_list }}" -split ";"
 
-          Write-Host "🔍 Updating README.md for each mod..."
+          Write-Host "[DEBUG] Updating README.md for each mod..."
 
           foreach ($mod in $mod_list) {
-              $modPath = "$mod/README.md"
-              $modVersion = Get-Content "$mod/source/VERSION" -Raw | ConvertFrom-Json | Select-Object -ExpandProperty version
-              $modReleaseDate = (Get-Date).ToString("yyyy-MM-dd")
+              Write-Host "[DEBUG] Processing mod: $mod"
 
-              Write-Host "✅ Processing mod: $mod"
-              Write-Host "✅ Mod version: $modVersion"
-              Write-Host "✅ Mod release date: $modReleaseDate"
+              $modPath = "$mod/README.md"
+              $modVersionPath = "$mod/source/VERSION"
+
+              # Проверяем существование файла версии
+              if (-not (Test-Path $modVersionPath)) {
+                  Write-Host "❌ VERSION file not found for mod: $mod. Skipping README update."
+                  continue
+              }
+
+              # Читаем версию мода
+              try {
+                  $modVersion = (Get-Content $modVersionPath -Raw | ConvertFrom-Json).version
+                  Write-Host "[DEBUG] Mod version: $modVersion"
+              } catch {
+                  Write-Host "❌ Failed to parse VERSION file for mod: $mod. Skipping README update."
+                  continue
+              }
+
+              $modReleaseDate = (Get-Date).ToString("yyyy-MM-dd")
+              Write-Host "[DEBUG] Mod release date: $modReleaseDate"
 
               # Формируем новые строки для README.md
               $newLines = @(
@@ -243,27 +275,46 @@ jobs:
                   "#"
               )
 
-              # Если файл README.md существует, читаем его содержимое
+              # Если файл README.md существует, обновляем его
               if (Test-Path $modPath) {
                   $existingContent = Get-Content $modPath
-                  # Если первые 4 строки соответствуют формату, заменяем их
-                  if ($existingContent[0] -match "^# \[$mod\]: v\d+\.\d+ \(\d{4}-\d{2}-\d{2}\)$" -and
-                      $existingContent[1] -match "^### \[.*\]\(https://github\.com/spoter/spoter-mods/releases/download/v7/$mod\.zip\)$" -and
-                      $existingContent[2] -match "^### \[.*\]\(https://github\.com/spoter/spoter-mods/releases/download/v7/${mod}_RU\.zip\)$" -and
-                      $existingContent[3] -eq "#") {
+                  if ($existingContent[0] -match "^# \[$mod\]: v\d+\.\d+ \(\d{4}-\d{2}-\d{2}\)$") {
                       $existingContent = $newLines + $existingContent[4..($existingContent.Length - 1)]
                   } else {
-                      # Если формат не совпадает, добавляем новые строки в начало
                       $existingContent = $newLines + $existingContent
                   }
                   Set-Content -Path $modPath -Value $existingContent
               } else {
-                  # Если файл не существует, создаем его с новыми строками
+                  # Создаём новый README.md
                   Set-Content -Path $modPath -Value $newLines
               }
 
               Write-Host "✅ Updated README.md for mod: $mod"
           }
+
+      # Шаг 7.4: Коммит и пуш обновленных README.md
+      - name: Коммит и пуш обновленных README.md
+        id: commit_readme
+        shell: pwsh
+        run: |
+          Write-Host "[DEBUG] Checking for modified README.md files..."
+          
+          # Добавляем ВСЕ README.md (в корне и во всех подпапках)
+          git add README.md */README.md */*/README.md
+          
+          # Проверяем, есть ли изменения
+          $status = git status --porcelain
+          if ($status) {
+              Write-Host "[DEBUG] Changes detected in README.md. Committing changes..."
+              git config --global user.name "github-actions[bot]"
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+              git commit -m "🔄 Автоматическое обновление README.md перед публикацией релиза"
+              git push
+              Write-Host "✅ README.md changes committed and pushed."
+          } else {
+              Write-Host "✅ No changes in README.md. Skipping commit."
+          }
+
 
       # Шаг 8: Публикация релизов
       - name: Publish releases

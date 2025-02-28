@@ -64,7 +64,10 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     """
     debug(u"Building mod: {}".format(mod_name))
     script_path = os.path.realpath(os.path.join(MAIN_FOLDER, '.github', 'builder.py'))
-
+    # УДАЛИТЬ
+    os.chdir(os.path.dirname(script_path))
+    print("[DEBUG] Changed working directory to:", os.getcwd())
+    # УДАЛИТЬ
 
     # Формирование команды
     cmd_args = [
@@ -122,6 +125,8 @@ def main():
     debug(u"  WG version: {}".format(client_version_wg))
     debug(u"  Mods to update: {}".format(updated_mods))
 
+    print("[DEBUG] Current working directory:", os.getcwd())
+    print("[DEBUG] Directory listing:", os.listdir(os.getcwd()))
     # Поиск основной папки с модами
     global MAIN_FOLDER
     MAIN_FOLDER = find_main_folder()

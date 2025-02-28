@@ -219,6 +219,10 @@ class Build(object):
             u'{}_{}.wotmod'.format(MOD_NAME, u'{:.2f}'.format(self.config.get("version", 0)))
         )
         seven_z = os.path.join(MAIN_FOLDER, '.github', '7z.exe')
+        # УДАЛИТЬ
+        print("[DEBUG] 7z.exe path:", seven_z)
+        print("[DEBUG] 7z.exe exists:", os.path.exists(seven_z))
+        # УДАЛИТЬ
         try:
             subprocess.check_call([
                 seven_z, 'a', '-tzip', '-ssw', '-mx0',
