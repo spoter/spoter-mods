@@ -1,83 +1,132 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import sys
 import traceback
 import os
 import argparse
+import json
+import subprocess
 
-# Настройка парсера аргументов
-parser = argparse.ArgumentParser(description='Create mod archives.')
-parser.add_argument('lesta_version', help='Client version for Lesta')
-parser.add_argument('wg_version', help='Client version for WG')
-parser.add_argument('updated_mods', nargs='+',
-                    help='List of mods to update')  # Используем nargs='+' для обработки списка модов
+# Настройка вывода в консоль для поддержки UTF-8
+reload(sys)
+sys.setdefaultencoding('utf-8')
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-# Парсим аргументы
-args = parser.parse_args()
+def debug(message):
+    """Вывод отладочных сообщений на английском языке."""
+    if DEBUG_MODE:
+        print(u"[DEBUG] {}".format(message))
 
-# Получаем версии клиентов и список модов
-CLIENT_VERSION_WG = args.wg_version  # Международная версия клиента
-CLIENT_VERSION_RU = args.lesta_version  # Леста версия клиента
-updated_mods = args.updated_mods  # Список модов для обновления
+def parse_builder_output(output):
+    """
+    Парсинг вывода builder.py для извлечения результатов сборки.
+    Возвращает словарь с результатами.
+    """
+    debug(u"Parsing builder output")
+    result = {}
+    for line in output.splitlines():
+        if line.startswith('MOD_NAME='):
+            result['name'] = line.split('=')[1]
+        elif line.startswith('WG_RELEASE_PATH='):
+            result['wg_path'] = line.split('=')[1]
+        elif line.startswith('RU_RELEASE_PATH='):
+            result['ru_path'] = line.split('=')[1]
+    return result
 
-# Отладочный вывод полученных аргументов
-print('DEBUG: Получены аргументы: python .github/createRelease.py %s %s %s' % (
-args.lesta_version, args.wg_version, " ".join(args.updated_mods)))
-print('DEBUG: Список модов для обновления: %s' % updated_mods)
+def build_mod(mod_name, client_version_ru, client_version_wg):
+    """
+    Запуск сборки одного мода.
+    Возвращает словарь с результатами сборки.
+    """
+    debug(u"Building mod: {}".format(mod_name))
+    script_path = os.path.realpath(os.path.join(MAIN_FOLDER, '.github', 'builder.py'))
+    
+    # Формирование команды
+    cmd_args = [
+        'python', script_path,
+        mod_name,
+        client_version_ru,
+        client_version_wg
+    ]
+    if DEBUG_MODE:
+        cmd_args.append('--debug')
+    
+    debug(u"Command: {}".format(' '.join(cmd_args)))
+    
+    # Запуск процесса сборки
+    process = subprocess.Popen(
+        cmd_args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT
+    )
+    
+    # Чтение и обработка вывода
+    output, _ = process.communicate()
+    output = output.decode('utf-8')
+    
+    if DEBUG_MODE:
+        print(output)
+    
+    if process.returncode != 0:
+        raise RuntimeError(u"Build failed with code {}".format(process.returncode))
+    
+    return parse_builder_output(output)
 
+def main():
+    """Основная функция скрипта."""
+    # Настройка парсера аргументов
+    parser = argparse.ArgumentParser(description='Create mod archives.')
+    parser.add_argument('lesta_version', help='Client version for Lesta')
+    parser.add_argument('wg_version', help='Client version for WG')
+    parser.add_argument('updated_mods', nargs='+', help='List of mods to update')
+    parser.add_argument('--debug', action='store_true', help='Enable debug mode')
+    args = parser.parse_args()
 
-# Функция для поиска основной папки с модами
-def test_main_folder():
-    # Проверяем наличие папки mod_mods_gui в родительской директории
-    main_folder = os.path.realpath('./../mod_mods_gui')
-    if os.path.isdir(main_folder):
-        return os.path.realpath('./../')
+    global DEBUG_MODE
+    DEBUG_MODE = args.debug
 
-    # Проверяем наличие папки mod_mods_gui в текущей директории
-    main_folder = os.path.realpath('./mod_mods_gui')
-    if os.path.isdir(main_folder):
-        return os.path.realpath('./')
+    # Получаем версии клиентов и список модов
+    client_version_wg = args.wg_version
+    client_version_ru = args.lesta_version
+    updated_mods = args.updated_mods
 
-    # Если папка не найдена, возвращаем None
-    return None
+    debug(u"Received arguments:")
+    debug(u"  Lesta version: {}".format(client_version_ru))
+    debug(u"  WG version: {}".format(client_version_wg))
+    debug(u"  Mods to update: {}".format(updated_mods))
 
+    # Поиск основной папки с модами
+    global MAIN_FOLDER
+    MAIN_FOLDER = find_main_folder()
+    debug(u"Main folder: {}".format(MAIN_FOLDER))
 
-# Получаем основную папку с модами
-MAIN_FOLDER = test_main_folder()
+    # Инициализация результатов сборки
+    build_results = {}
 
-# Проверяем, что основная папка найдена
-if MAIN_FOLDER is None:
-    print('ERROR: Основная папка с модами не найдена.')
-    sys.exit(1)
+    print(u'\n----- Начало сборки -----')
+    print(u' RU версия: {}'.format(client_version_ru))
+    print(u' WG версия: {}'.format(client_version_wg))
+    print(u' Моды для сборки: {}\n'.format(', '.join(updated_mods)))
 
-# Отладочный вывод основной папки
-print('DEBUG: Основная папка с модами: %s' % MAIN_FOLDER)
+    # Обработка каждого мода
+    for mod_name in updated_mods:
+        try:
+            print(u"Обработка мода: {}".format(mod_name))
+            mod_result = build_mod(mod_name, client_version_ru, client_version_wg)
+            build_results[mod_name] = mod_result
+            debug(u"Build success: {}".format(mod_result))
+        except Exception as e:
+            print(u"[ERROR] Ошибка при обработке мода {}: {}".format(mod_name, e))
+            traceback.print_exc()
+            sys.exit(1)
 
-# Отладочный вывод информации о версиях и модах
-print('---------------------')
-print('Начало сборки:')
-print('      RU: {}'.format(CLIENT_VERSION_RU))
-print('      WG: {}'.format(CLIENT_VERSION_WG))
-print('      Моды: {}'.format(updated_mods))
-print('---------------------')
+    # Вывод результатов
+    print(u'\n----- Результаты сборки -----')
+    print(json.dumps(build_results, ensure_ascii=False, indent=2))
 
-# Путь к скрипту сборки
-script_path = os.path.realpath(os.path.join(MAIN_FOLDER, '.github/builder.py'))
-
-# Обрабатываем каждый мод
-for MOD_NAME in updated_mods:
-    print("Обработка мода: {}".format(MOD_NAME))  # Исправлено форматирование строки
+if __name__ == "__main__":
     try:
-        # Запускаем скрипт сборки для каждого мода
-        command = "python {} {} {} {}".format(script_path, MOD_NAME, CLIENT_VERSION_RU, CLIENT_VERSION_WG)
-        print('DEBUG: Выполняем команду: {}'.format(command))
-        os.system(command)
+        main()
     except Exception as e:
-        # Обрабатываем ошибки и выводим их в консоль
-        print('ERROR: Ошибка при обработке мода {}: {}'.format(MOD_NAME, e))
+        print(u"[FATAL ERROR] Critical failure: {}".format(e))
         traceback.print_exc()
         sys.exit(1)
-
-# Завершение скрипта
-print('---------------------')
-print('Сборка завершена.')
-print('DONE')

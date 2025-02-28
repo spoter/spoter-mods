@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import codecs
 import datetime
 import glob
@@ -11,281 +11,446 @@ import base64
 import sys
 import traceback
 
-# Входные параметры: name, version-ru, version-wg
-MOD_NAME = sys.argv[1] # название мода, соответствует названию папки мода в файловой структуре относительно текущей папки
-CLIENT_VERSION_RU = sys.argv[2] # Леста версия клиента
-CLIENT_VERSION_WG = sys.argv[3] # Международная версия клиента
-compile_exe = 'python'
+# Настройка вывода в консоль для поддержки UTF-8
+reload(sys)
+sys.setdefaultencoding('utf-8')
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
-def test_main_folder():
-    main_folder = os.path.realpath('./../%s' %(MOD_NAME))
-    if os.path.isdir(main_folder):
-        return os.path.realpath('./../')
-    main_folder = os.path.realpath('./%s' % (MOD_NAME))
-    if os.path.isdir(main_folder):
-        return os.path.realpath('./')
+# Определение режима отладки (по умолчанию OFF)
+DEBUG_MODE = '--debug' in sys.argv
 
-MAIN_FOLDER = test_main_folder()
+def debug(message):
+    """Вывод отладочных сообщений на английском языке."""
+    if DEBUG_MODE:
+        print(u"[DEBUG] {}".format(message))
 
-# класс сборки мода
+def find_main_folder():
+    """
+    Поиск основной директории проекта.
+    Проверяем наличие папки мода в родительской директории или текущей директории.
+    """
+    debug(u"Searching for main folder")
+    paths = [
+        os.path.realpath(os.path.join('..', MOD_NAME)),
+        os.path.realpath(MOD_NAME)
+    ]
+    for path in paths:
+        if os.path.isdir(path):
+            debug(u"Found main folder: {}".format(path))
+            return os.path.dirname(path)
+    raise IOError(u"Main folder not found")
+
+# Чтение аргументов командной строки
+if len(sys.argv) < 4:
+    print(u"[ERROR] Недостаточно аргументов. Использование: python builder.py MOD_NAME CLIENT_VERSION_RU CLIENT_VERSION_WG [--debug]")
+    sys.exit(1)
+
+MOD_NAME = sys.argv[1]  # Название мода
+CLIENT_VERSION_RU = sys.argv[2]  # Версия клиента для Lesta
+CLIENT_VERSION_WG = sys.argv[3]  # Версия клиента для WG
+
+MAIN_FOLDER = find_main_folder()
+
 class Build(object):
-    directoryBase = os.path.realpath(os.path.join(MAIN_FOLDER, MOD_NAME)) # Директория мода формата './mod_testBuild', реальный путь вида 'D:\github.com\spoter-mods\mod_testBuild'
-    directoryTemp = os.path.join(directoryBase, '.out') # Временная директория для сборки 'mod_testBuild/.out'
-    directoryTempCompiled = os.path.join(directoryTemp, 'res', 'scripts', 'client', 'gui', 'mods')  # Временная директория для компилированного мода 'mod_testBuild/.out/res/scripts/client/gui/mods'
-    directoryRelease = os.path.join(directoryBase, 'release') # Директория в которой хранится релизный архив мода 'mod_testBuild/release'
-    directorySources = os.path.join(directoryBase, 'source') # Директория исходников 'mod_testBuild/source'
-
+    """
+    Класс для сборки мода.
+    Выполняет очистку временных директорий, чтение конфигурации,
+    пересоздание структуры, обновление версий, компиляцию исходников
+    и создание WOTMOD архива.
+    """
     def __init__(self):
+        # Инициализация директорий мода
+        self.directory_base = os.path.join(MAIN_FOLDER, MOD_NAME)
+        self.directory_temp = os.path.join(self.directory_base, '.out')
+        self.directory_temp_compiled = os.path.join(self.directory_temp, 'res', 'scripts', 'client', 'gui', 'mods')
+        self.directory_release = os.path.join(self.directory_base, 'release')
+        self.directory_sources = os.path.join(self.directory_base, 'source')
+        
+        debug(u"Base directory: {}".format(self.directory_base))
+        
         self.clear_temp()
-        self.config = self.read_mod_version_config_file()
+        self.config = self.read_config()
         self.recreate_structures()
         self.create_wotmod_archive()
         self.clear_temp()
 
-
     def clear_temp(self):
-        # чистим временную директорию
-        try:
-            shutil.rmtree(self.directoryTemp, True)
-        except OSError:
-            print(OSError)
+        """Очистка временной директории сборки."""
+        debug(u"Clearing temporary directory: {}".format(self.directory_temp))
+        if os.path.exists(self.directory_temp):
+            shutil.rmtree(self.directory_temp, ignore_errors=True)
 
-    def read_mod_version_config_file(self):
-        path = os.path.join(self.directorySources, 'VERSION')
-        # читаем конфиг мода из файла 'mod_testBuild/source/VERSION'
-        # формат json в кодировке utf-8
-        with codecs.open(path, 'r', encoding='utf-8') as versionFile:
-            data = json.loads('%s' %versionFile.read())
-        versionFile.close()
+    def read_config(self):
+        """
+        Чтение конфигурационного файла VERSION из каталога source.
+        Формат файла — JSON, кодировка UTF-8.
+        """
+        config_path = os.path.join(self.directory_sources, 'VERSION')
+        debug(u"Reading config from: {}".format(config_path))
+        with codecs.open(config_path, 'r', 'utf-8') as f:
+            data = json.load(f)
         return data
 
     def recreate_structures(self):
-        # Пересоздаём структуру перед сборкой
-        try:
-            # временную папку
-            os.makedirs(self.directoryTemp)
-        except OSError:
-            if not os.path.isdir(self.directoryTemp):
-                raise
-        try:
-            # временную папку для компиляции
-            os.makedirs(self.directoryTempCompiled)
-        except OSError:
-            if not os.path.isdir(self.directoryTempCompiled):
-                raise
-        try:
-            # релизную папку
-            os.makedirs(self.directoryRelease)
-        except OSError:
-            if not os.path.isdir(self.directoryRelease):
-                raise
-
-        files = [] # список для генерации файловой структуры мода
-        version = '{:.2f}'.format(self.config["version"]) # переменная для текущей версии мода '3.04'
-
-        # читаем из конфига список файлов мода и собираем структуру мода, вписывая изменения версии
+        """
+        Пересоздание структуры директорий для сборки и обновление версий в файлах.
+        Обновляются файлы: исходный код, meta, config и языковые файлы (i18n).
+        """
+        debug(u"Recreating directory structures.")
+        # Создание необходимых директорий
+        for path in [self.directory_temp, self.directory_temp_compiled, self.directory_release]:
+            if not os.path.exists(path):
+                os.makedirs(path)
+                debug(u"Created directory: {}".format(path))
+        
+        # Формирование строки версии и списка файлов для обновления
+        version_str = u'{:.2f}'.format(self.config.get("version", 0))
+        current_date = datetime.datetime.now().strftime('%Y-%m-%d')
+        files_to_update = []
         if 'source' in self.config and self.config['source']:
-            path = os.path.join(self.directorySources, self.config['source'])
-            files.append((path, 'self.version = ', "'v{} ({})'".format(version, datetime.datetime.now().strftime('%Y-%m-%d'))))
-            files.append((path, 'self.version_id = ', re.sub('[.\s]', '', '{}'.format(version))))
-            files.append((path, 'VERSION_MOD = '.format(MOD_NAME), "'v{} ({})'".format(version, datetime.datetime.now().strftime('%Y-%m-%d'))))
-
-
+            source_file = os.path.join(self.directory_sources, self.config['source'])
+            files_to_update.append((source_file, u'self.version = ', u"'v{} ({})'".format(version_str, current_date)))
+            files_to_update.append((source_file, u'self.version_id = ', re.sub(u'[.\s]', u'', version_str)))
+            files_to_update.append((source_file, u'VERSION_MOD = ', u"'v{} ({})'".format(version_str, current_date)))
         if 'meta' in self.config and self.config['meta']:
-            path = os.path.join(self.directorySources, self.config['meta'])
-            files.append((path, '<version>', '%s</version>' % version))
-
+            meta_file = os.path.join(self.directory_sources, self.config['meta'])
+            files_to_update.append((meta_file, u'<version>', u'<version>{}</version>'.format(version_str)))
         if 'config' in self.config and self.config['config']:
-            path = os.path.join(self.directorySources, self.config['config'])
-            files.append((path, '"version": ',re.sub('[.\s]', '', '{}'.format(version))))
-
+            config_file = os.path.join(self.directory_sources, self.config['config'])
+            files_to_update.append((config_file, u'"version": ', re.sub(u'[.\s]', u'', version_str)))
         if 'i18n' in self.config and self.config['i18n']:
-            for path in glob.glob(os.path.join(self.directorySources, self.config['i18n'], '*.*')):
-                files.append((path, '"version": ', re.sub('[.\s]', '', '{}'.format(version))))
-
-
-        # проходим по структуре, внося изменения версии перед сборкой
-        for path in files:
-            self.update_file_with_new_version(*path)
+            i18n_dir = os.path.join(self.directory_sources, self.config['i18n'])
+            for file_path in glob.glob(os.path.join(i18n_dir, '*.*')):
+                files_to_update.append((file_path, u'"version": ', re.sub(u'[.\s]', u'', version_str)))
+        
+        for file_tuple in files_to_update:
+            self.update_file_with_new_version(*file_tuple)
 
     @staticmethod
-    def update_file_with_new_version(path, string, text):
-        path = os.path.realpath(path)
+    def update_file_with_new_version(path, search_str, replace_str):
+        """
+        Обновление версии в указанном файле.
+        Если в строке обнаруживается search_str, она заменяется на строку с replace_str.
+        """
+        debug(u"Updating file: {}".format(path))
         if os.path.exists(path):
-            with open(path, 'r+') as xfile:
-                data = []
-                for line in xfile.readlines():
-                    if string in line:
-                        data.append('{}{}{}\n'.format(re.split(string, line)[0], string, text))
-                        continue
-                    data.append(line)
-                xfile.close()
-            with open(path, 'w') as xfile:
-                xfile.writelines(data)
-            xfile.close()
+            try:
+                with codecs.open(path, 'r+', 'utf-8') as f:
+                    content = []
+                    for line in f:
+                        if search_str in line:
+                            new_line = line.split(search_str)[0] + search_str + replace_str + u'\n'
+                            content.append(new_line)
+                        else:
+                            content.append(line)
+                    f.seek(0)
+                    f.writelines(content)
+                    f.truncate()
+                debug(u"File updated successfully: {}".format(path))
+            except Exception as e:
+                debug(u"Error updating file {}: {}".format(path, e))
+                raise
+        else:
+            debug(u"File not found: {}".format(path))
 
     def create_wotmod_archive(self):
-        py = '%s' % os.path.join(self.directorySources, self.config["source"]) # путь до файла исходника './mod_testBuild/source/mod_testBuild.py'
-        subprocess.check_call([compile_exe, '-m', 'compileall', py], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # компилируем, используя Python 2.7
-        shutil.move('{}c'.format(py), self.directoryTempCompiled) # перемещаем во временную папку для компилированного мода
-        shutil.copy2(os.path.realpath(os.path.join(self.directorySources, self.config["meta"])), os.path.realpath(self.directoryTemp)) # перемещаем во временную папку в корень
-        if 'resources' in self.config and self.config['resources']: # копируем ресурсы для мода
-            for directory in self.config['resources']:
-                source_dir = os.path.join(self.directorySources, directory) # исходный путь
-                dest_dir = os.path.realpath(os.path.join(self.directoryTemp, 'res', directory)) # путь назначения
-                if os.path.exists(source_dir): # проверка на наличие файлов\папок и копирование при наличии
-                    if os.path.isdir(source_dir):
-                        shutil.copytree(source_dir, dest_dir)
-                    else:
-                        shutil.copy2(source_dir, dest_dir)
-        wotmod_name = os.path.realpath(os.path.join(self.directoryRelease, '{}_{:.2f}.wotmod'.format(MOD_NAME, self.config["version"])))
-        arc_path = [os.path.realpath(os.path.join(MAIN_FOLDER, '.github/7z.exe')), "a", "-tzip", "-ssw", "-mx0", wotmod_name] # Вызов архиватора из './.github/7z.exe a -tzip -ssw -mx0 ./mod_testBuild/release/mod_testBuild_3.12.wotmod'
-        subprocess.check_call(arc_path + [os.path.realpath(os.path.join(self.directoryTemp, 'res'))], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # пакуем './mod_testBuild/.out/res'
-        subprocess.check_call(arc_path + [os.path.realpath(os.path.join(self.directoryTemp, os.path.basename(self.config["meta"])))], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # пакуем './mod_testBuild/.out/meta.xml'
-        subprocess.check_call(arc_path + [self.create_license()], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) # создаем файл лицензии и пакуем его './mod_testBuild/.out/LICENSE'
+        """
+        Компиляция исходного Python-файла, копирование meta-файла и ресурсов,
+        генерация LICENSE и создание WOTMOD архива с помощью 7z.exe.
+        """
+        debug(u"Building WOTMOD archive.")
+        source_py = os.path.join(self.directory_sources, self.config.get("source", ""))
+        if not os.path.exists(source_py):
+            raise IOError(u"Source file not found: {}".format(source_py))
+        try:
+            subprocess.check_call(
+                [COMPILE_EXE, '-m', 'compileall', source_py],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT
+            )
+            debug(u"Compilation successful for: {}".format(source_py))
+        except subprocess.CalledProcessError as e:
+            debug(u"Compilation failed: {}".format(e))
+            raise
 
+        # Перемещение скомпилированного файла (.pyc)
+        compiled_file = u"{}c".format(source_py)
+        if not os.path.exists(compiled_file):
+            raise IOError(u"Compiled file not found: {}".format(compiled_file))
+        try:
+            shutil.move(compiled_file, self.directory_temp_compiled)
+            debug(u"Moved compiled file to: {}".format(self.directory_temp_compiled))
+        except Exception as e:
+            debug(u"Error moving compiled file: {}".format(e))
+            raise
+
+        # Копирование meta-файла в корень временной директории
+        meta_source = os.path.join(self.directory_sources, self.config.get("meta", ""))
+        try:
+            shutil.copy2(os.path.realpath(meta_source), os.path.realpath(self.directory_temp))
+            debug(u"Copied meta file to temporary directory.")
+        except Exception as e:
+            debug(u"Error copying meta file: {}".format(e))
+            raise
+
+        # Копирование ресурсов, если они указаны в конфигурации
+        if 'resources' in self.config and self.config['resources']:
+            for directory in self.config['resources']:
+                source_dir = os.path.join(self.directory_sources, directory)
+                dest_dir = os.path.join(self.directory_temp, 'res', directory)
+                if os.path.exists(source_dir):
+                    try:
+                        if os.path.isdir(source_dir):
+                            shutil.copytree(source_dir, dest_dir)
+                        else:
+                            shutil.copy2(source_dir, dest_dir)
+                        debug(u"Copied resource from {} to {}".format(source_dir, dest_dir))
+                    except Exception as e:
+                        debug(u"Error copying resource {}: {}".format(source_dir, e))
+                        raise
+
+        # Создание файла LICENSE
+        license_path = self.create_license()
+
+        # Формирование имени архива и упаковка с помощью 7z.exe
+        archive_name = os.path.join(
+            self.directory_release,
+            u'{}_{}.wotmod'.format(MOD_NAME, u'{:.2f}'.format(self.config.get("version", 0)))
+        )
+        seven_z = os.path.join(MAIN_FOLDER, '.github', '7z.exe')
+        try:
+            subprocess.check_call([
+                seven_z, 'a', '-tzip', '-ssw', '-mx0',
+                archive_name,
+                os.path.join(self.directory_temp, 'res'),
+                os.path.join(self.directory_temp, os.path.basename(self.config.get("meta", ""))),
+                license_path
+            ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            debug(u"WOTMOD archive created: {}".format(archive_name))
+        except subprocess.CalledProcessError as e:
+            debug(u"Error creating WOTMOD archive: {}".format(e))
+            raise
 
     def create_license(self):
-        b64 = "DQogICAgICAgIERPIFdIQVQgVEhFIEZVQ0sgWU9VIFdBTlQgVE8gUFVCTElDIExJQ0VOU0UgDQogICAgICAgICAgICAgICAgICAgIFZlcnNpb24gMiwgRGVjZW1iZXIgMjAwNCANCg0KIENvcHlyaWdodCAoQykgMjAwNCBTYW0gSG9jZXZhciA8c2FtQGhvY2V2YXIubmV0PiANCg0KIEV2ZXJ5b25lIGlzIHBlcm1pdHRlZCB0byBjb3B5IGFuZCBkaXN0cmlidXRlIHZlcmJhdGltIG9yIG1vZGlmaWVkIA0KIGNvcGllcyBvZiB0aGlzIGxpY2Vuc2UgZG9jdW1lbnQsIGFuZCBjaGFuZ2luZyBpdCBpcyBhbGxvd2VkIGFzIGxvbmcgDQogYXMgdGhlIG5hbWUgaXMgY2hhbmdlZC4gDQoNCiAgICAgICAgICAgIERPIFdIQVQgVEhFIEZVQ0sgWU9VIFdBTlQgVE8gUFVCTElDIExJQ0VOU0UgDQogICBURVJNUyBBTkQgQ09ORElUSU9OUyBGT1IgQ09QWUlORywgRElTVFJJQlVUSU9OIEFORCBNT0RJRklDQVRJT04gDQoNCiAgMC4gWW91IGp1c3QgRE8gV0hBVCBUSEUgRlVDSyBZT1UgV0FOVCBUTy4NCg=="
-        output_name = os.path.realpath(os.path.join(self.directoryTemp, 'LICENSE'))
-        data = base64.b64decode(b64)
-        with open(output_name, "wb") as output_file:
-            output_file.write(data)
-        output_file.close()
-        return output_name
+        """
+        Генерация файла LICENSE из base64 строки.
+        Файл записывается в каталоге временной сборки.
+        """
+        debug(u"Creating LICENSE file.")
+        license_text = base64.b64decode(
+            "DQogICAgICAgIERPIFdIQVQgVEhFIEZVQ0sgWU9VIFdBTlQgVE8gUFVCTElDIExJQ0VOU0UgDQogICAgICAgICAgICAgICAgICAgIFZlcnNpb24gMiwgRGVjZW1iZXIgMjAwNCANCg0KIENvcHlyaWdodCAoQykgMjAwNCBTYW0gSG9jZXZhciA8c2FtQGhvY2V2YXIubmV0PiANCg0KIEV2ZXJ5b25lIGlzIHBlcm1pdHRlZCB0byBjb3B5IGFuZCBkaXN0cmlidXRlIHZlcmJhdGltIG9yIG1vZGlmaWVkIA0KIGNvcGllcyBvZiB0aGlzIGxpY2Vuc2UgZG9jdW1lbnQsIGFuZCBjaGFuZ2luZyBpdCBpcyBhbGxvd2VkIGFzIGxvbmcgDQogYXMgdGhlIG5hbWUgaXMgY2hhbmdlZC4gDQoNCiAgICAgICAgICAgIERPIFdIQVQgVEhFIEZVQ0sgWU9VIFdBTlQgVE8gUFVCTElDIExJQ0VOU0UgDQogICBURVJNUyBBTkQgQ09ORElUSU9OUyBGT1IgQ09QWUlORywgRElTVFJJQlVUSU9OIEFORCBNT0RJRklDQVRJT04gDQoNCiAgMC4gWW91IGp1c3QgRE8gV0hBVCBUSEUgRlVDSyBZT1UgV0FOVCBUTy4NCg=="
+        )
+        license_path = os.path.join(self.directory_temp, 'LICENSE')
+        try:
+            with codecs.open(license_path, 'w', 'utf-8') as f:
+                f.write(license_text.decode('utf-8'))
+            debug(u"LICENSE file created at: {}".format(license_path))
+            return license_path
+        except Exception as e:
+            debug(u"Error creating LICENSE file: {}".format(e))
+            raise
 
 class Release(object):
-
-    def __init__(self, build, name, version, lesta = False):
-        self.data = build
-        self.clear()
-        self.zipDirPath = os.path.join(self.data.directoryBase, 'zip')
-        zip_name = '{}.zip' if not lesta else '{}_RU.zip'
-        self.zipFilePath = os.path.realpath(os.path.join(self.zipDirPath, zip_name.format(name)))
-        self.modsPath = os.path.join(self.data.directoryTemp, 'mods')
-        self.versionPath = os.path.join(self.modsPath, version)
-        self.versionPathMod = os.path.join(self.modsPath, version, 'spoter')
-        self.configPath = os.path.join(self.modsPath, 'configs', 'spoter', os.path.splitext(os.path.basename(self.data.config["config"]))[0])
-        if 'mod_mods_gui' in MOD_NAME:
-            self.versionPathMod = os.path.join(self.modsPath, version)
-            self.configPath = os.path.join(self.modsPath, 'configs',os.path.splitext(os.path.basename(self.data.config["config"]))[0])
-        self.i18n = os.path.join(self.configPath, 'i18n')
-        self.packZip()
-        self.clear()
-
-    def packZip(self):
-        try:
-            # папку для текущей версии
-            os.makedirs(self.versionPathMod)
-        except OSError:
-            if not os.path.isdir(self.versionPathMod):
-                raise
-        try:
-            # папку конфигов
-            os.makedirs(self.i18n)
-        except OSError:
-            if not os.path.isdir(self.i18n):
-                raise
-        try:
-            # релизную папку итогового архива
-            os.makedirs(self.zipDirPath)
-        except OSError:
-            if not os.path.isdir(self.zipDirPath):
-                raise
-        if 'mod_mods_gui' not in MOD_NAME:
-            path = os.path.realpath(os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n'))
-            try:
-                # папку конфигов
-                os.makedirs(path)
-            except OSError:
-                if not os.path.isdir(path):
-                    raise
-
-
-        file_path = os.path.realpath(os.path.join(self.data.directoryRelease, '{}_{:.2f}.wotmod'.format(MOD_NAME, self.data.config["version"]))) # работаем с wotmod архивом
-        if os.path.isfile(file_path):
-            shutil.copy2(file_path, os.path.realpath(self.versionPathMod)) # перемещаем во временную папку с учётом номера версии
-        file_path = os.path.realpath(os.path.join(self.data.directorySources, self.data.config["config"])) # работаем с конфигом мода
-        if os.path.isfile(file_path) and 'mod_mods_gui' not in MOD_NAME:
-            shutil.copy2(file_path, os.path.realpath(self.configPath)) # копируем во временную папку конфигов
-
-        for path in glob.glob(os.path.realpath(os.path.join(self.data.directorySources, self.data.config["i18n"], "*.*"))): # копируем языковые конфиги во временную папку
-            if os.path.isfile(path):
-                shutil.copy2(path, os.path.realpath(self.i18n))
-
-        if 'mod_mods_gui' in MOD_NAME: # работаем если выбрано ядро модов
-            additional_path = os.path.realpath(os.path.join(self.data.directorySources, 'additional')) # копируем дополнительные ресурсы
-            if os.path.exists(additional_path):
-                for path in glob.glob(os.path.join(additional_path, "*.wotmod")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(self.versionPath))
-                for path in glob.glob(os.path.join(additional_path, "*.txt_")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(self.configPath))
+    """
+    Класс для упаковки релизного архива мода.
+    Формирует файловую структуру, копирует WOTMOD архив, конфигурацию,
+    языковые файлы и дополнительные ресурсы, а затем создаёт финальный zip архив.
+    """
+    def __init__(self, build, client_version, lesta=False):
+        self.build = build
+        self.client_version = client_version
+        self.lesta = lesta
+        
+        self.zip_dir = os.path.join(self.build.directory_base, 'zip')
+        if not self.lesta:
+            zip_name = u'{}.zip'.format(MOD_NAME)
         else:
-            additional_path = os.path.realpath(os.path.join(MAIN_FOLDER, 'mod_mods_gui/release'))
-            if os.path.exists(additional_path):
-                for path in glob.glob(os.path.join(additional_path, "*.wotmod")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(self.versionPath))
-                for path in glob.glob(os.path.join(additional_path, "*.txt_")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(os.path.join(self.modsPath, 'configs', 'mods_gui')))
-            additional_path = os.path.realpath(os.path.join(MAIN_FOLDER, 'mod_mods_gui/release/i18n'))
-            if os.path.exists(additional_path):
-                for path in glob.glob(os.path.join(additional_path, "*.json")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n')))
-                for path in glob.glob(os.path.join(additional_path, "*.html")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(os.path.join(self.modsPath, 'configs', 'mods_gui', 'i18n')))
+            zip_name = u'{}_RU.zip'.format(MOD_NAME)
+        self.zip_file_path = os.path.realpath(os.path.join(self.zip_dir, zip_name))
+        
+        self.mods_path = os.path.join(self.build.directory_temp, 'mods')
+        self.version_path = os.path.join(self.mods_path, self.client_version)
+        self.version_path_mod = os.path.join(self.mods_path, self.client_version, 'spoter')
+        self.config_path = os.path.join(self.mods_path, 'configs', 'spoter',
+                                        os.path.splitext(os.path.basename(self.build.config.get("config", "")))[0])
+        if 'mod_mods_gui' in MOD_NAME:
+            self.version_path_mod = os.path.join(self.mods_path, self.client_version)
+            self.config_path = os.path.join(self.mods_path, 'configs',
+                                            os.path.splitext(os.path.basename(self.build.config.get("config", "")))[0])
+        self.i18n_path = os.path.join(self.config_path, 'i18n')
+        
+        debug(u"Initializing release packaging for version: {} (lesta={})".format(self.client_version, self.lesta))
+        self.pack_zip()
+        self.clear_temp()
 
-        additional_path = os.path.realpath(os.path.join(self.data.directorySources, 'addons/mods/oldskool')) # копируем дополнительные ресурсы  для мода отметок
+    def pack_zip(self):
+        """Упаковка файлов в zip архив релиза."""
+        debug(u"Packing zip archive: {}".format(self.zip_file_path))
+        # Создание необходимых директорий
+        for path in [self.version_path_mod, self.i18n_path, self.zip_dir]:
+            if not os.path.exists(path):
+                os.makedirs(path)
+                debug(u"Created directory: {}".format(path))
+        if 'mod_mods_gui' not in MOD_NAME:
+            extra_config_path = os.path.join(self.mods_path, 'configs', 'mods_gui', 'i18n')
+            if not os.path.exists(extra_config_path):
+                os.makedirs(extra_config_path)
+                debug(u"Created extra i18n directory: {}".format(extra_config_path))
+        
+        # Копирование WOTMOD архива в папку с текущей версией
+        wotmod_file = os.path.realpath(os.path.join(
+            self.build.directory_release,
+            u'{}_{}.wotmod'.format(MOD_NAME, u'{:.2f}'.format(self.build.config.get("version", 0)))
+        ))
+        if os.path.isfile(wotmod_file):
+            try:
+                shutil.copy2(wotmod_file, os.path.realpath(self.version_path_mod))
+                debug(u"Copied wotmod file to version directory.")
+            except Exception as e:
+                debug(u"Error copying wotmod file: {}".format(e))
+                raise
+        
+        # Копирование конфигурационного файла, если требуется
+        config_source = os.path.realpath(os.path.join(self.build.directory_sources, self.build.config.get("config", "")))
+        if os.path.isfile(config_source) and 'mod_mods_gui' not in MOD_NAME:
+            try:
+                shutil.copy2(config_source, os.path.realpath(self.config_path))
+                debug(u"Copied config file to config directory.")
+            except Exception as e:
+                debug(u"Error copying config file: {}".format(e))
+                raise
+        
+        # Копирование языковых файлов (i18n)
+        i18n_source_pattern = os.path.realpath(os.path.join(self.build.directory_sources, self.build.config.get("i18n", ""), "*.*"))
+        for file_path in glob.glob(i18n_source_pattern):
+            if os.path.isfile(file_path):
+                try:
+                    shutil.copy2(file_path, os.path.realpath(self.i18n_path))
+                    debug(u"Copied i18n file: {} to {}".format(file_path, self.i18n_path))
+                except Exception as e:
+                    debug(u"Error copying i18n file {}: {}".format(file_path, e))
+                    raise
+        
+        # Обработка дополнительных ресурсов
+        if 'mod_mods_gui' in MOD_NAME:
+            additional_path = os.path.join(self.build.directory_sources, 'additional')
+            if os.path.exists(additional_path):
+                for pattern in [u"*.wotmod", u"*.txt_"]:
+                    for file_path in glob.glob(os.path.join(additional_path, pattern)):
+                        if os.path.isfile(file_path):
+                            dest = self.version_path_mod if pattern == u"*.wotmod" else self.config_path
+                            try:
+                                shutil.copy2(file_path, os.path.realpath(dest))
+                                debug(u"Copied additional file {} to {}".format(file_path, dest))
+                            except Exception as e:
+                                debug(u"Error copying additional file {}: {}".format(file_path, e))
+                                raise
+        else:
+            additional_path = os.path.join(MAIN_FOLDER, 'mod_mods_gui', 'release')
+            if os.path.exists(additional_path):
+                for pattern in [u"*.wotmod", u"*.txt_"]:
+                    for file_path in glob.glob(os.path.join(additional_path, pattern)):
+                        if os.path.isfile(file_path):
+                            dest = self.version_path_mod if pattern == u"*.wotmod" else os.path.join(self.mods_path, 'configs', 'mods_gui')
+                            try:
+                                shutil.copy2(file_path, os.path.realpath(dest))
+                                debug(u"Copied additional file {} to {}".format(file_path, dest))
+                            except Exception as e:
+                                debug(u"Error copying additional file {}: {}".format(file_path, e))
+                                raise
+            extra_i18n_path = os.path.join(MAIN_FOLDER, 'mod_mods_gui', 'release', 'i18n')
+            if os.path.exists(extra_i18n_path):
+                for pattern in [u"*.json", u"*.html"]:
+                    for file_path in glob.glob(os.path.join(extra_i18n_path, pattern)):
+                        if os.path.isfile(file_path):
+                            dest = os.path.join(self.mods_path, 'configs', 'mods_gui', 'i18n')
+                            try:
+                                shutil.copy2(file_path, os.path.realpath(dest))
+                                debug(u"Copied additional i18n file {} to {}".format(file_path, dest))
+                            except Exception as e:
+                                debug(u"Error copying additional i18n file {}: {}".format(file_path, e))
+                                raise
+        
+        additional_path = os.path.join(self.build.directory_sources, 'addons', 'mods', 'oldskool')
         if os.path.exists(additional_path):
-            for path in glob.glob(os.path.join(additional_path, "*.wotmod")):
-                if os.path.isfile(path):
-                    shutil.copy2(path, os.path.realpath(os.path.join(self.versionPath, 'oldskool')))
-            additional_path = os.path.realpath(os.path.join(MAIN_FOLDER, 'mod_mods_gui/release'))
-            if os.path.exists(additional_path):
-                for path in glob.glob(os.path.join(additional_path, "*.txt_")):
-                    if os.path.isfile(path):
-                        shutil.copy2(path, os.path.realpath(os.path.join(self.modsPath, 'configs', 'mods_gui')))
-
-        additional_path = os.path.realpath(os.path.join(self.data.directorySources, 'addons/configs/oldskool'))  # копируем дополнительные ресурсы конфигов для мода отметок
+            for file_path in glob.glob(os.path.join(additional_path, "*.wotmod")):
+                if os.path.isfile(file_path):
+                    dest = os.path.join(self.version_path, 'oldskool')
+                    try:
+                        shutil.copy2(file_path, dest)
+                        debug(u"Copied oldskool mod file {} to {}".format(file_path, dest))
+                    except Exception as e:
+                        debug(u"Error copying oldskool mod file {}: {}".format(file_path, e))
+                        raise
+            additional_extra = os.path.join(MAIN_FOLDER, 'mod_mods_gui', 'release')
+            if os.path.exists(additional_extra):
+                for file_path in glob.glob(os.path.join(additional_extra, "*.txt_")):
+                    if os.path.isfile(file_path):
+                        dest = os.path.join(self.mods_path, 'configs', 'mods_gui')
+                        try:
+                            shutil.copy2(file_path, dest)
+                            debug(u"Copied additional txt file {} to {}".format(file_path, dest))
+                        except Exception as e:
+                            debug(u"Error copying additional txt file {}: {}".format(file_path, e))
+                            raise
+        
+        additional_path = os.path.join(self.build.directory_sources, 'addons', 'configs', 'oldskool')
         if os.path.exists(additional_path):
-            for path in glob.glob(os.path.join(additional_path, "*.json")):
-                if os.path.isfile(path):
-                    shutil.copy2(path, os.path.realpath(os.path.join(self.modsPath, 'configs', 'oldskool')))
-
-
-        # Упаковываем итоговый архив, перезаписывая если уже существует
-        if os.path.isfile(self.zipFilePath):
-            os.unlink(self.zipFilePath)
-        arc_path = [os.path.realpath(os.path.join(MAIN_FOLDER, '.github/7z.exe')), "a", "-tzip", "-ssw", "-mx9", "-aoa", self.zipFilePath, os.path.realpath(self.modsPath)]  # Вызов архиватора из './.github/7z.exe a -tzip -ssw -mx0 ./mod_testBuild/zip/mod_testBuild.zip'
-        subprocess.check_call(arc_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)  # пакуем итоговый архив './mod_testBuild/zip/mod_testBuild.zip'
-
-
-    def clear(self):
+            for file_path in glob.glob(os.path.join(additional_path, "*.json")):
+                if os.path.isfile(file_path):
+                    dest = os.path.join(self.mods_path, 'configs', 'oldskool')
+                    try:
+                        shutil.copy2(file_path, dest)
+                        debug(u"Copied oldskool config file {} to {}".format(file_path, dest))
+                    except Exception as e:
+                        debug(u"Error copying oldskool config file {}: {}".format(file_path, e))
+                        raise
+        
+        # Упаковка итогового архива с помощью 7z.exe
+        if os.path.isfile(self.zip_file_path):
+            try:
+                os.unlink(self.zip_file_path)
+                debug(u"Deleted existing zip file: {}".format(self.zip_file_path))
+            except Exception as e:
+                debug(u"Error deleting existing zip file: {}".format(e))
+                raise
+        archive_exe = os.path.join(MAIN_FOLDER, '.github', '7z.exe')
+        arc_cmd = [
+            archive_exe, "a", "-tzip", "-ssw", "-mx9", "-aoa",
+            self.zip_file_path,
+            os.path.realpath(self.mods_path)
+        ]
         try:
-            shutil.rmtree(self.data.directoryTemp, True)
-        except OSError:
-            pass
+            subprocess.check_call(arc_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            debug(u"Zip archive created successfully: {}".format(self.zip_file_path))
+        except subprocess.CalledProcessError as e:
+            debug(u"Error creating zip archive: {}".format(e))
+            raise
 
-try:
-    build = Build()
+    def clear_temp(self):
+        """
+        Очистка временной директории после упаковки релиза.
+        Используется директория сборки из Build.
+        """
+        debug(u"Clearing temporary directory after release packaging: {}".format(self.build.directory_temp if hasattr(self, 'build') else self.directory_temp))
+        if hasattr(self, 'build'):
+            if os.path.exists(self.build.directory_temp):
+                shutil.rmtree(self.build.directory_temp, ignore_errors=True)
+        else:
+            if os.path.exists(self.directory_temp):
+                shutil.rmtree(self.directory_temp, ignore_errors=True)
 
-    Release(build, MOD_NAME, CLIENT_VERSION_WG)
-    Release(build, MOD_NAME, CLIENT_VERSION_RU, True)
-
-    if 'mod_mods_gui' not in MOD_NAME: # чистим за собой если не ядро
-        directoryBase = os.path.realpath(os.path.join(MAIN_FOLDER, MOD_NAME)) # Директория мода формата './mod_testBuild', реальный путь вида 'D:\github.com\spoter-mods\mod_testBuild'
-        directoryRelease = os.path.join(directoryBase, 'release') # Директория в которой хранится релизный архив мода 'mod_testBuild/release'
-        try:
-            shutil.rmtree(directoryRelease, True)
-        except OSError:
-            pass
-    print('./{} :OK'.format(MOD_NAME))
-except Exception as e:
-    print('./{} : BAD'.format(MOD_NAME))
-    print('ERROR: {}'.format(e))
-    traceback.print_exc()
+if __name__ == "__main__":
+    try:
+        # Создание сборки мода
+        build = Build()
+        # Упаковка релизных архивов для международной и русской версий
+        release_wg = Release(build, CLIENT_VERSION_WG, lesta=False)
+        release_ru = Release(build, CLIENT_VERSION_RU, lesta=True)
+        # Вывод результатов: MOD_NAME|путь к архиву WG|путь к архиву RU
+        print(u"{}|{}|{}".format(MOD_NAME, release_wg.zip_file_path, release_ru.zip_file_path))
+        debug(u"Build process completed successfully.")
+    except Exception as e:
+        print(u"[ERROR] Build failed: {}".format(e))
+        traceback.print_exc()
+        sys.exit(1)
