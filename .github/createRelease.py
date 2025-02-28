@@ -83,11 +83,21 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
 
     # Чтение и обработка вывода
     output, _ = process.communicate()
-    print("[DEBUG] Raw builder output:")
-    print(output)
     output = output.decode('utf-8')
-    print("[DEBUG] Raw builder output with utf-8:")
-    print(output)
+    print("[DEBUG] Raw builder output:")
+    print("[DEBUG] Parsing builder output...")
+
+    # Разбираем строки из вывода
+    output_lines = output.splitlines()
+    parsed_results = {}
+
+    for line in output_lines:
+        parts = line.strip().split("|")
+        if len(parts) == 3:
+            mod_name, zip_path, zip_ru_path = parts
+            parsed_results[mod_name] = (zip_path, zip_ru_path)
+
+    print("[DEBUG] Parsed build results:", parsed_results)
     sys.stdout.flush()
 
     if DEBUG_MODE:
