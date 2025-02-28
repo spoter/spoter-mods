@@ -44,12 +44,16 @@ def parse_builder_output(output):
     debug(u"Parsing builder output")
     result = {}
     for line in output.splitlines():
-        if line.startswith('MOD_NAME='):
-            result['name'] = line.split('=')[1]
-        elif line.startswith('WG_RELEASE_PATH='):
-            result['wg_path'] = line.split('=')[1]
-        elif line.startswith('RU_RELEASE_PATH='):
-            result['ru_path'] = line.split('=')[1]
+        if line.startswith('mod_'):
+            parts = line.strip().split('|')
+            if len(parts) == 3:
+                mod_name = parts[0].strip()
+                wg_path = parts[1].strip()
+                ru_path = parts[2].strip()
+                result[mod_name] = {
+                    'wg_path': wg_path,
+                    'ru_path': ru_path
+                }
     return result
 
 
@@ -146,15 +150,7 @@ def main():
     # Вывод результатов
     print(u'\n----- Результаты сборки -----')
     print(json.dumps(build_results, ensure_ascii=False, indent=2))
-    print("[DEBUG] Preparing to upload files...")
-    for mod_name, result in build_results.items():
-        if 'wg_path' in result and 'ru_path' in result:
-            print("[DEBUG] Uploading mod:", mod_name)
-            print("[DEBUG] WG File:", result['wg_path'])
-            print("[DEBUG] RU File:", result['ru_path'])
-        else:
-            print("[ERROR] Missing release files for mod:", mod_name)
-    sys.stdout.flush()
+
 
 
 if __name__ == "__main__":
