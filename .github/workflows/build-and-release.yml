@@ -13,7 +13,7 @@ jobs:
       contents: write   # Разрешение на запись в репозиторий (включая релизы)
       actions: write    # Управление кэшем (очистка)
     env:  # ⚙️ Глобальные переменные для всех шагов
-      DEBUG_MODE: "false"  # Включить дебаг (true/false)
+      DEBUG_MODE: "true"  # Включить дебаг (true/false)
       FORCE_CACHE_REFRESH: "false"  # ⚙️ Принудительное обновление кэша (true/false)
 
     steps:
