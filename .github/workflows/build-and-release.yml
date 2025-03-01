@@ -13,7 +13,7 @@ jobs:
       contents: write   # Разрешение на запись в репозиторий (включая релизы)
       actions: write    # Управление кэшем (очистка)
     env:  # ⚙️ Глобальные переменные для всех шагов
-      DEBUG_MODE: "true"  # Включить дебаг (true/false)
+      DEBUG_MODE: "false"  # Включить дебаг (true/false)
       FORCE_CACHE_REFRESH: "false"  # ⚙️ Принудительное обновление кэша (true/false)
 
     steps:
@@ -69,6 +69,9 @@ jobs:
           echo "commit_hash=$commitHash" >> $env:GITHUB_OUTPUT
           echo "commit_message=$escapedCommitMessage" >> $env:GITHUB_OUTPUT
           echo "changed_files=$($changedFiles -join ';')" >> $env:GITHUB_OUTPUT
+          $debugPattern = "(?i)\b(debug|d+e+b+u+g+|дебаг?|д[еэ]баг|отладк[аи]|debugged|debugging)\b"
+          $isDebugEnabled = $commitMessage -match $debugPattern
+          echo "auto_debug=$isDebugEnabled" >> $env:GITHUB_OUTPUT
 
       # 🔍 Шаг 3: Настройка Python 2.7
       # --------------------------------------------------
@@ -162,6 +165,8 @@ jobs:
       - name: 🔍 Шаг 4. Поиск триггеров для релиза
         id: check_commit
         shell: pwsh
+        env:
+          DEBUG_MODE: ${{ steps.push-details.outputs.auto_debug || env.DEBUG_MODE }}
         run: |
           <#
             .SYNOPSIS
@@ -611,15 +616,14 @@ jobs:
           
               $newContent = @(
                   "# [$mod]",
-                  "# Latest Version (v$modVersion) [compiled: $(Get-Date -Format "yyyy-MM-dd")]",
+                  "# Latest Version (v$modVersion) [compiled: $(Get-Date -Format 'yyyy-MM-dd')]",
                   "### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)",
                   "### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)",
                   "#"
-              ) -join "`n" + "`n"  # Добавляем переводы строк
+              ) -join "`n"  # Только 5 строк, без добавления лишнего `n`
               
               # 🔄 Обновление или создание README.md
               if (Test-Path $modReadmePath) {
-                  # Читаем ВЕСЬ файл
                   $content = Get-Content $modReadmePath -Raw
                   
                   # Разделяем на первые 5 строк и остальное
@@ -630,8 +634,8 @@ jobs:
                       $splitContent += @("") * (6 - $splitContent.Count)
                   }
                   
-                  # Сохраняем новые первые 5 строк + остальное содержимое
-                  $newContentFull = $newContent + $splitContent[5]
+                  # Сохраняем новые первые 5 строк + остальное содержимое (без дублирования перевода строк)
+                  $newContentFull = $newContent + "`n" + $splitContent[5].TrimStart("`n")
               } else {
                   # Создаем новый файл с 5 строками
                   $newContentFull = $newContent
