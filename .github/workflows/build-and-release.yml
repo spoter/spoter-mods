@@ -215,7 +215,11 @@ jobs:
           $isRelease = $commitMessage -match $releasePattern
           $isAll = $commitMessage -match $allPattern
           $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
-
+          
+          if ($isGameVersionChanged) {
+            $isRelease = $isGameVersionChanged
+          }
+          
           if ($DebugEnabled) {
               Write-Host "`n🔵 [DEBUG] Результаты проверки:"
               Write-Host "  ✅ Найдены ключевые слова релиза: $isRelease"
@@ -249,6 +253,7 @@ jobs:
 
       # 🔍 Шаг 5: Проверка game_version.json и формирование списка модов
       - name: 🔍 Шаг 5. Валидация данных и формирование модов
+        if: steps.check_commit.outputs.is_release == 'true'
         id: process_game_version
         shell: pwsh
         env:
@@ -374,6 +379,7 @@ jobs:
                       if ($modListFromFile -contains $modName -and $MOD_LIST -notcontains $modName) {
                           $MOD_LIST += $modName
                           if ($DebugEnabled) { Write-Host "🔵 [DEBUG] Добавлен мод: $modName (изменен в коммите)" }
+                  }
               if ($DebugEnabled) { 
                   Write-Host "🔵 [DEBUG] Режим: ВСЕ моды (is_all=$isAll, game_version_changed=$isGameVersionChanged)" 
               }
@@ -408,6 +414,7 @@ jobs:
 
       # 🚀 Шаг 6: Генерация архивов модов
       - name: 🚀 Шаг 6. Создание релизных архивов
+        if: steps.check_commit.outputs.is_release == 'true'
         id: run_create_release
         shell: pwsh
         env:
@@ -530,6 +537,7 @@ jobs:
 
       # 🔄 Шаг 7. Сохранение архивов модов
       - name: 🔄 Шаг 7. Сохранение артефактов
+        if: steps.check_commit.outputs.is_release == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: built-mods
@@ -541,6 +549,7 @@ jobs:
 
       # 🔄 Шаг 8. Загрузка архивов перед публикацией
       - name: 🔄 Шаг 8. Подготовка к публикации
+        if: steps.check_commit.outputs.is_release == 'true'
         uses: actions/download-artifact@v4
         with:
           name: built-mods  # 📁 Имя сохраненного артефакта
@@ -550,6 +559,7 @@ jobs:
 
       # 📝 Шаг 9. Обновление README.md
       - name: 📝 Шаг 9. Обновление документации
+        if: steps.check_commit.outputs.is_release == 'true'
         id: update_readme
         shell: pwsh
         env:
@@ -649,7 +659,7 @@ jobs:
               git config --global user.name "github-actions[bot]"
               git config --global user.email "github-actions[bot]@users.noreply.github.com"
               git commit -m "$commitMessage"
-              git push
+              git push origin master
               Write-Host "✅ [УСПЕХ] Изменения закоммичены!" -ForegroundColor Green
           } else {
               Write-Host "ℹ️ Нет изменений для коммита." -ForegroundColor Cyan
@@ -657,6 +667,7 @@ jobs:
 
       # 🚀 Шаг 10. Умная публикация релиза
       - name: 🚀 Шаг 10. Публикация релиза
+        if: steps.check_commit.outputs.is_release == 'true'
         id: publish_releases
         shell: pwsh
         env:
@@ -744,17 +755,10 @@ jobs:
           }
       
       
-      # 🗑️ Шаг 11. Очистка старых релизов (исправленный)
-      - name: 🗑️ Шаг 11. Очистка старых релизов
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Добавляем токен
-        run: |
-          gh release delete "old-tag" --yes
 
       # 🧹 Шаг 12. Очистка кэша Python (исправленный)
       - name: 🧹 Шаг 12. Очистка кэша Python
-        if: env.FORCE_CACHE_REFRESH == 'true'
+        if: ${{ env.FORCE_CACHE_REFRESH == 'true' }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Добавляем токен
         run: |
@@ -766,6 +770,7 @@ jobs:
 
       # 🛠️ Шаг 100. Комплексный аудит релиза
       - name: 🛠️ Шаг 100. Финальная проверка релиза
+        if: steps.check_commit.outputs.is_release == 'true'
         shell: pwsh
         env:
           DEBUG_MODE: "${{ env.DEBUG_MODE }}"

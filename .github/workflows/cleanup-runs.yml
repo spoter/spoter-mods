@@ -1,0 +1,18 @@
+name: Cleanup Old Workflow Runs
+on:
+  schedule:
+    - cron: "0 0 * * *" # Запускать ежедневно в полночь
+  workflow_dispatch: # Ручной запуск
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old runs
+        uses: konradpabjan/action-delete-old-workflow-runs@v2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          keep-last: 3 # Оставить последние 3 запуска
+          # Дополнительные фильтры (опционально):
+          repo: ${{ github.repository }}
+          workflow_file_name: "build-and-release.yml" # Имя вашего workflow-файла
