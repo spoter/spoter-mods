@@ -586,7 +586,7 @@ jobs:
                   }
                   $modVersion = ($modVersionContent | ConvertFrom-Json).version
                   if ($DebugEnabled) {
-                      Write-Host "🔵 [DEBUG] Прочитана версия мода $mod: $modVersion"
+                      Write-Host "🔵 [DEBUG] Прочитана версия мода $mod : $modVersion"
                   }
               } catch {
                   Write-Host "❌ [ОШИБКА] Ошибка парсинга VERSION: $_" -ForegroundColor Red
