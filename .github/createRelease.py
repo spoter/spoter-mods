@@ -101,22 +101,6 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     return parse_builder_output(output)
 
 
-def filter_mod_paths(mod_list):
-    """
-    Фильтрация списка путей, чтобы оставить только те, которые содержат 'mod_'
-    сразу после разделителя пути.
-    """
-    # Регулярное выражение:
-    # [\\/] - любой разделитель пути (\ или /)
-    # mod_ - искомая последовательность символов
-    # $ - конец строки
-    pattern = r'[\\/]mod_.*$'
-
-    # Фильтрация списка с использованием регулярного выражения
-    result = [path for path in mod_list if re.search(pattern, path)]
-
-    return result
-
 def main():
     """Основная функция скрипта."""
     # Настройка парсера аргументов
@@ -136,7 +120,6 @@ def main():
     client_version_ru = args.lesta_version
     updated_mods = args.updated_mods
 
-    updated_mods = filter_mod_paths(updated_mods)
 
     debug(u"Received arguments:")
     debug(u"  Lesta version: {}".format(client_version_ru))
