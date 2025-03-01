@@ -3,8 +3,6 @@
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_muteSoundHotKey.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_muteSoundHotKey_RU.zip)
 #
-
-
 ## Описание мода:
     Горячая кнопка для включения\выключения звука в игре
 

@@ -3,7 +3,6 @@
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_restartRandomQueue.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_restartRandomQueue_RU.zip)
 #
-
 #### Описание мода:
     Сбрасывает очередь входа в рандом каждые 5 сек
 
