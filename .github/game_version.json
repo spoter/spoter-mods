@@ -14,5 +14,6 @@
     "mod_restartRandomQueue",
     "mod_server_turret_extended",
     "mod_spotted_extended_light"
-  ]
+  ],
+  "test_update": "0"
 }
