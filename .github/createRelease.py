@@ -6,7 +6,7 @@ import argparse
 import json
 import subprocess
 import codecs
-
+import re
 
 # Настройка вывода в консоль для поддержки UTF-8
 reload(sys)
@@ -101,6 +101,22 @@ def build_mod(mod_name, client_version_ru, client_version_wg):
     return parse_builder_output(output)
 
 
+def filter_mod_paths(mod_list):
+    """
+    Фильтрация списка путей, чтобы оставить только те, которые содержат 'mod_'
+    сразу после разделителя пути.
+    """
+    # Регулярное выражение:
+    # [\\/] - любой разделитель пути (\ или /)
+    # mod_ - искомая последовательность символов
+    # $ - конец строки
+    pattern = r'[\\/]mod_.*$'
+
+    # Фильтрация списка с использованием регулярного выражения
+    result = [path for path in mod_list if re.search(pattern, path)]
+
+    return result
+
 def main():
     """Основная функция скрипта."""
     # Настройка парсера аргументов
@@ -119,6 +135,8 @@ def main():
     client_version_wg = args.wg_version
     client_version_ru = args.lesta_version
     updated_mods = args.updated_mods
+
+    updated_mods = filter_mod_paths(updated_mods)
 
     debug(u"Received arguments:")
     debug(u"  Lesta version: {}".format(client_version_ru))
@@ -139,6 +157,8 @@ def main():
     print(u' RU версия: {}'.format(client_version_ru))
     print(u' WG версия: {}'.format(client_version_wg))
     print(u' Моды для сборки: {}\n'.format(', '.join(updated_mods)))
+
+
 
     # Обработка каждого мода
     for mod_name in updated_mods:
