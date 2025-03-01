@@ -553,14 +553,6 @@ jobs:
         env:
           DEBUG_MODE: "${{ env.DEBUG_MODE }}"
 
-      # 🔄 Шаг 8.1 Обновление GitHub CLI
-      - name: 🔄 Шаг 8.1. Обновление GitHub CLI
-        shell: pwsh
-        run: |
-          # Обновляем GitHub CLI и расширения
-          gh extension update gh
-          Write-Host "✅ GitHub CLI обновлен"
-
       # 📝 Шаг 9. Обновление README.md
       - name: 📝 Шаг 9. Обновление документации
         if: steps.check_commit.outputs.is_release == 'true'
