@@ -553,6 +553,14 @@ jobs:
         env:
           DEBUG_MODE: "${{ env.DEBUG_MODE }}"
 
+      # 🔄 Шаг 8.1 Обновление GitHub CLI
+      - name: 🔄 Шаг 8.1. Обновление GitHub CLI
+        shell: pwsh
+        run: |
+          # Обновляем GitHub CLI и расширения
+          gh extension update gh
+          Write-Host "✅ GitHub CLI обновлен"
+
       # 📝 Шаг 9. Обновление README.md
       - name: 📝 Шаг 9. Обновление документации
         if: steps.check_commit.outputs.is_release == 'true'
@@ -586,13 +594,13 @@ jobs:
           foreach ($mod in $mod_list) {
               $modReadmePath = "$mod/README.md"
               $modVersionPath = "$mod/source/VERSION"
-      
+          
               # 🔍 Проверка наличия файла версии
               if (-not (Test-Path $modVersionPath)) {
                   Write-Host "❌ [ОШИБКА] Файл VERSION не найден: $mod" -ForegroundColor Red
                   exit 1
               }
-      
+          
               # 🔄 Чтение версии мода с автоопределением кодировки
               try {
                   # Сначала пробуем UTF-8, затем системную кодировку
@@ -608,41 +616,40 @@ jobs:
                   Write-Host "❌ [ОШИБКА] Ошибка парсинга VERSION: $_" -ForegroundColor Red
                   exit 1
               }
-      
+          
               # 📝 Формируем новый контент
-              $newContent  = @(
-                  "# [$mod]: Latest Version (v$modVersion) [$(Get-Date -Format "yyyy-MM-dd HH:mm")]",
-                  "### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)",
-                  "### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)",
-                  "#"
+              $newContent = @(
+                  "# [$mod]: Latest Version (v$modVersion) [$(Get-Date -Format "yyyy-MM-dd HH:mm")]\n",
+                  "### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)\n",
+                  "### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)\n",
+                  "#\n"
               )
-      
+          
               # 🔄 Обновление или создание README.md
               if (Test-Path $modReadmePath) {
                   $content = Get-Content $modReadmePath -Raw
-                  # 🔍 Регулярка для поиска всего блока
-                  $pattern = "(?ms)^# \[$mod\]:.*?^#"
           
                   # 🔍 Проверяем, есть ли уже блок с версией
+                  $pattern = "(?ms)^# \[$mod\]:.*?^#"
                   if ($content -match $pattern) {
                       # ✅ Заменяем старый блок
-                      $content = $content -replace $pattern, "$content`n#"
+                      $content = $content -replace $pattern, ($newContent -join '')
                       if ($DebugEnabled) {
-                          Write-Host "🔵 [DEBUG] Добавлен новый блок в README.md для $mod"
+                          Write-Host "🔵 [DEBUG] Заменён существующий блок в README.md для $mod"
                       }
                   } else {
                       # ➕ Добавляем новый блок в начало
-                      $content = "$newContent`n`n$content"
+                      $content = ($newContent -join '') + "`n`n" + $content
                       if ($DebugEnabled) {
-                          Write-Host "🔵 [DEBUG] Обновлен существующий блок в README.md для $mod"
+                          Write-Host "🔵 [DEBUG] Добавлен новый блок в README.md для $mod"
                       }
                   }
               } else {
                   # 📄 Создаем новый файл
-                  $content = $newContent
+                  $content = $newContent -join ''
                   Write-Host "🆕 [INFO] Создан новый README.md для $mod"
               }
-      
+          
               # 🔐 Сохраняем в UTF-8 без BOM
               Set-Content -Path $modReadmePath -Value $content -Encoding UTF8
               Write-Host "✅ [УСПЕХ] README.md для $mod обновлен!" -ForegroundColor Green
@@ -742,7 +749,6 @@ jobs:
                   --title "Релиз: $commitMessage" `
                   --notes "$releaseBody" `
                   --latest `
-                  --force
               
               Write-Host "✅ Релиз успешно опубликован!" -ForegroundColor Green
           } catch {
