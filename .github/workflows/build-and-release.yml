@@ -216,7 +216,7 @@ jobs:
           $isAll = $commitMessage -match $allPattern
           $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
           
-          if ($isGameVersionChanged -or ($isAll -and $isRelease) {
+          if ($isGameVersionChanged -or ($isAll -and $isRelease)) {
             $isRelease = $isGameVersionChanged or $isAll
           }
           
