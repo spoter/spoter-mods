@@ -1,3 +1,9 @@
+# [mod_marksOnGunExtended]: Latest Version (v9.12) [2025-03-01 07:25]
+### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_marksOnGunExtended.zip)
+### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_marksOnGunExtended_RU.zip)
+#
+
+
 
 ## Описание мода:
     Прогресс отметки на орудие в бою и показ границ суммарного урона для взятия отметки в статистике танка.
@@ -13,6 +19,7 @@
 ![ScreenShot](./screen4.jpg)
 ![ScreenShot](./screen5.jpg)
 ![ScreenShot](./screen6.jpg)
+
 
 
 
