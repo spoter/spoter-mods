@@ -645,7 +645,8 @@ jobs:
               }
               
               # 🔐 Сохраняем в UTF-8 без BOM
-              Set-Content -Path $modReadmePath -Value $newContentFull -Encoding UTF8
+              $newContentFull = $newContentFull.Replace("`r`n", "`n")
+              $newContentFull | Out-File -FilePath $modReadmePath -Encoding utf8NoBOM -NoNewline
               Write-Host "✅ [УСПЕХ] README.md для $mod обновлен!" -ForegroundColor Green
           }
       
