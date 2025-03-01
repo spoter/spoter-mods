@@ -371,7 +371,7 @@ jobs:
           $changedFiles = "${{ steps.push-details.outputs.changed_files }}" -split ";"
           $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
 
-          $MOD_LIST = @()
+
           # 🧩 Формирование списка сборки
           $MOD_LIST = @()
           if ($isAll -or $isGameVersionChanged) {
@@ -380,12 +380,8 @@ jobs:
                       $modName = $matches.mod
                       if ($modListFromFile -contains $modName -and $MOD_LIST -notcontains $modName) {
                           $MOD_LIST += $modName
-                          if ($DebugEnabled) { 
-                              Write-Host "🔵 [DEBUG] Добавлен мод: $modName (изменен в коммите)" 
-                          }
-                      }
+                          if ($DebugEnabled) { Write-Host "🔵 [DEBUG] Добавлен мод: $modName (изменен в коммите)" }
                   }
-              }
               if ($DebugEnabled) { 
                   Write-Host "🔵 [DEBUG] Режим: ВСЕ моды (is_all=$isAll, game_version_changed=$isGameVersionChanged)" 
               }
@@ -395,14 +391,12 @@ jobs:
                       $modName = $matches.mod
                       if ($modListFromFile -contains $modName -and $MOD_LIST -notcontains $modName) {
                           $MOD_LIST += $modName
-                          if ($DebugEnabled) { 
-                              Write-Host "🔵 [DEBUG] Добавлен мод: $modName (изменен в коммите)" 
-                          }
+                          if ($DebugEnabled) { Write-Host "🔵 [DEBUG] Добавлен мод: $modName (изменен в коммите)" }
                       }
                   }
               }
           }
-          $MOD_LIST = $MOD_LIST | Where-Object { $_ -like "mod_*" }
+
           # ------------------------------
           # 7. 💾 Сохранение результатов
           # ------------------------------
