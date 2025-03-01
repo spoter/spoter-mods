@@ -1,6 +1,6 @@
 {
   "version": 3.13,
-  "source": "mod_serverTurretExtended.py",
+  "source": "mod_server_turret_extended.py",
   "meta": "configs/meta.xml",
   "config": "configs/serverTurretExtended.json",
   "i18n": "configs/i18n",
