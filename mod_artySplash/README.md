@@ -1,8 +1,8 @@
 # [mod_artySplash]
-
 # Latest Version (v2.17) [compiled: 2025-03-01]
-
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_artySplash.zip)
+### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_artySplash_RU.zip)
+#
 
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_artySplash_RU.zip)
 
@@ -21,6 +21,7 @@
 ## Скриншоты:
 ![ScreenShot](./screen.jpg)
 ![ScreenShot](./screen1.jpg)
+
 
 
 

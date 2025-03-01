@@ -1,8 +1,8 @@
 # [mod_mods_gui]
-
 # Latest Version (v3.05) [compiled: 2025-03-01]
-
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui.zip)
+### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui_RU.zip)
+#
 
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui_RU.zip)
 
@@ -186,6 +186,7 @@ def stopBattle(func, *args):
     # возвращаем результат выполнения оригинальной функции
     return func(*args)
 ```
+
 
 
 
