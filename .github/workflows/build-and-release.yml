@@ -365,14 +365,19 @@ jobs:
           $isAll = "${{ steps.check_commit.outputs.is_all }}" -eq "true"
           $changedFiles = "${{ steps.push-details.outputs.changed_files }}" -split ";"
           $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
-          
+
+          $MOD_LIST = @()
           if ($isAll -or $isGameVersionChanged) {
-              $MOD_LIST = $modListFromFile
+              foreach ($file in $modListFromFile) {
+                  if ($file -match "^(?<mod>mod_[^/]+)/source/") {
+                      $modName = $matches.mod
+                      if ($modListFromFile -contains $modName -and $MOD_LIST -notcontains $modName) {
+                          $MOD_LIST += $modName
+                          if ($DebugEnabled) { Write-Host "🔵 [DEBUG] Добавлен мод: $modName (изменен в коммите)" }
               if ($DebugEnabled) { 
                   Write-Host "🔵 [DEBUG] Режим: ВСЕ моды (is_all=$isAll, game_version_changed=$isGameVersionChanged)" 
               }
           } else {
-              $MOD_LIST = @()
               foreach ($file in $changedFiles) {
                   if ($file -match "^(?<mod>mod_[^/]+)/source/") {
                       $modName = $matches.mod
@@ -599,8 +604,8 @@ jobs:
               }
       
               # 📝 Формируем новый контент
-              $newLines = @(
-                  "# [$mod]: Latest Version (v$modVersion)",
+              $newContent  = @(
+                  "# [$mod]: Latest Version (v$modVersion) [$(Get-Date -Format "yyyy-MM-dd HH:mm")]",
                   "### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)",
                   "### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)",
                   "#"
@@ -608,26 +613,32 @@ jobs:
       
               # 🔄 Обновление или создание README.md
               if (Test-Path $modReadmePath) {
-                  $existingContent = Get-Content $modReadmePath -Raw
+                  $content = Get-Content $modReadmePath -Raw
+                  # 🔍 Регулярка для поиска всего блока
+                  $pattern = "(?ms)^# \[$mod\]:.*?^#"
+          
                   # 🔍 Проверяем, есть ли уже блок с версией
-                  if ($existingContent -notmatch "# \[$mod\]: Latest Version") {
-                      $newContent = $newLines + $existingContent
+                  if ($content -match $pattern) {
+                      # ✅ Заменяем старый блок
+                      $content = $content -replace $pattern, "$content`n#"
                       if ($DebugEnabled) {
                           Write-Host "🔵 [DEBUG] Добавлен новый блок в README.md для $mod"
                       }
                   } else {
-                      $newContent = $existingContent -replace "(?s)^# \[$mod\]:.*?#", ($newLines -join "`n")
+                      # ➕ Добавляем новый блок в начало
+                      $content = "$newContent`n`n$content"
                       if ($DebugEnabled) {
                           Write-Host "🔵 [DEBUG] Обновлен существующий блок в README.md для $mod"
                       }
                   }
               } else {
-                  $newContent = $newLines
+                  # 📄 Создаем новый файл
+                  $content = $newContent
                   Write-Host "🆕 [INFO] Создан новый README.md для $mod"
               }
       
               # 🔐 Сохраняем в UTF-8 без BOM
-              Set-Content -Path $modReadmePath -Value $newContent -Encoding UTF8
+              Set-Content -Path $modReadmePath -Value $content -Encoding UTF8
               Write-Host "✅ [УСПЕХ] README.md для $mod обновлен!" -ForegroundColor Green
           }
       
