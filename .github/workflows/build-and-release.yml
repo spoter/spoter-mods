@@ -119,7 +119,7 @@ jobs:
       # 3.3. Установка Python 2.7
       - name: 📥 Шаг 3.3. Установка интерпретатора
         id: setup-python
-        uses: LizardByte/setup-python-action@v1.1.0
+        uses: LizardByte/setup-python-action@master
         with:
           # 📌 Примечания:
           #   Устанавливает Python 2.7 только если:
