@@ -145,7 +145,7 @@ jobs:
 
           if (Test-Path $requirementsPath) {
               if ($DebugEnabled) { 
-                  Write-Host "📦 [DEBUG] Установка зависимостей из $requirementsPath:"
+                  Write-Host "📦 [DEBUG] Установка зависимостей из $requirementsPath :"
                   Get-Content $requirementsPath | ForEach-Object { Write-Host "  → $_" }
               }
               pip install --upgrade -r $requirementsPath
