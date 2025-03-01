@@ -217,7 +217,7 @@ jobs:
           $isGameVersionChanged = $changedFiles -contains ".github/game_version.json"
           
           if ($isGameVersionChanged -or ($isAll -and $isRelease)) {
-            $isRelease = $isGameVersionChanged or $isAll
+            $isRelease = ($isGameVersionChanged -or $isAll)
           }
           
           if ($DebugEnabled) {
