@@ -1,6 +1,4 @@
-# [mod_mods_gui]: Latest Version (v3.05) [2025-03-01 06:51] ### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui.zip) ### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui_RU.zip) #
-
-## Описание мода:
+# [mod_mods_gui]: Latest Version (v3.05) [2025-03-01 07:09]\n### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui.zip)\n### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui_RU.zip)\n#\n# Описание мода:
     Ядро для моих модов, графические настройки, хуки, ресурсы и т.д.
 ## Создание графических настроек:
 # Импорт настроек
@@ -171,6 +169,7 @@ def stopBattle(func, *args):
     # возвращаем результат выполнения оригинальной функции
     return func(*args)
 ```
+
 
 
 
