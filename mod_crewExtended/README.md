@@ -1,4 +1,3 @@
-# [mod_crewExtended]: Latest Version (v6.04) [2025-03-01 06:51] ### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_crewExtended.zip) ### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_crewExtended_RU.zip) #
 
 #### Описание мода:
     Прокачка экипажа, показывает количество боёв и опыта до следующего изучаемого перка экипажа

@@ -611,10 +611,10 @@ jobs:
           
               # 📝 Формируем новый контент
               $newContent = @(
-                  "# [$mod]: Latest Version (v$modVersion) [$(Get-Date -Format "yyyy-MM-dd HH:mm")]\n",
-                  "### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)\n",
-                  "### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)\n",
-                  "#\n"
+                  "# [$mod]: Latest Version (v$modVersion) [$(Get-Date -Format "yyyy-MM-dd HH:mm")]`n",
+                  "### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)`n",
+                  "### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)`n",
+                  "#`n"
               )
           
               # 🔄 Обновление или создание README.md
@@ -622,7 +622,7 @@ jobs:
                   $content = Get-Content $modReadmePath -Raw
           
                   # 🔍 Проверяем, есть ли уже блок с версией
-                  $pattern = "(?ms)^# \[$mod\]:.*?^#"
+                  $pattern = "(?ms)^# \[$mod\]:.*?^#`n"
                   if ($content -match $pattern) {
                       # ✅ Заменяем старый блок
                       $content = $content -replace $pattern, ($newContent -join '')
@@ -757,87 +757,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Добавляем токен
         run: |
           gh actions-cache delete --key python-2.7-${{ env.FORCE_CACHE_REFRESH }}  # ✅ Динамический ключ
-
-
-
-
-
-      # 🛠️ Шаг 100. Комплексный аудит релиза
-      - name: 🛠️ Шаг 100. Финальная проверка релиза
-        if: steps.check_commit.outputs.is_release == 'true'
-        shell: pwsh
-        env:
-          DEBUG_MODE: "${{ env.DEBUG_MODE }}"
-        run: |
-          <# 
-            .SYNOPSIS
-            Проводит полный аудит результатов workflow:
-            1. 🔄 Корректность передачи данных между шагами
-            2. 🧪 Валидность структур данных
-            3. 🛡️ Целостность релиза
-            4. 🔗 Работоспособность ссылок
-            5. 📦 Наличие всех архивов
-          #>
-          $ErrorActionPreference = "Stop"
-          $DebugEnabled = ($env:DEBUG_MODE -eq "true")
-      
-          # 🔄 Шаг 100.1: Проверка передачи переменных
-          if ($DebugEnabled) {
-              Write-Host "`n🔵 [DEBUG] Проверка переменных окружения:"
-              Write-Host "----------------------------------------"
-              Write-Host "🔄 WG Version: ${{ steps.process_game_version.outputs.wg_version }}"
-              Write-Host "🔄 Lesta Version: ${{ steps.process_game_version.outputs.lesta_version }}"
-              Write-Host "📋 Mod List: ${{ steps.process_game_version.outputs.mod_list }}"
-              Write-Host "🔑 Commit Hash: ${{ steps.push-details.outputs.commit_hash }}"
-              Write-Host "----------------------------------------"
-          }
-      
-          # 🧪 Шаг 100.2: Валидация версий
-          $versionPattern = '^\d+\.\d+\.\d+\.\d+$'
-          if (-not ("${{ steps.process_game_version.outputs.wg_version }}" -match $versionPattern)) {
-              Write-Host "❌ [ОШИБКА] Неверный формат WG_VERSION!" -ForegroundColor Red
-              exit 1
-          }
-      
-          # 📦 Шаг 100.3: Проверка архивов в релизе
-          Write-Host "`n🔵 Проверка наличия архивов в релизе 'latest'..."
-          try {
-              $releaseAssets = gh release view latest --json assets | ConvertFrom-Json
-              $modList = "${{ steps.process_game_version.outputs.mod_list }}" -split ";"
-              
-              foreach ($mod in $modList) {
-                  $requiredFiles = @("$mod.zip", "${mod}_RU.zip")
-                  foreach ($file in $requiredFiles) {
-                      if ($file -notin $releaseAssets.assets.name) {
-                          Write-Host "❌ [ОШИБКА] Отсутствует архив: $file" -ForegroundColor Red
-                          exit 1
-                      }
-                  }
-              }
-              Write-Host "✅ Все архивы присутствуют в релизе!" -ForegroundColor Green
-          } catch {
-              Write-Host "❌ [FATAL] Ошибка проверки релиза: $_" -ForegroundColor Red
-              exit 1
-          }
-      
-          # 🔗 Шаг 100.4: Проверка документации
-          Write-Host "`n🔵 Проверка ссылок в README.md..."
-          $modList = "${{ steps.process_game_version.outputs.mod_list }}" -split ";"
-          foreach ($mod in $modList) {
-              $readmePath = "$mod/README.md"
-              if (-not (Test-Path $readmePath)) {
-                  Write-Host "❌ [ОШИБКА] README.md не найден для мода: $mod" -ForegroundColor Red
-                  exit 1
-              }
-              
-              $content = Get-Content $readmePath -Raw
-              if (-not ($content -match "releases/download/latest/$mod\.zip")) {
-                  Write-Host "❌ [ОШИБКА] Некорректная ссылка WG для $mod" -ForegroundColor Red
-                  exit 1
-              }
-          }
-          Write-Host "✅ Все ссылки в документации корректны!" -ForegroundColor Green
-      
-          # 🎉 Финальный статус
-          Write-Host "`n🎉 Аудит успешно завершен! Все системы работают нормально." -ForegroundColor Green
-          
