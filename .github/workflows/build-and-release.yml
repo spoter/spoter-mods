@@ -611,9 +611,9 @@ jobs:
           
               # 📝 Формируем новый контент
               $newContent = @(
-                  "# [$mod]: Latest Version (v$modVersion) [$(Get-Date -Format "yyyy-MM-dd HH:mm")]`n",
-                  "### [**Скачать для World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)`n",
-                  "### [**Download for Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)`n",
+                  "# [$mod]: `n#Latest Version (v$modVersion) [compiled: $(Get-Date -Format "yyyy-MM-dd")]`n",
+                  "### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)`n",
+                  "### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)`n",
                   "#`n"
               )
           
@@ -711,13 +711,11 @@ jobs:
           # 3. 📝 Формирование описания релиза
           # ===========================================
           $releaseBody = @"
-          # 🚀 $commitMessage
-          ## Измененные моды ($($mod_list.Count)):
-          $($mod_list -join ", ")
+          # 🚀 $commitMessage 🚀
           
           ### Детали:
           - Хэш коммита: [$commitHash](https://github.com/spoter/spoter-mods/commit/$commitHash)
-          - Дата сборки: $(Get-Date -Format "yyyy-MM-dd HH:mm")
+          - Дата сборки: $(Get-Date -Format "yyyy-MM-dd")
           "@
       
           # ===========================================
@@ -738,7 +736,7 @@ jobs:
               # 🆕 Создание нового релиза с принудительной перезаписью
               gh release create "latest" `
                   $allArchives `
-                  --title "Релиз: $commitMessage" `
+                  --title "Release details: $commitMessage" `
                   --notes "$releaseBody" `
                   --latest `
               
