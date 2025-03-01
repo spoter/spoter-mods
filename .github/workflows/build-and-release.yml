@@ -9,8 +9,8 @@ jobs:
   build:
     runs-on: windows-latest
     env:  # ⚙️ Глобальные переменные для всех шагов
-      DEBUG_MODE: "true"  # Включить дебаг (true/false)
-      FORCE_CACHE_REFRESH: "false"  # ⚙️ Принудительное обновление кэша (true/false)
+      DEBUG_MODE: "false"  # Включить дебаг (true/false)
+      FORCE_CACHE_REFRESH: "true"  # ⚙️ Принудительное обновление кэша (true/false)
 
     steps:
 
@@ -119,14 +119,15 @@ jobs:
       # 3.3. Установка Python 2.7
       - name: 📥 Шаг 3.3. Установка интерпретатора
         id: setup-python
-        uses: LizardByte/setup-python-action@master
+        uses: LizardByte/setup-python-action@v1.1.0
         with:
           # 📌 Примечания:
           #   Устанавливает Python 2.7 только если:
           #   - Он не найден в системе (python_installed=false)
           #   - Или активирован флаг FORCE_CACHE_REFRESH
           python-version: "2.7"
-          cache: "false"  # Используем свой кэш
+          # architecture: x64  # 🔄 Опционально, если требуется
+          # cache: "false"  # Используем свой кэш # ❌ Параметр cache удален
         if: |
           steps.check-python.outputs.python_installed == 'false' || 
           env.FORCE_CACHE_REFRESH == 'true'
@@ -715,18 +716,21 @@ jobs:
           }
       
       
-
-      # 📝 Шаг 11. Очистка старых релизов
+      # 🗑️ Шаг 11. Очистка старых релизов (исправленный)
       - name: 🗑️ Шаг 11. Очистка старых релизов
         if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Добавляем токен
         run: |
           gh release delete "old-tag" --yes
 
-      # 📝 Шаг 12. Очистка кэша Python
-      - name: 🧹 12. Очистка кэша Python
+      # 🧹 Шаг 12. Очистка кэша Python (исправленный)
+      - name: 🧹 Шаг 12. Очистка кэша Python
         if: env.FORCE_CACHE_REFRESH == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Добавляем токен
         run: |
-          gh actions-cache delete --key python-2.7-true
+          gh actions-cache delete --key python-2.7-${{ env.FORCE_CACHE_REFRESH }}  # ✅ Динамический ключ
 
 
 

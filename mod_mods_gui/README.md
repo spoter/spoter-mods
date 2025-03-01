@@ -2,16 +2,15 @@
 ### [**Download to World of Tanks [1.27.1.0]**](https://github.com/spoter/spoter-mods/releases/download/v7/mod_mods_gui.zip)
 ### [**Скачать для Tanki Lesta [1.32.0.0]**](https://github.com/spoter/spoter-mods/releases/download/v7/mod_mods_gui_RU.zip)
 #
-# mod_mods_gui
-### Описание мода:
-#### Ядро для моих модов, графические настройки, хуки, ресурсы и т.д.
+## Описание мода:
+    Ядро для моих модов, графические настройки, хуки, ресурсы и т.д.
 ## Создание графических настроек:
-#### Импорт настроек
+# Импорт настроек
 ```python
     from gui.mods.mod_mods_gui import g_gui, inject
 ```
 
-#### Класс для хранения настроек и доступа к графическим настройкам в ангаре
+## Класс для хранения настроек и доступа к графическим настройкам в ангаре
 
 ```python
 # -*- coding: utf-8 -*-
