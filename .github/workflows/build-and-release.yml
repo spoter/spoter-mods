@@ -609,41 +609,36 @@ jobs:
                   exit 1
               }
           
-              # 📝 Формируем новый контент
               $newContent = @(
-                  "# [$mod]: `n#Latest Version (v$modVersion) [compiled: $(Get-Date -Format "yyyy-MM-dd")]`n",
-                  "### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)`n",
-                  "### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)`n",
-                  "#`n"
-              )
-          
+                  "# [$mod]",
+                  "# Latest Version (v$modVersion) [compiled: $(Get-Date -Format "yyyy-MM-dd")]",
+                  "### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/$mod.zip)",
+                  "### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/${mod}_RU.zip)",
+                  "#"
+              ) -join "`n" + "`n"  # Добавляем переводы строк
+              
               # 🔄 Обновление или создание README.md
               if (Test-Path $modReadmePath) {
+                  # Читаем ВЕСЬ файл
                   $content = Get-Content $modReadmePath -Raw
-          
-                  # 🔍 Проверяем, есть ли уже блок с версией
-                  $pattern = "(?ms)^# \[$mod\]:.*?^#`n"
-                  if ($content -match $pattern) {
-                      # ✅ Заменяем старый блок
-                      $content = $content -replace $pattern, ($newContent -join '')
-                      if ($DebugEnabled) {
-                          Write-Host "🔵 [DEBUG] Заменён существующий блок в README.md для $mod"
-                      }
-                  } else {
-                      # ➕ Добавляем новый блок в начало
-                      $content = ($newContent -join '') + "`n`n" + $content
-                      if ($DebugEnabled) {
-                          Write-Host "🔵 [DEBUG] Добавлен новый блок в README.md для $mod"
-                      }
+                  
+                  # Разделяем на первые 5 строк и остальное
+                  $splitContent = $content -split "`n", 6  # 5 разделителей = 6 частей
+                  
+                  # Если файл содержит меньше 5 строк, дополняем пустыми
+                  if ($splitContent.Count -lt 6) {
+                      $splitContent += @("") * (6 - $splitContent.Count)
                   }
+                  
+                  # Сохраняем новые первые 5 строк + остальное содержимое
+                  $newContentFull = $newContent + $splitContent[5]
               } else {
-                  # 📄 Создаем новый файл
-                  $content = $newContent -join ''
-                  Write-Host "🆕 [INFO] Создан новый README.md для $mod"
+                  # Создаем новый файл с 5 строками
+                  $newContentFull = $newContent
               }
-          
+              
               # 🔐 Сохраняем в UTF-8 без BOM
-              Set-Content -Path $modReadmePath -Value $content -Encoding UTF8
+              Set-Content -Path $modReadmePath -Value $newContentFull -Encoding UTF8
               Write-Host "✅ [УСПЕХ] README.md для $mod обновлен!" -ForegroundColor Green
           }
       
