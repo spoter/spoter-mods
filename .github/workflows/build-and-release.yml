@@ -31,7 +31,7 @@ jobs:
         run: |
           # Используем глобальную переменную DEBUG_MODE
           if ("${{ env.DEBUG_MODE }}" -eq "true") {
-              Write-Host "🚀 [DEBUG] Режим отладки активирован!"
+              Write-Host "🚀 [DEBUG] Режим чистой отладки активирован!"
           }
           <#
             .DESCRIPTION
@@ -72,6 +72,9 @@ jobs:
           $debugPattern = "(?i)\b(debug|d+e+b+u+g+|дебаг?|д[еэ]баг|отладк[аи]|debugged|debugging)\b"
           $isDebugEnabled = $commitMessage -match $debugPattern
           echo "auto_debug=$isDebugEnabled" >> $env:GITHUB_OUTPUT
+          if ("$isDebugEnabled" -eq "true") {
+              Write-Host "🚀 [DEBUG] Режим отладки активирован! (запрос из push)"
+          }
 
       # 🔍 Шаг 3: Настройка Python 2.7
       # --------------------------------------------------
