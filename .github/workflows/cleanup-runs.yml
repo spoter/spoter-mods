@@ -34,6 +34,7 @@ jobs:
       # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
       - name: Инициализация параметров
         run: |
+          echo "Инициализация параметров"
           echo "▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜"
           echo "▌ Запуск: $(date +'%Y-%m-%d %H:%M') МСК"
           echo "▌ Репозиторий: ${{ github.repository }}"
@@ -57,10 +58,15 @@ jobs:
           else
            cutoff_date=$(date -d "${{ inputs.max_days }} days ago" +"%Y-%m-%dT%H:%M:%SZ")
           fi
+          echo "Рассчёт граничной даты"
+            echo "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀"
+            echo " Обработка: cutoff_date"
+            echo "░░░░░░░░░░░░░░░░░░░░░░░░░░░"
 
           # Получение всех workflow
           gh api repos/${{ github.repository }}/actions/workflows | jq -r '.workflows[] | "\(.id)|\(.name)"' | while IFS='|' read -r wf_id wf_name; do
             
+            echo "Получение всех workflow"
             echo "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀"
             echo " Обработка: $wf_name"
             echo "░░░░░░░░░░░░░░░░░░░░░░░░░░░"
@@ -113,6 +119,7 @@ jobs:
       - name: Финальный отчёт
         if: always()
         run: |
+          echo "Финальный отчёт"
           echo "▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜"
           echo "▌ Завершено: $(date +'%Y-%m-%d %H:%M') МСК"
           echo "▌ Отчёт: https://github.com/${{ github.repository }}/actions"
