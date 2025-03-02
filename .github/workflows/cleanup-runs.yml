@@ -1,18 +1,95 @@
-name: Cleanup Old Workflow Runs
+name: 🧹 Global Workflows Cleanup
 
 on:
-  schedule:
-    - cron: "0 0 * * *" # Ежедневно в 00:00 UTC
   workflow_dispatch:
+    inputs:
+      debug_mode:
+        description: 'Enable debug output (true/false)'
+        required: false
+        default: 'false'
+  schedule:
+    - cron: "0 4 * * *" # 07:00 МСК UTC+3
 
 jobs:
-  cleanup:
+  cleanup-all:
     runs-on: ubuntu-latest
+    env:
+      GH_DEBUG: ${{ github.event.inputs.debug_mode || 'false' }}
+      KEEP_LAST: 3
+      PER_PAGE: 100
+
     steps:
-      - name: Cleanup workflow runs
-        uses: c-hive/gha-remove-workflow-runs@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: build-and-release.yml  # Имя вашего workflow-файла
-          keep: 3        # Оставить последние 3 запуска
-          keep_days: 0   # Не сохранять запуски по времени
+      - name: 🔍 Initialize Environment
+        run: |
+          echo "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"
+          echo "█                         █"
+          echo "█  WORKFLOW CLEANUP v3.0  █"
+          echo "█  Debug mode: $GH_DEBUG   █"
+          echo "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀"
+          echo "Current repository: ${{ github.repository }}"
+          echo "Current time: $(date)"
+
+      - name: 🛠️ Cleanup Workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # =========================================
+          # Main cleanup logic
+          # =========================================
+          set -e  # Exit immediately on error
+
+          # Get all workflows
+          echo "🕵️♂️ Fetching workflows..."
+          workflows=$(gh api "repos/${{ github.repository }}/actions/workflows" | jq -r '.workflows[] | "\(.id)|\(.name)"')
+
+          # Debug output
+          if [ "$GH_DEBUG" = "true" ]; then
+            echo "🔍 DEBUG: Found workflows:"
+            echo "$workflows" | awk -F'|' '{printf "📦 Workflow ID: %-6s ➡️  %s\n", $1, $2}'
+          fi
+
+          # Process each workflow
+          echo "$workflows" | while IFS='|' read -r workflow_id workflow_name; do
+            echo "🧼 Processing: $workflow_name (ID: $workflow_id)"
+
+            # Get runs for current workflow
+            runs=$(gh api "repos/${{ github.repository }}/actions/workflows/$workflow_id/runs?per_page=$PER_PAGE" | 
+              jq -r '.workflow_runs | sort_by(-.id) | .[].id')
+
+            # Calculate runs to delete
+            total=$(echo "$runs" | wc -l)
+            to_delete=$(echo "$runs" | tail -n +$(($KEEP_LAST + 1)))
+
+            # Debug info
+            if [ "$GH_DEBUG" = "true" ]; then
+              echo "📊 Workflow: $workflow_name"
+              echo "   Total runs: $total"
+              echo "   Keeping first: $KEEP_LAST"
+              echo "   To delete: $(echo "$to_delete" | wc -l)"
+              echo "   Run IDs to delete:"
+              echo "$to_delete" | xargs -n5 | awk '{print "      🗑️ "$0}'
+            fi
+
+            # Actual deletion (skip if debug)
+            if [ "$GH_DEBUG" = "false" ] && [ -n "$to_delete" ]; then
+              echo "🚮 Deleting $(echo "$to_delete" | wc -l) old runs..."
+              echo "$to_delete" | xargs -I{} gh api -X DELETE "repos/${{ github.repository }}/actions/runs/{}"
+            elif [ "$GH_DEBUG" = "true" ]; then
+              echo "🛑 Debug mode: No deletion performed"
+            fi
+
+            echo "✅ Finished processing $workflow_name"
+            echo "----------------------------------------"
+          done
+
+          # Final status
+          echo "✨ Cleanup completed successfully!"
+          echo "🕒 Execution time: $(date)"
+          echo "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"
+
+      - name: 📊 Post-Cleanup Report
+        if: always()
+        run: |
+          echo "📅 Last cleanup: $(date)"
+          echo "🧮 Workflows processed: $(gh api "repos/${{ github.repository }}/actions/workflows" | jq '.total_count')"
+          echo "🔗 GitHub Actions URL: https://github.com/${{ github.repository }}/actions"
