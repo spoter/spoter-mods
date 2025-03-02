@@ -1,18 +1,22 @@
-name: 🧹 Cleanup Workflow Runs
+name: 🧹 Очистка запусков
 
 on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Только логирование (true/false)'
+        description: 'Режим тестирования (true=логи, false=удаление)'
         required: false
-        default: 'false'
-      target_statuses:
-        description: 'Статусы через запятую (completed, failure и др.)'
+        default: 'true'
+      keep_last:
+        description: 'Минимальное количество сохраняемых запусков'
         required: false
-        default: 'completed,failure,cancelled'
-      exclude_workflows:
-        description: 'Исключить workflow по названиям'
+        default: '3'
+      max_days:
+        description: 'Удалять старше X дней (0=отключить)'
+        required: false
+        default: '7'
+      exclude_branches:
+        description: 'Ветки для исключения (через запятую)'
         required: false
 
   schedule:
@@ -22,63 +26,91 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     env:
-      KEEP_LAST: 3
-      LIMIT_PER_WORKFLOW: 100
+      LIMIT: 100
 
     steps:
-      - name: 🔧 Инициализация
+      # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      # 🛠️ ИНИЦИАЛИЗАЦИЯ
+      # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      - name: Инициализация параметров
         run: |
-          echo "🔄 Запуск: $(date +'%d.%m.%Y %H:%M')"
-          echo "Репозиторий: ${{ github.repository }}"
-          echo "Параметры:"
-          echo "- Тестовый режим: ${{ inputs.dry_run }}"
-          echo "- Удаляемые статусы: ${{ inputs.target_statuses }}"
-          echo "- Исключения: ${{ inputs.exclude_workflows }}"
+          echo "▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜"
+          echo "▌ Запуск: $(date +'%Y-%m-%d %H:%M') МСК"
+          echo "▌ Репозиторий: ${{ github.repository }}"
+          echo "▌ Параметры:"
+          echo "▌ • Тестовый режим: ${{ inputs.dry_run }}"
+          echo "▌ • Сохранить последних: ${{ inputs.keep_last }}"
+          echo "▌ • Удалить старше: ${{ inputs.max_days }} дней"
+          echo "▌ • Исключённые ветки: ${{ inputs.exclude_branches }}"
+          echo "▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟"
 
-      - name: 🗑️ Очистка запусков
+      # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      # 🗑️ ОСНОВНАЯ ЛОГИКА
+      # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      - name: Анализ и удаление
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Получение списка всех workflow
-          workflows=$(gh api repos/${{ github.repository }}/actions/workflows | jq -r '.workflows[] | "\(.id)|\(.name)"')
+          # Рассчёт граничной даты
+          cutoff_date=$(date -d "${{ inputs.max_days }} days ago" +"%Y-%m-%dT%H:%M:%SZ")
 
-          echo "$workflows" | while IFS='|' read -r wf_id wf_name; do
-            # Проверка исключений
-            if [[ "${{ inputs.exclude_workflows }}" == *"$wf_name"* ]]; then
-              echo "⏭️ Пропуск: $wf_name"
-              continue
-            fi
-
-            echo "🔍 Обработка: $wf_name (ID: $wf_id)"
+          # Получение всех workflow
+          gh api repos/${{ github.repository }}/actions/workflows | jq -r '.workflows[] | "\(.id)|\(.name)"' | while IFS='|' read -r wf_id wf_name; do
             
-            # Получение запусков с фильтрацией
-            runs=$(gh api "repos/${{ github.repository }}/actions/workflows/$wf_id/runs?per_page=$LIMIT_PER_WORKFLOW&status=completed" | 
-              jq -r --arg statuses "${{ inputs.target_statuses }}" \
-              '.workflow_runs[] | select(.status as $s | $s == ($ARGS.named.statuses | split(",")[])) | "\(.id)|\(.status)|\(.created_at)"')
+            echo "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀"
+            echo " Обработка: $wf_name"
+            echo "░░░░░░░░░░░░░░░░░░░░░░░░░░░"
 
-            # Сортировка и фильтрация
-            to_delete=$(echo "$runs" | sort -t'|' -k3 -r | tail -n +$(($KEEP_LAST + 1)))
+            # Фильтрация запусков
+            runs=$(gh api "repos/${{ github.repository }}/actions/workflows/$wf_id/runs?per_page=$LIMIT" | jq -r \
+              --arg cutoff "$cutoff_date" \
+              --arg exclude "${{ inputs.exclude_branches }}" \
+              '.workflow_runs[] | select(
+                .status != "in_progress" and 
+                (.created_at < $cutoff or $cutoff == "1970-01-01T00:00:00Z") and 
+                (($exclude == "") or (.branch | inside($exclude | split(",")) | not)
+              ) | "\(.id)|\(.status)|\(.created_at)|\(.branch)|\(.head_commit.message)"')
 
-            # Логирование
-            echo "📊 Статистика:"
-            echo "Всего запусков: $(echo "$runs" | wc -l)"
-            echo "Сохраняем: $KEEP_LAST"
-            echo "Удаляем: $(echo "$to_delete" | wc -l)"
+            # Сортировка и выборка
+            sorted_runs=$(echo "$runs" | sort -t'|' -k3 -r)
+            to_delete=$(echo "$sorted_runs" | tail -n +$((${{ inputs.keep_last }} + 1)))
 
-            # Удаление
             if [ -n "$to_delete" ]; then
-              echo "$to_delete" | while IFS='|' read -r run_id status date; do
-                echo "🚮 Удаление: ID $run_id (статус: $status, дата: $date)"
+              echo "╞════════════════════════════════"
+              echo " 📊 Статистика:"
+              echo " ├ Всего запусков: $(echo "$sorted_runs" | wc -l)"
+              echo " ├ Сохраняем: ${{ inputs.keep_last }}"
+              echo " └ Удаляем: $(echo "$to_delete" | wc -l)"
+              echo "╘════════════════════════════════"
+
+              echo "$to_delete" | while IFS='|' read -r run_id status created_at branch commit_msg; do
+                human_date=$(date -d "$created_at" +"%Y-%m-%d %H:%M")
+                echo " ┌ ID: $run_id"
+                echo " ├ Статус: $status"
+                echo " ├ Ветка: ${branch:-main}"
+                echo " ├ Дата: $human_date"
+                echo " └ Коммит: ${commit_msg:0:50}..."
+                
+                # Реальное удаление
                 if [ "${{ inputs.dry_run }}" = "false" ]; then
                   gh api -X DELETE "repos/${{ github.repository }}/actions/runs/$run_id"
                 fi
               done
+            else
+              echo "╞════════════════════════════════"
+              echo " ✅ Нет запусков для удаления"
+              echo "╘════════════════════════════════"
             fi
-            echo "────────────────────"
+            echo "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
           done
 
-      - name: 📈 Итоги
+      # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      # 📅 ИТОГИ
+      # ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      - name: Финальный отчёт
         if: always()
         run: |
-          echo "✅ Завершено: $(date +'%H:%M:%S')"
-          echo "Ссылка: https://github.com/${{ github.repository }}/actions"
+          echo "▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜"
+          echo "▌ Завершено: $(date +'%Y-%m-%d %H:%M') МСК"
+          echo "▌ Отчёт: https://github.com/${{ github.repository }}/actions"
+          echo "▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟"
