@@ -1,18 +1,18 @@
 name: Cleanup Old Workflow Runs
+
 on:
   schedule:
-    - cron: "0 0 * * *" # Запускать ежедневно в полночь
-  workflow_dispatch: # Ручной запуск
+    - cron: "0 0 * * *" # Ежедневно в 00:00 UTC
+  workflow_dispatch:
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete old runs
-        uses: konradpabjan/action-delete-old-workflow-runs@v2.0
+      - name: Cleanup workflow runs
+        uses: c-hive/gha-remove-workflow-runs@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          keep-last: 3 # Оставить последние 3 запуска
-          # Дополнительные фильтры (опционально):
-          repo: ${{ github.repository }}
-          workflow_file_name: "build-and-release.yml" # Имя вашего workflow-файла
+          workflow: build-and-release.yml  # Имя вашего workflow-файла
+          keep: 3        # Оставить последние 3 запуска
+          keep_days: 0   # Не сохранять запуски по времени
