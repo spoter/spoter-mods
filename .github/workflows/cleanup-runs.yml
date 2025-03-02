@@ -6,7 +6,7 @@ on:
       dry_run:
         description: 'Режим тестирования (true=логи, false=удаление)'
         required: false
-        default: 'true'
+        default: 'false'
       keep_last:
         description: 'Минимальное количество сохраняемых запусков'
         required: false
