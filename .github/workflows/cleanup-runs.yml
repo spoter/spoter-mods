@@ -1,4 +1,4 @@
-name: 🧹 Очистка запусков
+name: 🧹 Очистка запусков 🧹
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       dry_run:
         description: 'Режим тестирования (true=логи, false=удаление)'
         required: false
-        default: 'false'
+        default: 'true'
       keep_last:
         description: 'Минимальное количество сохраняемых запусков'
         required: false
@@ -52,7 +52,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Рассчёт граничной даты
-          cutoff_date=$(date -d "${{ inputs.max_days }} days ago" +"%Y-%m-%dT%H:%M:%SZ")
+          if [ "${{ inputs.max_days }}" = "0" ]; then
+           cutoff_date="1970-01-01T00:00:00Z"
+          else
+           cutoff_date=$(date -d "${{ inputs.max_days }} days ago" +"%Y-%m-%dT%H:%M:%SZ")
+          fi
 
           # Получение всех workflow
           gh api repos/${{ github.repository }}/actions/workflows | jq -r '.workflows[] | "\(.id)|\(.name)"' | while IFS='|' read -r wf_id wf_name; do
@@ -63,14 +67,13 @@ jobs:
 
             # Фильтрация запусков
             runs=$(gh api "repos/${{ github.repository }}/actions/workflows/$wf_id/runs?per_page=$LIMIT" | jq -r \
-              --arg cutoff "$cutoff_date" \
-              --arg exclude "${{ inputs.exclude_branches }}" \
-              '.workflow_runs[] | select(
-                .status != "in_progress" and 
-                (.created_at < $cutoff or $cutoff == "1970-01-01T00:00:00Z") and 
-                (($exclude == "") or (.branch | inside($exclude | split(",")) | not)
-              ) | "\(.id)|\(.status)|\(.created_at)|\(.branch)|\(.head_commit.message)"')
-
+             --arg cutoff "$cutoff_date" \
+             --arg exclude "${{ inputs.exclude_branches }}" \
+             '.workflow_runs[] | select(
+               .status != "in_progress" and 
+               (.created_at < $cutoff or $cutoff == "1970-01-01T00:00:00Z") and 
+               (($exclude == "") or (.branch | inside($exclude | split(",") | map(trim)) | not))
+             ) | "\(.id)|\(.status)|\(.created_at)|\(.branch)|\(.head_commit.message)"')
             # Сортировка и выборка
             sorted_runs=$(echo "$runs" | sort -t'|' -k3 -r)
             to_delete=$(echo "$sorted_runs" | tail -n +$((${{ inputs.keep_last }} + 1)))

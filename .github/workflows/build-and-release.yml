@@ -1,4 +1,4 @@
-name: Build and Release
+name: 🚀 Build and Release 🚀
 
 on:
   push:
@@ -713,13 +713,8 @@ jobs:
           # ===========================================
           # 3. 📝 Формирование описания релиза
           # ===========================================
-          $releaseBody = @"
-          # 🚀 $commitMessage 🚀
-          
-          ### Детали:
-          - Хэш коммита: [$commitHash](https://github.com/spoter/spoter-mods/commit/$commitHash)
-          - Дата сборки: $(Get-Date -Format "yyyy-MM-dd")
-          "@
+          $releaseBody = "# 🚀 $commitMessage 🚀`n### Детали:`n- Хэш коммита: [$commitHash](https://github.com/spoter/spoter-mods/commit/$commitHash)`n- Дата сборки: $(Get-Date -Format 'yyyy-MM-dd')"
+
       
           # ===========================================
           # 4. 🚀 Публикация релиза
@@ -748,13 +743,3 @@ jobs:
               Write-Host "❌ [FATAL] Ошибка: $_" -ForegroundColor Red
               exit 1
           }
-      
-      
-
-      # 🧹 Шаг 12. Очистка кэша Python (исправленный)
-      - name: 🧹 Шаг 12. Очистка кэша Python
-        if: ${{ env.FORCE_CACHE_REFRESH == 'true' }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ Добавляем токен
-        run: |
-          gh actions-cache delete --key python-2.7-${{ env.FORCE_CACHE_REFRESH }}  # ✅ Динамический ключ
