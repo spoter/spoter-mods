@@ -72,7 +72,7 @@ jobs:
              '.workflow_runs[] | select(
                .status != "in_progress" and 
                (.created_at < $cutoff or $cutoff == "1970-01-01T00:00:00Z") and 
-               (($exclude == "") or (.branch | inside($exclude | split(",") | map(trim)) | not))
+               (($exclude == "") or (.branch | inside($exclude | split(",") | map(gsub(" ";""))) | not))
              ) | "\(.id)|\(.status)|\(.created_at)|\(.branch)|\(.head_commit.message)"')
             # Сортировка и выборка
             sorted_runs=$(echo "$runs" | sort -t'|' -k3 -r)
