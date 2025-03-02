@@ -65,4 +65,4 @@
 - Для критически важных процессов добавьте их в `exclude_workflows`
 - Расписание: ежедневно в 07:00 МСК (`cron: "0 4 * * *"`)
 
-[Ссылка на файл workflow](.github/workflows/cleanup-runs.yml)
+[Ссылка на файл workflow](cleanup-runs.yml)
