@@ -19,8 +19,8 @@ from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE
 class _Config(object):
     def __init__(self):
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.13 (2025-02-24)'
-        self.version_id = 313
+        self.version = 'v3.14 (2025-03-09)'
+        self.version_id = 314
         self.author = 'by spoter, reven86'
         self.buttons = {
             'buttonAutoMode': [Keys.KEY_R, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -144,7 +144,7 @@ class MovementControl(object):
         InputHandler.g_instance.onKeyDown += self.keyPressed
         InputHandler.g_instance.onKeyUp += self.keyPressed
         self.timer = BigWorld.time()
-        SOUND_NOTIFICATIONS.TRANSITION_TIMER = 'siege_mode_transition_timer'
+        SoundNotifications.TRANSITION_TIMER = 'siege_mode_transition_timer'
         if self.callback is None:
             self.callback = BigWorld.callback(0.1, self.onCallback)
 
