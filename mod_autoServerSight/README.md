@@ -1,5 +1,5 @@
 # [mod_autoServerSight]
-# Latest Version (v1.03) [compiled: 2025-03-10]
+# Latest Version (v1.03) [compiled: 2025-03-16]
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_autoServerSight.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_autoServerSight_RU.zip)
 #

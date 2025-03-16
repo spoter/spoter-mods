@@ -1,5 +1,5 @@
 # [mod_mods_gui]
-# Latest Version (v3.05) [compiled: 2025-03-10]
+# Latest Version (v3.05) [compiled: 2025-03-16]
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_mods_gui_RU.zip)
 #
