@@ -1,12 +1,11 @@
 {
-  "CLIENT_VERSION_WG": "1.27.1.0",
-  "CLIENT_VERSION_RU": "1.32.0.0",
+  "CLIENT_VERSION_WG": "1.28.0.0",
+  "CLIENT_VERSION_RU": "1.33.0.0",
   "mod_list": [
     "mod_mods_gui",
     "mod_artySplash",
     "mod_autoServerSight",
     "mod_creditCalc",
-    "mod_crewExtended",
     "mod_discordHangar",
     "mod_marksOnGunExtended",
     "mod_muteSoundHotKey",
