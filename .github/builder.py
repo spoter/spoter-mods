@@ -51,8 +51,6 @@ CLIENT_VERSION_RU = sys.argv[2]  # Версия клиента для Lesta
 CLIENT_VERSION_WG = sys.argv[3]  # Версия клиента для WG
 COMPILE_EXE = 'python'             # Команда для компиляции (Python 2.7)
 MAIN_FOLDER = find_main_folder()
-# Выбор расширения архива для WG(*.wotmod) и LESTA(*.mtmod)
-MOD_EXTENSION = 'wotmod' if not CLIENT_VERSION_RU else 'mtmod'
 
 class Build(object):
     """
@@ -161,7 +159,7 @@ class Build(object):
         Компиляция исходного Python-файла, копирование meta-файла и ресурсов,
         генерация LICENSE и создание WOTMOD архива с помощью 7z.exe.
         """
-        debug(u"Building {} archive.".format(MOD_EXTENSION))
+        debug(u"Building mod archive.")
         source_py = os.path.join(self.directory_sources, self.config.get("source", ""))
         if not os.path.exists(source_py):
             raise IOError(u"Source file not found: {}".format(source_py))
@@ -218,12 +216,12 @@ class Build(object):
         # Формирование имени архива и упаковка с помощью 7z.exe
         archive_name = os.path.join(
             self.directory_release,
-            u'{}_{}.{}'.format(MOD_NAME, u'{:.2f}'.format(self.config.get("version", 0)), MOD_EXTENSION)
+            u'{}_{}.wotmod'.format(MOD_NAME, u'{:.2f}'.format(self.config.get("version", 0)))
         )
         seven_z = os.path.join(MAIN_FOLDER, '.github', '7z.exe')
         # УДАЛИТЬ
-        print("[DEBUG] 7z.exe path:", seven_z)
-        print("[DEBUG] 7z.exe exists:", os.path.exists(seven_z))
+        #print("[DEBUG] 7z.exe path:", seven_z)
+        #print("[DEBUG] 7z.exe exists:", os.path.exists(seven_z))
         # УДАЛИТЬ
         try:
             subprocess.check_call([
@@ -233,10 +231,34 @@ class Build(object):
                 os.path.join(self.directory_temp, os.path.basename(self.config.get("meta", ""))),
                 license_path
             ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            debug(u"{} archive created: {}".format(MOD_EXTENSION, archive_name))
+            debug(u"mod archive created: {}".format(archive_name))
         except subprocess.CalledProcessError as e:
-            debug(u"Error creating {} archive: {}".format(MOD_EXTENSION, e))
+            debug(u"Error creating mod archive: {}".format(e))
             raise
+
+        # Формирование имени архива и упаковка с помощью 7z.exe
+        archive_name = os.path.join(
+            self.directory_release,
+            u'{}_{}.mtmod'.format(MOD_NAME, u'{:.2f}'.format(self.config.get("version", 0)))
+        )
+        seven_z = os.path.join(MAIN_FOLDER, '.github', '7z.exe')
+        # УДАЛИТЬ
+        # print("[DEBUG] 7z.exe path:", seven_z)
+        # print("[DEBUG] 7z.exe exists:", os.path.exists(seven_z))
+        # УДАЛИТЬ
+        try:
+            subprocess.check_call([
+                seven_z, 'a', '-tzip', '-ssw', '-mx0',
+                archive_name,
+                os.path.join(self.directory_temp, 'res'),
+                os.path.join(self.directory_temp, os.path.basename(self.config.get("meta", ""))),
+                license_path
+            ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            debug(u"mod archive created: {}".format(archive_name))
+        except subprocess.CalledProcessError as e:
+            debug(u"Error creating mod archive: {}".format(e))
+            raise
+
 
     def create_license(self):
         """
@@ -267,6 +289,8 @@ class Release(object):
         self.build = build
         self.client_version = client_version
         self.lesta = lesta
+        # Выбор расширения архива для WG(*.wotmod) и LESTA(*.mtmod)
+        self.mod_extension = 'wotmod' if not self.lesta else 'mtmod'
         
         self.zip_dir = os.path.join(self.build.directory_base, 'zip')
         if not self.lesta:
@@ -307,14 +331,14 @@ class Release(object):
         # Копирование WOTMOD архива в папку с текущей версией
         wotmod_file = os.path.realpath(os.path.join(
             self.build.directory_release,
-            u'{}_{}.{}'.format(MOD_NAME, u'{:.2f}'.format(self.build.config.get("version", 0)), MOD_EXTENSION)
+            u'{}_{}.{}'.format(MOD_NAME, u'{:.2f}'.format(self.build.config.get("version", 0)), self.mod_extension)
         ))
         if os.path.isfile(wotmod_file):
             try:
                 shutil.copy2(wotmod_file, os.path.realpath(self.version_path_mod))
-                debug(u"Copied {} file to version directory.".format(MOD_EXTENSION))
+                debug(u"Copied {} file to version directory.".format(self.mod_extension))
             except Exception as e:
-                debug(u"Error copying {} file: {}".format(MOD_EXTENSION, e))
+                debug(u"Error copying {} file: {}".format(self.mod_extension, e))
                 raise
         
         # Копирование конфигурационного файла, если требуется
@@ -342,10 +366,10 @@ class Release(object):
         if 'mod_mods_gui' in MOD_NAME:
             additional_path = os.path.join(self.build.directory_sources, 'additional')
             if os.path.exists(additional_path):
-                for pattern in [u"*.{}".format(MOD_EXTENSION), u"*.txt_"]:
+                for pattern in [u"*.{}".format(self.mod_extension), u"*.txt_"]:
                     for file_path in glob.glob(os.path.join(additional_path, pattern)):
                         if os.path.isfile(file_path):
-                            dest = self.version_path_mod if pattern == u"*.{}".format(MOD_EXTENSION) else self.config_path
+                            dest = self.version_path_mod if pattern == u"*.{}".format(self.mod_extension) else self.config_path
                             try:
                                 shutil.copy2(file_path, os.path.realpath(dest))
                                 debug(u"Copied additional file {} to {}".format(file_path, dest))
@@ -355,10 +379,10 @@ class Release(object):
         else:
             additional_path = os.path.join(MAIN_FOLDER, 'mod_mods_gui', 'release')
             if os.path.exists(additional_path):
-                for pattern in [u"*.{}".format(MOD_EXTENSION), u"*.txt_"]:
+                for pattern in [u"*.{}".format(self.mod_extension), u"*.txt_"]:
                     for file_path in glob.glob(os.path.join(additional_path, pattern)):
                         if os.path.isfile(file_path):
-                            dest = self.version_path_mod if pattern == u"*.{}".format(MOD_EXTENSION) else os.path.join(self.mods_path, 'configs', 'mods_gui')
+                            dest = self.version_path_mod if pattern == u"*.{}".format(self.mod_extension) else os.path.join(self.mods_path, 'configs', 'mods_gui')
                             try:
                                 shutil.copy2(file_path, os.path.realpath(dest))
                                 debug(u"Copied additional file {} to {}".format(file_path, dest))
@@ -380,7 +404,7 @@ class Release(object):
         
         additional_path = os.path.join(self.build.directory_sources, 'addons', 'mods', 'oldskool')
         if os.path.exists(additional_path):
-            for file_path in glob.glob(os.path.join(additional_path, "*.{}".format(MOD_EXTENSION))):
+            for file_path in glob.glob(os.path.join(additional_path, "*.{}".format(self.mod_extension))):
                 if os.path.isfile(file_path):
                     dest = os.path.join(self.version_path, 'oldskool')
                     try:
