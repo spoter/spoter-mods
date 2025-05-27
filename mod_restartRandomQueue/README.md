@@ -1,5 +1,5 @@
 # [mod_restartRandomQueue]
-# Latest Version (v1.12) [compiled: 2025-03-16]
+# Latest Version (v1.12) [compiled: 2025-05-27]
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_restartRandomQueue.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_restartRandomQueue_RU.zip)
 #
