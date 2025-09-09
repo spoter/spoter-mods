@@ -17,7 +17,6 @@ from constants import ARENA_BONUS_TYPE
 from dossiers2.ui.achievements import ACHIEVEMENT_BLOCK
 from gui import InputHandler, g_guiResetters
 from gui.Scaleform.daapi.view.lobby.profile.ProfileUtils import ProfileUtils
-from gui.impl.lobby.crew.widget.crew_widget import CrewWidget
 from gui.battle_control.controllers import feedback_events
 from gui.shared.gui_items.dossier.achievements.mark_on_gun import MarkOnGunAchievement
 from helpers import dependency
@@ -1384,12 +1383,32 @@ config = Config()
 flash = Flash()
 worker = Worker()
 
+try:
+    from gui.impl.lobby.hangar.presenters.crew_presenter import CrewPresenter
 
-@inject.hook(CrewWidget, '_CrewWidget__updateWidgetModel')
-@inject.log
-def CrewWidget_updateWidgetModel(func, *args):
-    worker.getCurrentHangarData()
-    return func(*args)
+    @inject.hook(CrewPresenter, '_CrewPresenter__updateCrewModel')
+    @inject.log
+    def CrewPresenter_updateCrewModel(func, *args):
+        worker.getCurrentHangarData()
+        return func(*args)
+
+
+except (ImportError, AttributeError):
+    pass
+
+
+try:
+    from gui.impl.lobby.crew.widget.crew_widget import CrewWidget
+
+    @inject.hook(CrewWidget, '_CrewWidget__updateCrewModel')
+    @inject.log
+    def CrewWidget_updateCrewModel(func, *args):
+        worker.getCurrentHangarData()
+        return func(*args)
+
+
+except (ImportError, AttributeError):
+    pass
 
 
 @inject.hook(PlayerAvatar, 'onBattleEvents')
