@@ -26,7 +26,8 @@ from gui.mods.mod_mods_gui import g_gui, inject
 # Различные версии клиента
 try:
     # EU-клиент
-    from AvatarInputHandler.siege_mode_player_notifications import SoundNotifications
+    # wot 2.0.0.0
+    from AvatarInputHandler.player_notifications.siege_mode.sound_notifications import SoundNotifications
 except ImportError:
     # LESTA-клиент
     # noinspection PyUnresolvedReferences,PyPep8Naming
