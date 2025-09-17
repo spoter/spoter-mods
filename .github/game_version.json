@@ -4,6 +4,7 @@
   "mod_list": [
     "mod_mods_gui",
     "mod_marksOnGunExtended",
+    "mod_server_turret_extended",
   ],
   "test_update": "0"
 }
