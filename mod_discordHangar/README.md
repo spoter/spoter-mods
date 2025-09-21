@@ -1,5 +1,5 @@
 # [mod_discordHangar]
-# Latest Version (v1.03) [compiled: 2025-05-27]
+# Latest Version (v1.03) [compiled: 2025-09-21]
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_discordHangar.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_discordHangar_RU.zip)
 #
