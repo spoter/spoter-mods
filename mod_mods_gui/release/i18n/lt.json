@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODAI - Nustatymai",
+  "gui_windowTitle": "Modų nustatymai",
+  "gui_buttonOK": "Gerai",
+  "gui_buttonCancel": "Atšaukti",
+  "gui_buttonApply": "Taikyti",
+  "gui_enableButtonTooltip": "{HEADER}Modų nustatymai{/HEADER}{BODY}Įjungti | Išjungti modus ir sukonfigūruoti nustatymus{/BODY}",
+  "web_resetToDefault": "Atkurti numatytuosius:",
+  "web_saved": "Išsaugota!",
+  "web_saveError": "Klaida išsaugant nustatymus. Išsamesnę informaciją rasite konsolėje.",
+  "version": 305
+}

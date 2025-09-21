@@ -1,0 +1,12 @@
+﻿{
+    "gui_name":  "МОДИ - Налаштування",
+    "gui_windowTitle":  "Налаштування модів",
+    "gui_buttonOK":  "OK",
+    "gui_buttonCancel":  "Скасувати",
+    "gui_buttonApply":  "Застосувати",
+    "gui_enableButtonTooltip":  "{HEADER}Налаштування модів{/HEADER}{BODY}Увімкнути | Вимкнути моди та налаштувати параметри{/BODY}",
+    "web_resetToDefault":  "Скинути до стандартних:",
+    "web_saved":  "Збережено!",
+    "web_saveError":  "Помилка збереження налаштувань. Перевірте консоль для подробиць.",
+    "version": 305
+}

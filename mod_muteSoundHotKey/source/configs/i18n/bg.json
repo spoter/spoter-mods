@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Горещ клавиш за заглушаване на звука",
+    "UI_setting_hotkey_text":  "Клавишна комбинация",
+    "UI_setting_showMessage_text":  "Показвай съобщение за състоянието в битка",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Възстановявай звука след края на битката",
+    "UI_setting_soundMuted":  "Звукът на играта ВКЛ",
+    "UI_setting_soundRestored":  "Звукът на играта ИЗКЛ",
+    "UI_setting_mutedSoundVolume_text":  "Минимално ниво на звук при заглушаване",
+    "UI_setting_hotkey_tooltip":  "Задайте клавиш за превключване на звука на играта (по подразбиране F9).",
+    "UI_setting_showMessage_tooltip":  "Показвай съобщение за състоянието в битка при превключване.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Автоматично възстановявай главната сила на звука след края на битката.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Ниво на главната сила на звука (%) при заглушаване.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

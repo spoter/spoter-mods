@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Forbedret presisjon og automatisk hjul‑modus",
+    "UI_setting_activateMessage_text":  "Vis aktiveringsmelding",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Vis aktiveringsmelding i kamp.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Behold siktepresisjon etter stopp",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Etter bevegelse og stopp beholdes siktet for å unngå ekstra spredning.{/BODY}",
+    "UI_setting_serverTurret_text":  "Tårnsynk (serversikte)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Justerer tårnet til serversiktet. Krever «Serversikte» aktivert i innstillingene.{/BODY}",
+    "UI_battle_activateMessage":  "Forbedret presisjon og auto hjul: aktivert",
+    "UI_setting_fixWheelCruiseControl_text":  "Hjul: cruise‑kontroll‑fiks",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Hindrer at kjøretøyet stopper ved modusskifte med cruise‑kontroll på.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Hjul: behold maks hastighet",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Ved toppfart forblir hastighetsmodus aktiv under manøvrering.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Hurtigtast: behold maks hastighet",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Hjul: automatisk hastighetsmodus",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Bytter automatisk mellom hastighets‑ og manøvreringsmodus.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Hurtigtast: auto hastighetsmodus",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "PÅ",
+    "UI_battle_OFF":  "AV",
+    "version": 315
+}

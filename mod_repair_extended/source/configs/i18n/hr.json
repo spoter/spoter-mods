@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Gumb: Vrati šasija", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Gumb: Pametni popravak", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Popravak produžen", 
+  "UI_repair_removeStun_text": "Uklonite omamljenje", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Koristite zlatne setove", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Ugasiti vatru", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Liječiti posada", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Vrati šasija", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Uređaji za popravak", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

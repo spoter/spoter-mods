@@ -15,6 +15,9 @@ from gui import InputHandler
 from gui.shared.gui_items import Vehicle
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 
+OVER_TERRAIN_HEIGHT = 0.5
+MARKER_HEIGHT = 5.0
+COLOR_WHITE = 4294967295L
 
 # Removed in wot ver. 1.26.00
 class _StaticWorldObjectMarker3D(object):
@@ -65,7 +68,7 @@ class _StaticWorldObjectMarker3D(object):
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.17 (2025-02-24)'
+        self.version = 'v2.17 (2025-09-21)'
         self.author = 'by spoter'
         self.version_id = 217
         self.buttons = {
@@ -167,9 +170,12 @@ class ArtyBall(object):
             self.modelSplash.model.visible = False
             self.modelDot.model.visible = False
             self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
-            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.model', Math.Vector2(2.0, 2.0), 0.5, 4294967295L, BigWorld.player().spaceID)
+            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_white.visual', Math.Vector2(2.0, 2.0), OVER_TERRAIN_HEIGHT, COLOR_WHITE, BigWorld.player().spaceID)
             self.modelSplash.model.root.attach(self.modelSplashCircle)
-            self.modelSplashCircle.enableAccurateCollision(False)
+            self.modelSplashCircle.enableAccurateCollision(True)
+            self.modelSplashCircle.enableWaterCollision(True)
+            self.modelSplashCircle.setCutOffDistance(MARKER_HEIGHT)
+
 
     def stopBattle(self):
         InputHandler.g_instance.onKeyDown -= self.injectButton
@@ -211,10 +217,16 @@ class ArtyBall(object):
         if not config.data['showModeArty'] and self.player.inputHandler.ctrlModeName in [CTRL_MODE_NAME.STRATEGIC, CTRL_MODE_NAME.ARTY]:
             self.hideVisible()
             return
-
+        explosionRadius = shell.type.explosionRadius  # shell.type.explosionRadius
+        stunRadius = 0
+        if shell.hasStun:
+            stun = shell.stun
+            stunRadius = stun.stunRadius
+        if stunRadius > explosionRadius:
+            explosionRadius = stunRadius
         if self.modelSplash is not None and self.modelSplash.model:
-            if not self.scaleSplash or self.scaleSplash != shell.type.explosionRadius:
-                self.scaleSplash = shell.type.explosionRadius
+            if not self.scaleSplash or self.scaleSplash != explosionRadius:
+                self.scaleSplash = explosionRadius
                 self.modelSplash.model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']

@@ -1,9 +1,12 @@
 ﻿{
-    "gui_buttonApply": "Uygula",
-    "gui_buttonCancel": "İptal et",
-    "gui_buttonOK": "Tamam",
-    "gui_enableButtonTooltip": "{HEADER}Mod Tercihleri{/HEADER}{BODY}Etkinleştir|Modları ve yapılandırma ayarlarını devredışı bırak{/BODY}",
-    "gui_name": "Modlar - Tercihler",
-    "gui_windowTitle": "Mod Tercihleri",
-    "version": 305
+  "gui_name": "MODLAR - Ayarlar",
+  "gui_windowTitle": "Mod ayarları",
+  "gui_buttonOK": "Tamam",
+  "gui_buttonCancel": "İptal",
+  "gui_buttonApply": "Uygula",
+  "gui_enableButtonTooltip": "{HEADER}Mod ayarları{/HEADER}{BODY}Modları etkinleştir | devre dışı bırak ve ayarları yapılandır{/BODY}",
+  "web_resetToDefault": "Varsayılana sıfırla:",
+  "web_saved": "Kaydedildi!",
+  "web_saveError": "Ayarlar kaydedilirken hata oluştu. Ayrıntılar için konsolu kontrol edin.",
+  "version": 305
 }

@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Knapp: Visa eller dölj den riktande pricken", 
+  "UI_setting_buttonShowSplash_text": "Knapp: Visa eller dölj stänkradie", 
+  "UI_setting_messageDotOff": "Han stänk: siktande prick funktionshindrad", 
+  "UI_setting_messageDotOn": "Han stänk: siktande prick aktiverad", 
+  "UI_setting_messageSplashOff": "Han stänk: stänkradie funktionshindrad", 
+  "UI_setting_messageSplashOn": "Han stänk: stänkradie aktiverad", 
+  "UI_setting_name": "Han stänk", 
+  "UI_setting_showModeArcade_text": "Arkadläge tillgängligt", 
+  "UI_setting_showModeArty_text": "Artilleriläge tillgängligt", 
+  "UI_setting_showModeSniper_text": "Sniper -läge tillgängligt", 
+  "UI_setting_showDotOnDefault_text": "Aktivera den riktande pricken som standard", 
+  "UI_setting_showSplashOnDefault_text": "Aktivera stänkradie som standard", 
+  "version": 217
+}

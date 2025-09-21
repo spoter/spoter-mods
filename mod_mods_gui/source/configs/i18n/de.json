@@ -1,9 +1,12 @@
 ﻿{
-    "gui_buttonApply": "Anwenden",
-    "gui_buttonCancel": "Abbrechen",
-    "gui_buttonOK": "Ok",
-    "gui_enableButtonTooltip": "{HEADER}Mods settings{/HEADER}{BODY}Aktiviere|Deaktiviere Mod und Einstellungen{/BODY}",
-    "gui_name": "MODS - Einstellungen",
-    "gui_windowTitle": "Mods Einstellungen",
-    "version": 305
+  "gui_name": "MODS - Einstellungen",
+  "gui_windowTitle": "Mods-Einstellungen",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Abbrechen",
+  "gui_buttonApply": "Übernehmen",
+  "gui_enableButtonTooltip": "{HEADER}Mods-Einstellungen{/HEADER}{BODY}Mods aktivieren | deaktivieren und Einstellungen konfigurieren{/BODY}",
+  "web_resetToDefault": "Auf Standard zurücksetzen:",
+  "web_saved": "Gespeichert!",
+  "web_saveError": "Fehler beim Speichern der Einstellungen. Details in der Konsole.",
+  "version": 305
 }

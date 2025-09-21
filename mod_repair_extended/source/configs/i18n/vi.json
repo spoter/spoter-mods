@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Nút: Khôi phục khung gầm", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Nút: Sửa chữa thông minh", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Sửa chữa mở rộng", 
+  "UI_repair_removeStun_text": "Loại bỏ choáng", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Sử dụng bộ dụng cụ vàng", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Dập tắt lửa", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "HEAL CREM", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Khôi phục khung gầm", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Thiết bị sửa chữa", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Buton: Afișați sau ascundeți punctul vizat", 
+  "UI_setting_buttonShowSplash_text": "Buton: Afișați sau ascundeți raza splash", 
+  "UI_setting_messageDotOff": "El stropește: DOP DOT dezactivat", 
+  "UI_setting_messageDotOn": "El stropește: DOP DOT activat", 
+  "UI_setting_messageSplashOff": "El stropește: raza splash dezactivat", 
+  "UI_setting_messageSplashOn": "El stropește: raza splash activat", 
+  "UI_setting_name": "El stropește", 
+  "UI_setting_showModeArcade_text": "Modul arcade disponibil", 
+  "UI_setting_showModeArty_text": "Mod de artilerie disponibil", 
+  "UI_setting_showModeSniper_text": "Modul lunetist disponibil", 
+  "UI_setting_showDotOnDefault_text": "Activați implicit DOT -ul vizat", 
+  "UI_setting_showSplashOnDefault_text": "Activați în mod implicit raza de splash", 
+  "version": 217
+}

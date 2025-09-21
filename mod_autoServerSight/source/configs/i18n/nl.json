@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatisch servervizier", 
+  "UI_setting_lightTank_text": "voor lichte tanks", 
+  "UI_setting_mediumTank_text": "voor middelzware tanks", 
+  "UI_setting_heavyTank_text": "voor zware tanks", 
+  "UI_setting_SPG_text": "voor artillerie", 
+  "UI_setting_AT-SPG_text": "voor tankjagers", 
+  "version": 103
+}

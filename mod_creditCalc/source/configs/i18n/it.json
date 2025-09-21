@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Background in battaglia",
+  "UI_setting_battleShow_text": "Mostra in battaglia",
+  "UI_setting_hangarBackground_text": "Sfondo nel garage",
+  "UI_setting_hangarShow_text": "Mostra nel garage",
+  "UI_setting_label1_text": "Attendi la fine della battaglia senza tornare all'hangar. Entrate: verde = vittoria, rosso = sconfitta. Spese: munizioni e consumabili.",
+  "UI_setting_label2_text": "Informazioni aggiuntive in battaglia: premi i tasti ALT e CTRL",
+  "UI_setting_label_text": "Calcolare i crediti in battaglia; una differenza di ±1000 argento è una dispersione normale. Se è maggiore, gioca una battaglia senza infliggere danni.",
+  "UI_setting_battle_x_text": "Posizione del testo in battaglia: X",
+  "UI_setting_battle_y_text": "Posizione del testo in battaglia: Y",
+  "UI_setting_hangar_x_text": "Posizione del testo nel garage: X",
+  "UI_setting_hangar_y_text": "Posizione del testo nel garage: Y",
+  "version": 211
+}

@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - Inställningar",
+  "gui_windowTitle": "Mod-inställningar",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Avbryt",
+  "gui_buttonApply": "Verkställ",
+  "gui_enableButtonTooltip": "{HEADER}Mod-inställningar{/HEADER}{BODY}Aktivera | Inaktivera mods och konfigurera inställningar{/BODY}",
+  "web_resetToDefault": "Återställ till standard:",
+  "web_saved": "Sparat!",
+  "web_saveError": "Fel vid sparning av inställningar. Kontrollera konsolen för mer information.",
+  "version": 305
+}

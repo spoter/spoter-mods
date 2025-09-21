@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Tło w bitwie",
+  "UI_setting_battleShow_text": "Wyświetl w bitwie",
+  "UI_setting_hangarBackground_text": "Tło w garażu",
+  "UI_setting_hangarShow_text": "Wyświetl w garażu",
+  "UI_setting_label1_text": "Poczekaj, aż bitwa się zakończy bez ucieczki do hangaru. Dochód: Zielone zwycięstwo, czerwona porażka, wynik: amunicja i materiały eksploatacyjne.",
+  "UI_setting_label2_text": "Dodatkowe informacje w bitwie: naciśnij klawisze ALT i CTRL",
+  "UI_setting_label_text": "Obliczanie kredytów w bitwie; różnica ±1000 srebra to normalna dyspersja. Jeśli większa — rozegraj jedną bitwę bez zadawania uszkodzeń.",
+  "UI_setting_battle_x_text": "Pozycja tekstu w bitwie: X",
+  "UI_setting_battle_y_text": "Pozycja tekstu w bitwie: Y",
+  "UI_setting_hangar_x_text": "Pozycja tekstu w garażu: X",
+  "UI_setting_hangar_y_text": "Pozycja tekstu w garażu: Y",
+  "version": 211
+}

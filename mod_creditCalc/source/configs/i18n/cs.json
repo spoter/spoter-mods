@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Pozadí v bitvě",
+  "UI_setting_battleShow_text": "Ukázat v bitvě",
+  "UI_setting_hangarBackground_text": "Pozadí v garáži",
+  "UI_setting_hangarShow_text": "Zobrazit v garáži",
+  "UI_setting_label1_text": "Počkejte, až bude bitva dokončena bez úniku do hangáru. Příjem: Zelené vítězství, červená porážka, výsledek: Ammo a spotřební materiál.",
+  "UI_setting_label2_text": "Další info v bitvě: stiskněte klávesy ALT a CTRL",
+  "UI_setting_label_text": "Počítat kredity v bitvě; rozdíl ±1000 stříbra je běžný rozptyl. Je-li větší, odehrajte jednu bitvu bez poškození.",
+  "UI_setting_battle_x_text": "Pozice bitevního textu: X",
+  "UI_setting_battle_y_text": "Pozice bitevního textu: Y",
+  "UI_setting_hangar_x_text": "Pozice textu v garáži: X",
+  "UI_setting_hangar_y_text": "Pozice textu v garáži: Y",
+  "version": 211
+}

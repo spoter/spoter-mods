@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Дугме: Прикажи или сакриј тачку циља", 
+  "UI_setting_buttonShowSplash_text": "Дугме: Прикажи или сакриј радијус прскања", 
+  "UI_setting_messageDotOff": "Прскао је: циљање тачке инвалидски", 
+  "UI_setting_messageDotOn": "Прскао је: циљање тачке омогућено", 
+  "UI_setting_messageSplashOff": "Прскао је: у радијусу прскања инвалидски", 
+  "UI_setting_messageSplashOn": "Прскао је: у радијусу прскања омогућено", 
+  "UI_setting_name": "Прскао је", 
+  "UI_setting_showModeArcade_text": "Аркадни режим доступан", 
+  "UI_setting_showModeArty_text": "Артиљеријски режим доступан", 
+  "UI_setting_showModeSniper_text": "Сниперски режим је доступан", 
+  "UI_setting_showDotOnDefault_text": "Омогућите усмерени дот за циљ", 
+  "UI_setting_showSplashOnDefault_text": "Омогућите полумјер прскања подразумевано", 
+  "version": 217
+}

@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Précision améliorée et mode automatique pour véhicules à roues",
+    "UI_setting_activateMessage_text":  "Afficher le message d’activation",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info :{/HEADER}{BODY}Affiche le message d’activation en bataille.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Conserver la visée après l’arrêt",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info :{/HEADER}{BODY}Après un déplacement et un arrêt, conserve la visée pour éviter une dispersion supplémentaire.{/BODY}",
+    "UI_setting_serverTurret_text":  "Synchronisation de tourelle (réticule serveur)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info :{/HEADER}{BODY}Aligne la tourelle sur le réticule serveur. Nécessite l’option « Réticule serveur » activée.{/BODY}",
+    "UI_battle_activateMessage":  "Précision améliorée et mode roues auto : activé",
+    "UI_setting_fixWheelCruiseControl_text":  "Roues : correction du régulateur de vitesse",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info :{/HEADER}{BODY}Empêche l’arrêt du véhicule lors du changement de mode avec le régulateur de vitesse activé.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Roues : maintenir la vitesse maximale",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info :{/HEADER}{BODY}À vitesse maximale, ne quitte pas le mode vitesse lors des manœuvres.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Raccourci : maintenir la vitesse maximale",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Roues : mode vitesse automatique",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info :{/HEADER}{BODY}Bascule automatiquement entre mode vitesse et mode maniabilité.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Raccourci : mode vitesse automatique",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ACTIF",
+    "UI_battle_OFF":  "INACTIF",
+    "version": 315
+}

@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatische Serversicht", 
+  "UI_setting_lightTank_text": "für Leichtpanzer", 
+  "UI_setting_mediumTank_text": "für Mittlere Panzer", 
+  "UI_setting_heavyTank_text": "für Schwere Panzer", 
+  "UI_setting_SPG_text": "für SFL", 
+  "UI_setting_AT-SPG_text": "für Jagdpanzer", 
+  "version": 103
+}

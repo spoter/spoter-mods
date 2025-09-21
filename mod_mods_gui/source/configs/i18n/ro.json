@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODURI - Preferințe",
+  "gui_windowTitle": "Preferințe moduri",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Anulează",
+  "gui_buttonApply": "Aplică",
+  "gui_enableButtonTooltip": "{HEADER}Preferințe moduri{/HEADER}{BODY}Activează | Dezactivează modurile și configurează setările{/BODY}",
+  "web_resetToDefault": "Resetează la valorile implicite:",
+  "web_saved": "Salvat!",
+  "web_saveError": "Eroare la salvarea setărilor. Verifică consola pentru detalii.",
+  "version": 305
+}

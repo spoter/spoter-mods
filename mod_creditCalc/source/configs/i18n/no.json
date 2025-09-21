@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Bakgrunn i kamp",
+  "UI_setting_battleShow_text": "Vis i kamp",
+  "UI_setting_hangarBackground_text": "Bakgrunn i garasje",
+  "UI_setting_hangarShow_text": "Vis i garasje",
+  "UI_setting_label1_text": "Vent til slaget er komplett uten flukt inn i hangaren. Inntekt: Grønn seier, rødt nederlag, utfall: ammunisjon og forbruksvarer.",
+  "UI_setting_label2_text": "Ytterligere info i kamp: Trykk på alt- og kontrollknapper",
+  "UI_setting_label_text": "Beregn kreditter i kamp; en forskjell på ±1000 sølv er normal spredning. Hvis større, spill én kamp uten skade.",
+  "UI_setting_battle_x_text": "Kamptekstposisjon: X",
+  "UI_setting_battle_y_text": "Kamptekstposisjon: Y",
+  "UI_setting_hangar_x_text": "Garasje-tekstposisjon: X",
+  "UI_setting_hangar_y_text": "Garasje-tekstposisjon: Y",
+  "version": 211
+}

@@ -1,0 +1,12 @@
+﻿{
+    "gui_name":  "MODS - Preferenze",
+    "gui_windowTitle":  "Preferenze mod",
+    "gui_buttonOK":  "OK",
+    "gui_buttonCancel":  "Annulla",
+    "gui_buttonApply":  "Applica",
+    "gui_enableButtonTooltip":  "{HEADER}Preferenze mod{/HEADER}{BODY}Abilita | Disabilita i mod e configura le impostazioni{/BODY}",
+    "web_resetToDefault":  "Ripristina valori predefiniti:",
+    "web_saved":  "Salvato!",
+    "web_saveError":  "Errore durante il salvataggio delle impostazioni. Controlla la console per dettagli.",
+    "version": 305
+}

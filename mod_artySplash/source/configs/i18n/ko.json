@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "버튼 : 조준 점을 표시하거나 숨 깁니다", 
+  "UI_setting_buttonShowSplash_text": "버튼 : 스플래시 반경을 표시하거나 숨 깁니다", 
+  "UI_setting_messageDotOff": "그는 튀는: 목표 도트 장애가 있는", 
+  "UI_setting_messageDotOn": "그는 튀는: 목표 도트 활성화", 
+  "UI_setting_messageSplashOff": "그는 튀는: 스플래시 반경 장애가 있는", 
+  "UI_setting_messageSplashOn": "그는 튀는: 스플래시 반경 활성화", 
+  "UI_setting_name": "그는 튀는", 
+  "UI_setting_showModeArcade_text": "아케이드 모드 사용 가능", 
+  "UI_setting_showModeArty_text": "포병 모드 사용 가능", 
+  "UI_setting_showModeSniper_text": "스나이퍼 모드 사용 가능", 
+  "UI_setting_showDotOnDefault_text": "기본적으로 조준 점을 활성화합니다", 
+  "UI_setting_showSplashOnDefault_text": "기본적으로 스플래시 반경을 활성화하십시오", 
+  "version": 217
+}

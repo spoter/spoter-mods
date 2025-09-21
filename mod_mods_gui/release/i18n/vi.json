@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - Tùy chỉnh",
+  "gui_windowTitle": "Tùy chỉnh mod",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Hủy",
+  "gui_buttonApply": "Áp dụng",
+  "gui_enableButtonTooltip": "{HEADER}Tùy chỉnh mod{/HEADER}{BODY}Bật | Tắt mod và cấu hình cài đặt{/BODY}",
+  "web_resetToDefault": "Đặt lại mặc định:",
+  "web_saved": "Đã lưu!",
+  "web_saveError": "Lỗi khi lưu cài đặt. Kiểm tra bảng điều khiển để biết chi tiết.",
+  "version": 305
+}

@@ -1,0 +1,12 @@
+﻿{
+    "gui_name":  "MODS - Innstillinger",
+    "gui_windowTitle":  "Mod-innstillinger",
+    "gui_buttonOK":  "OK",
+    "gui_buttonCancel":  "Avbryt",
+    "gui_buttonApply":  "Bruk",
+    "gui_enableButtonTooltip":  "{HEADER}Mod-innstillinger{/HEADER}{BODY}Aktiver | Deaktiver mods og konfigurer innstillinger{/BODY}",
+    "web_resetToDefault":  "Tilbakestill til standard:",
+    "web_saved":  "Lagret!",
+    "web_saveError":  "Feil under lagring av innstillinger. Se konsollen for detaljer.",
+    "version": 305
+}

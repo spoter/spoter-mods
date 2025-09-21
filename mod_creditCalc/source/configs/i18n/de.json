@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Hintergrund im Kampf",
+  "UI_setting_battleShow_text": "Anzeige im Kampf",
+  "UI_setting_hangarBackground_text": "Hintergrund in der Garage",
+  "UI_setting_hangarShow_text": "In der Garage anzeigen",
+  "UI_setting_label1_text": "Warten Sie, bis das Gefecht endet, ohne in den Hangar zurückzukehren. Einkommen: grün = Sieg, rot = Niederlage. Ausgaben: Munition und Verbrauchsmaterial.",
+  "UI_setting_label2_text": "Zusätzliche Infos im Gefecht: Drücken Sie die Tasten ALT und STRG",
+  "UI_setting_label_text": "Kredite im Gefecht berechnen; eine Abweichung von ±1000 Silber ist normal. Ist sie größer, spielen Sie ein Gefecht ohne Schaden.",
+  "UI_setting_battle_x_text": "Kampftextposition: X",
+  "UI_setting_battle_y_text": "Kampftextposition: Y",
+  "UI_setting_hangar_x_text": "Garage-Textposition: X",
+  "UI_setting_hangar_y_text": "Garage-Textposition: Y",
+  "version": 211
+}

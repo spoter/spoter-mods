@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Achtergrond in de strijd",
+  "UI_setting_battleShow_text": "Toon in de strijd",
+  "UI_setting_hangarBackground_text": "Achtergrond in de garage",
+  "UI_setting_hangarShow_text": "Tonen in de garage",
+  "UI_setting_label1_text": "Wacht tot de strijd compleet is zonder te ontsnappen in de hangar. Inkomen: groene overwinning, rode nederlaag, uitkomst: munitie en verbruiksartikelen.",
+  "UI_setting_label2_text": "Aanvullende info in gevecht: druk op de toetsen ALT en Ctrl",
+  "UI_setting_label_text": "Credits in gevecht berekenen; een verschil van ±1000 zilver is normale spreiding. Is het groter, speel dan één gevecht zonder schade.",
+  "UI_setting_battle_x_text": "Gevechtstekst-positie: X",
+  "UI_setting_battle_y_text": "Gevechtstekst-positie: Y",
+  "UI_setting_hangar_x_text": "Garagetekst-positie: X",
+  "UI_setting_hangar_y_text": "Garagetekst-positie: Y",
+  "version": 211
+}

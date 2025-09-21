@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "自動伺服器瞄準", 
+  "UI_setting_lightTank_text": "適用於輕型戰車", 
+  "UI_setting_mediumTank_text": "適用於中型戰車", 
+  "UI_setting_heavyTank_text": "適用於重型戰車", 
+  "UI_setting_SPG_text": "適用於自行火砲", 
+  "UI_setting_AT-SPG_text": "適用於驅逐戰車", 
+  "version": 103
+}

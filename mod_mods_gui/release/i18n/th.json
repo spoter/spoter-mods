@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - การตั้งค่า",
+  "gui_windowTitle": "การตั้งค่า MOD",
+  "gui_buttonOK": "ตกลง",
+  "gui_buttonCancel": "ยกเลิก",
+  "gui_buttonApply": "ใช้",
+  "gui_enableButtonTooltip": "{HEADER}การตั้งค่า MOD{/HEADER}{BODY}เปิดใช้งาน | ปิดใช้งาน MOD และปรับแต่งการตั้งค่า{/BODY}",
+  "web_resetToDefault": "รีเซ็ตเป็นค่าเริ่มต้น:",
+  "web_saved": "บันทึกแล้ว!",
+  "web_saveError": "เกิดข้อผิดพลาดระหว่างบันทึกการตั้งค่า ตรวจสอบคอนโซลสำหรับรายละเอียด",
+  "version": 305
+}

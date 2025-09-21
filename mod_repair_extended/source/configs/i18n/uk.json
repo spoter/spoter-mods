@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Кнопка: Відновити шасі", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Кнопка: розумний ремонт", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Ремонт розширений", 
+  "UI_repair_removeStun_text": "Видаліть оглушення", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Використовуйте золоті набори", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Гасити вогонь", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Зцілити екіпаж", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Відновити шасі", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Ремонт пристроїв", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Botão: mostre ou oculta o ponto de mira", 
+  "UI_setting_buttonShowSplash_text": "Botão: Mostre ou oculte o raio do Splash", 
+  "UI_setting_messageDotOff": "Ele espirra: mira dot desabilitado", 
+  "UI_setting_messageDotOn": "Ele espirra: mira dot habilitado", 
+  "UI_setting_messageSplashOff": "Ele espirra: raio de respingo desabilitado", 
+  "UI_setting_messageSplashOn": "Ele espirra: raio de respingo habilitado", 
+  "UI_setting_name": "Ele espirra", 
+  "UI_setting_showModeArcade_text": "Modo de arcade disponível", 
+  "UI_setting_showModeArty_text": "Modo de artilharia disponível", 
+  "UI_setting_showModeSniper_text": "Modo Sniper disponível", 
+  "UI_setting_showDotOnDefault_text": "Habilite o ponto de vista por padrão", 
+  "UI_setting_showSplashOnDefault_text": "Ativar o raio do respingo por padrão", 
+  "version": 217
+}

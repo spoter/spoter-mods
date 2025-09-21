@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Parannettu tarkkuus ja automaattinen pyörätilan vaihto",
+    "UI_setting_activateMessage_text":  "Näytä aktivointiviesti",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Tieto:{/HEADER}{BODY}Näyttää aktivointiviestin taistelussa.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Säilytä tähtäystarkkuus pysähdyttäessä",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Tieto:{/HEADER}{BODY}Liikkeen jälkeen säilyttää nykyisen tähtäyksen, jotta lisäleviämistä ei synny pysähdyksessä.{/BODY}",
+    "UI_setting_serverTurret_text":  "Tornin synkronointi (palvelintähtäin)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Tieto:{/HEADER}{BODY}Kohdistaa tornin palvelintähtäimen koordinaatteihin. Vaatii Peliasetuksista «Palvelintähtäin».{/BODY}",
+    "UI_battle_activateMessage":  "Parannettu tarkkuus ja automaattinen pyörätila: aktivoitu",
+    "UI_setting_fixWheelCruiseControl_text":  "Pyörät: vakionopeudensäätimen korjaus",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Tieto:{/HEADER}{BODY}Estää ajoneuvoa pysähtymästä vaihtaessa tilaa, kun vakionopeudensäädin on päällä.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Pyörät: pidä enimmäisnopeus",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Tieto:{/HEADER}{BODY}Huippunopeudessa ei poistuta nopeustilasta ohjailtaessa.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Näppäin: pidä enimmäisnopeus",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Pyörät: automaattinen nopeustila",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Tieto:{/HEADER}{BODY}Vaihtaa automaattisesti nopeus- ja ohjattavuustilan välillä.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Näppäin: automaattinen nopeustila",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "PÄÄLLÄ",
+    "UI_battle_OFF":  "POIS PÄÄLTÄ",
+    "version": 315
+}

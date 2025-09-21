@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Gomb: Visszaállítja az alvázot", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Gomb: okos javítás", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Javítás meghosszabbítva", 
+  "UI_repair_removeStun_text": "Távolítsa el a kábítást", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Használjon aranykészleteket", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Eloltás", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Gyógyítson személyzet", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Visszaállítja az alvázot", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Javító eszközök", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

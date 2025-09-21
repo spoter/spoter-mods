@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Βελτιωμένη ακρίβεια \u0026 αυτόματη λειτουργία τροχοφόρων",
+    "UI_setting_activateMessage_text":  "Εμφάνιση μηνύματος ενεργοποίησης",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Πληροφορίες:{/HEADER}{BODY}Εμφάνιση μηνύματος ενεργοποίησης στη μάχη.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Διατήρηση ακρίβειας σκόπευσης μετά τη στάση",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Πληροφορίες:{/HEADER}{BODY}Μετά την κίνηση και τη στάση διατηρείται το τρέχον σημάδι για αποφυγή επιπλέον διασποράς.{/BODY}",
+    "UI_setting_serverTurret_text":  "Συγχρονισμός πύργου (στόχαστρο διακομιστή)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Πληροφορίες:{/HEADER}{BODY}Ευθυγραμμίζει τον πύργο με το στόχαστρο του διακομιστή. Απαιτεί ενεργοποιημένο Server Reticle στις ρυθμίσεις παιχνιδιού.{/BODY}",
+    "UI_battle_activateMessage":  "Βελτιωμένη ακρίβεια \u0026 αυτόματη λειτουργία τροχοφόρων: ενεργοποιήθηκε",
+    "UI_setting_fixWheelCruiseControl_text":  "Τροχοφόρα: διόρθωση Cruise Control",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Πληροφορίες:{/HEADER}{BODY}Αποτρέπει τη διακοπή του οχήματος όταν αλλάζει λειτουργία με ενεργό Cruise Control.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Τροχοφόρα: διατήρηση μέγιστης ταχύτητας",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Πληροφορίες:{/HEADER}{BODY}Στη μέγιστη ταχύτητα δεν απενεργοποιεί τη λειτουργία ταχύτητας κατά τους ελιγμούς.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Πλήκτρο: διατήρηση μέγιστης ταχύτητας",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Τροχοφόρα: αυτόματη λειτουργία ταχύτητας",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Πληροφορίες:{/HEADER}{BODY}Αυτόματη εναλλαγή μεταξύ λειτουργίας ταχύτητας και ελιγμών.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Πλήκτρο: αυτόματη λειτουργία ταχύτητας",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ΕΝΕΡΓΟ",
+    "UI_battle_OFF":  "ΑΝΕΝΕΡΓΟ",
+    "version": 315
+}

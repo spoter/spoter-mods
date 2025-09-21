@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Mirino server automatico", 
+  "UI_setting_lightTank_text": "per carri leggeri", 
+  "UI_setting_mediumTank_text": "per carri medi", 
+  "UI_setting_heavyTank_text": "per carri pesanti", 
+  "UI_setting_SPG_text": "per artiglieria semovente", 
+  "UI_setting_AT-SPG_text": "per cacciacarri", 
+  "version": 103
+}

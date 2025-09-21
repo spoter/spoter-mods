@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Tecla rápida para silenciar el sonido",
+    "UI_setting_hotkey_text":  "Tecla de acceso rápido",
+    "UI_setting_showMessage_text":  "Mostrar mensaje de estado en batalla",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Restaurar el sonido al finalizar la batalla",
+    "UI_setting_soundMuted":  "Sonido del juego ACTIVADO",
+    "UI_setting_soundRestored":  "Sonido del juego DESACTIVADO",
+    "UI_setting_mutedSoundVolume_text":  "Nivel mínimo de sonido al silenciar",
+    "UI_setting_hotkey_tooltip":  "Asignar la tecla rápida para alternar el sonido del juego (predeterminado F9).",
+    "UI_setting_showMessage_tooltip":  "Mostrar un mensaje de estado en batalla al alternar el sonido.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Restaurar automáticamente el volumen maestro al finalizar la batalla.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Nivel de volumen maestro (%) mientras está silenciado.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Genvejstast til at mute lyden",
+    "UI_setting_hotkey_text":  "Genvejstast",
+    "UI_setting_showMessage_text":  "Vis statusmeddelelse i kamp",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Gendan lyd efter kampens afslutning",
+    "UI_setting_soundMuted":  "Spillyd TIL",
+    "UI_setting_soundRestored":  "Spillyd FRA",
+    "UI_setting_mutedSoundVolume_text":  "Minimalt lydniveau ved dæmpning",
+    "UI_setting_hotkey_tooltip":  "Tildel en genvejstast til at slå spillets lyd til/fra (standard F9).",
+    "UI_setting_showMessage_tooltip":  "Vis en statusmeddelelse i kamp ved skift.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Gendan automatisk hovedlydstyrken efter kampen.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Hovedlydstyrke (%) under dæmpning.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

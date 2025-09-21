@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Knapp: Återställ chassi", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Knapp: Smart reparation", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Reparation förlängd", 
+  "UI_repair_removeStun_text": "Ta bort stun", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Använd guldsatser", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Slingra eld", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Heal Crew", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Återställ chassi", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Reparationsenheter", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

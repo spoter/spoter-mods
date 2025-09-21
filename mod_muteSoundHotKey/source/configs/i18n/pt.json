@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Tecla de atalho para silenciar o som",
+    "UI_setting_hotkey_text":  "Tecla de atalho",
+    "UI_setting_showMessage_text":  "Mostrar mensagem de estado em batalha",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Restaurar o som após o fim da batalha",
+    "UI_setting_soundMuted":  "Som do jogo LIGADO",
+    "UI_setting_soundRestored":  "Som do jogo DESLIGADO",
+    "UI_setting_mutedSoundVolume_text":  "Nível mínimo de som ao silenciar",
+    "UI_setting_hotkey_tooltip":  "Atribuir tecla de atalho para alternar o som do jogo (predefinição F9).",
+    "UI_setting_showMessage_tooltip":  "Mostrar mensagem de estado em batalha ao alternar.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Restaurar automaticamente o volume principal após o fim da batalha.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Nível do volume principal (%) durante o silêncio.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

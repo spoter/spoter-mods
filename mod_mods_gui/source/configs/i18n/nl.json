@@ -1,0 +1,12 @@
+﻿{
+    "gui_name":  "MODS - Instellingen",
+    "gui_windowTitle":  "Mod-instellingen",
+    "gui_buttonOK":  "OK",
+    "gui_buttonCancel":  "Annuleren",
+    "gui_buttonApply":  "Toepassen",
+    "gui_enableButtonTooltip":  "{HEADER}Mod-instellingen{/HEADER}{BODY}Mods inschakelen | uitschakelen en instellingen configureren{/BODY}",
+    "web_resetToDefault":  "Terugzetten naar standaard:",
+    "web_saved":  "Opgeslagen!",
+    "web_saveError":  "Fout bij het opslaan van de instellingen. Raadpleeg de console voor details.",
+    "version": 305
+}

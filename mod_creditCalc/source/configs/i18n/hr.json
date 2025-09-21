@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Pozadina u bitci",
+  "UI_setting_battleShow_text": "Emisija u bitci",
+  "UI_setting_hangarBackground_text": "Pozadina u garaži",
+  "UI_setting_hangarShow_text": "Prikaži u garaži",
+  "UI_setting_label1_text": "Pričekajte dok se bitka ne završi bez bijega u hangar. Prihodi: zelena pobjeda, crveni poraz, ishod: streljivo i potrošni materijal.",
+  "UI_setting_label2_text": "Dodatne informacije u bitci: pritisnite tipke ALT i CTRL",
+  "UI_setting_label_text": "Izračun kredita u bitci; razlika od ±1000 srebra je normalna disperzija. Ako je veća, odigrajte jednu bitku bez štete.",
+  "UI_setting_battle_x_text": "Položaj teksta u bitci: X",
+  "UI_setting_battle_y_text": "Položaj teksta u bitci: Y",
+  "UI_setting_hangar_x_text": "Položaj teksta u garaži: X",
+  "UI_setting_hangar_y_text": "Položaj teksta u garaži: Y",
+  "version": 211
+}

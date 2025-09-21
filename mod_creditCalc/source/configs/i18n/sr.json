@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Позадина у битци",
+  "UI_setting_battleShow_text": "Прикажи у борби",
+  "UI_setting_hangarBackground_text": "Позадина у гаражи",
+  "UI_setting_hangarShow_text": "Прикажи у гаражи",
+  "UI_setting_label1_text": "Сачекајте да се борба заврши, без изласка у хангар. Приход: зелено = победа, црвено = пораз. Трошкови: муниција и потрошни материјал.",
+  "UI_setting_label2_text": "Додатне информације у борби: притисните тастере ALT и CTRL",
+  "UI_setting_label_text": "Израчунајте кредите у борби; разлика од ±1000 сребра је нормална дисперзија. Ако је већа — одиграјте једну борбу без наношења штете.",
+  "UI_setting_battle_x_text": "Позиција текста у борби: X",
+  "UI_setting_battle_y_text": "Позиција текста у борби: Y",
+  "UI_setting_hangar_x_text": "Позиција текста у гаражи: X",
+  "UI_setting_hangar_y_text": "Позиција текста у гаражи: Y",
+  "version": 211
+}

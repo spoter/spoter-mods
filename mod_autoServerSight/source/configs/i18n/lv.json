@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automātiska servera tēmēklis", 
+  "UI_setting_lightTank_text": "vieglajiem tankiem", 
+  "UI_setting_mediumTank_text": "vidējiem tankiem", 
+  "UI_setting_heavyTank_text": "smagajiem tankiem", 
+  "UI_setting_SPG_text": "artiļērijai", 
+  "UI_setting_AT-SPG_text": "tanku iznīcinātājiem", 
+  "version": 103
+}

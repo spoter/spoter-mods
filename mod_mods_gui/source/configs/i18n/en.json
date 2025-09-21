@@ -1,9 +1,12 @@
 ﻿{
-    "gui_buttonApply": "Apply",
-    "gui_buttonCancel": "Cancel",
-    "gui_buttonOK": "Ok",
-    "gui_enableButtonTooltip": "{HEADER}Mods Preferences{/HEADER}{BODY}Enable|Disable mods and configure settings{/BODY}",
-    "gui_name": "MODS - Preferences",
-    "gui_windowTitle": "Mods Preferences",
+    "gui_name":  "MODS - Preferences",
+    "gui_windowTitle":  "Mods Preferences",
+    "gui_buttonOK":  "Ok",
+    "gui_buttonCancel":  "Cancel",
+    "gui_buttonApply":  "Apply",
+    "gui_enableButtonTooltip":  "{HEADER}Mods Preferences{/HEADER}{BODY}Enable|Disable mods and configure settings{/BODY}",
+    "web_resetToDefault":  "Reset to default:",
+    "web_saved":  "Saved!",
+    "web_saveError":  "Error saving settings. Check console for details.",
     "version": 305
 }

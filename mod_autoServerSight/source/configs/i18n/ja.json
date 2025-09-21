@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "自動サーバー照準", 
+  "UI_setting_lightTank_text": "軽戦車向け", 
+  "UI_setting_mediumTank_text": "中戦車向け", 
+  "UI_setting_heavyTank_text": "重戦車向け", 
+  "UI_setting_SPG_text": "自走砲向け", 
+  "UI_setting_AT-SPG_text": "駆逐戦車向け", 
+  "version": 103
+}

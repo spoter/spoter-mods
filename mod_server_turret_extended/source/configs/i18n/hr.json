@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Poboljšana preciznost i automatski način za vozila na kotačima",
+    "UI_setting_activateMessage_text":  "Prikaži poruku o aktivaciji",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Prikazuje poruku o aktivaciji u bitci.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Zadrži preciznost nišanjenja nakon zaustavljanja",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Nakon kretanja i zaustavljanja čuva trenutno nišanjenje kako bi se izbjegla dodatna rasipanja.{/BODY}",
+    "UI_setting_serverTurret_text":  "Sinkronizacija kupole (serverski nišan)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Poravnava kupolu s pozicijom serverskog nišana. Zahtijeva uključen „Serverski nišan” u postavkama igre.{/BODY}",
+    "UI_battle_activateMessage":  "Poboljšana preciznost i automatski način kotača: aktivirano",
+    "UI_setting_fixWheelCruiseControl_text":  "Kotači: ispravak tempomata",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Sprečava zaustavljanje vozila pri promjeni načina s uključenim tempomatom.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Kotači: drži maksimalnu brzinu",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Pri najvećoj brzini ne isključuje brzi način pri manevriranju.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Tipka: drži maksimalnu brzinu",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Kotači: automatski brzi način",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Automatski prebacuje između brzog i manevarskog načina.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Tipka: automatski brzi način",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "UKLJUČENO",
+    "UI_battle_OFF":  "ISKLJUČENO",
+    "version": 315
+}

@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Mira automática do servidor", 
+  "UI_setting_lightTank_text": "para tanques leves", 
+  "UI_setting_mediumTank_text": "para tanques médios", 
+  "UI_setting_heavyTank_text": "para tanques pesados", 
+  "UI_setting_SPG_text": "para artilharia autopropulsada", 
+  "UI_setting_AT-SPG_text": "para caça-tanques", 
+  "version": 103
+}

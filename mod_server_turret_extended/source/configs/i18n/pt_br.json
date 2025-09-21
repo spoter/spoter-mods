@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Precisão aprimorada e modo automático para veículos com rodas",
+    "UI_setting_activateMessage_text":  "Exibir mensagem de ativação",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Exibe a mensagem de ativação na batalha.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Manter a precisão após parar",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Após se mover e parar, mantém a mira para evitar dispersão adicional.{/BODY}",
+    "UI_setting_serverTurret_text":  "Sincronização da torre (retículo do servidor)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Alinha a torre ao retículo do servidor. Requer a opção «Retículo do servidor» habilitada.{/BODY}",
+    "UI_battle_activateMessage":  "Precisão aprimorada e modo de rodas automático: ativado",
+    "UI_setting_fixWheelCruiseControl_text":  "Rodas: correção do controle de cruzeiro",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Impede que o veículo pare ao alternar o modo com o controle de cruzeiro ligado.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Rodas: manter velocidade máxima",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Na velocidade máxima não sai do modo de velocidade ao manobrar.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Tecla: manter velocidade máxima",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Rodas: modo de velocidade automático",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Alterna automaticamente entre modo de velocidade e modo de manobra.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Tecla: modo de velocidade automático",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ATIVADO",
+    "UI_battle_OFF":  "DESATIVADO",
+    "version": 315
+}

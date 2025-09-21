@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Mygtukas: atkurkite važiuoklę", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Mygtukas: intelektualus remontas", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Remontas pratęstas", 
+  "UI_repair_removeStun_text": "Pašalinkite apsvaiginimą", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Naudokite auksinius rinkinius", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Gesinamasis ugnis", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Išgydykite įgulą", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Atkurti važiuoklę", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Remonto įtaisai", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

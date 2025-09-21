@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Buton: Restaurați șasiul", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Buton: Reparație inteligentă", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Repararea extinsă", 
+  "UI_repair_removeStun_text": "Scoateți stun", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Folosiți kituri de aur", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Stinge focul", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Vindecă echipajul", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Restaurați șasiul", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Dispozitive de reparație", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

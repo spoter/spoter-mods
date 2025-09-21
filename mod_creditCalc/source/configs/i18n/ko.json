@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "전투의 배경",
+  "UI_setting_battleShow_text": "전투에서 전시하십시오",
+  "UI_setting_hangarBackground_text": "차고 배경",
+  "UI_setting_hangarShow_text": "차고에 표시",
+  "UI_setting_label1_text": "격납고로 탈출하지 않고 전투가 완료 될 때까지 기다리십시오. 소득 : 녹색 승리, 레드 패배, 결과 : 탄약 및 소모품.",
+  "UI_setting_label2_text": "전투 추가 정보: ALT와 Ctrl 키를 누르세요",
+  "UI_setting_label_text": "전투에서 크레딧 계산; ±1000 실버 차이는 정상적인 편차입니다. 더 크면 피해 없이 한 번의 전투를 플레이하세요.",
+  "UI_setting_battle_x_text": "전투 텍스트 위치: X",
+  "UI_setting_battle_y_text": "전투 텍스트 위치: Y",
+  "UI_setting_hangar_x_text": "차고 텍스트 위치: X",
+  "UI_setting_hangar_y_text": "차고 텍스트 위치: Y",
+  "version": 211
+}

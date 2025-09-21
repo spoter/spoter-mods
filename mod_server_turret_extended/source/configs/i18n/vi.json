@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Cải thiện độ chính xác \u0026 chế độ tự động cho xe bánh lốp",
+    "UI_setting_activateMessage_text":  "Hiển thị thông báo kích hoạt",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Thông tin:{/HEADER}{BODY}Hiển thị thông báo kích hoạt trong trận.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Giữ độ chính xác sau khi dừng",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Thông tin:{/HEADER}{BODY}Sau khi di chuyển rồi dừng, giữ tâm ngắm hiện tại để tránh tản mát thêm do dừng lại.{/BODY}",
+    "UI_setting_serverTurret_text":  "Đồng bộ tháp pháo (tâm ngắm máy chủ)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Thông tin:{/HEADER}{BODY}Căn tháp pháo theo tâm ngắm máy chủ. Cần bật «Tâm ngắm máy chủ» trong cài đặt game.{/BODY}",
+    "UI_battle_activateMessage":  "Cải thiện độ chính xác \u0026 chế độ bánh lốp tự động: đã bật",
+    "UI_setting_fixWheelCruiseControl_text":  "Bánh lốp: sửa Kiểm soát hành trình",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Thông tin:{/HEADER}{BODY}Ngăn xe dừng khi chuyển chế độ nếu Kiểm soát hành trình đang bật.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Bánh lốp: giữ tốc độ tối đa",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Thông tin:{/HEADER}{BODY}Khi đạt tốc độ tối đa, không thoát khỏi chế độ tốc độ khi đánh lái.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Phím tắt: giữ tốc độ tối đa",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Bánh lốp: chế độ tốc độ tự động",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Thông tin:{/HEADER}{BODY}Tự động chuyển giữa chế độ tốc độ và chế độ cơ động.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Phím tắt: tốc độ tự động",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "BẬT",
+    "UI_battle_OFF":  "TẮT",
+    "version": 315
+}

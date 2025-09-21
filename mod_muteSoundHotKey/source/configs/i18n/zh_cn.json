@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "静音热键",
+    "UI_setting_hotkey_text":  "快捷键",
+    "UI_setting_showMessage_text":  "在战斗中显示状态消息",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "战斗结束后恢复声音",
+    "UI_setting_soundMuted":  "游戏声音 开",
+    "UI_setting_soundRestored":  "游戏声音 关",
+    "UI_setting_mutedSoundVolume_text":  "静音时的最小音量",
+    "UI_setting_hotkey_tooltip":  "分配快捷键以切换游戏声音（默认 F9）。",
+    "UI_setting_showMessage_tooltip":  "切换时在战斗中显示状态消息。",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "战斗结束后自动恢复主音量。",
+    "UI_setting_mutedSoundVolume_tooltip":  "静音时的主音量（%）。",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

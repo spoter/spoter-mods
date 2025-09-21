@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Przycisk: pokaż lub ukryj celingową kropkę", 
+  "UI_setting_buttonShowSplash_text": "Przycisk: Pokaż lub ukryj promień plusk", 
+  "UI_setting_messageDotOff": "On rozpryskuje: celowanie kropki wyłączony", 
+  "UI_setting_messageDotOn": "On rozpryskuje: celowanie kropki włączony", 
+  "UI_setting_messageSplashOff": "On rozpryskuje: Promień pluskany wyłączony", 
+  "UI_setting_messageSplashOn": "On rozpryskuje: Promień pluskany włączony", 
+  "UI_setting_name": "On rozpryskuje", 
+  "UI_setting_showModeArcade_text": "Dostępny tryb arkadowy", 
+  "UI_setting_showModeArty_text": "Dostępny tryb artylerii", 
+  "UI_setting_showModeSniper_text": "Dostępny tryb snajpera", 
+  "UI_setting_showDotOnDefault_text": "Domyślnie włącz celowanie kropki", 
+  "UI_setting_showSplashOnDefault_text": "Domyślnie włącz promień plusk", 
+  "version": 217
+}

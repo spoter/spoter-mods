@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Mira automată a serverului", 
+  "UI_setting_lightTank_text": "pentru tancuri ușoare", 
+  "UI_setting_mediumTank_text": "pentru tancuri medii", 
+  "UI_setting_heavyTank_text": "pentru tancuri grele", 
+  "UI_setting_SPG_text": "pentru artilerie autopropulsată", 
+  "UI_setting_AT-SPG_text": "pentru vânători de tancuri", 
+  "version": 103
+}

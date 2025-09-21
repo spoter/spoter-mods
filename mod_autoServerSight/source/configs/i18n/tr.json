@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Otomatik sunucu nişangâhı", 
+  "UI_setting_lightTank_text": "hafif tanklar için", 
+  "UI_setting_mediumTank_text": "orta tanklar için", 
+  "UI_setting_heavyTank_text": "ağır tanklar için", 
+  "UI_setting_SPG_text": "kundağı motorlu topçu için", 
+  "UI_setting_AT-SPG_text": "tank avcıları için", 
+  "version": 103
+}

@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Hang némításának gyorsbillentyűje",
+    "UI_setting_hotkey_text":  "Gyorsbillentyű",
+    "UI_setting_showMessage_text":  "Állapotüzenet megjelenítése csatában",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Hang visszaállítása a csata végén",
+    "UI_setting_soundMuted":  "Játék hangja BE",
+    "UI_setting_soundRestored":  "Játék hangja KI",
+    "UI_setting_mutedSoundVolume_text":  "Minimális hangerő némításkor",
+    "UI_setting_hotkey_tooltip":  "Gyorsbillentyű beállítása a játékhang váltásához (alapértelmezett F9).",
+    "UI_setting_showMessage_tooltip":  "Váltáskor jelenjen meg állapotüzenet csatában.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "A csata végén automatikusan állítsa vissza a fő hangerőt.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Némítás közbeni fő hangerő (%).",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

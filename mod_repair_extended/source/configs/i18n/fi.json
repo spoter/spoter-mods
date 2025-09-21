@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Painike: Palauta alusta", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Painike: Älykäs korjaus", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Korjata pidennetty", 
+  "UI_repair_removeStun_text": "Poistaa tainnutus", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Käytä kultasarjoja", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Sammuttaa tulen", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Parantaa miehistöä", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Palauta alusta", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Korjauslaitteet", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

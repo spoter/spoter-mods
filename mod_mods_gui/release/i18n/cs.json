@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MÓDY - Nastavení",
+  "gui_windowTitle": "Nastavení módů",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Zrušit",
+  "gui_buttonApply": "Použít",
+  "gui_enableButtonTooltip": "{HEADER}Nastavení módů{/HEADER}{BODY}Povolit | Zakázat módy a upravit nastavení{/BODY}",
+  "web_resetToDefault": "Obnovit výchozí:",
+  "web_saved": "Uloženo!",
+  "web_saveError": "Chyba při ukládání nastavení. Podrobnosti najdete v konzoli.",
+  "version": 305
+}

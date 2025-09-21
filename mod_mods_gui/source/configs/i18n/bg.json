@@ -1,0 +1,12 @@
+﻿{
+    "gui_name":  "MODS - Настройки",
+    "gui_windowTitle":  "Настройки на модовете",
+    "gui_buttonOK":  "ОК",
+    "gui_buttonCancel":  "Отказ",
+    "gui_buttonApply":  "Приложи",
+    "gui_enableButtonTooltip":  "{HEADER}Настройки на модовете{/HEADER}{BODY}Активирай | Деактивирай модовете и конфигурирай настройките{/BODY}",
+    "web_resetToDefault":  "Връщане към подразбиране:",
+    "web_saved":  "Запазено!",
+    "web_saveError":  "Грешка при запазване на настройките. Проверете конзолата за подробности.",
+    "version": 305
+}

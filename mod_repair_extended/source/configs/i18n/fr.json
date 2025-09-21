@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Bouton: restaurer le châssis", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Bouton: réparation intelligente", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Réparation étendue", 
+  "UI_repair_removeStun_text": "Retirer l'étourdissement", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Utiliser des kits d'or", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Éteindre le feu", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Équipage de guérison", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Restaurer le châssis", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Dispositifs de réparation", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

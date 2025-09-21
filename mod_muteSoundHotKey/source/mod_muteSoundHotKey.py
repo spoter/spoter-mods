@@ -14,7 +14,7 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'muteSoundHotKey'
-        self.version = 'v1.03 (2025-02-24)'
+        self.version = 'v1.03 (2025-09-21)'
         self.version_id = 103
         self.author = 'by spoter'
         self.dataDefault = {
@@ -27,13 +27,13 @@ class _Config(object):
         }
         self.i18n = {
             'version'                                   : self.version_id,
-            'UI_description'                            : 'Mute Sound HotKey',
+            'UI_description'                            : 'Mute Sound Hotkey',
             'UI_setting_hotkey_text'                    : 'Hotkey',
             'UI_setting_showMessage_text'               : 'Show status message in battle',
-            'UI_setting_restoreSoundAfterBattleEnd_text': 'Restore Sound after battle end',
+            'UI_setting_restoreSoundAfterBattleEnd_text': 'Restore sound after battle end',
             'UI_setting_soundMuted'                     : 'Game Sound ON',
             'UI_setting_soundRestored'                  : 'Game Sound OFF',
-            'UI_setting_mutedSoundVolume': 'Minimal sound level when muted',
+            'UI_setting_mutedSoundVolume_text': 'Minimal sound level when muted',
             'UI_setting_mutedSoundVolume_formats' : '%'
         }
         if 'ru' in '%s'.lower() % getLanguageCode():
@@ -42,9 +42,9 @@ class _Config(object):
                 'UI_setting_hotkey_text'                    : 'Горячая клавиша',
                 'UI_setting_showMessage_text'               : 'Показывать сообщение в бою',
                 'UI_setting_restoreSoundAfterBattleEnd_text': 'Восстанавливать звук после окончания текущего боя',
-                'UI_setting_soundMuted'                     : 'Игровые Звуки ВКЛ',
-                'UI_setting_soundRestored'                  : 'Игровые Звуки ВЫКЛ',
-                'UI_setting_mutedSoundVolume_text'        : 'Минимальный уровень звука, когда заглушено',
+                'UI_setting_soundMuted'                     : 'Игровые звуки ВКЛ',
+                'UI_setting_soundRestored'                  : 'Игровые звуки ВЫКЛ',
+                'UI_setting_mutedSoundVolume_text'        : 'Минимальный уровень звука при заглушении',
                 'UI_setting_mutedSoundVolume_formats': '%'
             })
         self.data, self.i18n = g_gui.register_data(self.ids, self.dataDefault, self.i18n, 'spoter')

@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Knap: Gendan chassis", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Knap: Smart reparation", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Reparation udvidet", 
+  "UI_repair_removeStun_text": "Fjern stun", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Brug guldsæt", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Sluk ild", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Helbrede besætning", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Gendan chassis", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Reparationsenheder", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

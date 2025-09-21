@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Бутон: Възстановяване на шасито", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Бутон: Интелигентен ремонт", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Ремонт удължен", 
+  "UI_repair_removeStun_text": "Премахнете зашеметяването", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Използвайте златни комплекти", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Погасител огън", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Лекува екипаж", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Възстановяване на шасито", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Ремонт на устройства", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

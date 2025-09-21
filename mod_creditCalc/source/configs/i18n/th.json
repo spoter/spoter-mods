@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "พื้นหลังในการต่อสู้",
+  "UI_setting_battleShow_text": "แสดงในการต่อสู้",
+  "UI_setting_hangarBackground_text": "พื้นหลังในโรงเก็บเครื่องบิน",
+  "UI_setting_hangarShow_text": "แสดงในโรงเก็บเครื่องบิน",
+  "UI_setting_label1_text": "รอจนกว่าการต่อสู้จะเสร็จสมบูรณ์โดยไม่ต้องหลบหนีเข้าไปในโรงเก็บเครื่องบิน รายได้: ชัยชนะสีเขียว, ความพ่ายแพ้สีแดง, ผลลัพธ์: กระสุนและวัสดุสิ้นเปลือง",
+  "UI_setting_label2_text": "ข้อมูลเพิ่มเติมในการต่อสู้: กดปุ่ม ALT และ Ctrl",
+  "UI_setting_label_text": "คำนวณเครดิตในสมรภูมิ; ส่วนต่าง ±1000 เงินถือว่าเป็นการกระจายปกติ หากมากกว่านั้น ให้เล่นหนึ่งแมตช์โดยไม่สร้างความเสียหาย",
+  "UI_setting_battle_x_text": "ตำแหน่งข้อความการต่อสู้: X",
+  "UI_setting_battle_y_text": "ตำแหน่งข้อความการต่อสู้: Y",
+  "UI_setting_hangar_x_text": "ตำแหน่งข้อความ Hangar: X",
+  "UI_setting_hangar_y_text": "ตำแหน่งข้อความ Hangar: Y",
+  "version": 211
+}

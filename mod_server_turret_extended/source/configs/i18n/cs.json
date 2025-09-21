@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Vylepšená přesnost a auto režim kolových vozidel",
+    "UI_setting_activateMessage_text":  "Zobrazit zprávu o aktivaci",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Zobrazí v bitvě zprávu o aktivaci modu.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Přesnost po zastavení",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Po pohybu a zastavení drží aktuální míření, aby se nezvětšila nepřesnost.{/BODY}",
+    "UI_setting_serverTurret_text":  "Synchronizace věže (serverový zaměřovač)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Zarovná věž podle serverového zaměřovače. Vyžaduje zapnutý „Serverový zaměřovač“ v nastavení hry.{/BODY}",
+    "UI_battle_activateMessage":  "Vylepšená přesnost a auto režim kolových vozidel: aktivováno",
+    "UI_setting_fixWheelCruiseControl_text":  "Kolová vozidla: oprava tempomatu",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Brání zastavení vozidla při přepínání režimu s aktivním tempomatem.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Kolová vozidla: držet maximální rychlost",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Při maximální rychlosti nevypínat rychlostní režim při manévrování.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Klávesa: držet maximální rychlost",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Kolová vozidla: automatický rychlostní režim",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Automaticky přepíná mezi rychlostním a manévrovacím režimem.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Klávesa: automatický rychlostní režim",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ZAPNUTO",
+    "UI_battle_OFF":  "VYPNUTO",
+    "version": 315
+}

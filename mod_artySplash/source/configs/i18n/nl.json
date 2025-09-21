@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Knop: toon of verberg de richtlot", 
+  "UI_setting_buttonShowSplash_text": "Knop: toon of verberg de splash -straal", 
+  "UI_setting_messageDotOff": "Hij spat: richtend stip gehandicapt", 
+  "UI_setting_messageDotOn": "Hij spat: richtend stip ingeschakeld", 
+  "UI_setting_messageSplashOff": "Hij spat: splash -straal gehandicapt", 
+  "UI_setting_messageSplashOn": "Hij spat: splash -straal ingeschakeld", 
+  "UI_setting_name": "Hij spat", 
+  "UI_setting_showModeArcade_text": "Arcade -modus beschikbaar", 
+  "UI_setting_showModeArty_text": "Artilleriemodus beschikbaar", 
+  "UI_setting_showModeSniper_text": "Sniper -modus beschikbaar", 
+  "UI_setting_showDotOnDefault_text": "Schakel de richtstip standaard in", 
+  "UI_setting_showSplashOnDefault_text": "Schakel de splash -straal standaard in", 
+  "version": 217
+}

@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Äänen mykistyksen pikanäppäin",
+    "UI_setting_hotkey_text":  "Pikanäppäin",
+    "UI_setting_showMessage_text":  "Näytä tilaviesti taistelussa",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Palauta ääni taistelun päätyttyä",
+    "UI_setting_soundMuted":  "Pelin ääni PÄÄLLÄ",
+    "UI_setting_soundRestored":  "Pelin ääni POIS",
+    "UI_setting_mutedSoundVolume_text":  "Vähimmäisäänenvoimakkuus mykistyksen aikana",
+    "UI_setting_hotkey_tooltip":  "Määritä pikanäppäin pelin äänen päälle/pois -vaihtoon (oletus F9).",
+    "UI_setting_showMessage_tooltip":  "Näytä tilaviesti taistelussa vaihdettaessa.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Palauta pää-äänenvoimakkuus automaattisesti taistelun jälkeen.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Pää-äänenvoimakkuus (%) mykistyksen aikana.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

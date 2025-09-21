@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - Paramètres",
+  "gui_windowTitle": "Paramètres des mods",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Annuler",
+  "gui_buttonApply": "Appliquer",
+  "gui_enableButtonTooltip": "{HEADER}Paramètres des mods{/HEADER}{BODY}Activer | Désactiver les mods et configurer les paramètres{/BODY}",
+  "web_resetToDefault": "Réinitialiser par défaut :",
+  "web_saved": "Enregistré !",
+  "web_saveError": "Erreur lors de l'enregistrement des paramètres. Consultez la console pour plus de détails.",
+  "version": 305
+}

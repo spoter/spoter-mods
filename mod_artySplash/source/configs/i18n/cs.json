@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Tlačítko: Ukažte nebo skryjte cílovou tečku", 
+  "UI_setting_buttonShowSplash_text": "Tlačítko: Ukažte nebo skryjte poloměr stříkaného", 
+  "UI_setting_messageDotOff": "Stříká: Zaměření tečky deaktivované", 
+  "UI_setting_messageDotOn": "Stříká: Zaměření tečky povoleno", 
+  "UI_setting_messageSplashOff": "Stříká: Splash poloměr deaktivované", 
+  "UI_setting_messageSplashOn": "Stříká: Splash poloměr povoleno", 
+  "UI_setting_name": "Stříká", 
+  "UI_setting_showModeArcade_text": "K dispozici arkádový režim", 
+  "UI_setting_showModeArty_text": "Dělostřelecký režim je k dispozici", 
+  "UI_setting_showModeSniper_text": "K dispozici je režim odstřelovače", 
+  "UI_setting_showDotOnDefault_text": "Povolte ve výchozím nastavení cílové tečky", 
+  "UI_setting_showSplashOnDefault_text": "Ve výchozím nastavení povolte poloměr splash", 
+  "version": 217
+}

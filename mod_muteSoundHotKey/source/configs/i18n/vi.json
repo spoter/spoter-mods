@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Phím tắt tắt tiếng âm thanh",
+    "UI_setting_hotkey_text":  "Phím tắt",
+    "UI_setting_showMessage_text":  "Hiển thị thông báo trạng thái trong trận chiến",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Khôi phục âm thanh sau khi trận kết thúc",
+    "UI_setting_soundMuted":  "Âm thanh trò chơi BẬT",
+    "UI_setting_soundRestored":  "Âm thanh trò chơi TẮT",
+    "UI_setting_mutedSoundVolume_text":  "Mức âm lượng tối thiểu khi tắt tiếng",
+    "UI_setting_hotkey_tooltip":  "Gán phím tắt để chuyển đổi âm thanh trò chơi (mặc định F9).",
+    "UI_setting_showMessage_tooltip":  "Hiển thị thông báo trạng thái trong trận khi chuyển đổi.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Tự động khôi phục âm lượng chính sau khi trận đấu kết thúc.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Mức âm lượng chính (%) khi tắt tiếng.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

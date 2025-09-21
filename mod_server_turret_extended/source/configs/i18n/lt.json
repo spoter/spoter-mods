@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Pagerintas taiklumas ir automatinė ratinių režimų kaita",
+    "UI_setting_activateMessage_text":  "Rodyti aktyvavimo pranešimą",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Kovoje rodo aktyvavimo pranešimą.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Išlaikyti taiklumą po sustojimo",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Po judėjimo ir sustojimo išlaiko taikymą, kad nebūtų papildomo išsisklaidymo.{/BODY}",
+    "UI_setting_serverTurret_text":  "Bokštelio sinchronizacija (serverio taikiklis)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Sulygiuoja bokštelį su serverio taikikliu. Reikia įjungti „Serverio taikiklį“ žaidimo nustatymuose.{/BODY}",
+    "UI_battle_activateMessage":  "Pagerintas taiklumas ir auto ratiniai: įjungta",
+    "UI_setting_fixWheelCruiseControl_text":  "Ratiniai: kruizo kontrolės pataisa",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Neleidžia sustoti perjungiant režimą su įjungta kruizo kontrole.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Ratiniai: palaikyti maksimalų greitį",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Esant didžiausiam greičiui neišjungia greičio režimo manevruojant.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Mygtukas: palaikyti maksimalų greitį",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Ratiniai: automatinis greičio režimas",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Automatiškai perjungia tarp greičio ir manevravimo režimų.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Mygtukas: automatinis greičio režimas",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ĮJUNGTA",
+    "UI_battle_OFF":  "IŠJUNGTA",
+    "version": 315
+}

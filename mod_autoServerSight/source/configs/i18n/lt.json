@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatinis serverio taikiklis", 
+  "UI_setting_lightTank_text": "lengviesiems tankams", 
+  "UI_setting_mediumTank_text": "vidutiniams tankams", 
+  "UI_setting_heavyTank_text": "sunkiems tankams", 
+  "UI_setting_SPG_text": "artilerijai", 
+  "UI_setting_AT-SPG_text": "tankų naikintuvams", 
+  "version": 103
+}

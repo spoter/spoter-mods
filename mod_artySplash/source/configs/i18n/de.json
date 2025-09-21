@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Taste: Zeigen oder ausblenden Sie den Zielpunkt", 
+  "UI_setting_buttonShowSplash_text": "Taste: Zeigen oder ausblenden Sie den Splash -Radius", 
+  "UI_setting_messageDotOff": "Er spritzte: zielen Punkt deaktiviert", 
+  "UI_setting_messageDotOn": "Er spritzte: zielen Punkt ermöglicht", 
+  "UI_setting_messageSplashOff": "Er spritzte: Spritzradius deaktiviert", 
+  "UI_setting_messageSplashOn": "Er spritzte: Spritzradius ermöglicht", 
+  "UI_setting_name": "Er spritzte", 
+  "UI_setting_showModeArcade_text": "Arcade -Modus verfügbar", 
+  "UI_setting_showModeArty_text": "Artilleriemodus verfügbar", 
+  "UI_setting_showModeSniper_text": "Scharfschützenmodus verfügbar", 
+  "UI_setting_showDotOnDefault_text": "Aktivieren Sie standardmäßig den Zielpunkt", 
+  "UI_setting_showSplashOnDefault_text": "Aktivieren Sie standardmäßig den Spritzradius", 
+  "version": 217
+}

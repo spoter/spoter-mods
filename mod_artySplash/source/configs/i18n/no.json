@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Knapp: Vis eller skjul målet DOT", 
+  "UI_setting_buttonShowSplash_text": "Knapp: Vis eller skjul sprutradius", 
+  "UI_setting_messageDotOff": "Han spruter: sikter prikk funksjonshemmet", 
+  "UI_setting_messageDotOn": "Han spruter: sikter prikk aktivert", 
+  "UI_setting_messageSplashOff": "Han spruter: Splash Radius funksjonshemmet", 
+  "UI_setting_messageSplashOn": "Han spruter: Splash Radius aktivert", 
+  "UI_setting_name": "Han spruter", 
+  "UI_setting_showModeArcade_text": "Arcade -modus tilgjengelig", 
+  "UI_setting_showModeArty_text": "Artillerimodus tilgjengelig", 
+  "UI_setting_showModeSniper_text": "Snikskyttermodus tilgjengelig", 
+  "UI_setting_showDotOnDefault_text": "Aktiver målspredningen som standard", 
+  "UI_setting_showSplashOnDefault_text": "Aktiver sprutradius som standard", 
+  "version": 217
+}

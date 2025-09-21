@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Háttér a csatában",
+  "UI_setting_battleShow_text": "Kiállítás a csatában",
+  "UI_setting_hangarBackground_text": "Háttér a hangárban",
+  "UI_setting_hangarShow_text": "Kijelzés a hangárban",
+  "UI_setting_label1_text": "Várja meg, amíg a csata befejeződik, anélkül, hogy elmenekülne a hangárba. Jövedelem: Zöld győzelem, vörös vereség, eredmény: lőszer és fogyóeszköz.",
+  "UI_setting_label2_text": "További információ a csatában: nyomja meg az ALT és a CTRL billentyűket",
+  "UI_setting_label_text": "Kreditek számítása csatában; a ±1000 ezüst különbség normális szórás. Ha nagyobb, játsszon egy csatát sebzés nélkül.",
+  "UI_setting_battle_x_text": "Csata szöveges pozíciója: x",
+  "UI_setting_battle_y_text": "Csata szöveges pozíciója: y",
+  "UI_setting_hangar_x_text": "Hangar szöveges helyzet: x",
+  "UI_setting_hangar_y_text": "Hangár szövegpozíció: y",
+  "version": 211
+}

@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - Ρυθμίσεις",
+  "gui_windowTitle": "Ρυθμίσεις mods",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Ακύρωση",
+  "gui_buttonApply": "Εφαρμογή",
+  "gui_enableButtonTooltip": "{HEADER}Ρυθμίσεις mods{/HEADER}{BODY}Ενεργοποίηση | Απενεργοποίηση mods και διαμόρφωση ρυθμίσεων{/BODY}",
+  "web_resetToDefault": "Επαναφορά στις προεπιλογές:",
+  "web_saved": "Αποθηκεύτηκε!",
+  "web_saveError": "Σφάλμα κατά την αποθήκευση των ρυθμίσεων. Ελέγξτε την κονσόλα για λεπτομέρειες.",
+  "version": 305
+}

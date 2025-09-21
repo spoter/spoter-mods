@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Fonas mūšyje",
+  "UI_setting_battleShow_text": "Rodyti mūšyje",
+  "UI_setting_hangarBackground_text": "Fonas garaže",
+  "UI_setting_hangarShow_text": "Rodyti angare",
+  "UI_setting_label1_text": "Palaukite, kol mūšis baigsis neišeidami į angarą. Pajamos: žalia = pergalė, raudona = pralaimėjimas. Išlaidos: amunicija ir sunaudojamos medžiagos.",
+  "UI_setting_label2_text": "Papildoma informacija mūšyje: paspauskite ALT ir Ctrl klavišus",
+  "UI_setting_label_text": "Skaičiuoti kreditus mūšyje; ±1000 sidabro skirtumas yra normalus išsisklaidymas. Jei didesnis — sužaiskite vieną mūšį be žalos.",
+  "UI_setting_battle_x_text": "Mūšio teksto pozicija: X",
+  "UI_setting_battle_y_text": "Mūšio teksto pozicija: Y",
+  "UI_setting_hangar_x_text": "Garažo teksto padėtis: X",
+  "UI_setting_hangar_y_text": "Garažo teksto padėtis: Y",
+  "version": 211
+}

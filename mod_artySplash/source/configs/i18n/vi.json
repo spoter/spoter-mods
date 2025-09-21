@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Nút: Hiển thị hoặc ẩn dấu chấm nhắm", 
+  "UI_setting_buttonShowSplash_text": "Nút: Hiển thị hoặc ẩn bán kính giật gân", 
+  "UI_setting_messageDotOff": "Anh ta giật gân: Nhằm mục đích chấm tàn tật", 
+  "UI_setting_messageDotOn": "Anh ta giật gân: Nhằm mục đích chấm Đã bật", 
+  "UI_setting_messageSplashOff": "Anh ta giật gân: bán kính giật gân tàn tật", 
+  "UI_setting_messageSplashOn": "Anh ta giật gân: bán kính giật gân Đã bật", 
+  "UI_setting_name": "Anh ta giật gân", 
+  "UI_setting_showModeArcade_text": "Chế độ arcade có sẵn", 
+  "UI_setting_showModeArty_text": "Chế độ pháo có sẵn", 
+  "UI_setting_showModeSniper_text": "Chế độ bắn tỉa có sẵn", 
+  "UI_setting_showDotOnDefault_text": "Bật dấu chấm mục tiêu theo mặc định", 
+  "UI_setting_showSplashOnDefault_text": "Bật bán kính giật gân theo mặc định", 
+  "version": 217
+}

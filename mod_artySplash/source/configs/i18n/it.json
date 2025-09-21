@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Pulsante: mostra o nascondi il punto di mira", 
+  "UI_setting_buttonShowSplash_text": "Pulsante: mostra o nascondi il raggio di splash", 
+  "UI_setting_messageDotOff": "Ha schizzato: mirare a punto disabile", 
+  "UI_setting_messageDotOn": "Ha schizzato: mirare a punto abilitato", 
+  "UI_setting_messageSplashOff": "Ha schizzato: spruzzare il raggio disabile", 
+  "UI_setting_messageSplashOn": "Ha schizzato: spruzzare il raggio abilitato", 
+  "UI_setting_name": "Ha schizzato", 
+  "UI_setting_showModeArcade_text": "Modalità arcade disponibile", 
+  "UI_setting_showModeArty_text": "Modalità artiglieria disponibile", 
+  "UI_setting_showModeSniper_text": "Modalità cecchino disponibile", 
+  "UI_setting_showDotOnDefault_text": "Abilita il punto di mira per impostazione predefinita", 
+  "UI_setting_showSplashOnDefault_text": "Abilita il raggio di splash per impostazione predefinita", 
+  "version": 217
+}

@@ -1,0 +1,16 @@
+{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Fundo na batalha",
+  "UI_setting_battleShow_text": "Mostrar em batalha",
+  "UI_setting_hangarBackground_text": "Fundo na Garagem",
+  "UI_setting_hangarShow_text": "Mostrar na Garagem",
+  "UI_setting_label1_text": "Espere até que a batalha esteja completa sem escapar para o hangar. Renda: vitória verde, derrota vermelha, resultado: munição e consumíveis.",
+  "UI_setting_label2_text": "Informações adicionais na batalha: pressione as teclas ALT e Ctrl",
+  "UI_setting_label_text": "Calcular créditos na batalha; uma diferença de ±1000 de prata é uma dispersão normal. Se for maior, jogue uma batalha sem causar dano.",
+  "UI_setting_battle_x_text": "Posição do texto na batalha: X",
+  "UI_setting_battle_y_text": "Posição do texto na batalha: Y",
+  "UI_setting_hangar_x_text": "Posição do texto na Garagem: X",
+  "UI_setting_hangar_y_text": "Posição do texto na Garagem: Y",
+  "version": 211
+}
+

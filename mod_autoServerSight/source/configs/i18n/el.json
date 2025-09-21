@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Αυτόματο σκόπευτρο διακομιστή", 
+  "UI_setting_lightTank_text": "για ελαφρά άρματα", 
+  "UI_setting_mediumTank_text": "για μεσαία άρματα", 
+  "UI_setting_heavyTank_text": "για βαριά άρματα", 
+  "UI_setting_SPG_text": "για πυροβολικό", 
+  "UI_setting_AT-SPG_text": "για αντιαρματικά", 
+  "version": 103
+}

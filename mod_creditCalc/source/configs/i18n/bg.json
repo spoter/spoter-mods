@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Фон в битката",
+  "UI_setting_battleShow_text": "Показване в битка",
+  "UI_setting_hangarBackground_text": "Фон в хангар",
+  "UI_setting_hangarShow_text": "Показване в хангар",
+  "UI_setting_label1_text": "Изчакайте, докато битката приключи, без да избяга в хангара. Доход: Зелена победа, Червено поражение, Резултат: амуниции и консумативи.",
+  "UI_setting_label2_text": "Допълнителна информация в битката: натиснете клавишите ALT и CTRL",
+  "UI_setting_label_text": "Изчисляване на кредитите в битка; разлика от ±1000 сребро е нормална дисперсия. Ако е по-голяма, изиграйте една битка без да нанасяте щети.",
+  "UI_setting_battle_x_text": "Позиция на бойния текст: X",
+  "UI_setting_battle_y_text": "Позиция на бойния текст: Y",
+  "UI_setting_hangar_x_text": "Позиция на текста в хангар: X",
+  "UI_setting_hangar_y_text": "Текстова позиция на хангар: Y",
+  "version": 211
+}

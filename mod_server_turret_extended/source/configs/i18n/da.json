@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Forbedret præcision og auto-hjul-tilstand",
+    "UI_setting_activateMessage_text":  "Vis aktiveringsbesked",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Vis aktiveringsbesked i kamp.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Bevar sigtepræcision efter stop",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Efter kørsel og stop bevares det nuværende sigte for at undgå ekstra spredning.{/BODY}",
+    "UI_setting_serverTurret_text":  "Tårnsync (serversigte)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Justerer tårnet til serversigtets koordinater. Kræver aktiveret serversigte i spilindstillingerne.{/BODY}",
+    "UI_battle_activateMessage":  "Forbedret præcision og auto-hjul-tilstand: aktiveret",
+    "UI_setting_fixWheelCruiseControl_text":  "Hjul: fix til fartpilot",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Forhindrer, at køretøjet stopper ved skift af hjultilstand med fartpilot slået til.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Hjul: hold maksimal hastighed",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Ved topfart skiftes der ikke ud af hastighedstilstand under manøvrering.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Tast: hold maksimal hastighed",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Hjul: automatisk hastighedstilstand",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Skifter automatisk mellem hastigheds- og manøvretistand.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Tast: auto hastighedstilstand",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "TIL",
+    "UI_battle_OFF":  "FRA",
+    "version": 315
+}

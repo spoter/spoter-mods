@@ -1,11 +1,15 @@
 ﻿{
-    "UI_description": "Горячая клавиша отключения звуков в игре",
-    "UI_setting_hotkey_text": "Горячая клавиша",
-    "UI_setting_restoreSoundAfterBattleEnd_text": "Восстанавливать звук после окончания текущего боя",
-    "UI_setting_showMessage_text": "Показывать сообщение в бою",
-    "UI_setting_soundMuted": "Игровые Звуки ВКЛ",
-    "UI_setting_soundRestored": "Игровые Звуки ВЫКЛ",
-    "UI_setting_mutedSoundVolume_text": "Минимальный уровень звука, когда заглушено",
-    "UI_setting_mutedSoundVolume_formats": "%",
+    "UI_description":  "Горячая клавиша заглушения звуков в игре",
+    "UI_setting_hotkey_text":  "Горячая клавиша",
+    "UI_setting_showMessage_text":  "Показывать сообщение в бою",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Восстанавливать звук после окончания текущего боя",
+    "UI_setting_soundMuted":  "Игровые звуки ВКЛ",
+    "UI_setting_soundRestored":  "Игровые звуки ВЫКЛ",
+    "UI_setting_mutedSoundVolume_text":  "Минимальный уровень звука при заглушении",
+    "UI_setting_hotkey_tooltip":  "Назначить клавишу переключения звука (по умолчанию F9)",
+    "UI_setting_showMessage_tooltip":  "Показывать сообщение о статусе звука в бою",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Автоматически восстанавливать мастер-громкость после окончания боя",
+    "UI_setting_mutedSoundVolume_tooltip":  "Уровень мастер-громкости (%) при заглушении",
+    "UI_setting_mutedSoundVolume_formats":  "%",
     "version": 103
 }

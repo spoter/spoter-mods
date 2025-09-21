@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatski serverski nišan", 
+  "UI_setting_lightTank_text": "za lake tenkove", 
+  "UI_setting_mediumTank_text": "za srednje tenkove", 
+  "UI_setting_heavyTank_text": "za teške tenkove", 
+  "UI_setting_SPG_text": "za topništvo", 
+  "UI_setting_AT-SPG_text": "za lovce tenkova", 
+  "version": 103
+}

@@ -1,11 +1,15 @@
 ﻿{
-    "UI_description": "Mute Sound HotKey",
-    "UI_setting_hotkey_text": "Hotkey",
-    "UI_setting_restoreSoundAfterBattleEnd_text": "Restore Sound after battle end",
-    "UI_setting_showMessage_text": "Show status message in battle",
-    "UI_setting_soundMuted": "Game Sound ON",
-    "UI_setting_soundRestored": "Game Sound OFF",
-    "UI_setting_mutedSoundVolume_text": "Minimal sound level when muted",
-    "UI_setting_mutedSoundVolume_formats": "%",
+    "UI_description":  "Mute Sound Hotkey",
+    "UI_setting_hotkey_text":  "Hotkey",
+    "UI_setting_showMessage_text":  "Show status message in battle",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Restore sound after battle end",
+    "UI_setting_soundMuted":  "Game Sound ON",
+    "UI_setting_soundRestored":  "Game Sound OFF",
+    "UI_setting_mutedSoundVolume_text":  "Minimal sound level when muted",
+    "UI_setting_hotkey_tooltip":  "Assign a hotkey to toggle game sound (default F9).",
+    "UI_setting_showMessage_tooltip":  "Show a sound status message in battle when toggling.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Automatically restore the master volume after the battle ends.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Master volume level (%) while muted.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
     "version": 103
 }

@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "ปุ่ม: แสดงหรือซ่อนจุดเล็ง", 
+  "UI_setting_buttonShowSplash_text": "ปุ่ม: แสดงหรือซ่อนรัศมี Splash", 
+  "UI_setting_messageDotOff": "เขาสาด: จุดเล็ง พิการ", 
+  "UI_setting_messageDotOn": "เขาสาด: จุดเล็ง เปิดใช้งาน", 
+  "UI_setting_messageSplashOff": "เขาสาด: รัศมีสาด พิการ", 
+  "UI_setting_messageSplashOn": "เขาสาด: รัศมีสาด เปิดใช้งาน", 
+  "UI_setting_name": "เขาสาด", 
+  "UI_setting_showModeArcade_text": "มีโหมดอาร์เคด", 
+  "UI_setting_showModeArty_text": "มีโหมดปืนใหญ่", 
+  "UI_setting_showModeSniper_text": "มีโหมดซุ่มยิง", 
+  "UI_setting_showDotOnDefault_text": "เปิดใช้งานจุดเล็งตามค่าเริ่มต้น", 
+  "UI_setting_showSplashOnDefault_text": "เปิดใช้งานรัศมีสาดโดยค่าเริ่มต้น", 
+  "version": 217
+}

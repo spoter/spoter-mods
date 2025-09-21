@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODIT - Asetukset",
+  "gui_windowTitle": "Modien asetukset",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "Peruuta",
+  "gui_buttonApply": "Käytä",
+  "gui_enableButtonTooltip": "{HEADER}Modien asetukset{/HEADER}{BODY}Ota käyttöön | Poista käytöstä modeja ja muokkaa asetuksia{/BODY}",
+  "web_resetToDefault": "Palauta oletuksiin:",
+  "web_saved": "Tallennettu!",
+  "web_saveError": "Virhe asetusten tallentamisessa. Tarkista lisätiedot konsolista.",
+  "version": 305
+}

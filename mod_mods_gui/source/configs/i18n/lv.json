@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODI - Iestatījumi",
+  "gui_windowTitle": "Modu iestatījumi",
+  "gui_buttonOK": "Labi",
+  "gui_buttonCancel": "Atcelt",
+  "gui_buttonApply": "Lietot",
+  "gui_enableButtonTooltip": "{HEADER}Modu iestatījumi{/HEADER}{BODY}Ieslēgt | Izslēgt modus un konfigurēt iestatījumus{/BODY}",
+  "web_resetToDefault": "Atjaunot uz noklusējumu:",
+  "web_saved": "Saglabāts!",
+  "web_saveError": "Kļūda saglabājot iestatījumus. Plašāku informāciju skatiet konsolē.",
+  "version": 305
+}

@@ -14,7 +14,6 @@
 * [mod_server_turret_extended][] - "Стволик Хаоса", авто-скорость для колёсной техники, доворачивает башню танка по серверным координатам, автоматически активирует "Остановку для выстрела" при торможении танка, повышает кучность стрельбы
 * [mod_spotted_extended_light][] - "Светлячок Light", сообщения о первичном засвете и дамаге по засвету над миникартой + звук
 * [mod_mods_gui][] - Функциональное ядро, обязательный пакет с системными модулями (без него моды работать не будут)
-* [mod_restartRandomQueue][] - Сбрасывает очередь входа в рандом каждые 5 сек
 * [mod_autoServerSight][] - Автоматическое включение серверного прицела в начале боя, в зависимости от типа техники, на которой первоначально вышли в бой.
 * [mod_muteSoundHotKey][] - Горячая кнопка для включения\выключения звука в игре
 
@@ -34,6 +33,6 @@
 [mod_spotted_extended]:./mod_spotted_extended/
 [mod_spotted_extended_light]:./mod_spotted_extended_light/
 [mod_mods_gui]:./mod_mods_gui/
-[mod_restartRandomQueue]:./mod_restartRandomQueue/
+[mod_restartRandomQueue]:.deprecated/mod_restartRandomQueue/
 [mod_autoServerSight]:./mod_autoServerSight/
 [mod_muteSoundHotKey]:./mod_muteSoundHotKey/

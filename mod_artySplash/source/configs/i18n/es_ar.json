@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Botón: Mostrar u ocultar el punto de puntería", 
+  "UI_setting_buttonShowSplash_text": "Botón: Mostrar u ocultar el radio de salpicaduras", 
+  "UI_setting_messageDotOff": "El chapoteo: puntería desactivado", 
+  "UI_setting_messageDotOn": "El chapoteo: puntería activado", 
+  "UI_setting_messageSplashOff": "El chapoteo: radio de salpicadería desactivado", 
+  "UI_setting_messageSplashOn": "El chapoteo: radio de salpicadería activado", 
+  "UI_setting_name": "El chapoteo", 
+  "UI_setting_showModeArcade_text": "Modo Arcade disponible", 
+  "UI_setting_showModeArty_text": "Modo de artillería disponible", 
+  "UI_setting_showModeSniper_text": "Modo de francotirador disponible", 
+  "UI_setting_showDotOnDefault_text": "Habilitar el punto de puntería por defecto", 
+  "UI_setting_showSplashOnDefault_text": "Habilitar el radio de salpicaduras por defecto", 
+  "version": 217
+}

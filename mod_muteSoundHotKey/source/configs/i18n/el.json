@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Πλήκτρο σίγασης ήχου",
+    "UI_setting_hotkey_text":  "Πλήκτρο συντόμευσης",
+    "UI_setting_showMessage_text":  "Προβολή μηνύματος κατάστασης στη μάχη",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Επαναφορά ήχου μετά το τέλος της μάχης",
+    "UI_setting_soundMuted":  "Ήχος παιχνιδιού ΕΝΕΡΓΟ",
+    "UI_setting_soundRestored":  "Ήχος παιχνιδιού ΑΠΕΝΕΡΓΟ",
+    "UI_setting_mutedSoundVolume_text":  "Ελάχιστο επίπεδο ήχου κατά τη σίγαση",
+    "UI_setting_hotkey_tooltip":  "Αντιστοιχίστε πλήκτρο συντόμευσης για εναλλαγή του ήχου του παιχνιδιού (προεπιλογή F9).",
+    "UI_setting_showMessage_tooltip":  "Εμφάνιση μηνύματος κατάστασης στη μάχη κατά την εναλλαγή.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Αυτόματη επαναφορά της κύριας έντασης μετά το τέλος της μάχης.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Επίπεδο κύριας έντασης (%) κατά τη σίγαση.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

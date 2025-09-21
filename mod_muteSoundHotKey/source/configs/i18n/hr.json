@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Tipka prečaca za utišavanje zvuka",
+    "UI_setting_hotkey_text":  "Tipka prečaca",
+    "UI_setting_showMessage_text":  "Prikaži statusnu poruku u bitki",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Vraćaj zvuk nakon završetka bitke",
+    "UI_setting_soundMuted":  "Zvuk igre UKLJUČEN",
+    "UI_setting_soundRestored":  "Zvuk igre ISKLJUČEN",
+    "UI_setting_mutedSoundVolume_text":  "Minimalna razina zvuka kada je utišano",
+    "UI_setting_hotkey_tooltip":  "Dodijeli prečac za prebacivanje zvuka igre (zadano F9).",
+    "UI_setting_showMessage_tooltip":  "Prikaži poruku o statusu u borbi pri prebacivanju.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Automatski vrati glavnu glasnoću nakon završetka borbe.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Razina glavne glasnoće (%) tijekom utišavanja.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

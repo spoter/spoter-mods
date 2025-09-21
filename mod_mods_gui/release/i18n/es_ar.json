@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - Preferencias",
+  "gui_windowTitle": "Preferencias de mods",
+  "gui_buttonOK": "Aceptar",
+  "gui_buttonCancel": "Cancelar",
+  "gui_buttonApply": "Aplicar",
+  "gui_enableButtonTooltip": "{HEADER}Preferencias de mods{/HEADER}{BODY}Activar | Desactivar mods y ajustar la configuración{/BODY}",
+  "web_resetToDefault": "Restablecer a los valores predeterminados:",
+  "web_saved": "¡Guardado!",
+  "web_saveError": "Error al guardar la configuración. Revisá la consola para más detalles.",
+  "version": 305
+}

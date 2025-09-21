@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Sesi kapatma kısayol tuşu",
+    "UI_setting_hotkey_text":  "Kısayol tuşu",
+    "UI_setting_showMessage_text":  "Savaşta durum mesajını göster",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Savaş bitince sesi geri yükle",
+    "UI_setting_soundMuted":  "Oyun sesi AÇIK",
+    "UI_setting_soundRestored":  "Oyun sesi KAPALI",
+    "UI_setting_mutedSoundVolume_text":  "Sessize alındığında minimum ses seviyesi",
+    "UI_setting_hotkey_tooltip":  "Oyunun sesini değiştirmek için bir kısayol ata (varsayılan F9).",
+    "UI_setting_showMessage_tooltip":  "Geçiş sırasında savaşta durum mesajını göster.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Savaş bittikten sonra ana ses düzeyini otomatik olarak geri yükle.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Sessizdeyken ana ses düzeyi (%).",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

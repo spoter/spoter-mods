@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "버튼 : 섀시 복원", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "버튼 : 스마트 수리", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "수리 확장", 
+  "UI_repair_removeStun_text": "기절을 제거하십시오", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "금 키트를 사용하십시오", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "화재를 소멸시킵니다", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "선원을 치유하십시오", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "섀시를 복원하십시오", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "수리 장치", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "ปุ่ม: กู้คืนแชสซี", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "ปุ่ม: การซ่อมแซมอัจฉริยะ", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "ซ่อมแซม", 
+  "UI_repair_removeStun_text": "ลบ stun", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "ใช้ชุดทองคำ", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "ดับไฟ", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "รักษาลูกเรือ", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "กู้คืนแชสซี", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "อุปกรณ์ซ่อมแซม", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

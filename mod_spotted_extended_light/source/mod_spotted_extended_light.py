@@ -23,7 +23,7 @@ GENERATOR = {
 class Config(object):
     def __init__(self):
         self.ids = 'spotted_extended_light'
-        self.version = 'v4.18 (2025-02-24)'
+        self.version = 'v4.18 (2025-09-21)'
         self.version_id = 418
         self.author = 'by spoter'
         self.dataDefault = {

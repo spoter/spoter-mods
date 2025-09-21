@@ -23,7 +23,6 @@ from constants import ARENA_BONUS_TYPE
 from frameworks.wulf import WindowLayer as ViewTypes
 from gui import InputHandler
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
-from gui.Scaleform.daapi.view.meta.CrewOperationsPopOverMeta import CrewOperationsPopOverMeta
 from gui.impl.lobby.crew.widget.crew_widget import CrewWidget
 from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
 from gui.Scaleform.framework.entities.View import View
@@ -120,7 +119,7 @@ class Config(object):
     def __init__(self):
         self.ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.11 (2025-02-24)'
+        self.version = 'v2.11 (2025-09-21)'
         self.version_id = 211
         self.versionI18n = 3401
         lang = getLanguageCode().lower()
@@ -139,24 +138,24 @@ class Config(object):
         self.i18n = {
             'version'                         : self.versionI18n,
             'UI_description'                  : 'creditCalc',
-            'UI_setting_label_text'           : 'Calc Credits in Battle, +1000 or -1000 silver difference: that\'s normal dispersion, if greater: Play one battle without damage.',
-            'UI_setting_label1_text'          : 'Wait until the battle is complete without escape into the hangar. Income: Green Victory, Red Defeat, Outcome: ammo and consumables.',
-            'UI_setting_label2_text'          : 'Additional info in battle: Press Alt and Control buttons',
+            'UI_setting_label_text'           : 'Calculate credits in battle; a ±1000 silver difference is normal dispersion. If larger, play one battle without dealing damage.',
+            'UI_setting_label1_text'          : 'Wait until the battle finishes without exiting to the hangar. Income: green = victory, red = defeat. Expenses: ammo and consumables.',
+            'UI_setting_label2_text'          : 'Additional info in battle: press ALT and Ctrl keys',
             'UI_setting_battleBackground_text': 'Background in battle',
-            'UI_setting_hangarBackground_text': 'Background in hangar',
-            'UI_setting_hangarShow_text'      : 'Show in hangar',
+            'UI_setting_hangarBackground_text': 'Background in Garage',
+            'UI_setting_hangarShow_text'      : 'Show in Garage',
             'UI_setting_battleShow_text'      : 'Show in battle',
             'UI_setting_battle_x_text'        : 'Battle text position: X',
             'UI_setting_battle_y_text'        : 'Battle text position: Y',
-            'UI_setting_hangar_x_text'        : 'Hangar text position: X',
-            'UI_setting_hangar_y_text'        : 'Hangar text position: Y',
+            'UI_setting_hangar_x_text'        : 'Garage text position: X',
+            'UI_setting_hangar_y_text'        : 'Garage text position: Y',
 
         }
         if 'ru' in lang:
             self.i18n.update({
-                'UI_setting_label_text'           : 'Калькуляция серебра в бою, +1000 или -1000 разницы: Нормальный разброс, если разброс больше, проведите один бой без урона',
-                'UI_setting_label1_text'          : 'Дождитесь завершения боя без выхода в ангар. Доход: Зеленый победа, Красный поражение, Расходы: цена снарядов и расходников',
-                'UI_setting_label2_text'          : 'Дополнительная информация в бою: Нажмите кнопки АЛЬТ и КОНТРОЛ',
+                'UI_setting_label_text'           : 'Калькуляция серебра в бою; разница ±1000 — нормальный разброс. Если больше — сыграйте один бой без нанесения урона.',
+                'UI_setting_label1_text'          : 'Дождитесь завершения боя, не выходя в ангар. Доход: зелёный — победа, красный — поражение. Расходы: цена снарядов и расходников.',
+                'UI_setting_label2_text'          : 'Дополнительная информация в бою: нажмите клавиши ALT и CTRL',
                 'UI_setting_battleBackground_text': 'Задний фон в бою',
                 'UI_setting_hangarBackground_text': 'Задний фон в ангаре',
                 'UI_setting_hangarShow_text'      : 'Показывать в ангаре',
@@ -169,17 +168,17 @@ class Config(object):
         if 'cn' in lang or 'zh' in lang:
             self.i18n.update({
                 "UI_description"                  : "银币收益计算",
-                "UI_setting_battleBackground_text": "在战斗中的消耗",
-                "UI_setting_hangarShow_text"      : "在机库中显示",
-                "UI_setting_hangarBackground_text": "机库的背景",
+                "UI_setting_battleBackground_text": "战斗界面背景",
+                "UI_setting_hangarShow_text"      : "在车库中显示",
+                "UI_setting_hangarBackground_text": "车库背景",
                 "UI_setting_battleShow_text"      : "显示在战斗中",
-                "UI_setting_label1_text"          : "等到战斗结束返回到机库. 收益：绿色为胜利, 红色为失败, 结果: 弹药和消耗品.",
-                "UI_setting_label2_text"          : "战斗中的详细情报:按Alt和Control按钮",
-                "UI_setting_label_text"           : "在战斗中的得分, +1000或-1000银币差额: 这是正常的分数, 如果更好的: 发挥战斗造成损伤.",
+                "UI_setting_label1_text"          : "等待战斗结束，不要返回机库。收益：绿色=胜利，红色=失败。开销：弹药与消耗品。",
+                "UI_setting_label2_text"          : "战斗中更多信息：按下 ALT 和 Ctrl 键",
+                "UI_setting_label_text"           : "在战斗中计算银币；±1000 银币差额属于正常波动。若更大：进行一场不造成伤害的战斗。",
                 "UI_setting_battle_x_text"        : "战斗文本位置: X",
                 "UI_setting_battle_y_text"        : "战斗文本位置: Y",
-                "UI_setting_hangar_x_text"        : "机库文本位置: X",
-                "UI_setting_hangar_y_text"        : "机库文本位置: Y",
+                "UI_setting_hangar_x_text"        : "车库文本位置: X",
+                "UI_setting_hangar_y_text"        : "车库文本位置: Y",
             })
         if g_gui:
             self.data, self.i18n = g_gui.register_data(self.ids, self.dataDefault, self.i18n, 'www.b4it.org')
@@ -552,7 +551,11 @@ class CreditsCalculator(object):
     def onVehicleKilled(self, target_id, *args):
         player = BigWorld.player()
         vehicle = player.getVehicleAttached()
-        if target_id == vehicle.id:
+        if vehicle == None:
+            vehicleID = player.playerVehicleID
+        else:
+            vehicleID =  vehicle.id
+        if target_id == vehicleID:
             self.killed = True
             self.calc()
             return
@@ -598,7 +601,7 @@ class CreditsCalculator(object):
                 price += self.hangarAmmo[ammo][0] * self.hangarAmmo[ammo][1]
         return int(round(price))
 
-    def onShellsAdded(self, intCD, descriptor, quantity, _, gunSettings):
+    def onShellsAdded(self, intCD, descriptor, quantity, *args):
         if intCD in self.hangarAmmo:
             self.hangarAmmo[intCD][2] = quantity
             self.calc()
@@ -695,7 +698,7 @@ class CreditsCalculator(object):
     def getDebugText(self):
         debugText = 'Coeff: %s: %s\n' % ('MISS' if self.compactDescr not in self.COEFFICIENTS else 'FOUND', self.balanceCoeff)
         if self.compactDescr not in self.COEFFICIENTS:
-            debugText += '\nCredit Calc need learn\non that vehicle\n'
+            debugText += '\nCredit Calc needs to learn\non this vehicle\n'
             if not self.tempResults[self.compactDescr]['damage']:
                 debugText += 'JUST SUICIDE FAST plz!\n'
                 debugText += 'And wait until battle down\n'
@@ -740,7 +743,7 @@ class CreditsCalculator(object):
             consumables = int(round(price))
 
             print '#' * 40
-            print 'Credits Calculate mode'
+            print 'Credits calculation mode'
             print 'VEHICLE: %s level:%s (id:%s)' % (self.tempResults[self.compactDescr]['name'], self.tempResults[self.compactDescr]['level'], self.compactDescr)
             print 'damage:%s, assist:%s, spot:%s, %s' % (self.tempResults[self.compactDescr]['damage'], self.tempResults[self.compactDescr]['assist'], self.tempResults[self.compactDescr]['spot'], 'clear repaired' if self.tempResults[self.compactDescr]['clearRepair'] else 'not cleared repair')
             print 'damage detail: selfSpot:%s, unkwnSpot:%s, othrSpot:%s, forStunned:%s, ' % (self.DAMAGE_SELF_SPOT, self.DAMAGE_UNKNOWN_SPOT, self.DAMAGE_OTHER_SPOT, self.DAMAGE_STUN)
@@ -785,8 +788,9 @@ class CreditsCalculator(object):
         if not config.data['hangarShow']:
             return
         if g_currentVehicle.item:
+            return
             flashInHangar.setPosition(config.data['hangar_x'], config.data['hangar_y'])  # x and y
-            flashInHangar.setBackground(config.data['battleBackground'], '0x000000', 0.4)  # change to false if dont want
+            flashInHangar.setBackground(config.data['hangarBackground'], '0x000000', 0.4)  # change to false if dont want
             flashInHangar.setText(self.recalculatedMessage)
             # SystemMessages.pushMessage(self.recalculatedMessage, SystemMessages.SM_TYPE.GameGreeting)
             return
@@ -939,7 +943,7 @@ class CreditsCalculator(object):
                         if DEBUG or DEBUG_COEFF:
                             print "####2 '%s': %s," % (self.compactDescr, self.balanceCoeff)
                 if DEBUG or DEBUG_COEFF:
-                    self.recalculatedMessage = '<font size=\"20\" color=\"#FFE041\">Credits Calc to %s (id:%s)\nNew coeff:%s assigned, %s to %s</font>\n' % (self.tempResults[vehicleCompDesc]['name'], self.compactDescr, check, testCoeff, check)
+                    self.recalculatedMessage = '<font size=\"20\" color=\"#FFE041\">Credit calculation for %s (id:%s)\nNew coeff %s assigned, %s -> %s</font>\n' % (self.tempResults[vehicleCompDesc]['name'], self.compactDescr, check, testCoeff, check)
                     BigWorld.callback(1.0, self.timerMessage)
             # del self.tempResults[vehicleCompDesc]
 
@@ -2027,7 +2031,7 @@ class BattleResultParser(object):
 
 
 config = Config()
-flashInHangar = flashInHangar()
+#flashInHangar = flashInHangar()
 flash = Flash()
 calc = CreditsCalculator()
 results = BattleResultParser()
@@ -2169,4 +2173,4 @@ def jsonGenerator(nations, onlyNew=False):
 
 #jsonGenerator(['ussr', 'germany', 'uk', 'japan', 'usa', 'china', 'france', 'czech', 'sweden', 'poland', 'italy'], True)
 
-BigWorld.flashInHangar = flashInHangar
+#BigWorld.flashInHangar = flashInHangar

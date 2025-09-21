@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Raccourci pour couper le son",
+    "UI_setting_hotkey_text":  "Raccourci clavier",
+    "UI_setting_showMessage_text":  "Afficher un message d’état en bataille",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Rétablir le son après la fin de la bataille",
+    "UI_setting_soundMuted":  "Son du jeu ACTIVÉ",
+    "UI_setting_soundRestored":  "Son du jeu DÉSACTIVÉ",
+    "UI_setting_mutedSoundVolume_text":  "Niveau sonore minimal en mode muet",
+    "UI_setting_hotkey_tooltip":  "Définir le raccourci pour basculer le son du jeu (par défaut F9).",
+    "UI_setting_showMessage_tooltip":  "Afficher un message d’état en bataille lors du basculement du son.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Rétablir automatiquement le volume principal à la fin de la bataille.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Niveau du volume principal (%) en mode muet.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

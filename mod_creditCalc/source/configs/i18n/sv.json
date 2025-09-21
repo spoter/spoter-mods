@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Bakgrund i strid",
+  "UI_setting_battleShow_text": "Visa i strid",
+  "UI_setting_hangarBackground_text": "Bakgrund i garaget",
+  "UI_setting_hangarShow_text": "Visa i garaget",
+  "UI_setting_label1_text": "Vänta tills striden är klar utan att lämna till hangaren. Inkomst: grönt = seger, rött = nederlag. Kostnader: ammunition och förbrukningsvaror.",
+  "UI_setting_label2_text": "Mer info i strid: tryck på ALT- och Ctrl-tangenterna",
+  "UI_setting_label_text": "Beräkna krediter i strid; en skillnad på ±1000 silver är normal spridning. Om större, spela en strid utan att göra skada.",
+  "UI_setting_battle_x_text": "Stridstextens position: X",
+  "UI_setting_battle_y_text": "Stridstextens position: Y",
+  "UI_setting_hangar_x_text": "Garagetextens position: X",
+  "UI_setting_hangar_y_text": "Garagetextens position: Y",
+  "version": 211
+}

@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Автоматичний серверний приціл", 
+  "UI_setting_lightTank_text": "для ЛТ", 
+  "UI_setting_mediumTank_text": "для СТ", 
+  "UI_setting_heavyTank_text": "для ТТ", 
+  "UI_setting_SPG_text": "для САУ", 
+  "UI_setting_AT-SPG_text": "для ПТ-САУ", 
+  "version": 103
+}

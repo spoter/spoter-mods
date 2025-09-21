@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Förbättrad träffsäkerhet och automatisk hjulläge",
+    "UI_setting_activateMessage_text":  "Visa aktiveringsmeddelande",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Visar aktiveringsmeddelande i strid.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Behåll siktesprecision efter stopp",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Efter rörelse och stopp behålls siktet för att undvika extra spridning.{/BODY}",
+    "UI_setting_serverTurret_text":  "Tornsynk (serversikte)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Justerar tornet efter serversiktet. Kräver aktiverat ”Serversikte” i spelets alternativ.{/BODY}",
+    "UI_battle_activateMessage":  "Förbättrad träffsäkerhet och auto hjul: aktiverat",
+    "UI_setting_fixWheelCruiseControl_text":  "Hjul: fix för farthållare",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Förhindrar att fordonet stannar när du byter läge med farthållaren på.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Hjul: behåll maxhastighet",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Vid toppfart stängs inte fartläget av under manövrering.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Snabbtangent: behåll maxhastighet",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Hjul: automatiskt fartläge",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Växlar automatiskt mellan fartläge och manöverläge.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Snabbtangent: automatiskt fartläge",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "PÅ",
+    "UI_battle_OFF":  "AV",
+    "version": 315
+}

@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Poboljšana preciznost i automatski režim za točkaše",
+    "UI_setting_activateMessage_text":  "Prikaži poruku o aktivaciji",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Prikazuje poruku o aktivaciji u bici.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Zadrži preciznost nišanjenja posle zaustavljanja",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Posle kretanja i zaustavljanja čuva nišan da se izbegne dodatno rasipanje.{/BODY}",
+    "UI_setting_serverTurret_text":  "Sinhronizacija kule (serverski nišan)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Poravnava kulu sa serverskim nišanom. Zahteva uključen „Serverski nišan” u podešavanjima igre.{/BODY}",
+    "UI_battle_activateMessage":  "Poboljšana preciznost i auto režim točkaša: aktivirano",
+    "UI_setting_fixWheelCruiseControl_text":  "Točkaši: ispravka tempomata",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Sprečava zaustavljanje vozila pri promeni režima kada je tempomat uključen.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Točkaši: drži maksimalnu brzinu",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Na maksimalnoj brzini ne gasi brzi režim pri manevrisanju.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Taster: drži maksimalnu brzinu",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Točkaši: automatski brzi režim",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Automatski prebacuje između brzog i manevarskog režima.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Taster: automatski brzi režim",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "UKLJUČENO",
+    "UI_battle_OFF":  "ISKLJUČENO",
+    "version": 315
+}

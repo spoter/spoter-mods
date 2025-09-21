@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automaattinen palvelintähtäin", 
+  "UI_setting_lightTank_text": "kevyille panssarivaunuille", 
+  "UI_setting_mediumTank_text": "keskiraskaille panssarivaunuille", 
+  "UI_setting_heavyTank_text": "raskaille panssarivaunuille", 
+  "UI_setting_SPG_text": "tykistöajoneuvoille", 
+  "UI_setting_AT-SPG_text": "panssarintorjuntavaunuille", 
+  "version": 103
+}

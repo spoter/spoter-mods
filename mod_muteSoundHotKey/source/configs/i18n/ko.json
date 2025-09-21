@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "사운드 음소거 단축키",
+    "UI_setting_hotkey_text":  "단축키",
+    "UI_setting_showMessage_text":  "전투 중 상태 메시지 표시",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "전투 종료 후 사운드 복원",
+    "UI_setting_soundMuted":  "게임 사운드 켜짐",
+    "UI_setting_soundRestored":  "게임 사운드 꺼짐",
+    "UI_setting_mutedSoundVolume_text":  "음소거 시 최소 음량",
+    "UI_setting_hotkey_tooltip":  "게임 사운드를 전환할 단축키를 지정합니다(기본값 F9).",
+    "UI_setting_showMessage_tooltip":  "전환 시 전투 중 상태 메시지를 표시합니다.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "전투 종료 후 마스터 볼륨을 자동으로 복원합니다.",
+    "UI_setting_mutedSoundVolume_tooltip":  "음소거 중 마스터 볼륨(%).",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

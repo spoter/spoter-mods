@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "자동 서버 조준", 
+  "UI_setting_lightTank_text": "경전차용", 
+  "UI_setting_mediumTank_text": "중형전차용", 
+  "UI_setting_heavyTank_text": "중전차용", 
+  "UI_setting_SPG_text": "자주포용", 
+  "UI_setting_AT-SPG_text": "구축전차용", 
+  "version": 103
+}

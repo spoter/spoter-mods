@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatisk serversikte", 
+  "UI_setting_lightTank_text": "for lette stridsvogner", 
+  "UI_setting_mediumTank_text": "for middels stridsvogner", 
+  "UI_setting_heavyTank_text": "for tunge stridsvogner", 
+  "UI_setting_SPG_text": "for artilleri", 
+  "UI_setting_AT-SPG_text": "for panserjagere", 
+  "version": 103
+}

@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Tastă rapidă pentru a dezactiva sunetul",
+    "UI_setting_hotkey_text":  "Tastă rapidă",
+    "UI_setting_showMessage_text":  "Afișează mesajul de stare în bătălie",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Restaurează sunetul după terminarea bătăliei",
+    "UI_setting_soundMuted":  "Sunetul jocului PORNIT",
+    "UI_setting_soundRestored":  "Sunetul jocului OPRIT",
+    "UI_setting_mutedSoundVolume_text":  "Nivel minim al sunetului în modul mut",
+    "UI_setting_hotkey_tooltip":  "Atribuie o tastă rapidă pentru a comuta sunetul jocului (implicit F9).",
+    "UI_setting_showMessage_tooltip":  "Afișează un mesaj de stare în luptă la comutare.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Restaurează automat volumul principal după încheierea bătăliei.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Nivelul volumului principal (%) în timpul mutului.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

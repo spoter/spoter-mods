@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Бутон: Показване или скриване на целта точка", 
+  "UI_setting_buttonShowSplash_text": "Бутон: Показване или скриване на радиуса на пръскане", 
+  "UI_setting_messageDotOff": "Той пръска: насочване към точка деактивиран", 
+  "UI_setting_messageDotOn": "Той пръска: насочване към точка активиран", 
+  "UI_setting_messageSplashOff": "Той пръска: радиус на пръскане деактивиран", 
+  "UI_setting_messageSplashOn": "Той пръска: радиус на пръскане активиран", 
+  "UI_setting_name": "Той пръска", 
+  "UI_setting_showModeArcade_text": "Наличен аркаден режим", 
+  "UI_setting_showModeArty_text": "Предлага се артилерийски режим", 
+  "UI_setting_showModeSniper_text": "Наличен режим на снайперист", 
+  "UI_setting_showDotOnDefault_text": "Активирайте по подразбиране DOT за насочване", 
+  "UI_setting_showSplashOnDefault_text": "Активирайте радиуса на пръскане по подразбиране", 
+  "version": 217
+}

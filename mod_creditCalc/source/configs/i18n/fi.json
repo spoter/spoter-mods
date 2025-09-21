@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Tausta taistelussa",
+  "UI_setting_battleShow_text": "Näytä taistelussa",
+  "UI_setting_hangarBackground_text": "Tausta hangaarissa",
+  "UI_setting_hangarShow_text": "Näytä hangaarissa",
+  "UI_setting_label1_text": "Odota, että taistelu päättyy poistumatta hangaariin. Tulot: vihreä = voitto, punainen = tappio. Kulut: ammukset ja kulutustarvikkeet.",
+  "UI_setting_label2_text": "Lisätietoja taistelussa: paina ALT- ja Ctrl-näppäimiä",
+  "UI_setting_label_text": "Laske krediitit taistelussa; ±1000 hopean ero on normaalia hajontaa. Jos suurempi, pelaa yksi taistelu ilman vahinkoa.",
+  "UI_setting_battle_x_text": "Taistelutekstin sijainti: X",
+  "UI_setting_battle_y_text": "Taistelutekstin sijainti: Y",
+  "UI_setting_hangar_x_text": "Hangaarin tekstin sijainti: X",
+  "UI_setting_hangar_y_text": "Hangaarin tekstin sijainti: Y",
+  "version": 211
+}

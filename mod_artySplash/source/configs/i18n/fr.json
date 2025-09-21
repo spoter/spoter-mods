@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Bouton: afficher ou masquer le point de visée", 
+  "UI_setting_buttonShowSplash_text": "Bouton: afficher ou masquer le rayon des éclaboussures", 
+  "UI_setting_messageDotOff": "Il éclaboussit: viser le point désactivé", 
+  "UI_setting_messageDotOn": "Il éclaboussit: viser le point activé", 
+  "UI_setting_messageSplashOff": "Il éclaboussit: rayon des éclaboussures désactivé", 
+  "UI_setting_messageSplashOn": "Il éclaboussit: rayon des éclaboussures activé", 
+  "UI_setting_name": "Il éclaboussit", 
+  "UI_setting_showModeArcade_text": "Mode d'arcade disponible", 
+  "UI_setting_showModeArty_text": "Mode d'artillerie disponible", 
+  "UI_setting_showModeSniper_text": "Mode Sniper Disponible", 
+  "UI_setting_showDotOnDefault_text": "Activer le point de visée par défaut", 
+  "UI_setting_showSplashOnDefault_text": "Activer le rayon des éclaboussures par défaut", 
+  "version": 217
+}

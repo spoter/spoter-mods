@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Hotkey zum Stummschalten des Sounds",
+    "UI_setting_hotkey_text":  "Tastenkürzel",
+    "UI_setting_showMessage_text":  "Statusmeldung im Gefecht anzeigen",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Sound nach Gefechtsende wiederherstellen",
+    "UI_setting_soundMuted":  "Spielsound AN",
+    "UI_setting_soundRestored":  "Spielsound AUS",
+    "UI_setting_mutedSoundVolume_text":  "Minimale Lautstärke bei Stummschaltung",
+    "UI_setting_hotkey_tooltip":  "Hotkey zum Umschalten des Spielsounds festlegen (Standard: F9).",
+    "UI_setting_showMessage_tooltip":  "Statusmeldung im Gefecht beim Umschalten anzeigen.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Master-Lautstärke nach Gefechtsende automatisch wiederherstellen.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Master-Lautstärke (%) während Stummschaltung.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

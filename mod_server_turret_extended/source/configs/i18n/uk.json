@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Покращена точність і авто режим для колісної техніки",
+    "UI_setting_activateMessage_text":  "Показувати повідомлення про активацію",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Інфо:{/HEADER}{BODY}Показувати в бою повідомлення про активацію мода.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Точність після зупинки",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Інфо:{/HEADER}{BODY}Після руху і зупинки зберігає наведення, щоб уникнути додаткового розсіювання.{/BODY}",
+    "UI_setting_serverTurret_text":  "Синхронізація башти (серверний приціл)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Інфо:{/HEADER}{BODY}Вирівнює башту за серверним прицілом. Потрібен увімкнений «Серверний приціл» у параметрах гри.{/BODY}",
+    "UI_battle_activateMessage":  "Покращена точність і авто режим колісників: активовано",
+    "UI_setting_fixWheelCruiseControl_text":  "Колісники: виправлення круїз‑контролю",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Інфо:{/HEADER}{BODY}Запобігає зупинці машини під час перемикання режиму з увімкненим круїз‑контролем.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Колісники: утримувати максимальну швидкість",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Інфо:{/HEADER}{BODY}На максимальній швидкості не вимикати швидкісний режим під час маневрування.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Клавіша: утримувати максимальну швидкість",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Колісники: авто швидкісний режим",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Інфо:{/HEADER}{BODY}Автоматично перемикає швидкісний і маневровий режими.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Клавіша: авто швидкісний режим",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "УВІМК",
+    "UI_battle_OFF":  "ВИМК",
+    "version": 315
+}

@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Precisione migliorata e modalità automatica per veicoli su ruote",
+    "UI_setting_activateMessage_text":  "Mostra messaggio di attivazione",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Mostra in battaglia il messaggio di attivazione.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Mantieni la mira dopo l’arresto",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Dopo il movimento e l’arresto mantiene la mira per evitare ulteriore dispersione.{/BODY}",
+    "UI_setting_serverTurret_text":  "Sincronizzazione torretta (reticolo del server)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Allinea la torretta al reticolo del server. Richiede l’opzione «Reticolo del server» attiva.{/BODY}",
+    "UI_battle_activateMessage":  "Precisione migliorata e modalità ruote auto: attivata",
+    "UI_setting_fixWheelCruiseControl_text":  "Ruote: correzione del controllo di crociera",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Impedisce l’arresto del veicolo quando si cambia modalità con il controllo di crociera attivo.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Ruote: mantieni la velocità massima",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Alla velocità massima non esce dalla modalità velocità durante le manovre.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Tasto: mantieni la velocità massima",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Ruote: modalità velocità automatica",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Passa automaticamente tra modalità velocità e manovra.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Tasto: modalità velocità automatica",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ATTIVO",
+    "UI_battle_OFF":  "DISATTIVO",
+    "version": 315
+}

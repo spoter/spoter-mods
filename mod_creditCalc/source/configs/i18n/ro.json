@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Fundal în luptă",
+  "UI_setting_battleShow_text": "Afișare în luptă",
+  "UI_setting_hangarBackground_text": "Fundal în garaj",
+  "UI_setting_hangarShow_text": "Afișare în garaj",
+  "UI_setting_label1_text": "Așteptați până când bătălia este completă fără a scăpa în hangar. Venit: victorie verde, înfrângere roșie, rezultat: muniție și consumabile.",
+  "UI_setting_label2_text": "Informații suplimentare în luptă: apăsați tastele ALT și CTRL",
+  "UI_setting_label_text": "Calculați creditele în luptă; o diferență de ±1000 argint este o dispersie normală. Dacă este mai mare, jucați o luptă fără a provoca daune.",
+  "UI_setting_battle_x_text": "Poziția textului în luptă: X",
+  "UI_setting_battle_y_text": "Poziția textului în luptă: Y",
+  "UI_setting_hangar_x_text": "Poziția textului în garaj: X",
+  "UI_setting_hangar_y_text": "Poziția textului în garaj: Y",
+  "version": 211
+}

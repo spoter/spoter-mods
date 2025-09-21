@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Horká klávesa pro ztlumení zvuku",
+    "UI_setting_hotkey_text":  "Klávesová zkratka",
+    "UI_setting_showMessage_text":  "Zobrazovat stavovou zprávu v bitvě",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Obnovit zvuk po konci bitvy",
+    "UI_setting_soundMuted":  "Zvuk hry ZAPNUTO",
+    "UI_setting_soundRestored":  "Zvuk hry VYPNUTO",
+    "UI_setting_mutedSoundVolume_text":  "Minimální úroveň zvuku při ztlumení",
+    "UI_setting_hotkey_tooltip":  "Přiřadit klávesovou zkratku pro přepínání zvuku hry (výchozí F9).",
+    "UI_setting_showMessage_tooltip":  "Zobrazit stavovou zprávu v bitvě při přepnutí.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Po skončení bitvy automaticky obnovit hlavní hlasitost.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Úroveň hlavní hlasitosti (%) při ztlumení.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

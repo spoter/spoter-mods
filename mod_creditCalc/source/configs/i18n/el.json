@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Φόντο στη μάχη",
+  "UI_setting_battleShow_text": "Εμφάνιση στη μάχη",
+  "UI_setting_hangarBackground_text": "Φόντο στο υπόστεγο",
+  "UI_setting_hangarShow_text": "Εμφάνιση στο υπόστεγο",
+  "UI_setting_label1_text": "Περιμένετε μέχρι να ολοκληρωθεί η μάχη χωρίς να διαφύγετε στο υπόστεγο. Έσοδα: Πράσινη νίκη, κόκκινη ήττα, αποτέλεσμα: πυρομαχικά και αναλώσιμα.",
+  "UI_setting_label2_text": "Πρόσθετες πληροφορίες στη μάχη: πατήστε τα πλήκτρα ALT και CTRL",
+  "UI_setting_label_text": "Υπολογισμός πιστώσεων στη μάχη· διαφορά ±1000 αργύρου είναι κανονική διασπορά. Αν είναι μεγαλύτερη, παίξτε μία μάχη χωρίς ζημιά.",
+  "UI_setting_battle_x_text": "Θέση κειμένου μάχης: X",
+  "UI_setting_battle_y_text": "Θέση κειμένου μάχης: Y",
+  "UI_setting_hangar_x_text": "Θέση κειμένου στο υπόστεγο: X",
+  "UI_setting_hangar_y_text": "Θέση κειμένου στο υπόστεγο: Y",
+  "version": 211
+}

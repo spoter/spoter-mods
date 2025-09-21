@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Подобрена точност и авто режим за колесни",
+    "UI_setting_activateMessage_text":  "Показвай съобщение за активиране",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Инфо:{/HEADER}{BODY}Показва съобщение за активиране в битката.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Точност след спиране",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Инфо:{/HEADER}{BODY}След движение и спиране запазва текущото прицелване, за да няма допълнителен разсей при спиране.{/BODY}",
+    "UI_setting_serverTurret_text":  "Синхрон на кула (сървърен мерник)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Инфо:{/HEADER}{BODY}Подравнява кулата по сървърния мерник. Изисква включен „Сървърен мерник“ в настройките.{/BODY}",
+    "UI_battle_activateMessage":  "Подобрена точност и авто режим за колесни: активирано",
+    "UI_setting_fixWheelCruiseControl_text":  "Колесни: фиксация за круиз контрол",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Инфо:{/HEADER}{BODY}Предотвратява спиране при превключване на режим с включен круиз контрол.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Колесни: поддържай максимална скорост",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Инфо:{/HEADER}{BODY}При достигната макс. скорост да не изключва скоростния режим при маневриране.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Клавиш: поддържай максимална скорост",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Колесни: авто скоростен режим",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Инфо:{/HEADER}{BODY}Автоматично превключва между скоростен и маневрен режим.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Клавиш: авто скоростен режим",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ВКЛ",
+    "UI_battle_OFF":  "ИЗКЛ",
+    "version": 315
+}

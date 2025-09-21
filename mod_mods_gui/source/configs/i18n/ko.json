@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - 설정",
+  "gui_windowTitle": "모드 설정",
+  "gui_buttonOK": "확인",
+  "gui_buttonCancel": "취소",
+  "gui_buttonApply": "적용",
+  "gui_enableButtonTooltip": "{HEADER}모드 설정{/HEADER}{BODY}모드를 활성화 | 비활성화하고 설정을 구성합니다{/BODY}",
+  "web_resetToDefault": "기본값으로 초기화:",
+  "web_saved": "저장되었습니다!",
+  "web_saveError": "설정을 저장하는 동안 오류가 발생했습니다. 자세한 내용은 콘솔을 확인하세요.",
+  "version": 305
+}

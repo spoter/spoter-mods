@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Poga: parādīt vai paslēpt mērķtiecīgu punktu", 
+  "UI_setting_buttonShowSplash_text": "Poga: parādīt vai paslēpt šļakatas rādiusu", 
+  "UI_setting_messageDotOff": "Viņš izšļakstījās: Mērķa punkts nespējīgs", 
+  "UI_setting_messageDotOn": "Viņš izšļakstījās: Mērķa punkts iespējots", 
+  "UI_setting_messageSplashOff": "Viņš izšļakstījās: šļakatas rādiuss nespējīgs", 
+  "UI_setting_messageSplashOn": "Viņš izšļakstījās: šļakatas rādiuss iespējots", 
+  "UI_setting_name": "Viņš izšļakstījās", 
+  "UI_setting_showModeArcade_text": "Pieejams arkādes režīms", 
+  "UI_setting_showModeArty_text": "Pieejams artilērijas režīms", 
+  "UI_setting_showModeSniper_text": "Pieejams snaipera režīms", 
+  "UI_setting_showDotOnDefault_text": "Iespējot mērķtiecīgu punktu pēc noklusējuma", 
+  "UI_setting_showSplashOnDefault_text": "Pēc noklusējuma iespējot šļakatu rādiusu", 
+  "version": 217
+}

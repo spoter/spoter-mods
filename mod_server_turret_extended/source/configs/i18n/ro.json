@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Precizie îmbunătățită și mod automat pentru vehicule pe roți",
+    "UI_setting_activateMessage_text":  "Afișează mesajul de activare",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Afișează în luptă mesajul de activare.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Păstrează precizia după oprire",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}După deplasare și oprire, păstrează ochirea pentru a evita dispersia suplimentară.{/BODY}",
+    "UI_setting_serverTurret_text":  "Sincronizare turelă (reticulul serverului)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Aliniază turela la reticulul serverului. Necesită opțiunea «Reticulul serverului» activată.{/BODY}",
+    "UI_battle_activateMessage":  "Precizie îmbunătățită și mod roți auto: activat",
+    "UI_setting_fixWheelCruiseControl_text":  "Roți: corecție pilot automat",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Previne oprirea vehiculului când schimbi modul cu pilotul automat activ.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Roți: păstrează viteza maximă",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}La viteza maximă nu dezactivează modul de viteză în timpul manevrelor.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Tastă: păstrează viteza maximă",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Roți: mod de viteză automat",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Comută automat între modul de viteză și modul de manevră.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Tastă: mod de viteză automat",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ACTIV",
+    "UI_battle_OFF":  "INACTIV",
+    "version": 315
+}

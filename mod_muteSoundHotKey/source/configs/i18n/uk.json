@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Гаряча клавіша для приглушення звуку",
+    "UI_setting_hotkey_text":  "Гаряча клавіша",
+    "UI_setting_showMessage_text":  "Показувати повідомлення про стан у бою",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Відновлювати звук після завершення бою",
+    "UI_setting_soundMuted":  "Звук гри УВІМКНЕНО",
+    "UI_setting_soundRestored":  "Звук гри ВИМКНЕНО",
+    "UI_setting_mutedSoundVolume_text":  "Мінімальний рівень звуку під час приглушення",
+    "UI_setting_hotkey_tooltip":  "Призначити гарячу клавішу для перемикання звуку гри (типово F9).",
+    "UI_setting_showMessage_tooltip":  "Показувати повідомлення про стан у бою під час перемикання.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Автоматично відновлювати головну гучність після завершення бою.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Рівень головної гучності (%) під час вимкнення звуку.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

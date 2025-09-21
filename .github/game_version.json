@@ -1,10 +1,17 @@
 {
-  "CLIENT_VERSION_WG": "2.0.0.0",
+  "CLIENT_VERSION_WG": "2.0.0.1",
   "CLIENT_VERSION_RU": "1.37.0.0",
   "mod_list": [
     "mod_mods_gui",
+    "mod_artySplash",
+    "mod_autoServerSight",
+    "mod_creditCalc",
+    "mod_discordHangar",
     "mod_marksOnGunExtended",
+    "mod_muteSoundHotKey",
+    "mod_repair_extended",
     "mod_server_turret_extended",
+    "mod_spotted_extended_light"
   ],
   "test_update": "0"
 }

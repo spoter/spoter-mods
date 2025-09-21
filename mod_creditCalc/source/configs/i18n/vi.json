@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Bối cảnh trong trận chiến",
+  "UI_setting_battleShow_text": "Hiển thị trong trận chiến",
+  "UI_setting_hangarBackground_text": "Bối cảnh trong gara",
+  "UI_setting_hangarShow_text": "Hiển thị trong gara",
+  "UI_setting_label1_text": "Chờ đến khi trận đấu kết thúc, không thoát về hangar. Thu nhập: xanh = thắng, đỏ = thua. Chi phí: đạn dược và vật phẩm tiêu hao.",
+  "UI_setting_label2_text": "Thông tin bổ sung trong trận: nhấn phím ALT và Ctrl",
+  "UI_setting_label_text": "Tính bạc trong trận; chênh lệch ±1000 bạc là mức dao động bình thường. Nếu lớn hơn, hãy chơi một trận không gây sát thương.",
+  "UI_setting_battle_x_text": "Vị trí văn bản trong trận: X",
+  "UI_setting_battle_y_text": "Vị trí văn bản trong trận: Y",
+  "UI_setting_hangar_x_text": "Vị trí văn bản trong gara: X",
+  "UI_setting_hangar_y_text": "Vị trí văn bản trong gara: Y",
+  "version": 211
+}

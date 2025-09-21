@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Mygtukas: rodykite arba paslėpkite tikslo tašką", 
+  "UI_setting_buttonShowSplash_text": "Mygtukas: parodykite arba paslėpkite purslų spindulį", 
+  "UI_setting_messageDotOff": "Jis purslų: taikymas taškas neįgalus", 
+  "UI_setting_messageDotOn": "Jis purslų: taikymas taškas įgalinta", 
+  "UI_setting_messageSplashOff": "Jis purslų: purslų spindulys neįgalus", 
+  "UI_setting_messageSplashOn": "Jis purslų: purslų spindulys įgalinta", 
+  "UI_setting_name": "Jis purslų", 
+  "UI_setting_showModeArcade_text": "Galimas arkados režimas", 
+  "UI_setting_showModeArty_text": "Galimas artilerijos režimas", 
+  "UI_setting_showModeSniper_text": "Galimas snaiperio režimas", 
+  "UI_setting_showDotOnDefault_text": "Įgalinkite tikslo tašką pagal numatytuosius nustatymus", 
+  "UI_setting_showSplashOnDefault_text": "Įgalinkite purslų spindulį pagal numatytuosius nustatymus", 
+  "version": 217
+}

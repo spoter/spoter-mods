@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Knap: Vis eller skjul den målede prik", 
+  "UI_setting_buttonShowSplash_text": "Knap: Vis eller skjul Splash Radius", 
+  "UI_setting_messageDotOff": "Han sprøjter: sigter prik handicappet", 
+  "UI_setting_messageDotOn": "Han sprøjter: sigter prik aktiveret", 
+  "UI_setting_messageSplashOff": "Han sprøjter: Splash Radius handicappet", 
+  "UI_setting_messageSplashOn": "Han sprøjter: Splash Radius aktiveret", 
+  "UI_setting_name": "Han sprøjter", 
+  "UI_setting_showModeArcade_text": "Arcade Mode tilgængelig", 
+  "UI_setting_showModeArty_text": "ARTILLERI MODE tilgængelig", 
+  "UI_setting_showModeSniper_text": "Sniper -tilstand tilgængelig", 
+  "UI_setting_showDotOnDefault_text": "Aktivér målet som standard", 
+  "UI_setting_showSplashOnDefault_text": "Aktivér sprøjtradius som standard", 
+  "version": 217
+}

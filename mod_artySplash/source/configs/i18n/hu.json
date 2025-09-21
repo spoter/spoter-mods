@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Gomb: Mutasd meg vagy rejtik el a célzó pontot", 
+  "UI_setting_buttonShowSplash_text": "Gomb: Mutassa meg vagy rejtse el a splash sugarat", 
+  "UI_setting_messageDotOff": "Ő fröccsen: célzó pont fogyatékkal élők", 
+  "UI_setting_messageDotOn": "Ő fröccsen: célzó pont engedélyezve", 
+  "UI_setting_messageSplashOff": "Ő fröccsen: fröccsöntés fogyatékkal élők", 
+  "UI_setting_messageSplashOn": "Ő fröccsen: fröccsöntés engedélyezve", 
+  "UI_setting_name": "Ő fröccsen", 
+  "UI_setting_showModeArcade_text": "Elérhető árkád mód", 
+  "UI_setting_showModeArty_text": "Tüzérségi mód áll rendelkezésre", 
+  "UI_setting_showModeSniper_text": "Sniper mód áll rendelkezésre", 
+  "UI_setting_showDotOnDefault_text": "Alapértelmezés szerint engedélyezze a célzó pontot", 
+  "UI_setting_showSplashOnDefault_text": "Alapértelmezés szerint engedélyezze a splash sugarat", 
+  "version": 217
+}

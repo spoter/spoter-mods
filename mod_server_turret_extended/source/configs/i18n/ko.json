@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "명중률 향상 및 바퀴형 자동 모드",
+    "UI_setting_activateMessage_text":  "활성화 메시지 표시",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}정보:{/HEADER}{BODY}전투에서 활성화 메시지를 표시합니다.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "정지 후 조준 정확도 유지",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}정보:{/HEADER}{BODY}이동 후 정지 시 현재 조준을 유지하여 추가 분산을 방지합니다.{/BODY}",
+    "UI_setting_serverTurret_text":  "포탑 동기화 (서버 조준원)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}정보:{/HEADER}{BODY}포탑을 서버 조준원 좌표에 맞춥니다. 게임 설정에서 서버 조준원을 활성화해야 합니다.{/BODY}",
+    "UI_battle_activateMessage":  "명중률 향상 및 바퀴형 자동 모드: 활성화됨",
+    "UI_setting_fixWheelCruiseControl_text":  "바퀴: 크루즈 컨트롤 개선",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}정보:{/HEADER}{BODY}크루즈 컨트롤 사용 중 모드 전환 시 차량이 멈추지 않도록 합니다.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "바퀴: 최고 속도 유지",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}정보:{/HEADER}{BODY}최고 속도에서 기동 중에도 속도 모드를 해제하지 않습니다.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "단축키: 최고 속도 유지",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "바퀴: 자동 속도 모드",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}정보:{/HEADER}{BODY}속도 모드와 기동 모드를 자동으로 전환합니다.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "단축키: 자동 속도 모드",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "켜짐",
+    "UI_battle_OFF":  "꺼짐",
+    "version": 315
+}

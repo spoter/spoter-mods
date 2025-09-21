@@ -1,15 +1,15 @@
 ﻿{
-    "UI_description": "creditCalc",
-    "UI_setting_battleBackground_text": "Background in battle",
-    "UI_setting_battleShow_text": "Show in battle",
-    "UI_setting_hangarBackground_text": "Background in hangar",
-    "UI_setting_hangarShow_text": "Show in hangar",
-    "UI_setting_label1_text": "Wait until the battle is complete without escape into the hangar. Income: Green Victory, Red Defeat, Outcome: ammo and consumables.",
-    "UI_setting_label2_text": "Additional info in battle: Press Alt and Control buttons",
-    "UI_setting_label_text": "Calc Credits in Battle, +1000 or -1000 silver difference: that's normal dispersion, if greater: Play one battle without damage.",
-    "UI_setting_battle_x_text": "Battle text position: X",
-    "UI_setting_battle_y_text": "Battle text position: Y",
-    "UI_setting_hangar_x_text": "Hangar text position: X",
-    "UI_setting_hangar_y_text": "Hangar text position: Y",
-    "version": 211
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Background in battle",
+  "UI_setting_battleShow_text": "Show in battle",
+  "UI_setting_hangarBackground_text": "Background in Garage",
+  "UI_setting_hangarShow_text": "Show in Garage",
+  "UI_setting_label1_text": "Wait until the battle finishes without exiting to the hangar. Income: green = victory, red = defeat. Expenses: ammo and consumables.",
+  "UI_setting_label2_text": "Additional info in battle: press ALT and Ctrl keys",
+  "UI_setting_label_text": "Calculate credits in battle; a ±1000 silver difference is normal dispersion. If larger, play one battle without dealing damage.",
+  "UI_setting_battle_x_text": "Battle text position: X",
+  "UI_setting_battle_y_text": "Battle text position: Y",
+  "UI_setting_hangar_x_text": "Garage text position: X",
+  "UI_setting_hangar_y_text": "Garage text position: Y",
+  "version": 211
 }

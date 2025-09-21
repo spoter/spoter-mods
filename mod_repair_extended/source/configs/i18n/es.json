@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Botón: Restaurar chasis", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Botón: reparación inteligente", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Reparación extendida", 
+  "UI_repair_removeStun_text": "Retire el aturdimiento", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Use kits de oro", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Incendio", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Heal la tripulación", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Restaurar chasis", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Dispositivos de reparación", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

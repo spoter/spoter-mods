@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Uzlabota precizitāte un automātiska riteņu režīmu pārslēgšana",
+    "UI_setting_activateMessage_text":  "Rādīt aktivizēšanas ziņojumu",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Parāda aktivizēšanas ziņojumu kaujā.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Saglabāt tēmēšanas precizitāti pēc apstāšanās",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Pēc kustības un apstāšanās saglabā pašreizējo tēmējumu, lai izvairītos no papildu izkliedes.{/BODY}",
+    "UI_setting_serverTurret_text":  "Tornīša sinhronizācija (servera tēmēklis)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Nolīdzina tornīti ar servera tēmēkļa koordinātām. Nepieciešams ieslēgts „Servera tēmēklis”.{/BODY}",
+    "UI_battle_activateMessage":  "Uzlabota precizitāte un auto riteņi: aktivizēts",
+    "UI_setting_fixWheelCruiseControl_text":  "Riteņi: kruīza kontroles labojums",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Neļauj transportlīdzeklim apstāties, pārslēdzot režīmu ar ieslēgtu kruīza kontroli.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Riteņi: uzturēt maksimālo ātrumu",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Pie maksimālā ātruma neizslēdz ātruma režīmu manevrējot.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Poga: uzturēt maksimālo ātrumu",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Riteņi: automātiska ātruma režīms",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Automātiski pārslēdz starp ātruma un manevrēšanas režīmiem.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Poga: automātiska ātruma režīms",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "IESLĒGTS",
+    "UI_battle_OFF":  "IZSLĒGTS",
+    "version": 315
+}

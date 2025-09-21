@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatyczny celownik serwerowy", 
+  "UI_setting_lightTank_text": "dla czołgów lekkich", 
+  "UI_setting_mediumTank_text": "dla czołgów średnich", 
+  "UI_setting_heavyTank_text": "dla czołgów ciężkich", 
+  "UI_setting_SPG_text": "dla artylerii samobieżnej", 
+  "UI_setting_AT-SPG_text": "dla niszczycieli czołgów", 
+  "version": 103
+}

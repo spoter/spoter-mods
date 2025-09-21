@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Автоматичен сървърен мерник", 
+  "UI_setting_lightTank_text": "за леки танкове", 
+  "UI_setting_mediumTank_text": "за средни танкове", 
+  "UI_setting_heavyTank_text": "за тежки танкове", 
+  "UI_setting_SPG_text": "за САУ", 
+  "UI_setting_AT-SPG_text": "за ПТ-САУ", 
+  "version": 103
+}

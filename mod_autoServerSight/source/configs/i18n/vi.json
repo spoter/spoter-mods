@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Ngắm máy chủ tự động", 
+  "UI_setting_lightTank_text": "cho xe tăng hạng nhẹ", 
+  "UI_setting_mediumTank_text": "cho xe tăng hạng trung", 
+  "UI_setting_heavyTank_text": "cho xe tăng hạng nặng", 
+  "UI_setting_SPG_text": "cho pháo tự hành", 
+  "UI_setting_AT-SPG_text": "cho pháo chống tăng", 
+  "version": 103
+}

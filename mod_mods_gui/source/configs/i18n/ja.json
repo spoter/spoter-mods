@@ -1,0 +1,12 @@
+﻿{
+  "gui_name": "MODS - 設定",
+  "gui_windowTitle": "MODの設定",
+  "gui_buttonOK": "OK",
+  "gui_buttonCancel": "キャンセル",
+  "gui_buttonApply": "適用",
+  "gui_enableButtonTooltip": "{HEADER}MODの設定{/HEADER}{BODY}MODを有効化 | 無効化して設定を調整します{/BODY}",
+  "web_resetToDefault": "デフォルトにリセット:",
+  "web_saved": "保存しました！",
+  "web_saveError": "設定の保存中にエラーが発生しました。詳細はコンソールを確認してください。",
+  "version": 305
+}

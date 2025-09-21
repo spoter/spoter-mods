@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Дугме: Ресторе Цхассис", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Дугме: Смарт Репаир", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Поправка продужена", 
+  "UI_repair_removeStun_text": "Уклонити омамљивање", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Користите златне сетове", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Угасити ватру", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Излечити посаду", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "Враћање шасије", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Уређаји за поправке", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

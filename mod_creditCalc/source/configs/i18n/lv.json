@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Fons kaujā",
+  "UI_setting_battleShow_text": "Rādīt kaujā",
+  "UI_setting_hangarBackground_text": "Fons garāžā",
+  "UI_setting_hangarShow_text": "Rādīt angārā",
+  "UI_setting_label1_text": "Pagaidiet, līdz cīņa ir pabeigta bez aizbēgšanas angārā. Ienākumi: zaļā uzvara, sarkanā sakāve, iznākums: munīcija un palīgmateriāli.",
+  "UI_setting_label2_text": "Papildu informācija kaujā: nospiediet ALT un Ctrl taustiņus",
+  "UI_setting_label_text": "Aprēķināt kredītus kaujā; ±1000 sudraba atšķirība ir normāla izkliede. Ja lielāka — spēlējiet vienu cīņu bez bojājumiem.",
+  "UI_setting_battle_x_text": "Kaujas teksta pozīcija: X",
+  "UI_setting_battle_y_text": "Kaujas teksta pozīcija: Y",
+  "UI_setting_hangar_x_text": "Garāžas teksta pozīcija: X",
+  "UI_setting_hangar_y_text": "Garāžas teksta pozīcija: Y",
+  "version": 211
+}

@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Кнопка: Покажіть або приховуйте цільову крапку", 
+  "UI_setting_buttonShowSplash_text": "Кнопка: Покажіть або приховуйте радіус сплеску", 
+  "UI_setting_messageDotOff": "Він сплеск: націлювання крапки інвалід", 
+  "UI_setting_messageDotOn": "Він сплеск: націлювання крапки увімкнено", 
+  "UI_setting_messageSplashOff": "Він сплеск: радіус сплеску інвалід", 
+  "UI_setting_messageSplashOn": "Він сплеск: радіус сплеску увімкнено", 
+  "UI_setting_name": "Він сплеск", 
+  "UI_setting_showModeArcade_text": "Доступний аркадний режим", 
+  "UI_setting_showModeArty_text": "Доступний режим артилерії", 
+  "UI_setting_showModeSniper_text": "Доступний режим снайпера", 
+  "UI_setting_showDotOnDefault_text": "Увімкніть DOT за замовчуванням", 
+  "UI_setting_showSplashOnDefault_text": "Увімкніть радіус сплеску за замовчуванням", 
+  "version": 217
+}

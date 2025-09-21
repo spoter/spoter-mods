@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "精度向上と車輪モード自動化",
+    "UI_setting_activateMessage_text":  "有効化メッセージを表示",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}情報:{/HEADER}{BODY}戦闘中に有効化メッセージを表示します。{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "停止後の照準精度を維持",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}情報:{/HEADER}{BODY}移動後に停止した際、現在の照準を保持して停止による分散を抑えます。{/BODY}",
+    "UI_setting_serverTurret_text":  "砲塔同期（サーバー照準）",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}情報:{/HEADER}{BODY}砲塔をサーバー照準に合わせます。ゲーム設定で「サーバー照準」を有効にする必要があります。{/BODY}",
+    "UI_battle_activateMessage":  "精度向上と車輪モード自動化：有効",
+    "UI_setting_fixWheelCruiseControl_text":  "車輪: クルーズコントロールの不具合修正",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}情報:{/HEADER}{BODY}クルコン有効時のモード切替で車両が停止しないようにします。{/BODY}",
+    "UI_setting_maxWheelMode_text":  "車輪: 最高速度を維持",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}情報:{/HEADER}{BODY}最高速時、操縦中でも速度モードを解除しません。{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "ホットキー: 最高速度を維持",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "車輪: 自動スピードモード",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}情報:{/HEADER}{BODY}スピードモードと機動モードを自動切替します。{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "ホットキー: 自動スピードモード",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "オン",
+    "UI_battle_OFF":  "オフ",
+    "version": 315
+}

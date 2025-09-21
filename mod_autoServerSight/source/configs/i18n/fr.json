@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Réticule serveur automatique", 
+  "UI_setting_lightTank_text": "pour chars légers", 
+  "UI_setting_mediumTank_text": "pour chars moyens", 
+  "UI_setting_heavyTank_text": "pour chars lourds", 
+  "UI_setting_SPG_text": "pour artillerie automotrice", 
+  "UI_setting_AT-SPG_text": "pour chasseurs de chars", 
+  "version": 103
+}

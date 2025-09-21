@@ -12,7 +12,7 @@ from helpers import getLanguageCode
 class _Config(object):
     def __init__(self):
         self.ids = 'autoServerSight'
-        self.version = 'v1.03 (2025-02-24)'
+        self.version = 'v1.03 (2025-09-21)'
         self.version_id = 103
         self.author = 'by spoter'
         self.dataDefault = {

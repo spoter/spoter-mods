@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Verbesserte Genauigkeit \u0026 Auto‑Räder‑Modus",
+    "UI_setting_activateMessage_text":  "Aktivierungsmeldung anzeigen",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Zeigt eine Aktivierungsmeldung im Gefecht an.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Zielgenauigkeit nach Stopp beibehalten",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Nach Bewegung und Stopp wird das aktuelle Zielen gehalten, um zusätzliche Streuung zu vermeiden.{/BODY}",
+    "UI_setting_serverTurret_text":  "Turmsynchronisierung (Serverzielkreis)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Richtet den Turm am Serverzielkreis aus. Erfordert die aktivierte Option „Serverzielkreis“ in den Spieleinstellungen.{/BODY}",
+    "UI_battle_activateMessage":  "Verbesserte Genauigkeit \u0026 Auto‑Räder‑Modus: aktiviert",
+    "UI_setting_fixWheelCruiseControl_text":  "Räder: Tempomat‑Fix",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Verhindert das Anhalten beim Umschalten des Radfahrzeug‑Modus mit aktiviertem Tempomat.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Räder: maximale Geschwindigkeit halten",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Bei Vmax nicht vom Marschmodus in Manövermodus wechseln, solange manövriert wird.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Taste: maximale Geschwindigkeit halten",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Räder: Auto‑Marschmodus",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Wechselt automatisch zwischen Marsch‑ und Manövermodus.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Taste: Auto‑Marschmodus",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "EIN",
+    "UI_battle_OFF":  "AUS",
+    "version": 315
+}

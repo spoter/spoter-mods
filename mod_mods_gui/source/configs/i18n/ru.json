@@ -1,9 +1,12 @@
 ﻿{
-    "gui_buttonApply": "Принять",
-    "gui_buttonCancel": "Отмена",
-    "gui_buttonOK": "Ok",
-    "gui_enableButtonTooltip": "{HEADER}Настройки модов{/HEADER}{BODY}Вкл. | Выкл. и настроить моды{/BODY}",
-    "gui_name": "МОДЫ - Настройки",
-    "gui_windowTitle": "Настройки модов",
+    "gui_name":  "МОДЫ - Настройки",
+    "gui_windowTitle":  "Настройки модов",
+    "gui_buttonOK":  "ОК",
+    "gui_buttonCancel":  "Отмена",
+    "gui_buttonApply":  "Применить",
+    "gui_enableButtonTooltip":  "{HEADER}Настройки модов{/HEADER}{BODY}Включить | Отключить моды и настроить параметры{/BODY}",
+    "web_resetToDefault":  "Сбросить к значениям по умолчанию:",
+    "web_saved":  "Сохранено!",
+    "web_saveError":  "Ошибка сохранения настроек. Проверьте консоль для подробностей.",
     "version": 305
 }

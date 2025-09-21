@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Фон у бою",
+  "UI_setting_battleShow_text": "Показ у бою",
+  "UI_setting_hangarBackground_text": "Фон у ангарі",
+  "UI_setting_hangarShow_text": "Показ у ангарі",
+  "UI_setting_label1_text": "Зачекайте, поки битва завершиться без втечі в ангар. Дохід: Зелена перемога, червона поразка, результат: боєприпаси та витратні матеріали.",
+  "UI_setting_label2_text": "Додаткова інформація в бою: натисніть клавіші ALT і CTRL",
+  "UI_setting_label_text": "Обчислення кредитів у бою; різниця ±1000 срібла — нормальна дисперсія. Якщо більша — зіграйте один бій без нанесення шкоди.",
+  "UI_setting_battle_x_text": "Позиція тексту в бою: X",
+  "UI_setting_battle_y_text": "Битва текстова позиція: Y",
+  "UI_setting_hangar_x_text": "Позиція тексту в ангарі: X",
+  "UI_setting_hangar_y_text": "Позиція тексту в ангарі: Y",
+  "version": 211
+}

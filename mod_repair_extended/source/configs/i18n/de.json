@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "Button: Chassis wiederherstellen", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "Taste: Smart Repair", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "Reparatur erweitert", 
+  "UI_repair_removeStun_text": "Stun entfernen", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "Verwenden Sie Gold Kits", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "Feuer löschen", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "Crew heilen", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "RESTORE CHASSIS", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "Reparaturgeräte", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

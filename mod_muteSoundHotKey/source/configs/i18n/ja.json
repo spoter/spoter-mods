@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "サウンドをミュートするホットキー",
+    "UI_setting_hotkey_text":  "ホットキー",
+    "UI_setting_showMessage_text":  "戦闘中にステータスメッセージを表示",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "戦闘終了後にサウンドを復元",
+    "UI_setting_soundMuted":  "ゲームサウンド オン",
+    "UI_setting_soundRestored":  "ゲームサウンド オフ",
+    "UI_setting_mutedSoundVolume_text":  "ミュート時の最小音量",
+    "UI_setting_hotkey_tooltip":  "ゲームのサウンドを切り替えるホットキーを割り当てます（既定: F9）。",
+    "UI_setting_showMessage_tooltip":  "切り替え時に戦闘中にステータスメッセージを表示します。",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "戦闘終了後にマスター音量を自動的に復元します。",
+    "UI_setting_mutedSoundVolume_tooltip":  "ミュート中のマスター音量（%）。",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

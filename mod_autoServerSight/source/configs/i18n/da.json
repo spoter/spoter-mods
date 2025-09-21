@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "Automatisk serversigte", 
+  "UI_setting_lightTank_text": "for lette kampvogne", 
+  "UI_setting_mediumTank_text": "for mellemstore kampvogne", 
+  "UI_setting_heavyTank_text": "for tunge kampvogne", 
+  "UI_setting_SPG_text": "for artilleri", 
+  "UI_setting_AT-SPG_text": "for panserværnskøretøjer", 
+  "version": 103
+}

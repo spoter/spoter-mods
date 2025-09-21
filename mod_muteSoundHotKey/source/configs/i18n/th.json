@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "ปุ่มลัดสำหรับปิดเสียง",
+    "UI_setting_hotkey_text":  "ปุ่มลัด",
+    "UI_setting_showMessage_text":  "แสดงข้อความสถานะระหว่างการรบ",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "คืนค่าเสียงหลังจบการรบ",
+    "UI_setting_soundMuted":  "เสียงเกม เปิด",
+    "UI_setting_soundRestored":  "เสียงเกม ปิด",
+    "UI_setting_mutedSoundVolume_text":  "ระดับเสียงต่ำสุดเมื่อปิดเสียง",
+    "UI_setting_hotkey_tooltip":  "กำหนดปุ่มลัดเพื่อสลับเสียงของเกม (ค่าเริ่มต้น F9)",
+    "UI_setting_showMessage_tooltip":  "แสดงข้อความสถานะในการรบเมื่อมีการสลับ",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "คืนค่าเสียงหลักโดยอัตโนมัติหลังจบการรบ",
+    "UI_setting_mutedSoundVolume_tooltip":  "ระดับเสียงหลัก (%) ระหว่างปิดเสียง",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

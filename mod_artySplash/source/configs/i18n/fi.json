@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Painike: Näytä tai piilota kohdistuspiste", 
+  "UI_setting_buttonShowSplash_text": "Painike: Näytä tai piilota roiskekäde", 
+  "UI_setting_messageDotOff": "Hän roiskuttaa: kohdistaa pisteen vammainen", 
+  "UI_setting_messageDotOn": "Hän roiskuttaa: kohdistaa pisteen poistettu", 
+  "UI_setting_messageSplashOff": "Hän roiskuttaa: roiskesäde vammainen", 
+  "UI_setting_messageSplashOn": "Hän roiskuttaa: roiskesäde poistettu", 
+  "UI_setting_name": "Hän roiskuttaa", 
+  "UI_setting_showModeArcade_text": "ARCADE -tila käytettävissä", 
+  "UI_setting_showModeArty_text": "Tykistötila käytettävissä", 
+  "UI_setting_showModeSniper_text": "Sniper -tila käytettävissä", 
+  "UI_setting_showDotOnDefault_text": "Ota kohdistuspiste oletusarvoisesti käyttöön", 
+  "UI_setting_showSplashOnDefault_text": "Ota roiskisäde oletuksena käyttöön", 
+  "version": 217
+}

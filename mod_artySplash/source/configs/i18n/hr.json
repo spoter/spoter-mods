@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Gumb: Prikaži ili sakrijte točku ciljanja", 
+  "UI_setting_buttonShowSplash_text": "Gumb: Pokažite ili sakrijte polumjer prskanja", 
+  "UI_setting_messageDotOff": "Prska: ciljajući točku onemogućen", 
+  "UI_setting_messageDotOn": "Prska: ciljajući točku omogućeno", 
+  "UI_setting_messageSplashOff": "Prska: polumjer prskanja onemogućen", 
+  "UI_setting_messageSplashOn": "Prska: polumjer prskanja omogućeno", 
+  "UI_setting_name": "Prska", 
+  "UI_setting_showModeArcade_text": "Arkadni način rada dostupan", 
+  "UI_setting_showModeArty_text": "Dostupni artiljerijski način", 
+  "UI_setting_showModeSniper_text": "Dostupan je snajperski način", 
+  "UI_setting_showDotOnDefault_text": "Omogućite ciljanu točku prema zadanim postavkama", 
+  "UI_setting_showSplashOnDefault_text": "Omogućite polumjer prskanja prema zadanim postavkama", 
+  "version": 217
+}

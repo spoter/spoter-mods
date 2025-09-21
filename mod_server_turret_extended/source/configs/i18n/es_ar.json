@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Precisión mejorada y modo automático para vehículos con ruedas",
+    "UI_setting_activateMessage_text":  "Mostrar mensaje de activación",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Muestra el mensaje de activación en batalla.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Mantener puntería al detenerse",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Tras moverte y frenar, conserva la puntería para evitar dispersión adicional por la detención.{/BODY}",
+    "UI_setting_serverTurret_text":  "Sincronización de torreta (retícula del servidor)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Alinea la torreta con la retícula del servidor. Requiere activar «Retícula del servidor» en opciones.{/BODY}",
+    "UI_battle_activateMessage":  "Precisión mejorada y modo de ruedas automático: activado",
+    "UI_setting_fixWheelCruiseControl_text":  "Ruedas: corrección del control de crucero",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Evita que el vehículo se detenga al cambiar de modo con el control de crucero activado.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Ruedas: mantener velocidad máxima",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}A velocidad máxima no desactiva el modo de velocidad al maniobrar.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Tecla: mantener velocidad máxima",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Ruedas: modo de velocidad automático",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Cambia automáticamente entre modo de velocidad y modo de maniobra.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Tecla: modo de velocidad automático",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "ACTIVO",
+    "UI_battle_OFF":  "INACTIVO",
+    "version": 315
+}

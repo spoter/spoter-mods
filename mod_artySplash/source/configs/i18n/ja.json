@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "ボタン：照準点を表示または非表示にします", 
+  "UI_setting_buttonShowSplash_text": "ボタン：スプラッシュ半径を表示または非表示にします", 
+  "UI_setting_messageDotOff": "彼はスプラッシュします: 照準点 無効", 
+  "UI_setting_messageDotOn": "彼はスプラッシュします: 照準点 有効になっています", 
+  "UI_setting_messageSplashOff": "彼はスプラッシュします: スプラッシュ半径 無効", 
+  "UI_setting_messageSplashOn": "彼はスプラッシュします: スプラッシュ半径 有効になっています", 
+  "UI_setting_name": "彼はスプラッシュします", 
+  "UI_setting_showModeArcade_text": "アーケードモードが利用可能です", 
+  "UI_setting_showModeArty_text": "砲兵モードが利用可能", 
+  "UI_setting_showModeSniper_text": "スナイパーモードが利用可能", 
+  "UI_setting_showDotOnDefault_text": "デフォルトで照準ドットを有効にします", 
+  "UI_setting_showSplashOnDefault_text": "デフォルトでは、スプラッシュ半径を有効にします", 
+  "version": 217
+}

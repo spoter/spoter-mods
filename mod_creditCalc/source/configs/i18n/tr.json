@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "Savaşta arka plan",
+  "UI_setting_battleShow_text": "Savaşta sergileme",
+  "UI_setting_hangarBackground_text": "Hangardaki arka plan",
+  "UI_setting_hangarShow_text": "Hangar'da sergileme",
+  "UI_setting_label1_text": "Hangardan kaçmadan savaş tamamlanana kadar bekleyin. Gelir: Yeşil zafer, kırmızı yenilgi, sonuç: cephane ve sarf malzemeleri.",
+  "UI_setting_label2_text": "Savaşta ek bilgi: ALT ve CTRL tuşlarına basın",
+  "UI_setting_label_text": "Savaşta kredileri hesaplayın; ±1000 gümüş farkı normal saçılımdır. Daha büyükse, hasar vermeden bir savaş oynayın.",
+  "UI_setting_battle_x_text": "Savaş Metni Pozisyonu: X",
+  "UI_setting_battle_y_text": "Savaş metni pozisyonu: Y",
+  "UI_setting_hangar_x_text": "Hangar metin pozisyonu: X",
+  "UI_setting_hangar_y_text": "Hangar metin pozisyonu: Y",
+  "version": 211
+}

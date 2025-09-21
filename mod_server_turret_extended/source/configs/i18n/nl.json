@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "Verbeterde nauwkeurigheid \u0026 automatische wielen‑modus",
+    "UI_setting_activateMessage_text":  "Activatiebericht tonen",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Toont het activatiebericht in de strijd.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "Nauwkeurigheid behouden na stoppen",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Na bewegen en stoppen behoudt het de huidige richting om extra spreiding te voorkomen.{/BODY}",
+    "UI_setting_serverTurret_text":  "Toren‑sync (servervizier)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Lijnt de toren uit met het servervizier. Vereist dat ‘Servervizier’ aan staat in de opties.{/BODY}",
+    "UI_battle_activateMessage":  "Verbeterde nauwkeurigheid \u0026 automatische wielen‑modus: geactiveerd",
+    "UI_setting_fixWheelCruiseControl_text":  "Wielen: fix voor cruisecontrol",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Voorkomt dat het voertuig stopt bij moduswissel met cruisecontrol aan.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "Wielen: maximale snelheid vasthouden",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Bij topsnelheid niet uit de snelheidsmodus schakelen tijdens manoeuvreren.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "Sneltoets: maximale snelheid vasthouden",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "Wielen: automatische snelheidsmodus",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}Info:{/HEADER}{BODY}Schakelt automatisch tussen snelheids- en manoeuvremodus.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "Sneltoets: automatische snelheidsmodus",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "AAN",
+    "UI_battle_OFF":  "UIT",
+    "version": 315
+}

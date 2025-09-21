@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Tasto rapido per silenziare l’audio",
+    "UI_setting_hotkey_text":  "Tasto di scelta rapida",
+    "UI_setting_showMessage_text":  "Mostra messaggio di stato in battaglia",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Ripristina l’audio al termine della battaglia",
+    "UI_setting_soundMuted":  "Audio di gioco ATTIVO",
+    "UI_setting_soundRestored":  "Audio di gioco DISATTIVATO",
+    "UI_setting_mutedSoundVolume_text":  "Livello audio minimo quando è silenziato",
+    "UI_setting_hotkey_tooltip":  "Assegna un tasto di scelta rapida per attivare/disattivare l\u0027audio di gioco (predefinito F9).",
+    "UI_setting_showMessage_tooltip":  "Mostra un messaggio di stato in battaglia durante il cambio.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Ripristina automaticamente il volume principale al termine della battaglia.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Livello del volume principale (%) durante il muto.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

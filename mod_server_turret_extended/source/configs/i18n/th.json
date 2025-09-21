@@ -1,0 +1,23 @@
+﻿{
+    "UI_description":  "ปรับปรุงความแม่นยำและโหมดล้ออัตโนมัติ",
+    "UI_setting_activateMessage_text":  "แสดงข้อความการเปิดใช้งาน",
+    "UI_setting_activateMessage_tooltip":  "{HEADER}ข้อมูล:{/HEADER}{BODY}แสดงข้อความการเปิดใช้งานในระหว่างการรบ.{/BODY}",
+    "UI_setting_fixAccuracyInMove_text":  "รักษาความแม่นยำของเล็งหลังหยุด",
+    "UI_setting_fixAccuracyInMove_tooltip":  "{HEADER}ข้อมูล:{/HEADER}{BODY}หลังขับและหยุด จะรักษาการเล็งปัจจุบันเพื่อหลีกเลี่ยงการกระจายเพิ่มจากการหยุด.{/BODY}",
+    "UI_setting_serverTurret_text":  "ซิงค์ป้อมปืน (เป้าของเซิร์ฟเวอร์)",
+    "UI_setting_serverTurret_tooltip":  "{HEADER}ข้อมูล:{/HEADER}{BODY}จัดแนวป้อมปืนให้ตรงกับเป้าของเซิร์ฟเวอร์ ต้องเปิดใช้งาน “เป้าของเซิร์ฟเวอร์” ในการตั้งค่าเกม.{/BODY}",
+    "UI_battle_activateMessage":  "ปรับปรุงความแม่นยำและโหมดล้ออัตโนมัติ: เปิดใช้งาน",
+    "UI_setting_fixWheelCruiseControl_text":  "ล้อ: แก้ไขระบบควบคุมความเร็วอัตโนมัติ",
+    "UI_setting_fixWheelCruiseControl_tooltip":  "{HEADER}ข้อมูล:{/HEADER}{BODY}ป้องกันไม่ให้รถหยุดเมื่อสลับโหมดขณะเปิดควบคุมความเร็วอัตโนมัติ.{/BODY}",
+    "UI_setting_maxWheelMode_text":  "ล้อ: รักษาความเร็วสูงสุด",
+    "UI_setting_maxWheelMode_tooltip":  "{HEADER}ข้อมูล:{/HEADER}{BODY}เมื่อถึงความเร็วสูงสุด จะไม่ออกจากโหมดความเร็วระหว่างการเลี้ยว.{/BODY}",
+    "UI_setting_buttonMaxMode_text":  "ปุ่มลัด: รักษาความเร็วสูงสุด",
+    "UI_setting_buttonMaxMode_tooltip":  "",
+    "UI_setting_autoActivateWheelMode_text":  "ล้อ: โหมดความเร็วอัตโนมัติ",
+    "UI_setting_autoActivateWheelMode_tooltip":  "{HEADER}ข้อมูล:{/HEADER}{BODY}สลับระหว่างโหมดความเร็วและโหมดคล่องตัวโดยอัตโนมัติ.{/BODY}",
+    "UI_setting_buttonAutoMode_text":  "ปุ่มลัด: โหมดความเร็วอัตโนมัติ",
+    "UI_setting_buttonAutoMode_tooltip":  "",
+    "UI_battle_ON":  "เปิด",
+    "UI_battle_OFF":  "ปิด",
+    "version": 315
+}

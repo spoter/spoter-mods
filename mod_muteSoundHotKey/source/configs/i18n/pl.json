@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Klawisz wyciszania dźwięku",
+    "UI_setting_hotkey_text":  "Skrót klawiszowy",
+    "UI_setting_showMessage_text":  "Pokaż komunikat o stanie w bitwie",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Przywróć dźwięk po zakończeniu bitwy",
+    "UI_setting_soundMuted":  "Dźwięk gry WŁ.",
+    "UI_setting_soundRestored":  "Dźwięk gry WYŁ.",
+    "UI_setting_mutedSoundVolume_text":  "Minimalny poziom dźwięku po wyciszeniu",
+    "UI_setting_hotkey_tooltip":  "Ustaw skrót do przełączania dźwięku gry (domyślnie F9).",
+    "UI_setting_showMessage_tooltip":  "Pokazuj komunikat o stanie w bitwie przy przełączaniu.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Automatycznie przywracaj głośność główną po zakończeniu bitwy.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Poziom głośności głównej (%) podczas wyciszenia.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}

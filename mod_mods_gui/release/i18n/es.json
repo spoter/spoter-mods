@@ -1,9 +1,12 @@
 ﻿{
-    "gui_buttonApply": "Aplicar",
-    "gui_buttonCancel": "Cancelar",
-    "gui_buttonOK": "Bien",
-    "gui_enableButtonTooltip": "{HEADER}Preferencias de Mods{/HEADER}{BODY}Habilitar|Deshabilitar los mods y configurar los ajustes{/BODY}",
-    "gui_name": "MODS - Preferencias",
-    "gui_windowTitle": "Preferencias de Mods",
-    "version": 304
+  "gui_name": "MODS - Preferencias",
+  "gui_windowTitle": "Preferencias de mods",
+  "gui_buttonOK": "Aceptar",
+  "gui_buttonCancel": "Cancelar",
+  "gui_buttonApply": "Aplicar",
+  "gui_enableButtonTooltip": "{HEADER}Preferencias de mods{/HEADER}{BODY}Activar | Desactivar mods y configurar opciones{/BODY}",
+  "web_resetToDefault": "Restablecer valores predeterminados:",
+  "web_saved": "¡Guardado!",
+  "web_saveError": "Error al guardar la configuración. Consulta la consola para más detalles.",
+  "version": 305
 }

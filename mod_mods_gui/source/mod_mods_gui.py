@@ -69,7 +69,7 @@ def LOG_DEBUG(*args):
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.05 (2025-02-24)'
+        self.version = 'v3.05 (2025-09-21)'
         self.version_id = 305
         self.author = 'by spoter, satel1te'
         mods = './mods'
@@ -82,6 +82,9 @@ class _Config(object):
             'gui_buttonCancel'       : 'Cancel',
             'gui_buttonApply'        : 'Apply',
             'gui_enableButtonTooltip': '{HEADER}Mods Preferences{/HEADER}{BODY}Enable|Disable mods and configure settings{/BODY}',
+            'web_resetToDefault'     : 'Reset to default:',
+            'web_saved'              : 'Saved!',
+            'web_saveError'          : 'Error saving settings. Check console for details.',
         }
         self.i18n = g_data.register_lang(self.ids, self.i18n, author='', configPath='%s/configs' % mods)
 
@@ -1242,7 +1245,17 @@ def p__htmlTemplate():
 
 
 def _(s):
-    return s
+    """Translate key using loaded i18n dict; fallback to English, then key itself."""
+    try:
+        # Expect _config.i18n to hold current language dict; _config.i18n_en for English fallback (optional)
+        i18n = getattr(_config, 'i18n', None) or {}
+        if s in i18n:
+            return i18n.get(s, s)
+        # fallback to English if present
+        i18n_en = getattr(_config, 'i18n_en', None) or {}
+        return i18n_en.get(s, s)
+    except Exception:
+        return s
 
 
 class p__SettingsHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):

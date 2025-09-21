@@ -1,0 +1,9 @@
+﻿{
+  "UI_description": "เป้าเล็งจากเซิร์ฟเวอร์อัตโนมัติ", 
+  "UI_setting_lightTank_text": "สำหรับรถถังเบา", 
+  "UI_setting_mediumTank_text": "สำหรับรถถังกลาง", 
+  "UI_setting_heavyTank_text": "สำหรับรถถังหนัก", 
+  "UI_setting_SPG_text": "สำหรับปืนใหญ่อัตตาจร", 
+  "UI_setting_AT-SPG_text": "สำหรับรถถังพิฆาต", 
+  "version": 103
+}

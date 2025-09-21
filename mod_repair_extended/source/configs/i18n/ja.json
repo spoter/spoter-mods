@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "ボタン：シャーシを復元します", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "ボタン：スマート修理", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "修理延長", 
+  "UI_repair_removeStun_text": "スタンを削除します", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "ゴールドキットを使用します", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "火を消す", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "クルーを癒します", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "シャーシを復元します", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "修理デバイス", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

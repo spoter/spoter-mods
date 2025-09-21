@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Düğme: Amaç Noktasını Göster veya Gizle", 
+  "UI_setting_buttonShowSplash_text": "Düğme: Sıçrama yarıçapını göster veya gizle", 
+  "UI_setting_messageDotOff": "O sıçrama: Nokta hedefleme engelli", 
+  "UI_setting_messageDotOn": "O sıçrama: Nokta hedefleme etkinleştirilmiş", 
+  "UI_setting_messageSplashOff": "O sıçrama: sıçrama yarıçapı engelli", 
+  "UI_setting_messageSplashOn": "O sıçrama: sıçrama yarıçapı etkinleştirilmiş", 
+  "UI_setting_name": "O sıçrama", 
+  "UI_setting_showModeArcade_text": "Arcade modu mevcut", 
+  "UI_setting_showModeArty_text": "Topçu Modu Mevcut", 
+  "UI_setting_showModeSniper_text": "Keskin nişancı modu mevcut", 
+  "UI_setting_showDotOnDefault_text": "Varsayılan olarak hedefleme noktasını etkinleştirin", 
+  "UI_setting_showSplashOnDefault_text": "Varsayılan olarak sıçrama yarıçapını etkinleştirin", 
+  "version": 217
+}

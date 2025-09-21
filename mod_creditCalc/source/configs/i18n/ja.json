@@ -1,0 +1,15 @@
+﻿{
+  "UI_description": "creditCalc",
+  "UI_setting_battleBackground_text": "戦闘の背景",
+  "UI_setting_battleShow_text": "戦闘での表示",
+  "UI_setting_hangarBackground_text": "ガレージの背景",
+  "UI_setting_hangarShow_text": "ガレージで表示",
+  "UI_setting_label1_text": "格納庫に戻らずに、戦闘が終了するまで待ちます。収入：緑＝勝利、赤＝敗北。費用：弾薬と消耗品。",
+  "UI_setting_label2_text": "戦闘中の追加情報：ALT と Ctrl キーを押します",
+  "UI_setting_label_text": "戦闘中のクレジット計算。±1000 の銀貨差は通常のブレです。より大きい場合は、ダメージなしで 1 戦プレイしてください。",
+  "UI_setting_battle_x_text": "バトルテキストの位置：X",
+  "UI_setting_battle_y_text": "バトルテキストの位置：Y",
+  "UI_setting_hangar_x_text": "ガレージのテキスト位置：X",
+  "UI_setting_hangar_y_text": "ガレージのテキスト位置：Y",
+  "version": 211
+}

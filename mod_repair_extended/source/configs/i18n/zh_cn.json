@@ -1,0 +1,20 @@
+﻿{
+  "UI_repair_buttonChassis_text": "按钮：还原底盘", 
+  "UI_repair_buttonChassis_tooltip": "", 
+  "UI_repair_buttonRepair_text": "按钮：智能维修", 
+  "UI_repair_buttonRepair_tooltip": "", 
+  "UI_repair_name": "维修延长", 
+  "UI_repair_removeStun_text": "删除眩晕", 
+  "UI_repair_removeStun_tooltip": "", 
+  "UI_repair_useGoldKits_text": "使用金套件", 
+  "UI_repair_useGoldKits_tooltip": "", 
+  "UI_repair_extinguishFire_text": "灭火", 
+  "UI_repair_extinguishFire_tooltip": "", 
+  "UI_repair_healCrew_text": "治愈船员", 
+  "UI_repair_healCrew_tooltip": "", 
+  "UI_repair_restoreChassis_text": "还原底盘", 
+  "UI_repair_restoreChassis_tooltip": "", 
+  "UI_repair_repairDevices_text": "维修设备", 
+  "UI_repair_repairDevices_tooltip": "", 
+  "version": 314
+}

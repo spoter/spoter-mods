@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "按钮：显示或隐藏瞄准点", 
+  "UI_setting_buttonShowSplash_text": "按钮：显示或隐藏飞溅半径", 
+  "UI_setting_messageDotOff": "他飞溅: 瞄准点 禁用", 
+  "UI_setting_messageDotOn": "他飞溅: 瞄准点 启用", 
+  "UI_setting_messageSplashOff": "他飞溅: 飞溅半径 禁用", 
+  "UI_setting_messageSplashOn": "他飞溅: 飞溅半径 启用", 
+  "UI_setting_name": "他飞溅", 
+  "UI_setting_showModeArcade_text": "街机模式可用", 
+  "UI_setting_showModeArty_text": "可用的炮兵模式", 
+  "UI_setting_showModeSniper_text": "狙击模式可用", 
+  "UI_setting_showDotOnDefault_text": "默认启用瞄准点", 
+  "UI_setting_showSplashOnDefault_text": "默认启用飞溅半径", 
+  "version": 217
+}

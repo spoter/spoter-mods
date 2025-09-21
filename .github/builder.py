@@ -115,7 +115,7 @@ class Build(object):
             files_to_update.append((source_file, u'VERSION_MOD = ', u"'v{} ({})'".format(version_str, current_date)))
         if 'meta' in self.config and self.config['meta']:
             meta_file = os.path.join(self.directory_sources, self.config['meta'])
-            files_to_update.append((meta_file, u'<version>', u'<version>{}</version>'.format(version_str)))
+            files_to_update.append((meta_file, u'<version>', u'{}</version>'.format(version_str)))
         if 'config' in self.config and self.config['config']:
             config_file = os.path.join(self.directory_sources, self.config['config'])
             files_to_update.append((config_file, u'"version": ', re.sub(u'[.\s]', u'', version_str)))
@@ -382,7 +382,7 @@ class Release(object):
                 for pattern in [u"*.{}".format(self.mod_extension), u"*.txt_"]:
                     for file_path in glob.glob(os.path.join(additional_path, pattern)):
                         if os.path.isfile(file_path):
-                            dest = self.version_path_mod if pattern == u"*.{}".format(self.mod_extension) else os.path.join(self.mods_path, 'configs', 'mods_gui')
+                            dest = self.version_path if pattern == u"*.{}".format(self.mod_extension) else os.path.join(self.mods_path, 'configs', 'mods_gui')
                             try:
                                 shutil.copy2(file_path, os.path.realpath(dest))
                                 debug(u"Copied additional file {} to {}".format(file_path, dest))

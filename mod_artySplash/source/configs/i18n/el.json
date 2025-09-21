@@ -1,0 +1,15 @@
+﻿{
+  "UI_setting_buttonShowDot_text": "Κουμπί: Εμφάνιση ή απόκρυψη της κουκκίδας στόχευσης", 
+  "UI_setting_buttonShowSplash_text": "Κουμπί: Εμφάνιση ή απόκρυψη της ακτίνας εκτόξευσης", 
+  "UI_setting_messageDotOff": "Πλασώ: στόχευση ανάπηρος", 
+  "UI_setting_messageDotOn": "Πλασώ: στόχευση ενεργοποιημένος", 
+  "UI_setting_messageSplashOff": "Πλασώ: ακτίνα εκτόξευσης ανάπηρος", 
+  "UI_setting_messageSplashOn": "Πλασώ: ακτίνα εκτόξευσης ενεργοποιημένος", 
+  "UI_setting_name": "Πλασώ", 
+  "UI_setting_showModeArcade_text": "Διαθέσιμη λειτουργία arcade", 
+  "UI_setting_showModeArty_text": "Διαθέσιμη λειτουργία πυροβολικού", 
+  "UI_setting_showModeSniper_text": "Διαθέσιμη λειτουργία ελεύθερου σκοπευτή", 
+  "UI_setting_showDotOnDefault_text": "Ενεργοποιήστε την DOT AIPING DOT", 
+  "UI_setting_showSplashOnDefault_text": "Ενεργοποιήστε την ακτίνα εκτόξευσης από προεπιλογή", 
+  "version": 217
+}

@@ -1,0 +1,15 @@
+﻿{
+    "UI_description":  "Sneltoets om het geluid te dempen",
+    "UI_setting_hotkey_text":  "Sneltoets",
+    "UI_setting_showMessage_text":  "Statusbericht in gevecht tonen",
+    "UI_setting_restoreSoundAfterBattleEnd_text":  "Geluid herstellen na einde van het gevecht",
+    "UI_setting_soundMuted":  "Spelgeluid AAN",
+    "UI_setting_soundRestored":  "Spelgeluid UIT",
+    "UI_setting_mutedSoundVolume_text":  "Minimaal geluidsniveau bij dempen",
+    "UI_setting_hotkey_tooltip":  "Wijs een sneltoets toe om het spelsgeluid te schakelen (standaard F9).",
+    "UI_setting_showMessage_tooltip":  "Toon bij het schakelen een statusbericht tijdens het gevecht.",
+    "UI_setting_restoreSoundAfterBattleEnd_tooltip":  "Herstel de hoofdvolumestand automatisch na het gevecht.",
+    "UI_setting_mutedSoundVolume_tooltip":  "Hoofdvolumeniveau (%) wanneer gedempt.",
+    "UI_setting_mutedSoundVolume_formats":  "%",
+    "version": 103
+}
