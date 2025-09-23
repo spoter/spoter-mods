@@ -21,6 +21,16 @@ from gui.battle_control.controllers import feedback_events
 from gui.shared.gui_items.dossier.achievements.mark_on_gun import MarkOnGunAchievement
 from helpers import dependency
 from skeletons.account_helpers.settings_core import ISettingsCore
+from helpers import getFullClientVersion
+
+is_lesta = u'Мир' in getFullClientVersion()
+
+if is_lesta:
+    from gui.impl.lobby.crew.widget.crew_widget import CrewWidget as crewModule
+    crewHook = '_CrewWidget__updateWidgetModel'
+else:
+    from gui.impl.lobby.hangar.presenters.crew_presenter import CrewPresenter as crewModule
+    crewHook = '_CrewPresenter__updateCrewModel'
 
 DAMAGE_EVENTS = frozenset([BATTLE_EVENT_TYPE.RADIO_ASSIST, BATTLE_EVENT_TYPE.TRACK_ASSIST, BATTLE_EVENT_TYPE.STUN_ASSIST, BATTLE_EVENT_TYPE.DAMAGE, BATTLE_EVENT_TYPE.TANKING, BATTLE_EVENT_TYPE.RECEIVED_DAMAGE])
 COLOR = ['#0000FF', '#A52A2B', '#D3691E', '#6595EE', '#FCF5C8', '#00FFFF', '#28F09C', '#FFD700', '#008000', '#ADFF2E', '#FF69B5', '#00FF00', '#FFA500', '#FFC0CB', '#800080', '#FF0000', '#8378FC', '#DB0400', '#80D639', '#FFE041', '#FFFF00', '#FF6347', '#FFFFFF']
@@ -66,8 +76,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.12 (2025-09-21)'
-        self.version_id = 912
+        self.version = 'v9.13 (2025-09-23)'
+        self.version_id = 913
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -1369,32 +1379,12 @@ config = Config()
 flash = Flash()
 worker = Worker()
 
-try:
-    from gui.impl.lobby.hangar.presenters.crew_presenter import CrewPresenter
 
-    @inject.hook(CrewPresenter, '_CrewPresenter__updateCrewModel')
-    @inject.log
-    def CrewPresenter_updateCrewModel(func, *args):
-        worker.getCurrentHangarData()
-        return func(*args)
-
-
-except (ImportError, AttributeError):
-    pass
-
-
-try:
-    from gui.impl.lobby.crew.widget.crew_widget import CrewWidget
-
-    @inject.hook(CrewWidget, '_CrewWidget__updateCrewModel')
-    @inject.log
-    def CrewWidget_updateCrewModel(func, *args):
-        worker.getCurrentHangarData()
-        return func(*args)
-
-
-except (ImportError, AttributeError):
-    pass
+@inject.hook(crewModule, crewHook)
+@inject.log
+def CrewPresenter_updateCrewModel(func, *args):
+    worker.getCurrentHangarData()
+    return func(*args)
 
 
 @inject.hook(PlayerAvatar, 'onBattleEvents')

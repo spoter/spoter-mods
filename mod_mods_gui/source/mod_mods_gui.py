@@ -69,7 +69,7 @@ def LOG_DEBUG(*args):
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.05 (2025-09-21)'
+        self.version = 'v3.05 (2025-09-23)'
         self.version_id = 305
         self.author = 'by spoter, satel1te'
         mods = './mods'
