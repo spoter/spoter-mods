@@ -1,5 +1,5 @@
 # [mod_marksOnGunExtended]
-# Latest Version (v9.13) [compiled: 2025-09-23]
+# Latest Version (v9.14) [compiled: 2025-09-28]
 ### [**Download for World of Tanks**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_marksOnGunExtended.zip)
 ### [**Скачать для Tanki Lesta**](https://github.com/spoter/spoter-mods/releases/download/latest/mod_marksOnGunExtended_RU.zip)
 #
