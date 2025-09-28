@@ -124,7 +124,7 @@ class Config(object):
                 'alignY' : COMPONENT_ALIGN.BOTTOM,
                 'visible': True,
                 'alpha'  : 1.0,
-                'shadow' : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 90, 'blurX': 1, 'blurY': 1, 'strength': 3000, 'quality': 1},
+                'shadow' : {'distance': 0, 'angle': 0, 'color': 0x000000, "alpha": 1, 'blurX': 2, 'blurY': 2, 'strength': 3, 'quality': 1},
             },
             'battleMessage'                         : '<font size=\"14\">{currentMarkOfGun}</font> <font size=\"10\">{damageCurrentPercent}</font><font size=\"14\"> ~ {c_nextMarkOfGun}</font> <font size=\"10\">{c_damageNextPercent}</font>\n'
                                                       '<font size=\"20\">{c_battleMarkOfGun}{status}</font><font size=\"14\">{c_damageCurrent}</font>',

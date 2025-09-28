@@ -65,11 +65,11 @@
         "alpha": 1.0,
         "shadow": {
             "distance": 0,
-            "strength": 3000,
-            "blurX": 1,
-            "blurY": 1,
+            "strength": 3,
+            "blurX": 2,
+            "blurY": 2,
+            "alpha": 1,
             "color": 0,
-            "alpha": 90,
             "angle": 0,
             "quality": 1
         },
