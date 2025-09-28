@@ -89,5 +89,5 @@
   "UI_setting_upColor_text": "战斗: 提高 % 颜色",
   "UI_setting_upColor_tooltip": "",
   "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} 当前移动平均损伤</font>\\</br><font color=\"#FFFFFF\" size=\"12\">{currentDamage} 目前的汇总损坏</font>\\</br>To <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   需要 <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> 移动平均损伤\\这一统计数据可用于这辆车的最后一场战斗\\未尝试 <font color=\"#FFFFFF\" size=\"12\">20% </font>   需要 <font color=\"#F8F400\" size=\"12\">~{_20}</font> 移动平均伤害\\未尝试 <font color=\"#FFFFFF\" size=\"12\">40% </font>   需要 <font color=\"#F8F400\" size=\"12\">~{_40}</font> 移动平均伤害\\未尝试 <font color=\"#FFFFFF\" size=\"12\">55% </font>   需要 <font color=\"#F8F400\" size=\"12\">~{_55}</font> 移动平均伤害\\未尝试 <font color=\"#FFFFFF\" size=\"12\">65% </font>   需要 <font color=\"#60FF00\" size=\"12\">~{_65}</font> 移动平均伤害\\未尝试 <font color=\"#FFFFFF\" size=\"12\">85% </font>   需要 <font color=\"#02C9B3\" size=\"12\">~{_85}</font> 移动平均损伤\\未尝试 <font color=\"#FFFFFF\" size=\"12\">95% </font>   需要 <font color=\"#D042F3\" size=\"12\">~{_95}</font> 移动平均伤害\\未尝试 <font color=\"#FFFFFF\" size=\"12\">100% </font>  需要 <font color=\"#D042F3\" size=\"12\">~{_100}</font> 移动平均伤害",
-  "version": 913
+  "version": 914
 }

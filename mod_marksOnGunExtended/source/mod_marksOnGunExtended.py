@@ -76,8 +76,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.13 (2025-09-23)'
-        self.version_id = 913
+        self.version = 'v9.14 (2025-09-28)'
+        self.version_id = 914
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -884,7 +884,7 @@ class Worker(object):
             if g_gui.get_key(config.data['buttonShow']) and isKeyDownTrigger:
                 config.data['UI'] += 1
                 if config.data['UI'] > 11:
-                    config.data['UI'] = 1
+                    config.data['UI'] = 0
                 status = [config.i18n['UI_menu_UIConfig'], config.i18n['UI_menu_UIskill4ltu'], config.i18n['UI_menu_UIMyp'], config.i18n['UI_menu_UIspoter'], config.i18n['UI_menu_UIcircon'], config.i18n['UI_menu_UIReplay'], config.i18n['UI_menu_UIReplayDamage'], config.i18n['UI_menu_UIReplayColor'], config.i18n['UI_menu_UIReplayColorDamage'], config.i18n['UI_menu_UIoldskool'], config.i18n['UI_menu_UIspoterNew'], config.i18n['UI_menu_UIkorbenDallasNoMercy']]
                 message = config.i18n['UI_message'] % status[config.data['UI']]
                 color = '#84DE40'
