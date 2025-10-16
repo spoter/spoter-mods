@@ -987,17 +987,17 @@
         }
 
         function createModItem(mod) {
-            if (!mod?.name) throw new Error('Invalid mod data');
+            if (!mod || !mod.name) throw new Error('Invalid mod data');
             
             const item = document.createElement('div');
-            const isEnabled = mod.values?.enabled ?? true;
+            const isEnabled = (mod && mod.values && mod.values.enabled !== undefined && mod.values.enabled !== null) ? mod.values.enabled : true;
             item.className = `mod-item ${isEnabled ? 'enabled' : 'disabled'}`;
             item.dataset.modName = mod.name;
             
             const header = document.createElement('div');
             header.className = 'mod-header';
             
-            const displayName = mod.template?.modDisplayName || mod.name;
+            const displayName = (mod && mod.template && mod.template.modDisplayName) ? mod.template.modDisplayName : mod.name;
             
             header.innerHTML = `
                 <div class="mod-toggle toggle-base ${isEnabled ? 'checked' : ''}" 
@@ -1020,7 +1020,7 @@
             
             const columns = [];
             ['column1', 'column2'].forEach(colName => {
-                if (mod.template?.[colName]?.length) {
+                if (mod && mod.template && mod.template[colName] && mod.template[colName].length) {
                     const column = document.createElement('div');
                     column.className = 'settings-column';
                     
@@ -1052,13 +1052,14 @@
         }
 
         function createControl(modName, widget, values) {
-            if (!widget?.type) return null;
+            if (!widget || !widget.type) return null;
             
             const group = document.createElement('div');
             group.className = 'control-group';
             
-            const currentValue = widget.varName ? 
-                (values[widget.varName] ?? widget.value) : widget.value;
+            const currentValue = widget.varName ?
+                ((values && values[widget.varName] !== undefined && values[widget.varName] !== null) ? values[widget.varName] : widget.value)
+                : widget.value;
             
             switch (widget.type) {
                     case 'CheckBox':
@@ -1591,11 +1592,13 @@
             if (keyListenerState.currentElement) {
                 keyListenerState.currentElement.classList.remove('listening');
                 
-                const modName = keyListenerState.currentElement.closest('[data-mod-name]')?.dataset.modName;
+                const container = keyListenerState.currentElement.closest('[data-mod-name]');
+                const modName = container ? container.dataset.modName : undefined;
                 const varName = keyListenerState.currentElement.id.split('_').pop();
                 const mod = findMod(modName);
+                const modValue = (mod && mod.values) ? mod.values[varName] : null;
                 
-                keyListenerState.currentElement.textContent = mod?.values?.[varName] ? 
+                keyListenerState.currentElement.textContent = modValue ? 
                     getKeyName(mod.values[varName]) : 'None';
             }
             
@@ -1624,12 +1627,15 @@
                 const targets = key.startsWith('window') ? [window] : 
                     [document, window, document.body, document.documentElement];
                 
-                events[key]?.forEach(eventType => {
-                    targets.forEach(target => {
-                        target.removeEventListener(eventType, handler, 
-                            key === 'windowBlurHandler' ? undefined : removeOptions);
+                const eventList = events[key];
+                if (eventList) {
+                    eventList.forEach(eventType => {
+                        targets.forEach(target => {
+                            target.removeEventListener(eventType, handler, 
+                                key === 'windowBlurHandler' ? undefined : removeOptions);
+                        });
                     });
-                });
+                }
             });
             
             keyListenerState.currentElement = null;
@@ -2119,7 +2125,7 @@
                             d.classList.remove('open', 'dropup');
                             
                             const modItem = d.closest('.mod-item');
-                            if (modItem?.classList.contains('active')) {
+                            if (modItem && modItem.classList.contains('active')) {
                                 const settings = modItem.querySelector('.mod-settings');
                                 settings.style.maxHeight = '2000px';
                             }

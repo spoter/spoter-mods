@@ -8,5 +8,5 @@
   "web_resetToDefault": "デフォルトにリセット:",
   "web_saved": "保存しました！",
   "web_saveError": "設定の保存中にエラーが発生しました。詳細はコンソールを確認してください。",
-  "version": 305
+  "version": 306
 }

@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import BaseHTTPServer
 import cPickle as p__cPickle
 import codecs as p__codecs
@@ -16,8 +16,9 @@ import urllib
 import zlib as p__zlib
 from SocketServer import ThreadingMixIn
 from datetime import datetime as p__dt
-
+# noinspection PyUnresolvedReferences
 from gui.mods.gambiter import g_guiFlash as p__GUIFlash
+# noinspection PyUnresolvedReferences
 from gui.mods.gambiter.flash import COMPONENT_ALIGN as p__COMPONENT_ALIGN, COMPONENT_EVENT as p__COMPONENT_EVENT, COMPONENT_TYPE as p__COMPONENT_TYPE
 
 import Avatar as p__Avatar
@@ -29,48 +30,208 @@ import WebBrowser as p__WebBrowser
 from Account import PlayerAccount as p__PlayerAccount
 import subprocess as p__subprocess
 from frameworks.wulf import WindowLayer as ViewTypes
+import Settings as p__Settings
+import game
 from gui import InputHandler as p__InputHandler, SystemMessages as p__SystemMessages
 from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
 from gui.Scaleform.framework.entities.View import View
 from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
 from gui.Scaleform.framework.managers.containers import POP_UP_CRITERIA
 from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
+from gui.Scaleform.daapi.settings.views import VIEW_ALIAS
 from gui.app_loader.settings import APP_NAME_SPACE
 from gui.battle_control.controllers.consumables.ammo_ctrl import AmmoController as p__AmmoController
-from gui.shared.personality import ServicesLocator as p__ServicesLocator
-from helpers import dependency, getLanguageCode as p__getLanguageCode
-from skeletons.gui.app_loader import IAppLoader
+from gui.impl.lobby.common import browser_view as common_browser_view
+from gui.impl.gen import R
+from frameworks.wulf import ViewFlags
+from gui.Scaleform.framework.managers.loaders import GuiImplViewLoadParams
+from gui.shared import EVENT_BUS_SCOPE, events, g_eventBus
+from skeletons.gui.impl import IGuiLoader as p__IGuiLoader
 from skeletons.gui.game_control import IBrowserController as p__IBrowserController
-import game
+from gui.shared.personality import ServicesLocator as p__ServicesLocator
+from helpers import dependency, getFullClientVersion, getLanguageCode as p__getLanguageCode
+from skeletons.gui.app_loader import IAppLoader
 
 __all__ = ['COMPONENT_TYPE', 'COMPONENT_ALIGN', 'COMPONENT_EVENT', 'g_gui', 'browser', 'inject', 'g_guiFlash']
 
 p__SHOW_DEBUG = False
 p__base64_decoded = 'b' + 'as' + 'e6' + '4'
 
+try:
+    IS_LESTA = u'Мир' in getFullClientVersion()
+except Exception:
+    IS_LESTA = False
 
 def LOG(arg, *args):
     print str(arg), ' '.join([str(arg) for arg in args])
 
 
 def LOG_NOTE(*args):
-    LOG('[NOTE]', *args)
+    LOG('[MODS-NOTE]', *args)
 
 
 def LOG_ERROR(*args):
-    LOG('[ERROR]', *args)
-
+    LOG('[MODS-ERROR]', *args)
 
 def LOG_DEBUG(*args):
     if p__SHOW_DEBUG:
-        LOG('[DEBUG]', *args)
+        LOG('[MODS-DEBUG]', *args)
 
+def _patch_cef_executable():
+    # patch cef_browser_process.exe
+    try:
+        search_roots = []
+        try:
+            base_dir = p__os.path.abspath(p__os.path.dirname(__file__))
+        except Exception:
+            base_dir = None
+        if base_dir and base_dir not in search_roots:
+            search_roots.append(base_dir)
+            parent_dir = p__os.path.dirname(base_dir)
+            if parent_dir and parent_dir not in search_roots:
+                search_roots.append(parent_dir)
+        try:
+            cwd_dir = p__os.getcwd()
+        except Exception:
+            cwd_dir = None
+        if cwd_dir and cwd_dir not in search_roots:
+            search_roots.append(cwd_dir)
+
+        patch_targets = ('win64/cef_browser_process.exe',)
+
+        def _patch_dynamic_whitelist(buffer):
+            disp = b'\xE9\x01\x00\x00'
+            size = len(buffer)
+            patched = False
+            idx = 0
+            while True:
+                idx = buffer.find(disp, idx)
+                if idx == -1:
+                    break
+                if idx < 2:
+                    idx += 1
+                    continue
+                op_idx = idx - 2
+                modrm_idx = idx - 1
+                if buffer[op_idx] != 0xC6:
+                    if idx >= 3 and buffer[idx - 3] == 0xC6:
+                        op_idx = idx - 3
+                        modrm_idx = idx - 2
+                    else:
+                        idx += 1
+                        continue
+                modrm = buffer[modrm_idx]
+                if (modrm & 0xC0) != 0x80:
+                    idx += 1
+                    continue
+                imm_pos = idx + 4
+                if imm_pos >= size:
+                    break
+                if buffer[imm_pos] == 1:
+                    buffer[imm_pos] = 0
+                    patched = True
+                follow_start = imm_pos + 1
+                follow_end = min(size, imm_pos + 32)
+                pos = follow_start
+                while pos < follow_end - 2:
+                    first = buffer[pos]
+                    val_index = None
+                    if first in (0x40, 0x41):
+                        next_byte = buffer[pos + 1]
+                        if next_byte in (0xB0, 0xB1, 0xB2, 0xB3, 0xB6, 0xB7):
+                            val_index = pos + 2
+                    elif first in (0xB0, 0xB1, 0xB2, 0xB3):
+                        val_index = pos + 1
+                    if val_index is not None:
+                        if buffer[val_index] == 1:
+                            buffer[val_index] = 0
+                            patched = True
+                        break
+                    pos += 1
+                idx += 1
+            return patched
+
+        whitelist_guard_pattern = '\x41\xC6\x86\xE9\x01\x00\x00\x00\x40\x32\xF6\xEB\x03\x40\xB6\x01'
+        whitelist_guard_offsets = (4, 15)
+        fallback_pattern = '\x40\x32\xF6\xEB\x03\x40\xB6'
+
+        visited_paths = set()
+        patched_any = False
+
+        for rel_path in patch_targets:
+            for root_dir in search_roots:
+                abs_path = p__os.path.abspath(p__os.path.join(root_dir, rel_path))
+                if abs_path in visited_paths:
+                    continue
+                visited_paths.add(abs_path)
+                if not p__os.path.isfile(abs_path):
+                    continue
+                try:
+                    with open(abs_path, 'rb') as f:
+                        data = bytearray(f.read())
+                except Exception as read_error:
+                    LOG_ERROR('cef patch read error', abs_path, read_error)
+                    continue
+
+                modified = False
+                patch_labels = []
+
+                guard_idx = data.find(whitelist_guard_pattern)
+                if guard_idx != -1:
+                    guard_changed = False
+                    for offset in whitelist_guard_offsets:
+                        pos = guard_idx + offset
+                        if pos < len(data) and data[pos] != 0:
+                            data[pos] = 0
+                            guard_changed = True
+                    if guard_changed:
+                        modified = True
+                        patch_labels.append('guard')
+
+                search_idx = 0
+                legacy_changed = False
+                while True:
+                    found_idx = data.find(fallback_pattern, search_idx)
+                    if found_idx == -1:
+                        break
+                    pos = found_idx + len(fallback_pattern)
+                    if pos < len(data) and data[pos] != 0:
+                        data[pos] = 0
+                        legacy_changed = True
+                    search_idx = found_idx + 1
+                if legacy_changed:
+                    modified = True
+                    patch_labels.append('legacy')
+
+                dynamic_changed = _patch_dynamic_whitelist(data)
+                if dynamic_changed:
+                    modified = True
+                    patch_labels.append('dynamic')
+
+                if modified:
+                    try:
+                        with open(abs_path, 'wb') as f:
+                            f.write(data)
+                        patched_any = True
+                        label = ','.join(patch_labels) if patch_labels else 'auto'
+                        LOG_NOTE('patched cef whitelist [%s]' % label, abs_path)
+                    except Exception as write_error:
+                        LOG_ERROR('cef patch write error', abs_path, write_error)
+                else:
+                    LOG_DEBUG('cef whitelist already patched', abs_path)
+
+        if not patched_any:
+            LOG_DEBUG('cef whitelist patch not needed')
+    except Exception as e:
+        LOG_ERROR('browser not available', e)
+
+_patch_cef_executable()
 
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.05 (2025-09-23)'
-        self.version_id = 305
+        self.version = 'v3.06 (2025-10-16)'
+        self.version_id = 306
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
@@ -1184,33 +1345,291 @@ class p__GUIConfig(object):
 
 class p__Browser(object):
     def __init__(self):
-        self._width = 1152
-        self._height = 768
-        self.p__browserID = 0
+        self._url = ''
+        self._urlKey = ''
+        self._browserCtrl = None
+        self._browserID = None
+        self._layoutID = None
+        self._browserAddedHandler = None
+        self._browserDeletedHandler = None
+        self._browserHandlers = {}
+        self._loadSucceeded = False
+        self._failHandled = False
 
-    def showBrowserOverlayView(self):
-        browserCtrl = dependency.instance(p__IBrowserController)
-        browserCtrl.load(browserID=self.p__browserID, url=self._url, browserSize=(self._width, self._height), isModal=True, showActionBtn=True, showCreateWaiting=True, handlers=[], isSolidBorder=True, showCloseBtn=True)(lambda success: True)
-        self.__browser = browserCtrl.getBrowser(self.p__browserID)
-        if self.__browser is not None:
-            self.__browser.useSpecialKeys = True
-            self.__browser.skipEscape = True
-            # browser.ignoreKeyEvents = True
-        p__BigWorld.callback(5.0, self.checkLoaded)
-
-    def checkLoaded(self):
-        browser = dependency.instance(p__IBrowserController).getBrowser(self.p__browserID)
-        if browser is not None and not browser.isSuccessfulLoad:
-            message = 'FILED open in-game browser<br/>Check firewall\\antivirus quarantine:<br/><b>cef_browser_process.exe</b>'
-            LOG_ERROR(message)
-            inject.message(message)
-            self.open(self._url, False)
-
-    def open(self, link, internal=False):
+    def open(self, link, internal=True):
+        LOG_NOTE('Mod-Browser.open called', link, 'internal=%s' % internal)
+        if not internal:
+            LOG_NOTE('Mod-Browser.open: internal flag disabled, fallback to external browser')
+            return self._openExternal(link)
+        self._dispose()
         self._url = link
-        if internal:
-            return self.showBrowserOverlayView()
-        return p__BigWorld.wg_openWebBrowser(link)
+        self._urlKey = self._makeUrlKey(link)
+        self._loadSucceeded = False
+        self._failHandled = False
+        try:
+            self._browserCtrl = dependency.instance(p__IBrowserController)
+        except Exception:
+            self._browserCtrl = None
+        if self._browserCtrl is None:
+            LOG_ERROR('Mod-Browser: IBrowserController is unavailable, fallback to external browser for %s', link)
+            return self._openExternal(link)
+        LOG_NOTE('Mod-Browser.open: using IBrowserController', 'urlKey=%s' % self._urlKey)
+        self._attachControllerListeners()
+        if not self._showGamefaceBrowser(link):
+            return self._handleLoadFailure('ui_initialization')
+        return True
+
+    def _openExternal(self, link):
+        if IS_LESTA:
+            return p__BigWorld.openWebBrowser(link)
+        else:
+            return p__BigWorld.wg_openWebBrowser(link)
+
+    def _showGamefaceBrowser(self, url):
+        LOG_NOTE('Mod-Browser._showGamefaceBrowser: preparing view for', url)
+        self._layoutID = R.views.lobby.common.BrowserView()
+        try:
+            guiLoader = dependency.instance(p__IGuiLoader)
+        except Exception:
+            guiLoader = None
+            LOG_ERROR('Mod-Browser: failed to obtain IGuiLoader instance\n%s', p__traceback.format_exc())
+        try:
+            settingsInst = getattr(p__Settings, 'g_instance', None)
+            if settingsInst is not None:
+                engineCfg = getattr(settingsInst, 'engineConfig', {})
+                webCfg = engineCfg.get('webBrowser') if isinstance(engineCfg, dict) else None
+                LOG_NOTE('Mod-Browser engine webBrowser config', webCfg)
+        except Exception:
+            LOG_ERROR('Mod-Browser: failed to log engine webBrowser config\n%s', p__traceback.format_exc())
+        windowsManager = getattr(guiLoader, 'windowsManager', None) if guiLoader else None
+        if windowsManager is not None:
+            existing = windowsManager.findViews(lambda view: getattr(view, 'layoutID', None) == self._layoutID and getattr(view, 'url', '') == url)
+            if existing:
+                LOG_NOTE('Mod-Browser._showGamefaceBrowser: closing existing view for url', url)
+                try:
+                    existing[0].destroyWindow()
+                except Exception:
+                    pass
+        settings = common_browser_view.makeSettings(url=url, isClosable=True, useSpecialKeys=True, allowRightClick=True, restoreBackground=True, viewFlags=ViewFlags.LOBBY_SUB_VIEW, returnClb=self._onViewClosed)
+        loadParams = GuiImplViewLoadParams(self._layoutID, common_browser_view.BrowserView, ScopeTemplates.LOBBY_SUB_SCOPE)
+        try:
+            g_eventBus.handleEvent(events.LoadGuiImplViewEvent(loadParams, settings=settings), scope=EVENT_BUS_SCOPE.LOBBY)
+        except Exception:
+            LOG_ERROR('Mod-Browser: failed to load Gameface browser view, fallback to external browser\n%s', p__traceback.format_exc())
+            return False
+        LOG_NOTE('Mod-Browser._showGamefaceBrowser: LoadGuiImplViewEvent sent')
+        return True
+
+    def _attachControllerListeners(self):
+        if self._browserCtrl is None:
+            return
+        if self._browserAddedHandler is None:
+            self._browserAddedHandler = self._onBrowserAdded
+            self._browserCtrl.onBrowserAdded += self._browserAddedHandler
+            LOG_NOTE('Mod-Browser: subscribed to onBrowserAdded')
+        if self._browserDeletedHandler is None:
+            self._browserDeletedHandler = self._onBrowserDeleted
+            self._browserCtrl.onBrowserDeleted += self._browserDeletedHandler
+            LOG_NOTE('Mod-Browser: subscribed to onBrowserDeleted')
+
+    def _detachControllerListeners(self):
+        if self._browserCtrl is None:
+            self._browserAddedHandler = None
+            self._browserDeletedHandler = None
+            return
+        if self._browserAddedHandler is not None:
+            try:
+                self._browserCtrl.onBrowserAdded -= self._browserAddedHandler
+            except ValueError:
+                pass
+            self._browserAddedHandler = None
+            LOG_NOTE('Mod-Browser: unsubscribed from onBrowserAdded')
+        if self._browserDeletedHandler is not None:
+            try:
+                self._browserCtrl.onBrowserDeleted -= self._browserDeletedHandler
+            except ValueError:
+                pass
+            self._browserDeletedHandler = None
+            LOG_NOTE('Mod-Browser: unsubscribed from onBrowserDeleted')
+
+    def _detachAddedListener(self):
+        if self._browserAddedHandler is not None and self._browserCtrl is not None:
+            try:
+                self._browserCtrl.onBrowserAdded -= self._browserAddedHandler
+            except ValueError:
+                pass
+            self._browserAddedHandler = None
+            LOG_NOTE('Mod-Browser: detached onBrowserAdded listener after matching browser appeared')
+
+    def _registerBrowserHandlers(self, browser):
+        readyHandler = self._onBrowserReady
+        failedHandler = self._onBrowserFailed
+        loadEndHandler = self._onBrowserLoadEnd
+        browser.onReady += readyHandler
+        browser.onFailedCreation += failedHandler
+        browser.onLoadEnd += loadEndHandler
+        self._browserHandlers = {'ready': readyHandler, 'failed': failedHandler, 'load_end': loadEndHandler}
+        LOG_NOTE('Mod-Browser: attached browser signals', 'browserID=%s' % self._browserID)
+
+    def _detachBrowserHandlers(self):
+        if not self._browserHandlers or self._browserCtrl is None or self._browserID is None:
+            self._browserHandlers = {}
+            return
+        browser = self._browserCtrl.getBrowser(self._browserID)
+        if browser is not None:
+            readyHandler = self._browserHandlers.get('ready')
+            if readyHandler is not None:
+                try:
+                    browser.onReady -= readyHandler
+                except ValueError:
+                    pass
+            failedHandler = self._browserHandlers.get('failed')
+            if failedHandler is not None:
+                try:
+                    browser.onFailedCreation -= failedHandler
+                except ValueError:
+                    pass
+            loadEndHandler = self._browserHandlers.get('load_end')
+            if loadEndHandler is not None:
+                try:
+                    browser.onLoadEnd -= loadEndHandler
+                except ValueError:
+                    pass
+        self._browserHandlers = {}
+
+    def _onBrowserAdded(self, browserID):
+        LOG_NOTE('Mod-Browser._onBrowserAdded', browserID)
+        if self._browserCtrl is None or not self._urlKey:
+            return
+        browser = self._browserCtrl.getBrowser(browserID)
+        if browser is None:
+            LOG_NOTE('Mod-Browser._onBrowserAdded: browser instance is None', browserID)
+            return
+        candidate = getattr(browser, 'baseUrl', '') or getattr(browser, 'url', '')
+        LOG_NOTE('Mod-Browser._onBrowserAdded candidate url', candidate)
+        if not self._isUrlMatch(candidate):
+            LOG_NOTE('Mod-Browser._onBrowserAdded: url mismatch, expected key', self._urlKey)
+            return
+        self._browserID = browserID
+        self._registerBrowserHandlers(browser)
+        self._detachAddedListener()
+        LOG_NOTE('Mod-Browser: browser match confirmed', browserID)
+
+    def _onBrowserDeleted(self, browserID):
+        LOG_NOTE('Mod-Browser._onBrowserDeleted', browserID)
+        if browserID != self._browserID:
+            return
+        self._detachBrowserHandlers()
+        self._browserID = None
+        if not self._loadSucceeded and not self._failHandled and self._url:
+            self._handleLoadFailure('browser_deleted')
+
+    def _onBrowserReady(self, url, success):
+        LOG_NOTE('Mod-Browser._onBrowserReady', url, 'success=%s' % success)
+        if not self._isUrlMatch(url):
+            return
+        if success:
+            self._loadSucceeded = True
+            LOG_NOTE('Mod-Browser: marked load succeeded (onReady)')
+
+    def _onBrowserLoadEnd(self, url, isLoaded, httpStatusCode=None):
+        LOG_NOTE('Mod-Browser._onBrowserLoadEnd', url, 'isLoaded=%s' % isLoaded, 'http=%s' % httpStatusCode)
+        if not self._isUrlMatch(url):
+            return
+        if isLoaded:
+            self._loadSucceeded = True
+            LOG_NOTE('Mod-Browser: load end success')
+            return
+        status = httpStatusCode if httpStatusCode is not None else 'blocked'
+        self._handleLoadFailure('load_end_%s' % status)
+
+    def _onBrowserFailed(self, url):
+        LOG_NOTE('Mod-Browser._onBrowserFailed', url)
+        if self._isUrlMatch(url):
+            self._handleLoadFailure('creation_error')
+
+    def _handleLoadFailure(self, reason):
+        LOG_NOTE('Mod-Browser._handleLoadFailure', reason)
+        if self._failHandled:
+            return False
+        self._failHandled = True
+        LOG_ERROR('Mod-Browser: in-game browser failed (%s) for %s', reason, self._url)
+        url = self._url
+        self._closeActiveView()
+        self._detachBrowserHandlers()
+        self._detachControllerListeners()
+        self._browserCtrl = None
+        self._browserID = None
+        result = self._openExternal(url) if url else False
+        self._dispose()
+        return result
+
+    def _closeActiveView(self):
+        if self._layoutID is None:
+            return
+        try:
+            guiLoader = dependency.instance(p__IGuiLoader)
+        except Exception:
+            guiLoader = None
+        windowsManager = getattr(guiLoader, 'windowsManager', None) if guiLoader else None
+        if windowsManager is not None:
+            view = windowsManager.getViewByLayoutID(self._layoutID)
+            if view is not None:
+                LOG_NOTE('Mod-Browser._closeActiveView: destroying layout', self._layoutID)
+                try:
+                    view.destroyWindow()
+                except Exception:
+                    pass
+
+    def _dispose(self, reset_url=True):
+        self._detachBrowserHandlers()
+        self._detachControllerListeners()
+        self._browserCtrl = None
+        self._browserID = None
+        self._layoutID = None
+        self._browserHandlers = {}
+        if reset_url:
+            self._url = ''
+            self._urlKey = ''
+        self._loadSucceeded = False
+        self._failHandled = False
+
+    def _makeUrlKey(self, url):
+        if not url:
+            return ''
+        try:
+            import urlparse
+            parsed = urlparse.urlparse(url)
+        except Exception:
+            return url
+        scheme = parsed.scheme or 'http'
+        netloc = parsed.netloc
+        path = parsed.path or '/'
+        if not netloc and parsed.path:
+            parts = parsed.path.split('/', 1)
+            netloc = parts[0]
+            path = '/' + parts[1] if len(parts) > 1 else '/'
+        path = path.rstrip('/') or '/'
+        return '%s://%s%s' % (scheme, netloc, path) if netloc else url
+
+    def _isUrlMatch(self, candidate):
+        if not candidate:
+            return False
+        if not self._urlKey:
+            return False
+        return self._makeUrlKey(candidate) == self._urlKey
+
+    def _onViewClosed(self, **kwargs):
+        try:
+            force_closed = kwargs.get('forceClosed', False)
+            by_user = kwargs.get('byUser', False)
+            if force_closed or by_user:
+                LOG_NOTE('Mod-Browser._onViewClosed: restoring hangar view after browser close')
+                g_eventBus.handleEvent(events.LoadViewEvent(SFViewLoadParams(VIEW_ALIAS.LOBBY_HANGAR)), scope=EVENT_BUS_SCOPE.LOBBY)
+        except Exception:
+            LOG_ERROR('Mod-Browser._onViewClosed: failed to restore lobby\n%s', p__traceback.format_exc())
+        finally:
+            self._dispose()
 
 
 g_gui = p__GUIConfig()
@@ -1245,7 +1664,6 @@ def p__htmlTemplate():
 
 
 def _(s):
-    """Translate key using loaded i18n dict; fallback to English, then key itself."""
     try:
         # Expect _config.i18n to hold current language dict; _config.i18n_en for English fallback (optional)
         i18n = getattr(_config, 'i18n', None) or {}
@@ -1457,21 +1875,6 @@ def p__WebBrowser_handleKeyEvent(self, e):
 
 p__WebBrowser.WebBrowser.handleKeyEvent = p__WebBrowser_handleKeyEvent
 
-# patch cef_browser_process.exe
-try:
-    with open('win64/cef_browser_process.exe', 'rb') as f:
-        p__content = f.read()
-    p__pattern = '\x40\x32\xF6\xEB\x03\x40\xB6\x01'  # win64 verion
-    p__idx = p__content.find(p__pattern)
-    p__byte = 7
-
-    if p__idx != -1:
-        p__content = p__content[:p__idx + p__byte] + '\x00' + p__content[p__idx + p__byte + 1:]
-        with open('win64/cef_browser_process.exe', 'wb') as f:
-            f.write(p__content)
-except Exception as e:
-    LOG_ERROR('browser not available', e)
-
 
 def p__register():
     try:
@@ -1515,3 +1918,4 @@ def p__fini():
 
 
 game.fini = p__fini
+

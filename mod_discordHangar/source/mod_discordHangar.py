@@ -11,5 +11,5 @@ def openIt():
 if g_modsListApi:
     g_modsListApi.addModification('mod_discordHangar', 'Discord', 'Discord', './gui/maps/icons/artefact/notFound.png', True, False, True, openIt)
 
-VERSION_MOD = 'v1.03 (2025-09-23)'
+VERSION_MOD = 'v1.03 (2025-10-16)'
 print '[LOAD_MOD]:  [mod_discordHangar {}, by spoter]'.format(VERSION_MOD)
