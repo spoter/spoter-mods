@@ -230,8 +230,8 @@ _patch_cef_executable()
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.06 (2025-10-16)'
-        self.version_id = 306
+        self.version = 'v3.07 (2025-10-20)'
+        self.version_id = 307
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
@@ -1914,7 +1914,14 @@ def p__fini():
     except Exception as e:
         pass
     finally:
-        p__subprocess.call('taskkill /f /t /im WorldOfTanks.exe', creationflags=0x00000008)
+        for name in ("WorldOfTanks.exe", "Tanki.exe"):
+            try:
+                p__subprocess.call(
+                    'taskkill /f /t /im ' + name,
+                    creationflags=0x08000000  # CREATE_NO_WINDOW
+                )
+            except Exception:
+                pass  # безопасно проигнорировать, если taskkill не найден
 
 
 game.fini = p__fini

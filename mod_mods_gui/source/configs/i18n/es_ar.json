@@ -8,5 +8,5 @@
   "web_resetToDefault": "Restablecer a los valores predeterminados:",
   "web_saved": "¡Guardado!",
   "web_saveError": "Error al guardar la configuración. Revisá la consola para más detalles.",
-  "version": 306
+  "version": 307
 }

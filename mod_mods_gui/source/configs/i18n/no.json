@@ -8,5 +8,5 @@
     "web_resetToDefault":  "Tilbakestill til standard:",
     "web_saved":  "Lagret!",
     "web_saveError":  "Feil under lagring av innstillinger. Se konsollen for detaljer.",
-    "version": 306
+    "version": 307
 }
