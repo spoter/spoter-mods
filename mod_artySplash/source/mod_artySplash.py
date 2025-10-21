@@ -68,9 +68,9 @@ class _StaticWorldObjectMarker3D(object):
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.17 (2025-10-16)'
+        self.version = 'v2.18 (2025-10-21)'
         self.author = 'by spoter'
-        self.version_id = 217
+        self.version_id = 218
         self.buttons = {
             'buttonShowDot'   : [Keys.KEY_C, [Keys.KEY_LALT, Keys.KEY_RALT]],
             'buttonShowSplash': [Keys.KEY_Z, [Keys.KEY_LALT, Keys.KEY_RALT]]
@@ -164,13 +164,13 @@ class ArtyBall(object):
             self.scaleSplash = None
             self.modelSplash = _StaticWorldObjectMarker3D({'path': config.data['modelPathSplash']}, (0, 0, 0))
             self.modelDot = _StaticWorldObjectMarker3D({'path': config.data['modelPathDot']}, (0, 0, 0))
-            self.modelDot.model.scale = (0.1, 0.1, 0.1)
+            self.modelDot.model.sacle = (0.1, 0.1, 0.1)
             if Vehicle.getVehicleClassTag(self.player.vehicleTypeDescriptor.type.tags) == VEHICLE_CLASS_NAME.SPG:
-                self.modelDot.model.scale = (0.5, 0.5, 0.5)
+                self.modelDot.model.sacle = (0.5, 0.5, 0.5)
             self.modelSplash.model.visible = False
             self.modelDot.model.visible = False
             self.modelSplashCircle = BigWorld.PyTerrainSelectedArea()
-            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_white.visual', Math.Vector2(2.0, 2.0), OVER_TERRAIN_HEIGHT, COLOR_WHITE, BigWorld.player().spaceID)
+            self.modelSplashCircle.setup('content/Interface/CheckPoint/CheckPoint_yellow_black.visual', Math.Vector2(2.0, 2.0), OVER_TERRAIN_HEIGHT, COLOR_WHITE, BigWorld.player().spaceID)
             self.modelSplash.model.root.attach(self.modelSplashCircle)
             self.modelSplashCircle.enableAccurateCollision(True)
             self.modelSplashCircle.enableWaterCollision(True)
@@ -227,7 +227,7 @@ class ArtyBall(object):
         if self.modelSplash is not None and self.modelSplash.model:
             if not self.scaleSplash or self.scaleSplash != explosionRadius:
                 self.scaleSplash = explosionRadius
-                self.modelSplash.model.scale = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
+                self.modelSplash.model.sacle = (self.scaleSplash, self.scaleSplash, self.scaleSplash)
             if not self.modelSplashKeyPressed:
                 self.modelSplashVisible = config.data['showSplashOnDefault']
             self.modelSplash.model.position = self.player.gunRotator.markerInfo[0]

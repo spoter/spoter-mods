@@ -1,5 +1,5 @@
 {
-  "version": 2.17,
+  "version": 2.18,
   "source": "mod_artySplash.py",
   "meta": "configs/meta.xml",
   "config": "configs/artySplash.json",
