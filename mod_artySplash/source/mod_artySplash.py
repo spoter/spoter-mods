@@ -15,7 +15,7 @@ from gui import InputHandler
 from gui.shared.gui_items import Vehicle
 from gui.shared.gui_items.Vehicle import VEHICLE_CLASS_NAME
 
-OVER_TERRAIN_HEIGHT = 0.5
+OVER_TERRAIN_HEIGHT = 0.1
 MARKER_HEIGHT = 5.0
 COLOR_WHITE = 4294967295L
 
