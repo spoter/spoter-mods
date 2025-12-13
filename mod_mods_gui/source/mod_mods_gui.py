@@ -230,7 +230,7 @@ _patch_cef_executable()
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.07 (2025-10-20)'
+        self.version = 'v3.07 (2025-12-13)'
         self.version_id = 307
         self.author = 'by spoter, satel1te'
         mods = './mods'

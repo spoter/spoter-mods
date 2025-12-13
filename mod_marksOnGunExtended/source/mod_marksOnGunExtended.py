@@ -76,8 +76,8 @@ techTreeWidth = 54
 class Config(object):
     def __init__(self):
         self.ids = 'marksOnGunExtended'
-        self.version = 'v9.14 (2025-10-16)'
-        self.version_id = 914
+        self.version = 'v9.15 (2025-12-13)'
+        self.version_id = 915
         self.author = 'by spoter & oldskool'
         self.buttons = {
             'buttonShow'    : [Keys.KEY_NUMPAD9, [Keys.KEY_LALT, Keys.KEY_RALT]],
@@ -252,7 +252,7 @@ class Config(object):
             'UI_menu_yellow'                                                  : 'Yellow',
             'UI_menu_nice_red'                                                : 'Warm Red',
             'UI_menu_white'                                                   : 'White',
-            'UI_tooltips'                                                     : '<font color="#FFFFFF" size="12">{currentMovingAvgDamage} current MoE moving average damage</font></br><font color="#FFFFFF" size="12">{currentDamage} current combined damage</font></br>To reach <font color="#FFFFFF" size="12">{nextPercent}% </font>   you need <font color="#FFFFFF" size="12">{needDamage}</font> average combined damage</br>Stats are based on the last battle in this vehicle</br>To reach <font color="#FFFFFF" size="12">20% </font>   you need <font color="#F8F400" size="12">~{_20}</font> average combined damage</br>To reach <font color="#FFFFFF" size="12">40% </font>   you need <font color="#F8F400" size="12">~{_40}</font> average combined damage</br>To reach <font color="#FFFFFF" size="12">55% </font>   you need <font color="#F8F400" size="12">~{_55}</font> average combined damage</br>To reach <font color="#FFFFFF" size="12">65% </font>   you need <font color="#60FF00" size="12">~{_65}</font> average combined damage</br>To reach <font color="#FFFFFF" size="12">85% </font>   you need <font color="#02C9B3" size="12">~{_85}</font> average combined damage</br>To reach <font color="#FFFFFF" size="12">95% </font>   you need <font color="#D042F3" size="12">~{_95}</font> average combined damage</br>To reach <font color="#FFFFFF" size="12">100% </font>  you need <font color="#D042F3" size="12">~{_100}</font> average combined damage',
+            'UI_tooltips'                                                     : '<font color=\"#FFFFFF\" size=\"12\">65%:</font>  <font color=\"#60FF00\" size=\"12\">~{_65}</font> average combined damage<br/><font color=\"#FFFFFF\" size=\"12\">85%:</font>  <font color=\"#02C9B3\" size=\"12\">~{_85}</font> average combined damage<br/><font color=\"#FFFFFF\" size=\"12\">95%:</font>  <font color=\"#D042F3\" size=\"12\">~{_95}</font> average combined damage<br/><font color=\"#FFFFFF\" size=\"12\">100%:</font> <font color=\"#D042F3\" size=\"12\">~{_100}</font> average combined damage<br/><br/>To reach <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font> you need <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> average combined damage<br/><font color=\"#FFFFFF\" size=\"12\">{currentDamage} current combined damage</font><br/>Stats are based on the last battle in this vehicle',
             'battleMessageSizeUp'                                             : 'MoE: Size <b>+10%</b>',
             'battleMessageSizeDown'                                           : 'MoE: Size <b>-10%</b>',
             'battleMessageSizeLimitMin'                                       : 'MoE: Reached <b>minimum[10%]</b>',
@@ -260,7 +260,7 @@ class Config(object):
             'battleMessageSizeReset'                                          : 'MoE: Reset Settings</b>',
             'NaN'                                                             : '[<b>NaN</b>]',
             'UI_HangarStatsStart'                                             : '<b>{currentPercent}<font size="14">[{currentDamage}]</font> </b>',
-            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}</br>{c_damageToMark95}, {c_damageToMark100}'
+            'UI_HangarStatsEnd'                                               : '{c_damageToMark65}, {c_damageToMark85}<br/>{c_damageToMark95}, {c_damageToMark100}'
         }
         self.data, self.i18n = g_gui.register_data(self.ids, self.data, self.i18n, 'spoter')
         g_gui.register(self.ids, self.template, self.data, self.apply)

@@ -6,7 +6,7 @@
   "battleMessageSizeUp": "Moe mod: taille <b>+10%</b>",
   "NaN": "[<b>NaN</b>]",
   "UI_description": "Marques d'Excellence Étendues",
-  "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}</br>{c_damageToMark95}, {c_damageToMark100}",
+  "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}<br/>{c_damageToMark95}, {c_damageToMark100}",
   "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">[{currentDamage}]</font> </b>",
   "UI_menu_blue": "Bleu",
   "UI_menu_brown": "Brun",
@@ -88,6 +88,6 @@
   "UI_setting_unknownColor_tooltip": "",
   "UI_setting_upColor_text": "Bataille: couleur quand Moe% grimpe",
   "UI_setting_upColor_tooltip": "",
-  "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} dégâts moyens actuels</font>\\</br><font color=\"#FFFFFF\" size=\"12\">{currentDamage} dégâts totaux actuels</font>\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   il faut <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> dégâts moyens\\</br>Ces statistiques sont disponibles depuis la dernière bataille avec ce véhicule\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">20% </font>   il faut <font color=\"#F8F400\" size=\"12\">~{_20}</font> dégâts moyens\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">40% </font>   il faut <font color=\"#F8F400\" size=\"12\">~{_40}</font> dégâts moyens\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">55% </font>   il faut <font color=\"#F8F400\" size=\"12\">~{_55}</font> dégâts moyens\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">65% </font>   il faut <font color=\"#60FF00\" size=\"12\">~{_65}</font> dégâts moyens\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">85% </font>   il faut <font color=\"#02C9B3\" size=\"12\">~{_85}</font> dégâts moyens\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">95% </font>   il faut <font color=\"#D042F3\" size=\"12\">~{_95}</font> dégâts moyens\\</br>Pour <font color=\"#FFFFFF\" size=\"12\">100% </font>  il faut <font color=\"#D042F3\" size=\"12\">~{_100}</font> dégâts moyens",
-  "version": 914
+  "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">65%:</font>  <font color=\"#60FF00\" size=\"12\">~{_65}</font> dégâts moyens<br/><font color=\"#FFFFFF\" size=\"12\">85%:</font>  <font color=\"#02C9B3\" size=\"12\">~{_85}</font> dégâts moyens<br/><font color=\"#FFFFFF\" size=\"12\">95%:</font>  <font color=\"#D042F3\" size=\"12\">~{_95}</font> dégâts moyens<br/><font color=\"#FFFFFF\" size=\"12\">100%:</font> <font color=\"#D042F3\" size=\"12\">~{_100}</font> dégâts moyens<br/><br/>Pour <font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font> il faut <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> dégâts moyens<br/><font color=\"#FFFFFF\" size=\"12\">{currentDamage} dégâts totaux actuels</font><br/>Ces statistiques sont disponibles depuis la dernière bataille avec ce véhicule",
+  "version": 915
 }

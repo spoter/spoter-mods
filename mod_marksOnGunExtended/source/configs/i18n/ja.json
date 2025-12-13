@@ -6,7 +6,7 @@
   "battleMessageSizeUp": "MoE: サイズ <b>+10%</b>",
   "NaN": "[<b>NaN</b>]",
   "UI_description": "拡張版優等マーク",
-  "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}</br>{c_damageToMark95}, {c_damageToMark100}",
+  "UI_HangarStatsEnd": "{c_damageToMark65}, {c_damageToMark85}<br/>{c_damageToMark95}, {c_damageToMark100}",
   "UI_HangarStatsStart": "<b>{currentPercent}<font size=\"14\">[{currentDamage}]</font> </b>",
   "UI_menu_blue": "青",
   "UI_menu_brown": "茶色",
@@ -88,6 +88,6 @@
   "UI_setting_unknownColor_tooltip": "",
   "UI_setting_upColor_text": "戦闘: %マーク上昇時の色",
   "UI_setting_upColor_tooltip": "",
-  "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">{currentMovingAvgDamage} 現在の平均ダメージ</font>\\</br><font color=\"#FFFFFF\" size=\"12\">{currentDamage} 現在の合計ダメージ</font>\\</br><font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font>   達成には <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> 平均ダメージが必要\\</br>この統計は本車両での直近の戦闘データです\\</br><font color=\"#FFFFFF\" size=\"12\">20% </font>   達成には <font color=\"#F8F400\" size=\"12\">~{_20}</font> 平均ダメージが必要\\</br><font color=\"#FFFFFF\" size=\"12\">40% </font>   達成には <font color=\"#F8F400\" size=\"12\">~{_40}</font> 平均ダメージが必要\\</br><font color=\"#FFFFFF\" size=\"12\">55% </font>   達成には <font color=\"#F8F400\" size=\"12\">~{_55}</font> 平均ダメージが必要\\</br><font color=\"#FFFFFF\" size=\"12\">65% </font>   達成には <font color=\"#60FF00\" size=\"12\">~{_65}</font> 平均ダメージが必要\\</br><font color=\"#FFFFFF\" size=\"12\">85% </font>   達成には <font color=\"#02C9B3\" size=\"12\">~{_85}</font> 平均ダメージが必要\\</br><font color=\"#FFFFFF\" size=\"12\">95% </font>   達成には <font color=\"#D042F3\" size=\"12\">~{_95}</font> 平均ダメージが必要\\</br><font color=\"#FFFFFF\" size=\"12\">100% </font>  達成には <font color=\"#D042F3\" size=\"12\">~{_100}</font> 平均ダメージが必要",
-  "version": 914
+  "UI_tooltips": "<font color=\"#FFFFFF\" size=\"12\">65%:</font>  <font color=\"#60FF00\" size=\"12\">~{_65}</font> 平均ダメージ<br/><font color=\"#FFFFFF\" size=\"12\">85%:</font>  <font color=\"#02C9B3\" size=\"12\">~{_85}</font> 平均ダメージ<br/><font color=\"#FFFFFF\" size=\"12\">95%:</font>  <font color=\"#D042F3\" size=\"12\">~{_95}</font> 平均ダメージ<br/><font color=\"#FFFFFF\" size=\"12\">100%:</font> <font color=\"#D042F3\" size=\"12\">~{_100}</font> 平均ダメージ<br/><br/><font color=\"#FFFFFF\" size=\"12\">{nextPercent}% </font> 達成には <font color=\"#FFFFFF\" size=\"12\">{needDamage}</font> 平均ダメージが必要<br/><font color=\"#FFFFFF\" size=\"12\">{currentDamage} 現在の合計ダメージ</font><br/>この統計は本車両での直近の戦闘データです",
+  "version": 915
 }
