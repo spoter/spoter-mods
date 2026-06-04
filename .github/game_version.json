@@ -1,6 +1,6 @@
 {
-  "CLIENT_VERSION_WG": "2.1.0.1",
-  "CLIENT_VERSION_RU": "1.39.0.0",
+  "CLIENT_VERSION_WG": "2.3.0.0",
+  "CLIENT_VERSION_RU": "1.43.0.0",
   "mod_list": [
     "mod_mods_gui",
     "mod_artySplash",

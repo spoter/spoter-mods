@@ -26,7 +26,7 @@ import BigWorld as p__BigWorld
 import Event as p__Event
 import Keys as p__Keys
 import ResMgr as p__ResMgr
-import WebBrowser as p__WebBrowser
+
 from Account import PlayerAccount as p__PlayerAccount
 import subprocess as p__subprocess
 from frameworks.wulf import WindowLayer as ViewTypes
@@ -52,6 +52,7 @@ from gui.shared.personality import ServicesLocator as p__ServicesLocator
 from helpers import dependency, getFullClientVersion, getLanguageCode as p__getLanguageCode
 from skeletons.gui.app_loader import IAppLoader
 
+
 __all__ = ['COMPONENT_TYPE', 'COMPONENT_ALIGN', 'COMPONENT_EVENT', 'g_gui', 'browser', 'inject', 'g_guiFlash']
 
 p__SHOW_DEBUG = False
@@ -61,6 +62,11 @@ try:
     IS_LESTA = u'Мир' in getFullClientVersion()
 except Exception:
     IS_LESTA = False
+
+try:
+    from WebBrowser import WebBrowser as p__WebBrowser
+except Exception:
+    from MTWebBrowser import MTWebBrowser  as p__WebBrowser
 
 def LOG(arg, *args):
     print str(arg), ' '.join([str(arg) for arg in args])
@@ -230,8 +236,8 @@ _patch_cef_executable()
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.07 (2025-12-13)'
-        self.version_id = 307
+        self.version = 'v3.08 (2026-06-04)'
+        self.version_id = 308
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
@@ -1862,7 +1868,7 @@ def p__startGUI(self, *args):
 
 p__Avatar.PlayerAvatar._PlayerAvatar__startGUI = p__startGUI
 
-p__oldWebBrowser_handleKeyEvent = p__WebBrowser.WebBrowser.handleKeyEvent
+p__oldWebBrowser_handleKeyEvent = p__WebBrowser.handleKeyEvent
 
 
 def p__WebBrowser_handleKeyEvent(self, e):
@@ -1873,7 +1879,7 @@ def p__WebBrowser_handleKeyEvent(self, e):
     p__oldWebBrowser_handleKeyEvent(self, e)
 
 
-p__WebBrowser.WebBrowser.handleKeyEvent = p__WebBrowser_handleKeyEvent
+p__WebBrowser.handleKeyEvent = p__WebBrowser_handleKeyEvent
 
 
 def p__register():

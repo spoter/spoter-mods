@@ -46,7 +46,7 @@ class Config(object):
         Устанавливает идентификатор, версию, автора, кнопки и параметры по умолчанию.
         """
         self.ids = 'serverTurretExtended'
-        self.version = 'v3.15 (2025-12-13)'
+        self.version = 'v3.15 (2026-06-04)'
         self.version_id = 315
         self.author = 'by spoter, reven86'
         self.buttons = {
