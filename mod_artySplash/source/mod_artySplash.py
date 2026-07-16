@@ -68,7 +68,7 @@ class _StaticWorldObjectMarker3D(object):
 class Config(object):
     def __init__(self):
         self.ids = 'artySplash'
-        self.version = 'v2.18 (2026-06-04)'
+        self.version = 'v2.18 (2026-07-16)'
         self.author = 'by spoter'
         self.version_id = 218
         self.buttons = {

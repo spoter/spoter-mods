@@ -1,5 +1,5 @@
 {
-  "version": 3.08,
+  "version": 3.09,
   "source": "mod_mods_gui.py",
   "meta": "configs/meta.xml",
   "config": "configs/mods_gui.json",

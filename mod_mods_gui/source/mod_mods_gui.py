@@ -83,7 +83,8 @@ def LOG_DEBUG(*args):
     if p__SHOW_DEBUG:
         LOG('[MODS-DEBUG]', *args)
 
-def _patch_cef_executable():
+def _patch_cef_executable_lesta():
+    if not IS_LESTA: return
     # patch cef_browser_process.exe
     try:
         search_roots = []
@@ -231,13 +232,36 @@ def _patch_cef_executable():
     except Exception as e:
         LOG_ERROR('browser not available', e)
 
-_patch_cef_executable()
+def _patch_cef_executable_wot():
+    if IS_LESTA: return
+    # Пытается снять whitelist CEF, чтобы локальный веб-сервер работал без ограничений.
+    try:
+        with open('win64/cef_browser_process.exe', 'rb') as f:
+            p__content = f.read()
+        p__pattern = '\x45\x32\xF6\xEB\x03\x41\xB6\x01' #win64 verion
+        p__idx = p__content.find(p__pattern)
+        p__byte = 7
+
+        if p__idx != -1:
+            import subprocess
+            p__content = p__content[:p__idx+p__byte] + '\x00' + p__content[p__idx+p__byte+1:]
+            si = subprocess.STARTUPINFO()
+            si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            subprocess.call('taskkill /f /im cef_browser_process.exe', startupinfo=si)
+            with open('win64/cef_browser_process.exe', 'wb') as f:
+                f.write(p__content)
+    except Exception as e:
+        # Любая критическая ошибка патча трактуется как недоступность браузера.
+        LOG_ERROR('browser not available: %s' % e)
+
+_patch_cef_executable_lesta()
+_patch_cef_executable_wot()
 
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.08 (2026-06-04)'
-        self.version_id = 308
+        self.version = 'v3.09 (2026-07-16)'
+        self.version_id = 309
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
