@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import codecs
 import collections
 import json
@@ -24,13 +24,43 @@ from frameworks.wulf import WindowLayer as ViewTypes
 from gui import InputHandler
 from gui.Scaleform.daapi.view.lobby.LobbyView import LobbyView
 from gui.impl.lobby.crew.widget.crew_widget import CrewWidget
-from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
+try:
+    from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
+except ImportError:
+    # EU 2.4.1: g_entitiesFactories убран из gui.Scaleform.framework (нет factories.py),
+    # тот же реестр доступен через IGuiLoader.entitiesFactory — см. gui.mods.gambiter.compat.
+    from gui.Scaleform.framework import ScopeTemplates, ViewSettings
+    import gui.mods.gambiter.compat as _view_compat
+
+    class _ViewFactories(object):
+        """Ленивый доступ к реестру видов: на EU он живёт в сервисе IGuiLoader."""
+
+        @staticmethod
+        def addSettings(settings):
+            return _view_compat.addSettings(settings)
+
+        @staticmethod
+        def removeSettings(alias):
+            return _view_compat.removeSettings(alias)
+
+        def getSettings(self, alias):
+            return _view_compat.getEntitiesFactories().getSettings(alias)
+
+    g_entitiesFactories = _ViewFactories()
 from gui.Scaleform.framework.entities.View import View
 from gui.Scaleform.framework.managers.loaders import SFViewLoadParams
 from gui.Scaleform.genConsts.HANGAR_ALIASES import HANGAR_ALIASES
 from gui.app_loader.settings import APP_NAME_SPACE
 from gui.battle_control.arena_info import vos_collections
-from gui.battle_control.battle_constants import VEHICLE_DEVICE_IN_COMPLEX_ITEM, VEHICLE_VIEW_STATE
+try:
+    from gui.battle_control.battle_constants import VEHICLE_DEVICE_IN_COMPLEX_ITEM, VEHICLE_VIEW_STATE
+except ImportError:
+    # Lesta 1.45: VEHICLE_DEVICE_IN_COMPLEX_ITEM отсутствует (появился в WG-ветке),
+    # но есть обратный словарь VEHICLE_COMPLEX_ITEMS {'chassis': (...), 'wheel': (...)}.
+    from gui.battle_control.battle_constants import VEHICLE_VIEW_STATE, VEHICLE_COMPLEX_ITEMS as _complex_items
+    VEHICLE_DEVICE_IN_COMPLEX_ITEM = dict((device, item)
+                                          for item, devices in _complex_items.iteritems()
+                                          for device in devices)
 from gui.battle_control.controllers import feedback_events
 from gui.shared import EVENT_BUS_SCOPE, events, g_eventBus
 from gui.shared.formatters import icons
@@ -119,8 +149,8 @@ class Config(object):
     def __init__(self):
         self.ids = 'creditCalc'
         self.author = 'www.b4it.org'
-        self.version = 'v2.11 (2026-07-16)'
-        self.version_id = 211
+        self.version = 'v2.12 (2026-10-16)'
+        self.version_id = 212
         self.versionI18n = 3401
         lang = getLanguageCode().lower()
         self.dataDefault = {
