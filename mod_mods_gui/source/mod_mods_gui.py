@@ -21,6 +21,28 @@ from gui.mods.gambiter import g_guiFlash as p__GUIFlash
 # noinspection PyUnresolvedReferences
 from gui.mods.gambiter.flash import COMPONENT_ALIGN as p__COMPONENT_ALIGN, COMPONENT_EVENT as p__COMPONENT_EVENT, COMPONENT_TYPE as p__COMPONENT_TYPE
 
+# noinspection PyUnresolvedReferences
+try:
+    from gui.mods.gambiter.compat import addSettings as p__addViewSettings
+except ImportError:
+    # GUIFlash 0.6.7 as published upstream has no compatibility module (it resolves the view
+    # registry itself in gambiter/flash.py). Resolve it here: Lesta keeps the module level
+    # singleton, WG 2.4.1 exposes the same registry through the gui loader service.
+    try:
+        from gui.Scaleform.framework import g_entitiesFactories as p__moduleFactories
+    except ImportError:
+        p__moduleFactories = None
+
+    def _p__getFactories():
+        if p__moduleFactories is not None:
+            return p__moduleFactories
+        from helpers import dependency
+        from skeletons.gui.impl import IGuiLoader
+        return dependency.instance(IGuiLoader).entitiesFactory
+
+    def p__addViewSettings(settings):
+        return _p__getFactories().addSettings(settings)
+
 import Avatar as p__Avatar
 import BigWorld as p__BigWorld
 import Event as p__Event
@@ -33,7 +55,7 @@ from frameworks.wulf import WindowLayer as ViewTypes
 import Settings as p__Settings
 import game
 from gui import InputHandler as p__InputHandler, SystemMessages as p__SystemMessages
-from gui.Scaleform.framework import ScopeTemplates, ViewSettings, g_entitiesFactories
+from gui.Scaleform.framework import ScopeTemplates, ViewSettings
 from gui.Scaleform.framework.entities.View import View
 from gui.Scaleform.framework.entities.abstract.AbstractWindowView import AbstractWindowView
 from gui.Scaleform.framework.managers.containers import POP_UP_CRITERIA
@@ -158,6 +180,25 @@ def _patch_cef_executable_lesta():
                 idx += 1
             return patched
 
+        def _patch_working_signature(buffer):
+            # Same signature the WOT branch patches in win64/cef_browser_process.exe
+            # ('xor r14b, r14b ; jmp +3 ; mov r14b, 1'; the whitelist flag is the last byte).
+            # On the current Lesta binary the guard/legacy/dynamic patterns above match
+            # nothing, while this one matches exactly once, so try it here as well.
+            pattern = '\x45\x32\xF6\xEB\x03\x41\xB6\x01'
+            imm_offset = 7
+            found = buffer.find(pattern)
+            if found == -1:
+                return False
+            pos = found + imm_offset
+            if pos >= len(buffer):
+                return False
+            if buffer[pos] == 0:
+                return False
+            buffer[pos] = 0
+            LOG_NOTE('cef whitelist: working signature patched at 0x%X' % pos)
+            return True
+
         whitelist_guard_pattern = '\x41\xC6\x86\xE9\x01\x00\x00\x00\x40\x32\xF6\xEB\x03\x40\xB6\x01'
         whitelist_guard_offsets = (4, 15)
         fallback_pattern = '\x40\x32\xF6\xEB\x03\x40\xB6'
@@ -215,6 +256,11 @@ def _patch_cef_executable_lesta():
                     modified = True
                     patch_labels.append('dynamic')
 
+                working_changed = _patch_working_signature(data)
+                if working_changed:
+                    modified = True
+                    patch_labels.append('working_signature')
+
                 if modified:
                     try:
                         with open(abs_path, 'wb') as f:
@@ -222,6 +268,17 @@ def _patch_cef_executable_lesta():
                         patched_any = True
                         label = ','.join(patch_labels) if patch_labels else 'auto'
                         LOG_NOTE('patched cef whitelist [%s]' % label, abs_path)
+                        if 'working_signature' in patch_labels:
+                            try:
+                                with open(abs_path, 'rb') as verify_file:
+                                    verify_data = verify_file.read()
+                                verify_idx = verify_data.find('\x45\x32\xF6\xEB\x03\x41\xB6')
+                                if verify_idx != -1 and verify_data[verify_idx + 7:verify_idx + 8] == '\x00':
+                                    LOG_NOTE('cef whitelist patch verified (imm8 = 0x00)', abs_path)
+                                else:
+                                    LOG_ERROR('cef whitelist patch verification failed', abs_path)
+                            except Exception as verify_error:
+                                LOG_ERROR('cef patch verify error', abs_path, verify_error)
                     except Exception as write_error:
                         LOG_ERROR('cef patch write error', abs_path, write_error)
                 else:
@@ -242,6 +299,11 @@ def _patch_cef_executable_wot():
         p__idx = p__content.find(p__pattern)
         p__byte = 7
 
+        if p__idx == -1:
+            LOG_DEBUG('cef whitelist: working signature not found in win64/cef_browser_process.exe')
+        elif ord(p__content[p__idx + p__byte]) == 0:
+            LOG_DEBUG('cef whitelist already patched')
+
         if p__idx != -1:
             import subprocess
             p__content = p__content[:p__idx+p__byte] + '\x00' + p__content[p__idx+p__byte+1:]
@@ -250,6 +312,13 @@ def _patch_cef_executable_wot():
             subprocess.call('taskkill /f /im cef_browser_process.exe', startupinfo=si)
             with open('win64/cef_browser_process.exe', 'wb') as f:
                 f.write(p__content)
+            LOG_NOTE('cef whitelist: working signature patched at 0x%X' % (p__idx + p__byte))
+            with open('win64/cef_browser_process.exe', 'rb') as verify_file:
+                verify_content = verify_file.read()
+            if verify_content[p__idx + p__byte:p__idx + p__byte + 1] == '\x00':
+                LOG_NOTE('cef whitelist patch verified (imm8 = 0x00)')
+            else:
+                LOG_ERROR('cef whitelist patch verification failed')
     except Exception as e:
         # Любая критическая ошибка патча трактуется как недоступность браузера.
         LOG_ERROR('browser not available: %s' % e)
@@ -260,8 +329,8 @@ _patch_cef_executable_wot()
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.10 (2026-10-16)'
-        self.version_id = 310
+        self.version = 'v3.11 (2026-10-16)'
+        self.version_id = 311
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
@@ -1143,8 +1212,14 @@ _config = _Config()
 _config.load()
 
 g_modSettingsAPI = _ModSettingsAPI()
-# noinspection PyArgumentList
-g_entitiesFactories.addSettings(ViewSettings('ModSettingsAPIWindow_mods_gui', ModSettingsAPIWindow, 'mods_gui.swf', ViewTypes.TOP_WINDOW, None, ScopeTemplates.DEFAULT_SCOPE))
+# Registration is not critical for mod loading: a failure here (for example an
+# already taken alias or an unavailable view registry) must not break the import
+# of the whole library and of every mod that depends on it.
+try:
+    # noinspection PyArgumentList
+    p__addViewSettings(ViewSettings('ModSettingsAPIWindow_mods_gui', ModSettingsAPIWindow, 'mods_gui.swf', ViewTypes.TOP_WINDOW, None, ScopeTemplates.DEFAULT_SCOPE))
+except Exception:
+    LOG_ERROR('mods_gui: failed to register the ModSettingsAPIWindow_mods_gui view\n%s', p__traceback.format_exc())
 
 
 class SettingsButtonUI_SP(View):
@@ -1448,6 +1523,7 @@ class p__Browser(object):
             LOG_ERROR('Mod-Browser: failed to load Gameface browser view, fallback to external browser\n%s', p__traceback.format_exc())
             return False
         LOG_NOTE('Mod-Browser._showGamefaceBrowser: LoadGuiImplViewEvent sent')
+        self._armLoadWatchdog()
         return True
 
     def _attachControllerListeners(self):
@@ -1583,7 +1659,7 @@ class p__Browser(object):
         if self._failHandled:
             return False
         self._failHandled = True
-        LOG_ERROR('Mod-Browser: in-game browser failed (%s) for %s', reason, self._url)
+        LOG_ERROR('Mod-Browser: in-game browser failed (%s) for %s' % (reason, self._url))
         url = self._url
         self._closeActiveView()
         self._detachBrowserHandlers()
@@ -1662,6 +1738,132 @@ class p__Browser(object):
             self._dispose()
 
 
+# ---------------------------------------------------------------------------------------------------
+# Additions for the EU 2.4.1 client. The class body above is left untouched; the module keeps using
+# the same pattern it already uses for PlayerAccount.showGUI / Avatar.PlayerAvatar._PlayerAvatar__startGUI.
+#
+#   F1a - the client may create the browser for one view twice and destroy the first instance right
+#         away (EU 2.4.1: 'CREATE id: 3' -> 'DESTROYED id: 3' -> 'CREATE id: 4' -> the real 418),
+#         so follow the newest matching instance instead of latching on the first URL match.
+#   F1b - load watchdog: if no load end event for our URL arrives at all, treat it as a failure and
+#         fall back to the external browser (on Lesta the same code path already reports the 418).
+# ---------------------------------------------------------------------------------------------------
+
+BROWSER_LOAD_TIMEOUT_SEC = 12.0
+
+p__oldBrowserAdded = p__Browser._onBrowserAdded
+p__oldBrowserLoadEnd = p__Browser._onBrowserLoadEnd
+p__oldBrowserDispose = p__Browser._dispose
+
+
+def p__browserOnBrowserAdded(self, browserID):
+    LOG_NOTE('Mod-Browser._onBrowserAdded', browserID)
+    if self._browserCtrl is None or not self._urlKey:
+        return
+    browser = self._browserCtrl.getBrowser(browserID)
+    if browser is None:
+        LOG_NOTE('Mod-Browser._onBrowserAdded: browser instance is None', browserID)
+        return
+    candidate = getattr(browser, 'baseUrl', '') or getattr(browser, 'url', '')
+    LOG_NOTE('Mod-Browser._onBrowserAdded candidate url', candidate)
+    if not self._isUrlMatch(candidate):
+        LOG_NOTE('Mod-Browser._onBrowserAdded: url mismatch, expected key', self._urlKey)
+        return
+    if self._browserID is not None and self._browserID != browserID:
+        LOG_NOTE('Mod-Browser: newer browser instance appeared', browserID,
+                 'previous=%s' % self._browserID)
+        self._detachBrowserHandlers()
+    self._browserID = browserID
+    self._registerBrowserHandlers(browser)
+    p__browserSubscribeTexture(self, browser, browserID)
+    LOG_NOTE('Mod-Browser: browser match confirmed', browserID)
+
+
+def p__browserOnReady(self, url, success):
+    result = p__oldBrowserOnReady(self, url, success)
+    if success and self._isUrlMatch(url):
+        # EU 2.4.1 never delivers onLoadEnd for this page; a successful READY is the
+        # real success signal, so stop the watchdog instead of failing later.
+        self._disarmLoadWatchdog()
+        LOG_NOTE('Mod-Browser: browser ready, load watchdog disarmed', url)
+    return result
+
+
+def p__browserTextureChanged(self, isOk):
+    if isOk:
+        # Frames were rendered: the page is alive even if no load end arrives (EU).
+        self._disarmLoadWatchdog()
+        LOG_NOTE('Mod-Browser: texture state ok, load watchdog disarmed')
+
+
+def p__browserSubscribeTexture(self, browser, browserID):
+    handler = getattr(self, '_textureHandler', None)
+    if handler is None:
+        handler = lambda isOk: p__browserTextureChanged(self, isOk)
+        self._textureHandler = handler
+    previous_id = getattr(self, '_textureSubscribedID', None)
+    if previous_id is not None and previous_id != browserID and self._browserCtrl is not None:
+        previous = self._browserCtrl.getBrowser(previous_id)
+        if previous is not None:
+            try:
+                previous.onTextureStateChanged -= handler
+            except Exception:
+                pass
+    try:
+        browser.onTextureStateChanged += handler
+        self._textureSubscribedID = browserID
+        LOG_NOTE('Mod-Browser: subscribed to onTextureStateChanged', browserID)
+    except Exception:
+        LOG_DEBUG('Mod-Browser: onTextureStateChanged is not available')
+
+
+def p__browserOnLoadEnd(self, url, isLoaded, httpStatusCode=None):
+    if self._isUrlMatch(url):
+        self._loadEndReceived = True
+        self._disarmLoadWatchdog()
+    return p__oldBrowserLoadEnd(self, url, isLoaded, httpStatusCode)
+
+
+def p__browserDispose(self, reset_url=True):
+    self._disarmLoadWatchdog()
+    self._loadEndReceived = False
+    return p__oldBrowserDispose(self, reset_url)
+
+
+def p__browserArmLoadWatchdog(self):
+    self._disarmLoadWatchdog()
+    self._watchdogID = p__BigWorld.callback(BROWSER_LOAD_TIMEOUT_SEC, self._onLoadWatchdog)
+    LOG_NOTE('Mod-Browser: load watchdog armed for %.0fs' % BROWSER_LOAD_TIMEOUT_SEC)
+
+
+def p__browserDisarmLoadWatchdog(self):
+    watchdogID = getattr(self, '_watchdogID', None)
+    if watchdogID is not None:
+        try:
+            p__BigWorld.cancelCallback(watchdogID)
+        except Exception:
+            LOG_ERROR('Mod-Browser: failed to cancel the load watchdog\n%s', p__traceback.format_exc())
+        self._watchdogID = None
+
+
+def p__browserOnLoadWatchdog(self):
+    self._watchdogID = None
+    if (getattr(self, '_failHandled', False) or getattr(self, '_loadEndReceived', False)
+            or getattr(self, '_loadSucceeded', False)):
+        return
+    LOG_NOTE('Mod-Browser: no load end within %.0fs, treating it as a failure' % BROWSER_LOAD_TIMEOUT_SEC)
+    self._handleLoadFailure('timeout_unloaded')
+
+
+p__Browser._onBrowserAdded = p__browserOnBrowserAdded
+p__oldBrowserOnReady = p__Browser._onBrowserReady
+p__Browser._onBrowserReady = p__browserOnReady
+p__Browser._onBrowserLoadEnd = p__browserOnLoadEnd
+p__Browser._dispose = p__browserDispose
+p__Browser._armLoadWatchdog = p__browserArmLoadWatchdog
+p__Browser._disarmLoadWatchdog = p__browserDisarmLoadWatchdog
+p__Browser._onLoadWatchdog = p__browserOnLoadWatchdog
+
 g_gui = p__GUIConfig()
 browser = p__Browser()
 
@@ -1677,10 +1879,10 @@ p__aa = 'Y2FuU2hvb3Q='.decode(p__base64_decoded)  # 'canShoot'
 
 
 @inject.hook(p__AmmoController, p__aa)
-def initC(func, *args):
+def initC(func, *args, **kwargs):
     if g_gui.p__checkShoot():
         return False, ''
-    return func(*args)
+    return func(*args, **kwargs)
 
 
 def p__htmlTemplate():
@@ -1857,7 +2059,7 @@ def p__startServer():
     global p__server
     if not p__server:
         # p__LOG.info('B4it Settings server start')
-        p__server = ThreadingHTTPServer(('', 31338), p__SettingsHTTPRequestHandler)
+        p__server = ThreadingHTTPServer(('127.0.0.1', 31338), p__SettingsHTTPRequestHandler)
         serverThread = threading.Thread(target=p__server.serve_forever)
         serverThread.daemon = True
         serverThread.start()
@@ -1900,7 +2102,7 @@ def p__WebBrowser_handleKeyEvent(self, e):
     if e.isKeyDown() and p__SettingsHTTPRequestHandler.p__listeningKeys and e.key not in [p__Keys.KEY_LCONTROL, p__Keys.KEY_RCONTROL, p__Keys.KEY_LALT, p__Keys.KEY_RALT, p__Keys.KEY_LSHIFT, p__Keys.KEY_RSHIFT]:
         p__SettingsHTTPRequestHandler.p__lastKeyPressed = (e.key, e.isKeyDown(), e.isAltDown(), e.isShiftDown(), e.isCtrlDown())
         p__SettingsHTTPRequestHandler.p__listeningKeys = False
-    p__oldWebBrowser_handleKeyEvent(self, e)
+    return p__oldWebBrowser_handleKeyEvent(self, e)
 
 
 p__WebBrowser.handleKeyEvent = p__WebBrowser_handleKeyEvent
@@ -1941,10 +2143,25 @@ p__oldFini = game.fini
 def p__fini():
     try:
         p__oldFini()
+        try:
+            p__stopServer()
+        except Exception:
+            LOG_ERROR('mods_gui: failed to stop the settings server\n%s', p__traceback.format_exc())
     except Exception as e:
         pass
     finally:
-        for name in ("WorldOfTanks.exe", "Tanki.exe"):
+        # Close only our own client. Lesta and WG clients can run at the same time and the
+        # name based taskkill below used to kill both copies at once, so first kill exactly
+        # our own process with its tree (this includes cef_browser_process.exe); the name
+        # based pass stays below as a fallback for a hung process.
+        try:
+            p__subprocess.call(
+                'taskkill /f /t /pid %d' % p__os.getpid(),
+                creationflags=0x08000000  # CREATE_NO_WINDOW
+            )
+        except Exception:
+            pass  # безопасно проигнорировать, если taskkill не найден
+        for name in (('Tanki.exe',) if IS_LESTA else ('WorldOfTanks.exe',)):
             try:
                 p__subprocess.call(
                     'taskkill /f /t /im ' + name,
