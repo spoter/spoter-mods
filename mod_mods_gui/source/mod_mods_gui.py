@@ -260,8 +260,8 @@ _patch_cef_executable_wot()
 class _Config(object):
     def __init__(self):
         self.ids = 'mods_gui'
-        self.version = 'v3.09 (2026-07-16)'
-        self.version_id = 309
+        self.version = 'v3.10 (2026-10-16)'
+        self.version_id = 310
         self.author = 'by spoter, satel1te'
         mods = './mods'
         self.path_config = '%s/configs/%s' % (mods, self.ids)
